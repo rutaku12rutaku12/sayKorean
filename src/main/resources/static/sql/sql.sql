@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS genre (                                       -- 장�
 -- 2) 교육 주제 테이블 (요청명: study)
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS study (                                       -- study 테이블 생성(교육 주제)
-  themeNo   INT           NOT NULL AUTO_INCREMENT,                       -- PK: 교육번호 자동증가
+  studyNo   INT           NOT NULL AUTO_INCREMENT,                       -- PK: 교육번호 자동증가
   themeKo   VARCHAR(255)  NOT NULL UNIQUE,                               -- 한국어 주제: 필수, 고유
   themeJp   VARCHAR(255)  NOT NULL UNIQUE,                               -- 일본어 주제: 필수, 고유
   themeCn   VARCHAR(255)  NOT NULL UNIQUE,                               -- 중국어 주제: 필수, 고유
