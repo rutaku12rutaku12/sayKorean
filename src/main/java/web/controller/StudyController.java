@@ -1,4 +1,4 @@
 package web.controller;
 
-public class StudyController {
+public class StudyController {  // class start
 }
