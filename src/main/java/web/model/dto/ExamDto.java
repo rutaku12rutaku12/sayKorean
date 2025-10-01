@@ -1,4 +1,25 @@
 package web.model.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ExamDto {
+    private int examNo;     // PK: 예문번호
+    private String  examKo;     // 한국어 예문 (UNIQUE)
+    private String  examRoman;  // 발음/로마자 (UNIQUE)
+    private String  examJp;     // 일본어 예문 (UNIQUE)
+    private String  examCn;     // 중국어 예문 (UNIQUE)
+    private String  examEn;     // 영어 예문 (UNIQUE)
+    private String  examEs;     // 스페인어 예문 (UNIQUE)
+
+    private String  imageName;  // 그림 파일명
+    private String  imagePath;  // 그림 파일 경로
+
+    private int studyNo;    // FK: study.themeNo
 }
