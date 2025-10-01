@@ -1,4 +1,11 @@
 package web.controller;
 
-public class StudyController {  // class start
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/saykorean/study")
+@RequiredArgsConstructor
+public class StudyController {
 }
