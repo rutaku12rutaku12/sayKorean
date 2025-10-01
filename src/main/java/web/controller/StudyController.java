@@ -8,4 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/saykorean/study")
 @RequiredArgsConstructor
 public class StudyController {
+
+
 }
