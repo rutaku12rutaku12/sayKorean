@@ -1,3 +1,4 @@
+drop database if exists saykorean;
 CREATE DATABASE IF NOT EXISTS sayKorean CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 -- DEFAULT CHARSET = utf8mb4
 -- utf8mb4는 이모지, 한글, 일본어, 중국어 등 모든 유니코드 문자를 안전하게 저장할 수 있는 UTF-8의 확장판
@@ -35,7 +36,7 @@ CREATE TABLE IF NOT EXISTS study (                                       -- stud
   commenEn  TEXT          NOT NULL,                                      -- 영어 해설
   commenEs  TEXT          NOT NULL,                                      -- 스페인어 해설
   genreNo   INT UNSIGNED  NOT NULL,                                      -- FK: 장르번호
-  PRIMARY KEY (themeNo),                                                 -- 기본키 지정
+  PRIMARY KEY (studyNo),                                                 -- 기본키 지정
   CONSTRAINT fk_study_genre                                              -- FK 이름
     FOREIGN KEY (genreNo) REFERENCES genre(genreNo)                      -- genre.genreNo 참조
     ON UPDATE CASCADE ON DELETE RESTRICT                                  -- 장르 변경 전파 / 삭제 제한
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS exam (                                        -- exam
   studyNo    INT          NOT NULL,                                      -- FK: 교육번호(study.themeNo)
   PRIMARY KEY (examNo),                                                  -- 기본키 지정
   CONSTRAINT fk_exam_study                                               -- FK 이름
-    FOREIGN KEY (studyNo) REFERENCES study(themeNo)                      -- study.themeNo 참조
+    FOREIGN KEY (studyNo) REFERENCES study(studyNo)                      -- study.themeNo 참조
     ON UPDATE CASCADE ON DELETE CASCADE                                   -- 주제 변경 전파 / 삭제 연쇄
 ) ENGINE=InnoDB                                                          -- InnoDB 엔진
   DEFAULT CHARSET = utf8mb4                                              -- 문자셋
@@ -91,7 +92,7 @@ CREATE INDEX idx_audio_examNo ON audio(examNo);                          -- FK �
 -- =====================================================================
 -- 5) 사용자 테이블 (백틱으로 시스템 테이블명 충돌 예방)
 -- =====================================================================
-CREATE TABLE IF NOT EXISTS `user` (                                      -- user 테이블 생성(백틱 사용)
+CREATE TABLE IF NOT EXISTS users (                                      -- users 테이블 생성(백틱 사용)
   userNo       INT UNSIGNED     NOT NULL AUTO_INCREMENT,                 -- PK: 사용자번호 자동증가
   name         VARCHAR(200)     NOT NULL,                                -- 이름
   email        VARCHAR(50)      NOT NULL UNIQUE,                         -- 이메일: 고유
@@ -111,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `user` (                                      -- user
   DEFAULT CHARSET = utf8mb4                                              -- 문자셋
   COLLATE = utf8mb4_0900_ai_ci;                                          -- 콜레이션
 
-CREATE INDEX idx_user_genreNo ON `user`(genreNo);                        -- FK 조회 성능 인덱스
+CREATE INDEX idx_user_genreNo ON users(genreNo);                        -- FK 조회 성능 인덱스
 
 -- =====================================================================
 -- 6) 출석 테이블
@@ -123,7 +124,7 @@ CREATE TABLE IF NOT EXISTS attendance (                                  -- atte
   PRIMARY KEY (attenNo),                                                 -- 기본키 지정
   UNIQUE KEY uq_attendance_user_datetime (userNo, attenDate),            -- 동일시각 중복 출석 방지
   CONSTRAINT fk_attendance_user                                          -- FK 이름
-    FOREIGN KEY (userNo) REFERENCES `user`(userNo)                       -- user.userNo 참조
+    FOREIGN KEY (userNo) REFERENCES users(userNo)                       -- users.userNo 참조
     ON UPDATE CASCADE ON DELETE CASCADE                                   -- 사용자 삭제 시 출석도 삭제
 ) ENGINE=InnoDB                                                          -- InnoDB 엔진
   DEFAULT CHARSET = utf8mb4                                              -- 문자셋

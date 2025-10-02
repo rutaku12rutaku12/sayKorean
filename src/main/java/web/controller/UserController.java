@@ -8,4 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/saykorean")
 @RequiredArgsConstructor
 public class UserController {
+
+    // [US-01] 회원가입 signUp()
+
+
 }

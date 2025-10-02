@@ -1,4 +1,5 @@
-USE sayKorean;
+
+  USE sayKorean;
 
 INSERT INTO genre (genreName) VALUES
 ('일상회화'),
@@ -184,10 +185,10 @@ VALUES
  'In Korea, there are different greetings from region to region, but the basis is to pray for the well-being of others.',
  'En Corea hay diferentes saludos de cada región, pero la base tiene el significado de desear el bienestar de los demás.',
  7);
- 
- 
- 
- 
+
+
+
+
  INSERT INTO exam
   (examKo, examRoman, examJp, examCn, examEn, examEs, imageName, imagePath, studyNo)
 VALUES
@@ -239,7 +240,7 @@ VALUES
 ('떡국 먹자.','tteokguk meokja.','トッククを食べよう。','吃年糕汤吧。','Let’s eat tteokguk.','Comamos tteokguk.','46_img','',12),
 ('한복 예쁘다.','hanbok yeppeuda.','ハンボクきれい。','韩服真好看。','That hanbok is beautiful.','El hanbok es bonito.','47_img','',12),
 ('새해 복 많이 받아','saehae bok manhi bada','明けおめ！','新年快乐！','Happy New Year!','¡Feliz año nuevo!','48_img','',12),
-('세배했어?','sebaehaesseo?','新年のあいさつ、した？','拜年了吗？','Did you do sebae?','', '49_img','...',12),
+('세배했어?','sebaehaesseo?','新年のあいさつ、した？','拜年了吗？','Did you do sebae?','hiciste reverencia?', '49_img','…',12),
 ('윷놀이 하자.','yutnori haja.','ユンノリやろう。','玩掷柶吧。','Let’s play yutnori.','Juguemos yutnori.','50_img','',12),
 ('배움에는 때가 없다.','baeumeneun ttaega eopda.','学ぶのに遅すぎることはない。','学习任何时候都不晚。','It’s never too late to learn.','Nunca es tarde para aprender.','','',13),
 ('때가 되면 꽃은 핀다.','ttaega doemyeon kkocheun pinda.','時が来れば花は咲きます。','花到时自会开。','Everything blooms in its time.','Las flores florecen cuando es su tiempo.','','',13),
