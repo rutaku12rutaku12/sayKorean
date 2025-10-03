@@ -23,4 +23,10 @@ public class UserService {
         } // 실패 시 0 반환
         return 0;
     } // func end
+
+    // [US-02] 로그인 logIn()
+    public int logIn(UserDto userDto){
+        int result = userMapper.logIn(userDto);
+        return result;
+    }
 } // class end

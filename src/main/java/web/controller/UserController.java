@@ -1,5 +1,7 @@
 package web.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,19 @@ public class UserController {
         }catch (Exception e){
             return ResponseEntity.status(500).body(0);
         }
+    } // func end
+
+    // [US-02] 로그인 logIn()
+    @PostMapping("/login")
+    public ResponseEntity<Integer> logIn(@RequestBody UserDto userDto, HttpServletRequest request){
+        // 세션 정보 가져오기
+        HttpSession session = request.getSession();
+        // 로그인 성공한 회원번호 확인
+        int result = userService.logIn(userDto);
+        if( result>0){
+            session.setAttribute("userNo",userDto);
+            return ResponseEntity.status(200).body(result);
+        }else {return ResponseEntity.status(400).body(result);}
 
     } // func end
 } // class end
