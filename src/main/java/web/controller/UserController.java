@@ -19,9 +19,16 @@ public class UserController {
     // [US-01] 회원가입 signUp()
     @PostMapping("/signup")
     public ResponseEntity<Integer> signUp(@RequestBody UserDto userDto ){
-        int result = userService.signUp(userDto);
-        return ResponseEntity.status(200).body(result);
-    }
+        try {
+            int result = userService.signUp(userDto);
+            if (result >= 1) { // userNo 반환
+                return ResponseEntity.status(200).body(userDto.getUserNo());
+            } else {
+                return ResponseEntity.status(400).body(0);
+            }
+        }catch (Exception e){
+            return ResponseEntity.status(500).body(0);
+        }
 
-
-}
+    } // func end
+} // class end
