@@ -17,6 +17,7 @@ public class StudyService { // class start
 
 
     // 사용자단 : 장르 목록 조회
+
     public List<GenreDto> getGenre(){
         List<GenreDto> result = studyMapper.getGenre();
         return result;
