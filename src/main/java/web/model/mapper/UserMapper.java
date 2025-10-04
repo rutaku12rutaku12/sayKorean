@@ -17,4 +17,6 @@ public interface UserMapper {
     // [US-02] 로그인 logIn()
     @Select("select * from users where email = #{email} and password = #{password}")
     public int logIn(UserDto userDto);
-}
+
+
+} // interface end
