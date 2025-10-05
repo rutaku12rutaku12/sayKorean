@@ -2,7 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MyPage from "./pages/MyPage";
 import Test from "./pages/Test";
-import Study from "./pages/Study";
+import BeforeStudy from "./pages/BeforeStudy";
+import Study from "./pages/Study"
 import Footer from "./components/Footer";
 import Admin from "./pages/Admin";
 
@@ -17,8 +18,9 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} ></Route>
             <Route path="/mypage" element={<MyPage />} ></Route>
-            <Route path="/study" element={<Study />} ></Route>
+            <Route path="/beforestudy" element={<BeforeStudy />} ></Route>
             <Route path="/test" element={<Test />} ></Route>
+            <Route path="/study/:themeNo" element={<Study />} />
           </Routes>
           <Footer />
           <Admin />
