@@ -29,4 +29,10 @@ public class UserService {
         int result = userMapper.logIn(userDto);
         return result;
     }
+    // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
+    public UserDto info( int userNo ){
+        UserDto result = userMapper.info(userNo);
+        return result;
+    }
+
 } // class end
