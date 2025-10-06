@@ -94,7 +94,7 @@ public class UserController {
     } // func end
 
     // [US-07] 이메일 찾기 findEmail()
-    @GetMapping
+    @GetMapping("/findemail")
     public ResponseEntity<String> findEmail(@RequestParam String name,@RequestParam String phone){
         String result = userService.findEmail(name,phone);
         return ResponseEntity.status(200).body(result);
