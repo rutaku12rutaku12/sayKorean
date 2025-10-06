@@ -73,8 +73,9 @@ public class UserController {
         return ResponseEntity.status(200).body(result);
     } // func end
 
-    // [US-05] 이메일 중복검사
-    public ResponseEntity<Integer> checkEmail(String email){
+    // [US-05] 이메일 중복검사 checkEmail()
+    @GetMapping("/checkemail")
+    public ResponseEntity<Integer> checkEmail(@RequestParam String email){
         int result = userService.checkEmail(email);
         if( result >0 ) {
             return ResponseEntity.status(200).body(result);
@@ -82,8 +83,9 @@ public class UserController {
         else return ResponseEntity.status(400).body(0);
     } // func end
 
-    // [US-06] 연락처 중복검사
-    public ResponseEntity<Integer> checkPhone(String phone){
+    // [US-06] 연락처 중복검사 checkPhone()
+    @GetMapping("/checkphone")
+    public ResponseEntity<Integer> checkPhone(@RequestParam String phone){
         int result = userService.checkPhone(phone);
         if( result >0 ) {
             return ResponseEntity.status(200).body(result);
@@ -91,4 +93,10 @@ public class UserController {
         else return ResponseEntity.status(400).body(0);
     } // func end
 
+    // [US-07] 이메일 찾기 findEmail()
+    @GetMapping
+    public ResponseEntity<String> findEmail(@RequestParam String name,@RequestParam String phone){
+        String result = userService.findEmail(name,phone);
+        return ResponseEntity.status(200).body(result);
+    }
 } // class end

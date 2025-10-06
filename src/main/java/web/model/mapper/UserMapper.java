@@ -22,12 +22,16 @@ public interface UserMapper {
     @Select("select userNo,name,email,nickName,phone,genreNo from users where UserNo = #{userNo}")
     public UserDto info( int userNo );
 
-    // [US-05] 이메일 중복검사
-    @Select("select * from users where  email = #{email}")
+    // [US-05] 이메일 중복검사 checkEmail()
+    @Select("select * from users where email = #{email}")
     public int checkEmail(String email);
 
-    // [US-06] 연락처 중복검사
-    @Select("select * from users where  phone = #{phone}")
+    // [US-06] 연락처 중복검사 checkPhone()
+    @Select("select * from users where phone = #{phone}")
     public int checkPhone(String phone);
+
+    // [US-07] 이메일 찾기 findEmail()
+    @Select("select email from users where name=#{name} and phone=#{phone}")
+    public String findEmail(String name , String phone);
 
 } // interface end
