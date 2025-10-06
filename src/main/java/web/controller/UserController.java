@@ -73,4 +73,22 @@ public class UserController {
         return ResponseEntity.status(200).body(result);
     } // func end
 
+    // [US-05] 이메일 중복검사
+    public ResponseEntity<Integer> checkEmail(String email){
+        int result = userService.checkEmail(email);
+        if( result >0 ) {
+            return ResponseEntity.status(200).body(result);
+        }
+        else return ResponseEntity.status(400).body(0);
+    } // func end
+
+    // [US-06] 연락처 중복검사
+    public ResponseEntity<Integer> checkPhone(String phone){
+        int result = userService.checkPhone(phone);
+        if( result >0 ) {
+            return ResponseEntity.status(200).body(result);
+        }
+        else return ResponseEntity.status(400).body(0);
+    } // func end
+
 } // class end

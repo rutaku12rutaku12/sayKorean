@@ -35,4 +35,21 @@ public class UserService {
         return result;
     }
 
+    // [US-05] 이메일 중복검사
+    public int checkEmail(String email){
+        int result = userMapper.checkEmail(email);
+        // 중복이면 쿼리 수가 1이므로 0보다 크다.
+        if(result>0){return result;}
+        // 중복이 아니면 쿼리 수가 0개
+        else return 0;
+    }
+    // [US-06] 연락처 중복검사
+    public int checkPhone(String phone){
+        int result = userMapper.checkPhone(phone);
+        // 중복이면 쿼리 수가 1이므로 0보다 크다.
+        if(result>0){return result;}
+        // 중복이 아니면 쿼리 수가 0개
+        else return 0;
+    }
+
 } // class end
