@@ -60,5 +60,12 @@ public class UserService {
     } // func end
 
     // [US-08] 비밀번호 찾기 findPwrd()
+    public String findPwrd(String name, String phone, String email){
+        String result = userMapper.findPwrd(name,phone,email);
+        return result;
+    } // func end
+
+    // US-09 회원정보 수정 updateUserInfo()
+
 
 } // class end

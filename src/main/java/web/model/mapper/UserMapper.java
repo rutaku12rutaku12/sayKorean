@@ -36,6 +36,8 @@ public interface UserMapper {
 
     // [US-08] 비밀번호 찾기 findPwrd()
     @Select("select password from users where name=#{name} and phone = #{phone} and email=#{email}")
-    public String
+    public String findPwrd(String name, String phone, String email);
+
+    // US-09 회원정보 수정 updateUserInfo()
 
 } // interface end

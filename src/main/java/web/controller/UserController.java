@@ -97,9 +97,18 @@ public class UserController {
     @GetMapping("/findemail")
     public ResponseEntity<String> findEmail(@RequestParam String name,@RequestParam String phone){
         String result = userService.findEmail(name,phone);
+        if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
         return ResponseEntity.status(200).body(result);
     } // func end
 
     // [US-08] 비밀번호 찾기 findPwrd()
+    @GetMapping("findpwrd")
+    public ResponseEntity<String> findPwrd(@RequestParam String name, @RequestParam String phone, @RequestParam String email){
+        String result = userService.findPwrd(name, phone, email);
+        if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
+        return ResponseEntity.status(200).body(result);
+    } // func end
+
+    // US-09 회원정보 수정 updateUserInfo()
 
 } // class end
