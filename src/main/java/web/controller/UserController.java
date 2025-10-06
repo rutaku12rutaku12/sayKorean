@@ -98,5 +98,8 @@ public class UserController {
     public ResponseEntity<String> findEmail(@RequestParam String name,@RequestParam String phone){
         String result = userService.findEmail(name,phone);
         return ResponseEntity.status(200).body(result);
-    }
+    } // func end
+
+    // [US-08] 비밀번호 찾기 findPwrd()
+
 } // class end

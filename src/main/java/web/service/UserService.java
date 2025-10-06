@@ -57,6 +57,8 @@ public class UserService {
     public String findEmail(String name , String phone){
         String result = userMapper.findEmail(name,phone);
         return result;
-    }
+    } // func end
+
+    // [US-08] 비밀번호 찾기 findPwrd()
 
 } // class end

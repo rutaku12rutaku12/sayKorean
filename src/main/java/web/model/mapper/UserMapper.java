@@ -34,4 +34,8 @@ public interface UserMapper {
     @Select("select email from users where name=#{name} and phone=#{phone}")
     public String findEmail(String name , String phone);
 
+    // [US-08] 비밀번호 찾기 findPwrd()
+    @Select("select password from users where name=#{name} and phone = #{phone} and email=#{email}")
+    public String
+
 } // interface end
