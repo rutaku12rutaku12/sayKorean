@@ -1,9 +1,7 @@
 package web.model.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.catalina.User;
+import org.apache.ibatis.annotations.*;
 import web.model.dto.UserDto;
 
 @Mapper
@@ -39,5 +37,7 @@ public interface UserMapper {
     public String findPwrd(String name, String phone, String email);
 
     // US-09 회원정보 수정 updateUserInfo()
+    @Update("update users set name=#{name}, nickName=#{nickName}, phone=#{phone} where userNo = #{userNo}")
+    public int updateUserInfo(UserDto userDto);
 
 } // interface end

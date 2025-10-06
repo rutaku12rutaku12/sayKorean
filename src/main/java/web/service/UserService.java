@@ -66,6 +66,10 @@ public class UserService {
     } // func end
 
     // US-09 회원정보 수정 updateUserInfo()
+    public int updateUserInfo(UserDto userDto){
+        int result = userMapper.updateUserInfo(userDto);
+        return result;
+    }
 
 
 } // class end
