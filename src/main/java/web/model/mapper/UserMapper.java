@@ -40,4 +40,9 @@ public interface UserMapper {
     @Update("update users set name=#{name}, nickName=#{nickName}, phone=#{phone} where userNo = #{userNo}")
     public int updateUserInfo(UserDto userDto);
 
+
+    // US-10 비밀번호 수정 updatePwrd()
+    @Update("update users set password=#{password} where userNo=#{userNo}")
+    public int updatePwrd(UserDto userDto);
+
 } // interface end

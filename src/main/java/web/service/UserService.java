@@ -69,7 +69,12 @@ public class UserService {
     public int updateUserInfo(UserDto userDto){
         int result = userMapper.updateUserInfo(userDto);
         return result;
-    }
+    } // func end
 
+    // US-10 비밀번호 수정 updatePwrd()
+    public int updatePwrd(UserDto userDto){
+        int result = userMapper.updatePwrd(userDto);
+        return result;
+    } // func end
 
 } // class end
