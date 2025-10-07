@@ -21,7 +21,7 @@ public interface AdminStudyMapper {
     // [AGR-02] 장르 전체조회 getGenre()
     // 장르 테이블 레코드를 모두 조회한다
     // 반환 List
-    @Select("select * from genre")
+    @Select("select * from genre order by genreNo")
     List<GenreDto> getGenre();
 
     // [AGR-03] 장르 삭제 deleteGenre()
@@ -56,7 +56,7 @@ public interface AdminStudyMapper {
     // [AST-04] 교육 전체조회 getStudy()
     // 교육 테이블 레코드를 모두 조회한다
     // 반환 List
-    @Select("select * from study ")
+    @Select("select * from study order by studyNo ")
     List<StudyDto> getStudy();
 
     // [AST-05] 교육 개별조회 getIndiStudy()
@@ -91,7 +91,7 @@ public interface AdminStudyMapper {
     // [AEX-04] 예문 전체조회 getExam()
     // 예문 테이블 레코드를 모두 조회한다
     // 반환 List
-    @Select("select * from exam ")
+    @Select("select * from exam order by examNo ")
     List<ExamDto> getExam();
 
     // [AEX-05] 예문 개별조회 getIndiExam()
