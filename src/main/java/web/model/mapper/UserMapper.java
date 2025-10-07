@@ -17,7 +17,7 @@ public interface UserMapper {
     public int logIn(UserDto userDto);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
-    @Select("select userNo,name,email,nickName,phone,genreNo from users where UserNo = #{userNo}")
+    @Select("select userNo,name,email,nickName,phone,userState,genreNo from users where UserNo = #{userNo}")
     public UserDto info( int userNo );
 
     // [US-05] 이메일 중복검사 checkEmail()
@@ -36,13 +36,17 @@ public interface UserMapper {
     @Select("select password from users where name=#{name} and phone = #{phone} and email=#{email}")
     public String findPwrd(String name, String phone, String email);
 
-    // US-09 회원정보 수정 updateUserInfo()
+    // [US-09] 회원정보 수정 updateUserInfo()
     @Update("update users set name=#{name}, nickName=#{nickName}, phone=#{phone} where userNo = #{userNo}")
     public int updateUserInfo(UserDto userDto);
 
 
-    // US-10 비밀번호 수정 updatePwrd()
+    // [US-10] 비밀번호 수정 updatePwrd()
     @Update("update users set password=#{password} where userNo=#{userNo}")
     public int updatePwrd(UserDto userDto);
+
+    // [US-11] 회원상태 수정(삭제) deleteUserStatus()
+    @Update("update users set userState = -1 where userNo=#{userNo} and password=#{password}")
+    public int deleteUserStatus(UserDto userDto);
 
 } // interface end

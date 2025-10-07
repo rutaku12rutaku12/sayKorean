@@ -2,6 +2,7 @@ package web.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.UserDto;
@@ -65,16 +66,22 @@ public class UserService {
         return result;
     } // func end
 
-    // US-09 회원정보 수정 updateUserInfo()
+    // [US-09] 회원정보 수정 updateUserInfo()
     public int updateUserInfo(UserDto userDto){
         int result = userMapper.updateUserInfo(userDto);
         return result;
     } // func end
 
-    // US-10 비밀번호 수정 updatePwrd()
+    // [US-10] 비밀번호 수정 updatePwrd()
     public int updatePwrd(UserDto userDto){
         int result = userMapper.updatePwrd(userDto);
         return result;
     } // func end
+
+    // [US-11] 회원상태 수정(삭제) deleteUserStatus()
+    public int deleteUserStatus(UserDto userDto){
+        int result = userMapper.deleteUserStatus(userDto);
+        return result;
+    }
 
 } // class end

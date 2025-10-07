@@ -109,7 +109,7 @@ public class UserController {
         return ResponseEntity.status(200).body(result);
     } // func end
 
-    // US-09 회원정보 수정 updateUserInfo()
+    // [US-09] 회원정보 수정 updateUserInfo()
     @PutMapping("/updateuserinfo")
     public ResponseEntity<Integer> updateUserInfo(@RequestBody UserDto userDto , HttpServletRequest request ){
         // 세션 객체 꺼내기
@@ -130,7 +130,7 @@ public class UserController {
         return ResponseEntity.status(200).body(result);
     } // func end
 
-    // US-10 비밀번호 수정 updatePwrd()
+    // [US-10] 비밀번호 수정 updatePwrd()
     @PutMapping("/updatepwrd")
     public ResponseEntity<Integer> updatePwrd(@RequestBody UserDto userDto , HttpServletRequest request){
         // 세션 객체 꺼내기
@@ -151,6 +151,27 @@ public class UserController {
         return ResponseEntity.status(200).body(result);
     } // func end
 
+    // [US-11] 회원상태 수정(삭제) deleteUserStatus()
+    @PutMapping("/deleteuser")
+    public ResponseEntity<Integer> deleteUserStatus(@RequestBody UserDto userDto, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        if(session==null || session.getAttribute("userNo")==null){
+            return ResponseEntity.status(400).body(0);
+        }
+        Object obj = session.getAttribute("userNo");
+        if(obj == null){
+            return ResponseEntity.status(400).body(0);
+        }
+        int userNo = (int)obj;
+        userDto.setUserNo(userNo);
+        int result = userService.deleteUserStatus(userDto);
+        if( result > 0){
+        // 회원상태 수정(삭제) 후 세션 제거 : 로그아웃 상태로
+        session.removeAttribute("userNo");
+        return ResponseEntity.status(200).body(result);
+        }
+        else return ResponseEntity.status(400).body(0);
+    }
 
 
 
