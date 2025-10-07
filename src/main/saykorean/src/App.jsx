@@ -24,7 +24,7 @@ const UserLayout = () => {
       <h3> 사용자 화면 레이아웃 </h3>
       <Outlet /> {/* Outlet: 자식 컴포넌트가 들어가는 자리 */}
       <Footer /> {/* 공통 Footer  */}
-      <Link to="/admin"> 관리자단으로 이동 </Link>
+      <Link to="/admin" > <img style={{ float: 'right', width: '49.6px', height: '49.6px' }} src="/img/admin.svg" /> </Link>
     </div>
   </>)
 
@@ -40,7 +40,7 @@ const AdminLayout = () => {
       <AdminNav /> {/* 관리자 헤드 내비게이션  */}
       <h3> 관리자 화면 레이아웃 </h3>
       <Outlet /> {/* Outlet: 자식 컴포넌트가 들어가는 자리 */}
-      <Link to="/"> 사용자단으로 이동 </Link>
+      <Link to="/"> <img style={{ float: 'right' }} src="/img/myPage.svg" /> </Link>
     </div >
   </>)
 }
@@ -54,17 +54,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* 관리자단 */}
-          <Route path="/admin/*" element={
-            <AdminLayout>
-              <Routes>
-                <Route index element={<AdminHome />} />
-                <Route path="study" element={<AdminStudyList />} />
-                <Route path="study/create" element={<AdminStudyCreate />} />
-                <Route path="study/edit/:studyNo" element={<AdminStudyEdit />} />
-              </Routes>
-            </AdminLayout>
-          }
-          />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminHome />} />
+            <Route path="study" element={<AdminStudyList />} />
+            <Route path="study/create" element={<AdminStudyCreate />} />
+            <Route path="study/edit/:studyNo" element={<AdminStudyEdit />} />
+          </Route>
+
 
           {/* 사용자단 */}
           <Route element={<UserLayout />}>
