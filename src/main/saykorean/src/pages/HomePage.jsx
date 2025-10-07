@@ -1,5 +1,3 @@
-import './common.css'
-
 export default function HomePage ( props ){
 
     return (<>
