@@ -1,9 +1,7 @@
 package web.model.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.catalina.User;
+import org.apache.ibatis.annotations.*;
 import web.model.dto.UserDto;
 
 @Mapper
@@ -19,8 +17,32 @@ public interface UserMapper {
     public int logIn(UserDto userDto);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
-    @Select("select userNo,name,email,password,nickName,phone,genreNo from users where UserNo = #{userNo}")
+    @Select("select userNo,name,email,nickName,phone,genreNo from users where UserNo = #{userNo}")
     public UserDto info( int userNo );
 
+    // [US-05] 이메일 중복검사 checkEmail()
+    @Select("select * from users where email = #{email}")
+    public int checkEmail(String email);
+
+    // [US-06] 연락처 중복검사 checkPhone()
+    @Select("select * from users where phone = #{phone}")
+    public int checkPhone(String phone);
+
+    // [US-07] 이메일 찾기 findEmail()
+    @Select("select email from users where name=#{name} and phone=#{phone}")
+    public String findEmail(String name , String phone);
+
+    // [US-08] 비밀번호 찾기 findPwrd()
+    @Select("select password from users where name=#{name} and phone = #{phone} and email=#{email}")
+    public String findPwrd(String name, String phone, String email);
+
+    // US-09 회원정보 수정 updateUserInfo()
+    @Update("update users set name=#{name}, nickName=#{nickName}, phone=#{phone} where userNo = #{userNo}")
+    public int updateUserInfo(UserDto userDto);
+
+
+    // US-10 비밀번호 수정 updatePwrd()
+    @Update("update users set password=#{password} where userNo=#{userNo}")
+    public int updatePwrd(UserDto userDto);
 
 } // interface end

@@ -73,4 +73,85 @@ public class UserController {
         return ResponseEntity.status(200).body(result);
     } // func end
 
+    // [US-05] 이메일 중복검사 checkEmail()
+    @GetMapping("/checkemail")
+    public ResponseEntity<Integer> checkEmail(@RequestParam String email){
+        int result = userService.checkEmail(email);
+        if( result >0 ) {
+            return ResponseEntity.status(200).body(result);
+        }
+        else return ResponseEntity.status(400).body(0);
+    } // func end
+
+    // [US-06] 연락처 중복검사 checkPhone()
+    @GetMapping("/checkphone")
+    public ResponseEntity<Integer> checkPhone(@RequestParam String phone){
+        int result = userService.checkPhone(phone);
+        if( result >0 ) {
+            return ResponseEntity.status(200).body(result);
+        }
+        else return ResponseEntity.status(400).body(0);
+    } // func end
+
+    // [US-07] 이메일 찾기 findEmail()
+    @GetMapping("/findemail")
+    public ResponseEntity<String> findEmail(@RequestParam String name,@RequestParam String phone){
+        String result = userService.findEmail(name,phone);
+        if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
+        return ResponseEntity.status(200).body(result);
+    } // func end
+
+    // [US-08] 비밀번호 찾기 findPwrd()
+    @GetMapping("/findpwrd")
+    public ResponseEntity<String> findPwrd(@RequestParam String name, @RequestParam String phone, @RequestParam String email){
+        String result = userService.findPwrd(name, phone, email);
+        if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
+        return ResponseEntity.status(200).body(result);
+    } // func end
+
+    // US-09 회원정보 수정 updateUserInfo()
+    @PutMapping("/updateuserinfo")
+    public ResponseEntity<Integer> updateUserInfo(@RequestBody UserDto userDto , HttpServletRequest request ){
+        // 세션 객체 꺼내기
+        HttpSession session = request.getSession();
+        // 만약 세션이 없거나 로그인이 안되어 있으면 null
+        if( session == null || session.getAttribute("userNo")== null){
+            return ResponseEntity.status(400).body(0);
+        }
+        // 로그인된 사용자번호 꺼내기 = 수정하는 사용자의 번호
+        Object obj = session.getAttribute("userNo");
+        if ( obj == null ){
+            return ResponseEntity.status(400).body(0);
+        }
+        int userNo = (int)obj;
+        // dto 담아주기
+        userDto.setUserNo(userNo);
+        int result = userService.updateUserInfo(userDto);
+        return ResponseEntity.status(200).body(result);
+    } // func end
+
+    // US-10 비밀번호 수정 updatePwrd()
+    @PutMapping("/updatepwrd")
+    public ResponseEntity<Integer> updatePwrd(@RequestBody UserDto userDto , HttpServletRequest request){
+        // 세션 객체 꺼내기
+        HttpSession session = request.getSession();
+        // 만약 세션이 없거나 로그인이 안되어 있으면 null
+        if( session == null || session.getAttribute("userNo") ==null ){
+            return ResponseEntity.status(400).body(0);
+        }
+        // 로그인된 사용자번호 꺼내기 = 수정하는 사용자의 번호
+        Object obj = session.getAttribute("userNo");
+        if ( obj == null ){
+            return ResponseEntity.status(400).body(0);
+        }
+        int userNo = (int)obj;
+        // dto 담아주기
+        userDto.setUserNo(userNo);
+        int result = userService.updatePwrd(userDto);
+        return ResponseEntity.status(200).body(result);
+    } // func end
+
+
+
+
 } // class end
