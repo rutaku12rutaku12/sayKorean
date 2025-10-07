@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class StudyDto {
-    private int themeNo;         // PK: 교육번호
+    private int studyNo;         // PK: 교육번호
     private String  themeKo;     // 한국어 주제 (UNIQUE)
     private String  themeJp;     // 일본어 주제 (UNIQUE)
     private String  themeCn;     // 중국어 주제 (UNIQUE)

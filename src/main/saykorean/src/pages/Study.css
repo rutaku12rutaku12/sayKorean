@@ -1,0 +1,25 @@
+*{
+    border: 1px solid red;
+    color: #6B4E42;
+}
+
+#Study{
+    width: 410px;
+    margin: 0 auto;
+    padding: 0 auto;
+    text-align: center;
+}
+.mainTheme{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.studyImg{
+    width: 40px;
+    height: 60px;
+}
+
+.mainTheme > h3{
+    width: 200px;
+    font-size: 22px;
+}
