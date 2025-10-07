@@ -1,25 +1,28 @@
 package web.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.model.dto.GenreDto;
 import web.service.AdminStudyService;
 
 @RestController
 @RequestMapping("/saykorean/admin/study")
 @RequiredArgsConstructor
+@Log4j2
 public class AdminStudyController {
-    // DI
+    // [*] DI
     private final AdminStudyService adminStudyService;
 
     // [AGR-01] 장르 생성
     // 장르 테이블 레코드를 추가한다
-//    public ResponseEntity<InternalError> createGenre(GenreDto genreDto){
-//        int result = adminStudyService
-//        return ResponseEntity.status(200).body(result);
-//    }
+    @PostMapping("/genre")
+    public ResponseEntity<Integer> createGenre(@RequestBody GenreDto genreDto) {
+        int result = adminStudyService.createGenre(genreDto);
+        return ResponseEntity.ok(result);
+    }
 
     // [AGR-02] 장르 전체조회 getGenre()
     // 장르 테이블 레코드를 모두 조회한다
@@ -79,4 +82,14 @@ public class AdminStudyController {
     // 반환 Dto
 
 
+}
+
+// [*] 예외 핸들러 : 전역으로도 사용 가능
+@RestControllerAdvice (assignableTypes = {AdminStudyController.class}) // 해당 컨트롤러에서만 적용
+class AdminStudyExceptionHandler {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+        // 오류 메시지를 문자열 타입으로 반환한다
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 }
