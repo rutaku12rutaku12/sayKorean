@@ -4,16 +4,19 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import web.model.dto.AttendDto;
+
+import java.util.List;
+
 @Mapper
 public interface AttendMapper {
 
     // [AT-1] 출석하기 attend()
-    @Insert("insert into users (attenDate , userNo ) value (#{attenDate} , #{userNo})")
+    @Insert("insert into attendance (attenDate , userNo ) values (#{attenDate} , #{userNo})")
     public int attend(AttendDto attendDto);
 
     // [AT-2] 출석 조회 getAttend()
     @Select("select * from attendance where userNo=#{userNo}")
-    public int getAttend(AttendDto attendDto);
+    public List<AttendDto> getAttend(int userNo);
 
 
 }

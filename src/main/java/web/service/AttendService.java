@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.AttendDto;
 import web.model.mapper.AttendMapper;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,8 +23,8 @@ public class AttendService {
 
 
     // [AT-2] 출석 조회 getAttend()
-    public int getAttend(AttendDto attendDto){
-        int result = attendMapper.getAttend(attendDto);
+    public List<AttendDto> getAttend(int userNo){
+        List<AttendDto> result = attendMapper.getAttend(userNo);
         return result;
     }
 
