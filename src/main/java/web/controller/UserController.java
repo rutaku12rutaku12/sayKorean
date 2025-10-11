@@ -66,7 +66,7 @@ public class UserController {
             return ResponseEntity.status(400).body(null);}
         // 모든 자료를 저장하기 위해 Object 타입으로 세션 저장
         Object obj = session.getAttribute("userNo");
-        if( obj == null ) ResponseEntity.status(400).body(null);
+        if( obj == null ) return ResponseEntity.status(400).body(null);
         int userNo = (int)obj;
         // 서비스에게 전달하고 응답 받기
         UserDto result = userService.info(userNo);

@@ -17,7 +17,7 @@ public interface UserMapper {
     public int logIn(UserDto userDto);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
-    @Select("select userNo,name,email,nickName,phone,userState,genreNo from users where UserNo = #{userNo}")
+    @Select("select userNo,name,email,nickName,phone,userState,userDate,genreNo from users where UserNo = #{userNo}")
     public UserDto info( int userNo );
 
     // [US-05] 이메일 중복검사 checkEmail()
