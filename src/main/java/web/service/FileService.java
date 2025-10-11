@@ -17,7 +17,7 @@ public class FileService {
     private String audioPath = baseDir + "/build/resources/main/static/upload/audio/";
     private String imagePath = baseDir + "/build/resources/main/static/upload/image/";
 
-    // [1] 파일 업로드
+//    // [1] 파일 업로드
 //    public String fileUpload(MultipartFile multipartFile) {
 //        int index = 1;
 //        String fileName = index++ + "_" + multipartFile.getOriginalFilename().replaceAll("_" , "-");
