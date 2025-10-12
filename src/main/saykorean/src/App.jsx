@@ -5,6 +5,8 @@ import MyPage from "./pages/MyPage";
 import Test from "./pages/Test";
 import BeforeStudy from "./pages/BeforeStudy";
 import Study from "./pages/Study"
+import SignUpPage from "./pages/SignUpPage";
+import LogInPage from "./pages/LoginPage";
 import Footer from "./components/Footer";
 // 관리자단(PC)
 import AdminStudyList from "./adminPages/AdminStudyList";
@@ -12,6 +14,7 @@ import AdminHome from "./adminPages/AdminHome";
 import AdminStudyCreate from "./adminPages/AdminStudyCreate";
 import AdminStudyEdit from "./adminPages/AdminStudyEdit";
 import AdminNav from "./components/AdminNav";
+
 
 // 사용자단 레이아웃
 const UserLayout = () => {
@@ -69,6 +72,8 @@ function App() {
             <Route path="/beforestudy" element={<BeforeStudy />} ></Route>
             <Route path="/test" element={<Test />} ></Route>
             <Route path="/study/:themeNo" element={<Study />} />
+            <Route path="/signup" element={<SignUpPage/>} />
+            <Route path="/login" element={<LogInPage/>} />
           </Route>
         </Routes>
       </BrowserRouter >
