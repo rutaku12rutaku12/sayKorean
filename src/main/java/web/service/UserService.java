@@ -84,4 +84,17 @@ public class UserService {
         return result;
     }
 
+
+    // getGenreNo
+    public int getGenreNo( int userNo ){
+        int result = userMapper.getGenreNo( userNo );;
+        return result;
+    }
+
+    // updateGenre
+    public boolean updateGenre(int userNo, int genreNo){
+        boolean result = userMapper.updateGenre( userNo , genreNo );
+        return result;
+    }
+
 } // class end
