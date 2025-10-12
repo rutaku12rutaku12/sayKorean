@@ -15,7 +15,7 @@ public class CorsConfig implements WebMvcConfigurer{
 //                .allowedMethods("허용할 HTTP메소드");       : * 모든 메소드
 //                .allowCredentials(true);                 : HTTP 인증(세션 유지) 허용
 //                .allowedHeaders("*");                    : HTTP 헤더 정보 허용
-        registry.addMapping("/axios/**")
+        registry.addMapping("/**")
                 .allowedOrigins("http://localhost:5173" , "http://localhost:5174")
                 .allowedMethods("GET","POST","PUT","DELETE")
                 .allowCredentials(true)
