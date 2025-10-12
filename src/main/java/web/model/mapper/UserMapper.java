@@ -1,6 +1,7 @@
 package web.model.mapper;
 
 import org.apache.catalina.User;
+import org.apache.commons.compress.harmony.pack200.CPUTF8;
 import org.apache.ibatis.annotations.*;
 import web.model.dto.UserDto;
 
@@ -48,5 +49,14 @@ public interface UserMapper {
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()
     @Update("update users set userState = -1 where userNo=#{userNo} and password=#{password}")
     public int deleteUserStatus(UserDto userDto);
+
+    // getGenre
+    @Select("SELECT genreNo FROM users WHERE userNo=#{userNo}")
+    public int getGenreNo( int userNo );
+
+    // updateGenre
+    @Update("UPDATE users SET genreNo = #{genreNo} WHERE userNo = #{userNo}")
+    boolean updateGenre(@Param("userNo") int userNo, @Param("genreNo") int genreNo);
+
 
 } // interface end
