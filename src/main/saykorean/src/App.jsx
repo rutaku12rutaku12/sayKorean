@@ -50,7 +50,6 @@ function App() {
 
   return (
     <>
-      <h3> 루트페이지 </h3>
       <BrowserRouter>
         <Routes>
           {/* 관리자단 */}
@@ -68,7 +67,8 @@ function App() {
             <Route path="/mypage" element={<MyPage />} ></Route>
             <Route path="/beforestudy" element={<BeforeStudy />} ></Route>
             <Route path="/test" element={<Test />} ></Route>
-            <Route path="/study/:themeNo" element={<Study />} />
+            <Route path="/study" element={<Study />} />          {/* 목록 */}
+            <Route path="/study/:studyNo" element={<Study />} /> {/* 상세 */}
           </Route>
         </Routes>
       </BrowserRouter >
