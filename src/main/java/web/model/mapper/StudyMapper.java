@@ -23,6 +23,7 @@ public interface StudyMapper { // mapper start
 
 
     // 주제와 주제에 대한 해설 조회
+    // 지금은 한글만 됨
     @Select("SELECT themeKo , commenKo FROM study WHERE studyNo = #{studyNo}")
     StudyDto getDailyStudy( int themeNo );
 

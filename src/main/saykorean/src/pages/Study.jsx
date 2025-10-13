@@ -113,18 +113,6 @@ export default function Study() {
   }
 
 
-  // --------------------------
-  // API: 해당 주제의 예문 목록 조회
-  //  - 백엔드: GET /saykorean/study/getDailyStudy2?studyNo=...
-  // --------------------------
-  async function fetchExamples(studyNoValue) {
-    const res = await axios.get(
-       "/saykorean/study/getDailyStudy2",
-       { params: { studyNo: studyNoValue } } 
-      );
-    return asArray( res.data );
-  }
-
   // ------------------------------------------------------
   // 마운트 시 1회 실행:
   //  - 내 장르 번호를 서버에서 가져오고
@@ -216,8 +204,6 @@ export default function Study() {
         setError( "" );      // 에러 초기화
         const s = await fetchSubject( n ); // 주제 상세 가져오기
         setSubject( s ); // 상세 상태 저장
-        const ex = await fetchExamples( n ); // 예문 목록 가져오기
-        setExamples( ex ); // 예문 상태 저장
       } catch ( e ) {
         console.error( e );
         setError( "학습 데이터를 불러오는 중 문제가 발생했어요." ); // 사용자 메시지
@@ -253,16 +239,25 @@ export default function Study() {
         <section className="panel detail">
           <div className="mainTheme">
             <img className="studyImg" src="/img/rabbit.png" alt="rabbit" /> {/* 썸네일 이미지 */}
-            <h3>{ subject?.themeKo ?? subject?.themeEn ?? "제목 없음" }</h3>
+            <h3>{subject?.themeKo ?? subject?.themeEn ?? "제목 없음"}</h3>
           </div>
-          <ul className="examListWrap">
-            {(Array.isArray(examples) ? examples : []).map(e => (
-              <li key={e.examNo} className="examList">
-                <div className="ko">{e.examKo}</div> {/* 한국어 문장 */}  
-                { e.examEn && <div className="e">{e.examEn}</div> } {/* 영문 번역 */}
-              </li>
-            ))}
-          </ul>
+
+          { /*  주제 해설 영역 추가 */ }
+          {subject?.commenKo && (
+            <div className="commenKo">
+              <p>{subject.commenKo}</p>
+            </div>
+          )}
+
+
+          { /* 예문 페이지로 이동하는 버튼 */ }
+          <button
+            className="goExampleBtn"
+            onClick={() => navigate(`/exampleList/${studyNo}`)} >
+              다음
+          </button>
+
+
         </section>
       )}
     </div>
