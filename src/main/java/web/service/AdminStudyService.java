@@ -3,11 +3,13 @@ package web.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import web.model.dto.ExamDto;
 import web.model.dto.GenreDto;
 import web.model.dto.StudyDto;
 import web.model.mapper.AdminStudyMapper;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -16,6 +18,7 @@ import java.util.List;
 public class AdminStudyService {
     // DI
     private final AdminStudyMapper adminStudyMapper;
+    private final FileService fileService;
 
     // [AGR-01] 장르 생성 createGenre()
     // 장르 테이블 레코드를 추가한다
@@ -86,7 +89,16 @@ public class AdminStudyService {
     // 매개변수 ExamDto
     // 반환 int(PK)
     // 그림 파일 추가를 위한 파일 서비스 넣기
-    public int createExam(ExamDto examDto){
+    public int createExam(ExamDto examDto , MultipartFile imageFile) throws IOException {
+
+        // 1. 그림 파일이 있으면 저장
+        if(imageFile != null && !imageFile.isEmpty()) {
+            String imagePath = fileService.uploadImage(imageFile , examDto.getExamNo());
+            examDto.setImagePath(imagePath);
+            examDto.setImageName(imageFile.getOriginalFilename());
+        }
+
+        // 2. DB에 예문 저장
         adminStudyMapper.createExam(examDto);
         return examDto.getExamNo(); // PK 반환
     }
@@ -96,7 +108,17 @@ public class AdminStudyService {
     // 매개변수 StudyDto
     // 반환 int
     // 그림 파일 변경을 위한 파일 서비스 넣기
-    public int updateExam(ExamDto examDto){
+    public int updateExam(ExamDto examDto , MultipartFile newImageFile) throws IOException{
+       
+        // 1. 기존 이미지가 있을 때, 새로운 파일이 들어오면 교체
+        if (newImageFile != null && !newImageFile.isEmpty()) {
+            fileService.deleteFile(examDto.getImagePath());
+            String newPath = fileService.uploadImage(newImageFile, examDto.getExamNo());
+            examDto.setImageName(newPath);
+            examDto.setImageName(newImageFile.getOriginalFilename());
+        }
+        
+        // 2. DB 업데이트
         return adminStudyMapper.updateExam(examDto);
     }
 
@@ -105,6 +127,12 @@ public class AdminStudyService {
     // 매개변수 int
     // 반환 int
     public int deleteExam(int examNo){
+        // 1. DB에 파일 있는지 확인
+        ExamDto exam = adminStudyMapper.getIndiExam(examNo);
+        if (exam.getImagePath() != null) {
+            fileService.deleteFile(exam.getImagePath());
+        }
+        // 2. DB 삭제
         return adminStudyMapper.deleteExam(examNo);
     }
 
