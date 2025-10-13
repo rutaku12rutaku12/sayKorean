@@ -74,6 +74,10 @@ public interface AdminStudyMapper {
     @Options(useGeneratedKeys = true , keyProperty = "examNo")
     int createExam(ExamDto examDto);
 
+    // 예문 생성 후 이미지 정보 업데이트
+    @Update("update exam set imageName = #{imageName} , imagePath = #{imagePath} where examNo = #{examNo}")
+    int updateExamImage(ExamDto examDto);
+
     // [AEX-02] 예문 수정 updateExam()
     // 예문 테이블 레코드를 변경한다.
     // 매개변수 ExamDto

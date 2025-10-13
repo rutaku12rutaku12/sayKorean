@@ -137,10 +137,11 @@ public class AdminStudyController {
     // 매개변수 ExamDto
     // 반환 int(PK)
     // @RequestPart는 JSON과 파일을 함께 받을 때 사용
+    // 어트리뷰트(생략)으로 처리 가능
     // URL : http://localhost:8080/saykorean/admin/study/exam
     // BODY : { "examKo" : "배고파 죽겠지?" , "examRoman" : "baegopa jukgetjji?" , "examJp" : "お腹すいて死にそう?" , "examCn" : "饿死了?" , "examEn" : "you are starving?" , "examEs" : "es muero de hambre." , "imageName" : "100_img" , "imagePath" : "/image/oct_twpfive" , "studyNo" : 4 }
     @PostMapping("/exam")
-    public ResponseEntity<Integer> createExam(ExamDto examDto ) throws IOException {
+    public ResponseEntity<Integer> createExam(ExamDto examDto) throws IOException {
         int result = adminStudyService.createExam(examDto , examDto.getImageFile() );
         return ResponseEntity.ok(result);
     }
@@ -152,8 +153,8 @@ public class AdminStudyController {
     // URL : http://localhost:8080/saykorean/admin/study/exam
     // BODY : { "examNo" : 1 , "examKo" : "배고파 죽겠느뇨?" , "examRoman" : "baegopa jukgetda." , "examJp" : "お腹すいて死にそう。" , "examCn" : "饿死了。" , "examEn" : "I’m starving." , "examEs" : "Me muero de hambre." , "imageName" : "1_img" , "imagePath" : "/image/oct_twpfive" , "studyNo" : 4 }
     @PutMapping("/exam")
-    public ResponseEntity<Integer> updateExam(@RequestPart ExamDto examDto , @RequestPart(value = "image" , required = false) MultipartFile newImageFile) throws IOException {
-        int result = adminStudyService.updateExam(examDto, newImageFile);
+    public ResponseEntity<Integer> updateExam(ExamDto examDto) throws IOException {
+        int result = adminStudyService.updateExam(examDto, examDto.getNewImageFile());
         return ResponseEntity.ok(result);
     }
 
