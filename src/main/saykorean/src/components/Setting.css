@@ -1,0 +1,15 @@
+
+/* 배너 - 정유진 수정 중!!! */
+.banner{
+    position: fixed;
+    right: 380px; top: 100px;
+    width: 280px;
+    height: 716px;
+    background-color: white;
+
+}
+@media ( max-width: 1080px ) {
+  .banner{
+    display: none;
+  }
+}

@@ -71,9 +71,10 @@ function App() {
             <Route path="/mypage" element={<MyPage />} ></Route>
             <Route path="/beforestudy" element={<BeforeStudy />} ></Route>
             <Route path="/test" element={<Test />} ></Route>
-            <Route path="/study/:themeNo" element={<Study />} />
             <Route path="/signup" element={<SignUpPage/>} />
             <Route path="/login" element={<LogInPage/>} />
+            <Route path="/study" element={<Study />} />          {/* 목록 */}
+            <Route path="/study/:studyNo" element={<Study />} /> {/* 상세 */}
           </Route>
         </Routes>
       </BrowserRouter >
