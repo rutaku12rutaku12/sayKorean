@@ -1,4 +1,4 @@
-import "./Study.css";
+import "../styles/Study.css";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
