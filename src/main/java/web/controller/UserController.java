@@ -47,6 +47,7 @@ public class UserController {
     @GetMapping("/logout")
     public ResponseEntity<Integer> logOut(HttpServletRequest request){
         HttpSession session = request.getSession();
+        System.out.println("세션 있음? " + (session != null));
         // 이미 세션이 없거나 유저번호가 없으면 로그아웃 실패
         if( session == null || session.getAttribute("userNo")==null ){
             return ResponseEntity.status(400).body(0);

@@ -4,7 +4,7 @@ import axios from "axios";
 import { logIn } from "../store/userSlice";
 import { useState } from "react";
 
-console.log("로그인페이지 렌더링")
+console.log("로그인 페이지 렌더링")
 
 export default function LogInPage(props){
     
@@ -20,6 +20,7 @@ export default function LogInPage(props){
     const onLogin = async()=>{
         try{
             const obj = { email: "user04@example.com",password:"pass#04!"}
+            // CORS 옵션 허용
             const option = { withCredentials : true }
             const response = await axios.post("http://localhost:8080/saykorean/login",obj,option)
             const data = response.data;
