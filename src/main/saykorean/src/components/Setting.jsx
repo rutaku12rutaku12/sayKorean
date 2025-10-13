@@ -1,3 +1,6 @@
+import "../styles/Setting.css";
+
+
 export default function Setting (props) {
 
     return (<>
