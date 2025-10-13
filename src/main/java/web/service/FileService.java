@@ -6,6 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 @Service
 @Transactional
@@ -18,42 +21,84 @@ public class FileService {
     private String audioPath = baseDir + "/build/resources/main/static/upload/audio/";
     private String imagePath = baseDir + "/build/resources/main/static/upload/image/";
 
-    // [1] 오디오 업로드
-    public String uploadAudio(MultipartFile file , int examNo) throws IOException {
+    // [1] 이미지 업로드
+    public String uploadImage(MultipartFile file , int examNo) throws IOException {
         return uploadFile(file, imagePath, examNo, "img");
     }
 
-    // [2] 이미지 업로드
-    public String uploadImage(MultipartFile file , int examNo , String lang) throws IOException {
+    // [2] 오디오 업로드
+    public String uploadAudio(MultipartFile file , int examNo , String lang) throws IOException {
         return uploadFile(file, audioPath, examNo, lang + "_voice");
     }
 
     // [3] 공통 파일 업로드 로직
-    private String uploadFile(MultipartFile file, String targetPath, int examNo , String type) throws IOException {
+    private String uploadFile(MultipartFile file, String baseTargetPath, int examNo , String type) throws IOException {
+        // [*] 파일 존재여부 확인
         if( file == null || file.isEmpty()){
             throw new IllegalArgumentException("파일이 비어있습니다.");
         } // if end
 
-        // 경로 폴더 없으면 생성
+        // 3-1 월계산
+        LocalDate now = LocalDate.now();
+        String month = now.getMonth().getDisplayName(TextStyle.SHORT , Locale.ENGLISH).toLowerCase(); // mar, apr 식으로 출력
+        String year = String.valueOf(now.getYear()).substring(2); // 23 , 24 , 25(년)
+        String monthDir = month + "_" + year; // mar_25
+
+
+        // 3-2 경로 폴더 없으면 생성
+        String targetPath = baseTargetPath + monthDir + "/";
         File dir = new File(targetPath);
         if (!dir.exists()) dir.mkdirs();
 
-        // 파일명 규칙 :{examNo}_{type}.{확장자}
+        // 3-3 파일명 규칙 :{examNo}_{type}.{확장자}
         String originalName = file.getOriginalFilename();
-        String ext = originalName.substring(originalName.lastIndexOf(".")); // 확장자
+        if(originalName == null || !originalName.contains(".")){
+            throw new IllegalArgumentException("유효하지 않은 파일명 입니다.");
+        }
+        String ext = originalName.substring(originalName.lastIndexOf(".")); // 확장자(ex : jpg)
         String newFileName = examNo + "_" + type + ext;
 
-        // 실제 저장 경로
+        // 3-4 실제 저장 경로
+        File targetFile = new File(targetPath + newFileName);
 
-        // 기존 파일 덮어쓰기 or 교체ㅔ
+        // 3-5 기존 파일 덮어쓰기 or 교체
+        if (targetFile.exists()) targetFile.delete();
+        file.transferTo(targetFile);
 
-        // DB에 저장할 상대경로 리턴
+        // 3-6 DB에 저장할 상대경로 반환 (월 폴더 포함)
+        if(targetPath.contains("/image/")){
+            return "/upload/image/" + monthDir + "/" + newFileName;
+        } else if (targetPath.contains("/audio/")) {
+            return "/upload/audio/" + monthDir + "/" + newFileName;
+        }
 
-        return null;
+        // 3-7 예외처리 반환
+        throw new IllegalStateException("지원하지 않는 업로드 경로입니다.");
     }
 
     // [4] 파일 삭제
+    public boolean deleteFile(String relativePath) {
+        // 4-1 경로 위치 확인
+        String fullPath = baseDir + "/build/resources/main/static" + relativePath;
+        File file = new File(fullPath);
+        // 4-2 파일 존재 시 삭제
+        return file.exists() && file.delete();
+    }
 
     // [5] 파일 수정
+    public String updateFile(MultipartFile newFile , String oldRelativePath , int examNo , String type) throws IOException {
+        // 5-1 기존 파일이 있을 경우 삭제
+        if (oldRelativePath != null && !oldRelativePath.isBlank()){
+            deleteFile(oldRelativePath);
+        }
+        // 5-2 파일 형식에 따라 업로드
+        if (type.equals("img")) {
+            return uploadImage(newFile, examNo);
+        } else if (type.equals("_voice")) {
+            return uploadAudio(newFile , examNo, type.replace("_voice" , ""));
+        }
+        // 5-3 예외처리
+        throw new IllegalStateException("수정 경로가 올바르지 않습니다.");
+    }
 
 }
