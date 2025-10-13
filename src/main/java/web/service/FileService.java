@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 @Service
@@ -29,6 +30,25 @@ public class FileService {
 
     // [3] 공통 파일 업로드 로직
     private String uploadFile(MultipartFile file, String targetPath, int examNo , String type) throws IOException {
+        if( file == null || file.isEmpty()){
+            throw new IllegalArgumentException("파일이 비어있습니다.");
+        } // if end
+
+        // 경로 폴더 없으면 생성
+        File dir = new File(targetPath);
+        if (!dir.exists()) dir.mkdirs();
+
+        // 파일명 규칙 :{examNo}_{type}.{확장자}
+        String originalName = file.getOriginalFilename();
+        String ext = originalName.substring(originalName.lastIndexOf(".")); // 확장자
+        String newFileName = examNo + "_" + type + ext;
+
+        // 실제 저장 경로
+
+        // 기존 파일 덮어쓰기 or 교체ㅔ
+
+        // DB에 저장할 상대경로 리턴
+
         return null;
     }
 
