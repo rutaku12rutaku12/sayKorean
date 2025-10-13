@@ -188,7 +188,7 @@ public class UserController {
     // 선호 장르 변경
     @PutMapping("/me/genre")
     public ResponseEntity<Void> updateGenre(@RequestParam int genreNo, HttpSession session) {
-        Integer userNo = (Integer) session.getAttribute("loginUserNo");
+        Integer userNo = (Integer) session.getAttribute("userNo");
         if (userNo == null) return ResponseEntity.status(401).build();
 
         userService.updateGenre(userNo, genreNo); // DB 업데이트

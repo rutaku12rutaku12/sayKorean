@@ -35,11 +35,12 @@ public class StudyController {
     @GetMapping("/getSubject")
     public ResponseEntity<List<StudyDto>> getSubject(@RequestParam(required=false) Integer genreNo,
                                                      HttpSession session) {
-        Integer userNo = (Integer) session.getAttribute("loginUserNo");
+        Integer userNo = (Integer) session.getAttribute("userNo");
+        System.out.println("[SESSION] : " + userNo );
         if (userNo == null) return ResponseEntity.status(401).build();
 
         if (genreNo == null) {                           // 파라미터 없으면 DB에서 조회
-            genreNo = userService.getGenreNo(userNo);    // SELECT genreNo FROM users WHERE userNo=?
+            genreNo = userService.getGenreNo(userNo);
             if (genreNo == null) return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(studyService.getSubject(genreNo));

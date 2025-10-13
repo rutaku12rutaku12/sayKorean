@@ -18,7 +18,7 @@ public interface StudyMapper { // mapper start
 
 
     // 특정 장르의 주제 목록 조회
-    @Select("SELECT themeKo,themeJp,themeCn,themeEn,themeEs FROM study WHERE genreNo = #{genreNo} ORDER BY studyNo")
+    @Select("SELECT studyNo, themeKo,themeJp,themeCn,themeEn,themeEs FROM study WHERE genreNo = #{genreNo} ORDER BY studyNo")
     List<StudyDto> getSubject( int genreNo );
 
 
