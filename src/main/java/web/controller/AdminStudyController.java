@@ -140,8 +140,8 @@ public class AdminStudyController {
     // URL : http://localhost:8080/saykorean/admin/study/exam
     // BODY : { "examKo" : "배고파 죽겠지?" , "examRoman" : "baegopa jukgetjji?" , "examJp" : "お腹すいて死にそう?" , "examCn" : "饿死了?" , "examEn" : "you are starving?" , "examEs" : "es muero de hambre." , "imageName" : "100_img" , "imagePath" : "/image/oct_twpfive" , "studyNo" : 4 }
     @PostMapping("/exam")
-    public ResponseEntity<Integer> createExam(@RequestPart ExamDto examDto , @RequestPart(value = "image" , required = false) MultipartFile imageFile) throws IOException {
-        int result = adminStudyService.createExam(examDto , imageFile);
+    public ResponseEntity<Integer> createExam(ExamDto examDto ) throws IOException {
+        int result = adminStudyService.createExam(examDto , examDto.getImageFile() );
         return ResponseEntity.ok(result);
     }
 
