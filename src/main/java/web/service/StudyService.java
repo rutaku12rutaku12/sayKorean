@@ -35,6 +35,7 @@ public class StudyService { // class start
     public StudyDto getDailyStudy( int studyNo ){
         StudyDto result = studyMapper.getDailyStudy( studyNo );
         return result;
+
     }
 
     // 주제에 맞는 예문 조회

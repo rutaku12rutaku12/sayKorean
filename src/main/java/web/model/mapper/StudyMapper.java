@@ -18,11 +18,12 @@ public interface StudyMapper { // mapper start
 
 
     // 특정 장르의 주제 목록 조회
-    @Select("SELECT themeKo,themeJp,themeCn,themeEn,themeEs FROM study WHERE genreNo = #{genreNo} ORDER BY studyNo")
+    @Select("SELECT studyNo, themeKo,themeJp,themeCn,themeEn,themeEs FROM study WHERE genreNo = #{genreNo} ORDER BY studyNo")
     List<StudyDto> getSubject( int genreNo );
 
 
     // 주제와 주제에 대한 해설 조회
+    // 지금은 한글만 됨
     @Select("SELECT themeKo , commenKo FROM study WHERE studyNo = #{studyNo}")
     StudyDto getDailyStudy( int themeNo );
 

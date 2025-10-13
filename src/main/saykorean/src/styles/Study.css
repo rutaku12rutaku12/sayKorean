@@ -23,3 +23,16 @@
     width: 200px;
     font-size: 22px;
 }
+.list{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    /* 이거 이렇게 밀면 안될 것 같음 !! 확인 필요 */
+    margin-left: 30px;
+}
+.pillBtn{
+    width: 360px;
+    height: 70px;
+    margin-bottom: 30px;
+}

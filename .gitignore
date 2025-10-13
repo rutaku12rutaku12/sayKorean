@@ -43,3 +43,4 @@ bin/
 .DS_Store
 /logs/
 /logs/
+src/main/resources/application.properties

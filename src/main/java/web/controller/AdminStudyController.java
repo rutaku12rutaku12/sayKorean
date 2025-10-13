@@ -2,14 +2,17 @@ package web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.devtools.v137.io.IO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import web.model.dto.ExamDto;
 import web.model.dto.GenreDto;
 import web.model.dto.StudyDto;
 import web.service.AdminStudyService;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -133,11 +136,12 @@ public class AdminStudyController {
     // 예문 테이블 레코드를 추가한다
     // 매개변수 ExamDto
     // 반환 int(PK)
+    // @RequestPart는 JSON과 파일을 함께 받을 때 사용
     // URL : http://localhost:8080/saykorean/admin/study/exam
     // BODY : { "examKo" : "배고파 죽겠지?" , "examRoman" : "baegopa jukgetjji?" , "examJp" : "お腹すいて死にそう?" , "examCn" : "饿死了?" , "examEn" : "you are starving?" , "examEs" : "es muero de hambre." , "imageName" : "100_img" , "imagePath" : "/image/oct_twpfive" , "studyNo" : 4 }
     @PostMapping("/exam")
-    public ResponseEntity<Integer> createExam(@RequestBody ExamDto examDto) {
-        int result = adminStudyService.createExam(examDto);
+    public ResponseEntity<Integer> createExam(ExamDto examDto ) throws IOException {
+        int result = adminStudyService.createExam(examDto , examDto.getImageFile() );
         return ResponseEntity.ok(result);
     }
 
@@ -148,8 +152,8 @@ public class AdminStudyController {
     // URL : http://localhost:8080/saykorean/admin/study/exam
     // BODY : { "examNo" : 1 , "examKo" : "배고파 죽겠느뇨?" , "examRoman" : "baegopa jukgetda." , "examJp" : "お腹すいて死にそう。" , "examCn" : "饿死了。" , "examEn" : "I’m starving." , "examEs" : "Me muero de hambre." , "imageName" : "1_img" , "imagePath" : "/image/oct_twpfive" , "studyNo" : 4 }
     @PutMapping("/exam")
-    public ResponseEntity<Integer> updateExam(@RequestBody ExamDto examDto) {
-        int result = adminStudyService.updateExam(examDto);
+    public ResponseEntity<Integer> updateExam(@RequestPart ExamDto examDto , @RequestPart(value = "image" , required = false) MultipartFile newImageFile) throws IOException {
+        int result = adminStudyService.updateExam(examDto, newImageFile);
         return ResponseEntity.ok(result);
     }
 
