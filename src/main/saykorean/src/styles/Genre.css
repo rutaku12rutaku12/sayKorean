@@ -1,0 +1,9 @@
+*{
+    border: 1px solid red;
+    color: #6B4E42;
+}
+.pillBtn{
+    width: 360px;
+    height: 70px;
+    margin-bottom: 30px;
+}

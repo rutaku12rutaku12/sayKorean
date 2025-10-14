@@ -3,10 +3,6 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
-// 브라우저가 서버 쿠키를 자동으로 포함하도록 설정 (세션 유지에 필수)
-axios.defaults.withCredentials = true;
-
 // 응답을 배열로 표준화
 function asArray(payload) {
   // 만약 문자열(JSON 텍스트)이면 JSON으로 파싱 시도
@@ -66,7 +62,7 @@ function PickerSection( { title, items, activeId } ) {
 // ------------------------------------------------------
 export default function Study() {
   const navigate = useNavigate();
-  const { studyNo } = useParams(); // URL에서 /study/:studyNo 의 값을 읽음 (없을 수도 있음)
+  const { studyNo } = useParams(); // URL에서 /study/:studyNo 의 값을 읽음 
 
   // 상태 정의
   const [ selectedGenreNo, setSelectedGenreNo ] = useState(null); // 내 장르 (DB에서 조회)
