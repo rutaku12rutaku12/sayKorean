@@ -14,7 +14,7 @@ export default function MyPage( props ){
     return(<>
     닉네임 · 가입일자       설정버튼 <br/>
     
-    장르번호<br/>
+    <br/>
 
     출석일자<br/>
 

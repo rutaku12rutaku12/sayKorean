@@ -22,7 +22,7 @@ export default function SignUpPage (props){
     const [phoneCheck, setPhoneCheck] = useState(false);
 
     
-    // 중복검사1
+    // 이메일 중복검사
     const CheckEmail = async () =>{
         try{
             // CORS 옵션 허용
@@ -39,6 +39,7 @@ export default function SignUpPage (props){
             console.log("예외 : " ,e)
         }
     }
+    // 연락처 중복검사
     const CheckPhone = async () =>{
         try{
             // CORS 옵션 허용
@@ -57,6 +58,16 @@ export default function SignUpPage (props){
         }
     }
 
+    // 회원가입 함수 
+    const onSignup = async()=>{
+        try{
+            const obj = { 
+                
+             }
+
+        }catch(e){console.log("회원가입 실패", e)}
+    }
+
     return(<> <h3>회원가입</h3><br/>
         <div>
             이름 (name) <br/>
@@ -70,7 +81,7 @@ export default function SignUpPage (props){
             연락처 (phone) <br/>
             <input type="phone" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <button onClick={CheckPhone}> 중복확인</button> <br/>
             <br/>
-            <button>회원가입 (SignUp) </button>
+            <button onClick={onSignup}>회원가입 (SignUp) </button>
         </div>
     </>)
 }
