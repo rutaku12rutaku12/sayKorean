@@ -2,8 +2,8 @@
 export default function MyInfoUpdatePage(props){
     console.log("MyInfoUpdate.jsx open")
 
-    // 
-    
+    // 인풋 상태관리
+
     // 삭제함수
 
     return(<>
@@ -12,7 +12,10 @@ export default function MyInfoUpdatePage(props){
         닉네임<br/>
         연락처<br/>
         <h3>비밀번호 수정</h3>
+        비밀번호<br/>
 
+        <br/>
+        <h3></h3>
         <button>삭제</button>
 
     </>)
