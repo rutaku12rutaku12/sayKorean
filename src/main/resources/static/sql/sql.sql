@@ -103,11 +103,7 @@ CREATE TABLE IF NOT EXISTS users (                                      -- users
   userState    INT              NOT NULL DEFAULT 1,                      -- 상태 코드 기본 1
   userDate     DATETIME         NOT NULL DEFAULT NOW(),                  -- 가입일시 기본 now()
   userUpdate   DATETIME         NOT NULL DEFAULT NOW() ON UPDATE NOW(),  -- 수정일시 자동 갱신
-  genreNo   INT UNSIGNED  NOT NULL default 1,                            -- FK: 장르번호
-  PRIMARY KEY (userNo),                                                  -- 기본키 지정
-  CONSTRAINT fk_user_genre                                            -- FK 이름
-    FOREIGN KEY (genreNo) REFERENCES genre(genreNo)                      -- genre.genreNo 참조
-    ON UPDATE CASCADE ON DELETE RESTRICT                                  -- 장르 변경 전파 / 삭제 제한
+  PRIMARY KEY (userNo)                                                   -- 기본키 지정
 ) ENGINE=InnoDB                                                          -- InnoDB 엔진
   DEFAULT CHARSET = utf8mb4                                              -- 문자셋
   COLLATE = utf8mb4_0900_ai_ci;                                          -- 콜레이션
