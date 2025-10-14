@@ -2,11 +2,13 @@ import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 // 사용자단(모바일)
 import HomePage from "./pages/HomePage";
 import MyPage from "./pages/MyPage";
+import MyInfoUpdate from "./pages/MyInfoUpdate";
 import Test from "./pages/Test";
 import BeforeStudy from "./pages/BeforeStudy";
 import Study from "./pages/Study"
 import SignUpPage from "./pages/SignUpPage";
 import LogInPage from "./pages/LoginPage";
+import FindPage from "./pages/findPage";
 import Footer from "./components/Footer";
 import ExampleList from "./pages/ExampleList";
 import Genre from "./pages/Genre";
@@ -71,10 +73,12 @@ function App() {
           <Route element={<UserLayout />}>
             <Route path="/" element={<HomePage />} ></Route>
             <Route path="/mypage" element={<MyPage />} ></Route>
+            <Route path="/update" element={<MyInfoUpdate />} />
             <Route path="/beforestudy" element={<BeforeStudy />} ></Route>
             <Route path="/test" element={<Test />} ></Route>
             <Route path="/signup" element={<SignUpPage/>} />
             <Route path="/login" element={<LogInPage/>} />
+            <Route path="/find" element={<FindPage/>} />
             <Route path="/genre" element={<Genre/>} /> {/* 장르 목록 */}
             <Route path="/study" element={<Study />} />          {/* 주제 목록 */}
             <Route path="/study/:studyNo" element={<Study />} /> {/* 주제 상세 */}

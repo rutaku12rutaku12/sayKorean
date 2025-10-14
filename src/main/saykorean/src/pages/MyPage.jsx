@@ -15,13 +15,14 @@ export default function MyPage( props ){
     const dispath = useDispatch();
     const navigate = useNavigate();
 
-    // MyInfoUpdate 페이지로 이동 함수
+    // 수정페이지로 이동 함수 MyInfoUpdate.jsx
     const onUpdate = async() => {
     navigate("/update");
     };
 
+    // 최초 1번 렌더링
+    useEffect( () => {info() },[])
     // 내 정보 조회 함수
-    useEffect( () => {info() })
     const info = async () => {
         try{console.log("info.exe")
             const option = { withCredentials : true }
@@ -39,8 +40,8 @@ export default function MyPage( props ){
     <ul>
         <li>NickName : {userInfo.nickName}</li>
         <li>가입일자 : {userInfo.userDate}</li>
-        <li onClick={onUpdate}>설정</li>
-        <li></li>
+        <li ><button onClick={onUpdate}>설정</button></li>
+        <li>뭘?넣을</li>
     </ul>
     :
     <h3>잘못된 접근입니다. 로그인 후 다시 시도해주세요.</h3>

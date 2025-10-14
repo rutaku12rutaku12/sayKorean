@@ -17,7 +17,12 @@ export default function LogInPage(props){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    // 1.로그인 처리 함수 정의 
+    // 찾기페이지로 이동 함수 FindPage.jsx
+    const onFind = async() => {
+    navigate("/find");
+    };
+
+    // 로그인 처리 함수 정의 
     const onLogin = async()=>{
         try{
             const obj = { email: email, password: password }
@@ -30,6 +35,7 @@ export default function LogInPage(props){
             navigate("/");
             console.log("로그인 성공")
         }catch(e){console.log("로그인 실패 : ", e)
+            console.log("입력 이메일:", email, "입력 비번:", password);
             alert("이메일 또는 비밀번호가 잘못 되었습니다. 이메일과 비밀번호를 정확히 입력해 주세요. ")
         }
 
@@ -39,6 +45,8 @@ export default function LogInPage(props){
     <br/>
     <input type="password" placeholder="비밀번호" value={password} onChange={(e)=>setPassword(e.target.value)} />
     <br/>
-    <button onClick={onLogin}>로그인</button>     
+    <button onClick={onLogin}>로그인</button>
+    <br/>
+    <button onClick={onFind}>이메일찾기/비밀번호찾기</button>  
     </>)
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import web.model.dto.LoginDto;
 import web.model.dto.UserDto;
 import web.service.UserService;
 
@@ -38,11 +39,11 @@ public class UserController {
 
     // [US-02] 로그인 logIn()
     @PostMapping("/login")
-    public ResponseEntity<Integer> logIn(@Valid @RequestBody UserDto userDto, HttpServletRequest request ){
+    public ResponseEntity<Integer> logIn(@Valid @RequestBody LoginDto loginDto, HttpServletRequest request ){
         // 세션 정보 가져오기
         HttpSession session = request.getSession();
         // 로그인 성공한 회원번호 확인
-        int result = userService.logIn(userDto);
+        int result = userService.logIn(loginDto);
         if( result>0){
             session.setAttribute("userNo",result);
             return ResponseEntity.status(200).body(result);

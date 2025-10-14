@@ -3,6 +3,7 @@ package web.model.mapper;
 import org.apache.catalina.User;
 import org.apache.commons.compress.harmony.pack200.CPUTF8;
 import org.apache.ibatis.annotations.*;
+import web.model.dto.LoginDto;
 import web.model.dto.UserDto;
 
 @Mapper
@@ -15,7 +16,7 @@ public interface UserMapper {
 
     // [US-02] 로그인 logIn()
     @Select("select * from users where email = #{email} and password = #{password} ")
-    public int logIn(UserDto userDto);
+    public int logIn(LoginDto loginDto);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
     @Select("select userNo,name,email,nickName,phone,userState,userDate from users where UserNo = #{userNo}")

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.model.dto.LoginDto;
 import web.model.dto.UserDto;
 import web.model.mapper.UserMapper;
 
@@ -26,8 +27,8 @@ public class UserService {
     } // func end
 
     // [US-02] 로그인 logIn()
-    public int logIn(UserDto userDto){
-        int result = userMapper.logIn(userDto);
+    public int logIn(LoginDto loginDto){
+        int result = userMapper.logIn(loginDto);
         return result;
     } // func end
 

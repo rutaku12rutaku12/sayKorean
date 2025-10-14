@@ -61,9 +61,10 @@ export default function SignUpPage (props){
             const data = response.data;
             console.log("중복이면 1 , 사용가능 0 반환:", data)
             if(data==-1){
-                setEmailCheck(false);
+                setPhoneCheck(true);
             }
             else if(data==0){
+                setPhoneCheck(false);
                 {alert("사용 가능한 연락처입니다.")}
             }
             else if(data==1){
