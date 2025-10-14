@@ -30,21 +30,21 @@ public class StudyController {
 
 
 
-    // 장르 선택( 세션 저장만 x, user테이블에 DB 저장도 함께 해야함 )
-    // 왜 talend 테스트 204가 뜰까? 값만 저장하고(세션/DB) 바디는 안 돌려주는 PUT이기 때문
-    @GetMapping("/getSubject")
-    public ResponseEntity<List<StudyDto>> getSubject(@RequestParam(required=false) Integer genreNo,
-                                                     HttpSession session) {
-        Integer userNo = (Integer) session.getAttribute("userNo");
-        System.out.println("[SESSION] : " + userNo );
-        if (userNo == null) return ResponseEntity.status(401).build();
-
-        if (genreNo == null) {                           // 파라미터 없으면 DB에서 조회
-            genreNo = userService.getGenreNo(userNo);
-            if (genreNo == null) return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(studyService.getSubject(genreNo));
-    }
+//    // 장르 선택( 세션 저장만 x, user테이블에 DB 저장도 함께 해야함 )
+//    // 왜 talend 테스트 204가 뜰까? 값만 저장하고(세션/DB) 바디는 안 돌려주는 PUT이기 때문
+//    @GetMapping("/getSubject")
+//    public ResponseEntity<List<StudyDto>> getSubject(@RequestParam(required=false) Integer genreNo,
+//                                                     HttpSession session) {
+//        Integer userNo = (Integer) session.getAttribute("userNo");
+//        System.out.println("[SESSION] : " + userNo );
+//        if (userNo == null) return ResponseEntity.status(401).build();
+//
+//        if (genreNo == null) {                           // 파라미터 없으면 DB에서 조회
+//            genreNo = userService.getGenreNo(userNo);
+//            if (genreNo == null) return ResponseEntity.badRequest().build();
+//        }
+//        return ResponseEntity.ok(studyService.getSubject(genreNo));
+//    }
 
 
     // 3) 특정 주제 상세(주제/해설) 조회

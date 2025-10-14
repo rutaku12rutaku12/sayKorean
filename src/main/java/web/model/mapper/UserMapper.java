@@ -22,11 +22,11 @@ public interface UserMapper {
     public UserDto info( int userNo );
 
     // [US-05] 이메일 중복검사 checkEmail()
-    @Select("select * from users where email = #{email}")
+    @Select("select count(*) from users where email = #{email}")
     public int checkEmail(String email);
 
     // [US-06] 연락처 중복검사 checkPhone()
-    @Select("select * from users where phone = #{phone}")
+    @Select("select count(*) from users where phone = #{phone}")
     public int checkPhone(String phone);
 
     // [US-07] 이메일 찾기 findEmail()

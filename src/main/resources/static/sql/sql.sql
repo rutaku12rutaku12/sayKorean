@@ -108,8 +108,6 @@ CREATE TABLE IF NOT EXISTS users (                                      -- users
   DEFAULT CHARSET = utf8mb4                                              -- 문자셋
   COLLATE = utf8mb4_0900_ai_ci;                                          -- 콜레이션
 
-CREATE INDEX idx_user_genreNo ON users(genreNo);                        -- FK 조회 성능 인덱스
-
 -- =====================================================================
 -- 6) 출석 테이블
 -- =====================================================================

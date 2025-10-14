@@ -27,14 +27,14 @@ export default function SignUpPage (props){
         try{
             // CORS 옵션 허용
             const option = { withCredentials : true }
-            const response = await axios.get(`http://localhost:8080/saykorean/checkemail?email=${email}`,option)
+            const response = await axios.get(`http://localhost:8080/saykorean/checkemail?email=${email}`,option,{params:email})
             console.log(response);
             const data = response.data;
-            console.log("중복여부", data)
+            console.log("중복이면 1 , 사용가능 0 반환:", data)
             if(data==1){
             setEmailCheck(true);
-            alert("사용 가능한 이메일입니다.")
-            }else{alert("이미 등록된 이메일입니다.")}
+            alert("이미 등록된 이메일입니다.")
+            }else{alert("사용 가능한 이메일입니다.")}
         }catch (e){alert("이메일 형식이 올바르지 않습니다.")
             console.log("예외 : " ,e)
         }
@@ -44,15 +44,15 @@ export default function SignUpPage (props){
         try{
             // CORS 옵션 허용
             const option = { withCredentials : true }
-            const response = await axios.get(`http://localhost:8080/saykorean/checkphone?phone=${phone}`,option)
+            const response = await axios.get(`http://localhost:8080/saykorean/checkphone?phone=${phone}`,option,{params:phone})
             console.log(response);
             const data = response.data;
-            console.log("중복여부", data)
+            console.log("중복이면 1 , 사용가능 0 반환:", data)
             setPhoneCheck(true);
             if(data==1){
             setPhoneCheck(true);
-            alert("사용 가능한 연락처입니다.")
-            }else{alert("이미 등록된 연락처입니다.")}
+            alert("이미 등록된 연락처입니다.")
+            }else{alert("사용 가능한 연락처입니다.")}
         }catch (e){alert("연락처 형식이 올바르지 않습니다.")
             console.log("예외 : " ,e)
         }
@@ -61,11 +61,16 @@ export default function SignUpPage (props){
     // 회원가입 함수 
     const onSignup = async()=>{
         try{
-            const obj = { 
-                
-             }
-
-        }catch(e){console.log("회원가입 실패", e)}
+            const obj = { name : name , email: email, password:password, nickName: nickName , phone : phone}
+            console.log(obj);
+            // CORS 옵션 허용
+            const option = { withCredentials : true }    
+            const response = await axios.post("http://localhost:8080/saykorean/signup",obj,option)
+            const data = response.data;
+            console.log(data);
+            navigate("/login");
+            console.log("회원가입 성공");
+            }catch(e){console.log("회원가입 실패", e)}
     }
 
     return(<> <h3>회원가입</h3><br/>
