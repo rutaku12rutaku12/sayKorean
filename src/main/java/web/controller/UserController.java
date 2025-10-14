@@ -2,8 +2,13 @@ package web.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.UserDto;
 import web.service.UserService;
@@ -11,13 +16,14 @@ import web.service.UserService;
 @RestController
 @RequestMapping("/saykorean")
 @RequiredArgsConstructor
+@Validated // dto가 아닌 param 검증 활성화 어노테이션
 public class UserController {
 
     private final UserService userService;
 
     // [US-01] 회원가입 signUp()
-    @PostMapping("/signup")
-    public ResponseEntity<Integer> signUp(@RequestBody UserDto userDto ){
+    @PostMapping("/signup")              // @Valid : dto에 @NotBlank, @Email 등등 어노테이션 활성화 어노테이션
+    public ResponseEntity<Integer> signUp(@Valid @RequestBody UserDto userDto ){
         try {
             int result = userService.signUp(userDto);
             if (result >= 1) { // userNo 반환
@@ -32,7 +38,7 @@ public class UserController {
 
     // [US-02] 로그인 logIn()
     @PostMapping("/login")
-    public ResponseEntity<Integer> logIn( @RequestBody UserDto userDto, HttpServletRequest request ){
+    public ResponseEntity<Integer> logIn(@Valid @RequestBody UserDto userDto, HttpServletRequest request ){
         // 세션 정보 가져오기
         HttpSession session = request.getSession();
         // 로그인 성공한 회원번호 확인
@@ -75,22 +81,33 @@ public class UserController {
     } // func end
 
     // [US-05] 이메일 중복검사 checkEmail()
-    @GetMapping("/checkemail")
-    public ResponseEntity<Integer> checkEmail(@RequestParam String email){
+    @GetMapping("/checkemail")                 // @Email 형식 유효성검사 어노테이션
+    public ResponseEntity<Integer> checkEmail(@Email(message = "올바른 이메일 형식이 아닙니다.")
+                                                // @NotBlack null 값 빈칸 입력 차단 어노테이션
+                                                  @NotBlank @RequestParam String email){
+        // 이메일이 null이거나, 공백 또는 빈 문자열일 때 -1 반환
+        if (email == null || email.trim().isEmpty()) {
+            return ResponseEntity.status(400).body(-1);
+        }
         int result = userService.checkEmail(email);
             return ResponseEntity.status(200).body(result);
     } // func end
 
     // [US-06] 연락처 중복검사 checkPhone()
-    @GetMapping("/checkphone")
-    public ResponseEntity<Integer> checkPhone(@RequestParam String phone){
+    @GetMapping("/checkphone")                  // @Pattern 정규식 유효성 어노테이션
+    public ResponseEntity<Integer> checkPhone(@Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
+                                                  @NotBlank @RequestParam String phone){
+        if (phone == null || phone.trim().isEmpty()) {
+            return ResponseEntity.status(400).body(-1);
+        }
         int result = userService.checkPhone(phone);
             return ResponseEntity.status(200).body(result);
     } // func end
 
     // [US-07] 이메일 찾기 findEmail()
     @GetMapping("/findemail")
-    public ResponseEntity<String> findEmail(@RequestParam String name,@RequestParam String phone){
+    public ResponseEntity<String> findEmail(@NotBlank @RequestParam String name, @Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
+    @NotBlank @RequestParam String phone){
         String result = userService.findEmail(name,phone);
         if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
         return ResponseEntity.status(200).body(result);
@@ -98,7 +115,9 @@ public class UserController {
 
     // [US-08] 비밀번호 찾기 findPwrd()
     @GetMapping("/findpwrd")
-    public ResponseEntity<String> findPwrd(@RequestParam String name, @RequestParam String phone, @RequestParam String email){
+    public ResponseEntity<String> findPwrd(@NotBlank @RequestParam String name, @Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
+    @NotBlank @RequestParam String phone, @Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
+    @NotBlank @RequestParam String email){
         String result = userService.findPwrd(name, phone, email);
         if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
         return ResponseEntity.status(200).body(result);
@@ -106,7 +125,7 @@ public class UserController {
 
     // [US-09] 회원정보 수정 updateUserInfo()
     @PutMapping("/updateuserinfo")
-    public ResponseEntity<Integer> updateUserInfo(@RequestBody UserDto userDto , HttpServletRequest request ){
+    public ResponseEntity<Integer> updateUserInfo(@Valid @RequestBody UserDto userDto , HttpServletRequest request ){
         // 세션 객체 꺼내기
         HttpSession session = request.getSession();
         // 만약 세션이 없거나 로그인이 안되어 있으면 null
@@ -127,7 +146,7 @@ public class UserController {
 
     // [US-10] 비밀번호 수정 updatePwrd()
     @PutMapping("/updatepwrd")
-    public ResponseEntity<Integer> updatePwrd(@RequestBody UserDto userDto , HttpServletRequest request){
+    public ResponseEntity<Integer> updatePwrd(@Valid @RequestBody UserDto userDto , HttpServletRequest request){
         // 세션 객체 꺼내기
         HttpSession session = request.getSession();
         // 만약 세션이 없거나 로그인이 안되어 있으면 null
@@ -148,7 +167,7 @@ public class UserController {
 
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()
     @PutMapping("/deleteuser")
-    public ResponseEntity<Integer> deleteUserStatus(@RequestBody UserDto userDto, HttpServletRequest request){
+    public ResponseEntity<Integer> deleteUserStatus(@Valid @RequestBody UserDto userDto, HttpServletRequest request){
         HttpSession session = request.getSession();
         if(session==null || session.getAttribute("userNo")==null){
             return ResponseEntity.status(400).body(0);

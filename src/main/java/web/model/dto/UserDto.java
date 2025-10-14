@@ -12,12 +12,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor @Builder
 public class UserDto {
     private int userNo; // PK: 사용자번호 자동증가
+    @NotBlank // null, "" , " " 값 차단
     private String name; // 이름
     @Email(message = "올바른 이메일 형식이 아닙니다.")
+    @NotBlank
     private String email; // 이메일: 고유
+    @NotBlank
     private String password; // 비밀번호(예시 길이)
     private String nickName; // 닉네임 기본값
     @Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
+    @NotBlank
     private String phone; // 연락처: 고유(옵션 필수X)
     private int signupMethod; // 가입방식 코드 기본 1
     private int userState; // 사용자상태 코드 기본 1 , 탈퇴예정시 -1

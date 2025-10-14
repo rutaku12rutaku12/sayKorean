@@ -26,15 +26,25 @@ export default function SignUpPage (props){
     const CheckEmail = async () =>{
         try{
             // CORS 옵션 허용
-            const option = { withCredentials : true }
-            const response = await axios.get(`http://localhost:8080/saykorean/checkemail?email=${email}`,option,{params:email})
+            const option = { withCredentials : true ,
+            // params:{키1:값1 , 키2:값2} 을 넣으면 자동으로 URL뒤에 ?키1=값1&키2=값2 으로 매핑됨. 
+                            params:{email:email}}; 
+            // axios.get(url, config) 
+            const response = await axios.get("http://localhost:8080/saykorean/checkemail",option)
             console.log(response);
             const data = response.data;
             console.log("중복이면 1 , 사용가능 0 반환:", data)
-            if(data==1){
+            if(data==-1){
+                setEmailCheck(false);
+            }
+            else if(data==1){
+            setEmailCheck(false);
+            alert("이미 등록된 이메일입니다.")}
+            else if(data==0){
             setEmailCheck(true);
-            alert("이미 등록된 이메일입니다.")
-            }else{alert("사용 가능한 이메일입니다.")}
+                {alert("사용 가능한 이메일입니다.")}
+            }
+            else{alert("이메일 형식에 맞게 입력해 주세요.")}
         }catch (e){alert("이메일 형식이 올바르지 않습니다.")
             console.log("예외 : " ,e)
         }
@@ -43,16 +53,24 @@ export default function SignUpPage (props){
     const CheckPhone = async () =>{
         try{
             // CORS 옵션 허용
-            const option = { withCredentials : true }
-            const response = await axios.get(`http://localhost:8080/saykorean/checkphone?phone=${phone}`,option,{params:phone})
+            const option = { withCredentials : true,
+                            params:{phone:phone}
+             }
+            const response = await axios.get("http://localhost:8080/saykorean/checkphone",option)
             console.log(response);
             const data = response.data;
             console.log("중복이면 1 , 사용가능 0 반환:", data)
-            setPhoneCheck(true);
-            if(data==1){
+            if(data==-1){
+                setEmailCheck(false);
+            }
+            else if(data==0){
+                {alert("사용 가능한 연락처입니다.")}
+            }
+            else if(data==1){
             setPhoneCheck(true);
             alert("이미 등록된 연락처입니다.")
-            }else{alert("사용 가능한 연락처입니다.")}
+            }
+            else{alert("전화번호 형식에 맞게 입력해 주세요.")}
         }catch (e){alert("연락처 형식이 올바르지 않습니다.")
             console.log("예외 : " ,e)
         }
@@ -71,7 +89,9 @@ export default function SignUpPage (props){
             alert("Welcome! 회원이 되신 것을 환영합니다. ")
             navigate("/login");
             console.log("회원가입 성공");
-            }catch(e){console.log("회원가입 실패", e)}
+            }catch(e){
+                alert("회원가입이 실패 했습니다.");
+                console.log("회원가입 실패", e)}
     }
 
     return(<> <h3>회원가입</h3><br/>
