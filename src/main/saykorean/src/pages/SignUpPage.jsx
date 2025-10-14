@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 
-console.log("회원가입 페이지 렌더링")
+console.log("SignUpPage.jsx open")
 export default function SignUpPage (props){
     
     // disptach , navigate 함수 가져오기

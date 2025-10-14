@@ -4,7 +4,7 @@ import axios from "axios";
 import { logIn } from "../store/userSlice";
 import { useState } from "react";
 
-console.log("로그인 페이지 렌더링")
+console.log("LogInPage.jsx open")
 
 export default function LogInPage(props){
     

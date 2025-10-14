@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { logOut } from "../store/userSlice";
+console.log("HomePage.jsx open")
 export default function HomePage ( props ){
     // navigate, dispatch 함수 가져오기
     const navigate =useNavigate();

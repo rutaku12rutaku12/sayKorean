@@ -1,23 +1,42 @@
+import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import { useEffect } from "react"
+import { logIn } from "../store/userSlice";
 
 export default function MyPage( props ){
     console.log("MyPage.jsx open")
     
+    // store 저장된 상태 가져오기 
+    const {isAuthenticated, userInfo} = useSelector((state)=>state.user);
+
+    // dispath 함수가져오기 
+    const dispath = useDispatch();
+
+    // 내 정보 조회 함수
     useEffect( () => {info() })
     const info = async () => {
-        const response = await axios.get("http://localhost:5173/saykorean/info")
-        console.log(response.status);
-        console.log(response.data);
+        try{console.log("info.exe")
+            const option = { withCredentials : true }
+            const response = await axios.get("http://localhost:8080/saykorean/info",option)
+            const data = response.data
+            console.log(data);
+            // 로그인된 데이터 정보를 userInfo에 담기
+            dispath(logIn(data));
+        }catch(e){console.log(e)}
     }
-   
+
+    // 출석 조회 함수 
     return(<>
-    닉네임 · 가입일자       설정버튼 <br/>
-    
-    <br/>
-
-    출석일자<br/>
-
+    { isAuthenticated==true ?
+    <ul>
+        <li>NickName : {userInfo.nickName}</li>
+        <li>가입일자 : {userInfo.userDate}</li>
+        <li>설정버튼?</li>
+        <li>출석일자?</li>
+    </ul>
+    :
+    <h3>잘못된 접근입니다. 로그인 후 다시 시도해주세요.</h3>
+    }
     </>)
     
 }
