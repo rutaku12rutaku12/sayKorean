@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS exam (                                        -- exam
   examCn     VARCHAR(500) NOT NULL UNIQUE,                               -- 중국어 예문: 고유
   examEn     VARCHAR(500) NOT NULL UNIQUE,                               -- 영어 예문: 고유
   examEs     VARCHAR(500) NOT NULL UNIQUE,                               -- 스페인어 예문: 고유
-  imageName  VARCHAR(255) NOT NULL,                                      -- 그림 파일명
-  imagePath  VARCHAR(255) NOT NULL,                                      -- 그림 파일 경로
+  imageName  VARCHAR(255) ,                                      		-- 그림 파일명
+  imagePath  VARCHAR(255) ,                                      		-- 그림 파일 경로
   studyNo    INT          NOT NULL,                                      -- FK: 교육번호(study.themeNo)
   PRIMARY KEY (examNo),                                                  -- 기본키 지정
   CONSTRAINT fk_exam_study                                               -- FK 이름
@@ -75,8 +75,8 @@ CREATE INDEX idx_exam_studyNo ON exam(studyNo);                          -- FK �
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS audio (                                       -- audio 테이블 생성
   audioNo   INT          NOT NULL AUTO_INCREMENT,                        -- PK: 음성파일번호 자동증가
-  audioName VARCHAR(255) NOT NULL,                                       -- 음성 파일명
-  audioPath VARCHAR(255) NOT NULL,                                       -- 음성 파일 경로
+  audioName VARCHAR(255) ,                                       -- 음성 파일명
+  audioPath VARCHAR(255) ,                                       -- 음성 파일 경로
   lang      INT          NOT NULL,                                       -- 언어 코드(예: 0=ko 등)
   examNo    INT          NOT NULL,                                       -- FK: 예문번호(exam.examNo)
   PRIMARY KEY (audioNo),                                                 -- 기본키 지정
