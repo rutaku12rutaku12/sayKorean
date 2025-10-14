@@ -67,7 +67,8 @@ export default function SignUpPage (props){
             const option = { withCredentials : true }    
             const response = await axios.post("http://localhost:8080/saykorean/signup",obj,option)
             const data = response.data;
-            console.log(data);
+            console.log("userNo",data,"으로 가입");
+            alert("Welcome! 회원이 되신 것을 환영합니다. ")
             navigate("/login");
             console.log("회원가입 성공");
             }catch(e){console.log("회원가입 실패", e)}
