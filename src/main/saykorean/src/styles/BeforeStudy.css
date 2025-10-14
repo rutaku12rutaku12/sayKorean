@@ -4,14 +4,14 @@
     
 }
 
-#BeforeStudy{
+#startGenre{
     width: 410px;
     margin: 0 auto;
     padding: 0 auto;
     text-align: center;
 }
 
-.beforeStudyImg{
+.startGenreImg{
     margin-top: 30px;
     width: 220px;
     height: 300px;
@@ -25,7 +25,7 @@
     vertical-align: center;
     margin: 20px 95px;
 }
-.StartStudy{
+.startGenre{
     border: 1px solid #7bc8ac;
     background-color: #A8E6CF;
     border-radius: 10px;

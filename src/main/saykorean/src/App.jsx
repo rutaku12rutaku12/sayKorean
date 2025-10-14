@@ -9,6 +9,7 @@ import SignUpPage from "./pages/SignUpPage";
 import LogInPage from "./pages/LoginPage";
 import Footer from "./components/Footer";
 import ExampleList from "./pages/ExampleList";
+import Genre from "./pages/Genre";
 // 관리자단(PC)
 import AdminStudyList from "./adminPages/AdminStudyList";
 import AdminHome from "./adminPages/AdminHome";
@@ -74,8 +75,9 @@ function App() {
             <Route path="/test" element={<Test />} ></Route>
             <Route path="/signup" element={<SignUpPage/>} />
             <Route path="/login" element={<LogInPage/>} />
-            <Route path="/study" element={<Study />} />          {/* 목록 */}
-            <Route path="/study/:studyNo" element={<Study />} /> {/* 상세 */}
+            <Route path="/genre" element={<Genre/>} /> {/* 장르 목록 */}
+            <Route path="/study" element={<Study />} />          {/* 주제 목록 */}
+            <Route path="/study/:studyNo" element={<Study />} /> {/* 주제 상세 */}
             <Route path="/exampleList/:studyNo" element={<ExampleList />} /> {/* 예문 */}
           </Route>
         </Routes>
