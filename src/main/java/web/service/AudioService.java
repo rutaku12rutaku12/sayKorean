@@ -8,6 +8,7 @@ import web.model.dto.AudioDto;
 import web.model.mapper.AudioMapper;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -26,7 +27,12 @@ public class AudioService {
     // 1-1) 음성파일을 직접 등록한다.
     // 1-2) 텍스트를 읽고 음성파일로 변환 후 등록한다. (파이썬 로직!!) todo
     public int createAudio(AudioDto audioDto , MultipartFile audioFile) throws IOException {
-        // 1. 음성 파일이 있으면 파일 저장 및 DB 업데이트
+        // 1. 텍스트 데이터 먼저 DB 저장
+        audioDto.setAudioName(null);
+        audioDto.setAudioPath(null);
+        audioMapper.createAudio(audioDto);
+
+        // 2. 음성 파일이 있으면 파일 저장 및 DB 업데이트
         if(audioFile != null && !audioFile.isEmpty()){
             String audioPath = null;
             try {
@@ -36,7 +42,7 @@ public class AudioService {
                 audioDto.setAudioPath(audioPath);
                 audioDto.setAudioName(audioFile.getOriginalFilename());
                 // 2-3. DB에 음성 정보 업데이트
-                audioMapper.createAudio(audioDto);
+                audioMapper.updateAudioAfterCreate(audioDto);
             } catch (Exception e) { // 2-4. 예외 발생 시 음성 레코드와 파일 롤백 처리
                 if (audioPath != null){
                     fileService.deleteFile(audioPath);
@@ -63,7 +69,7 @@ public class AudioService {
             throw new IOException("수정할 음성파일이 존재하지 않습니다.");
         }
         
-        String audioPath = null;
+        String newPath = null;
         // 2. 새로운 음성 파일이 제공된 경우, 기존 파일 삭제 및 새 파일 업로드
         if (newAudioFile != null && !newAudioFile.isEmpty()){
             try{
@@ -71,10 +77,21 @@ public class AudioService {
                 if(originalAudio.getAudioPath() != null && !originalAudio.getAudioPath().isEmpty()){
                     fileService.deleteFile(originalAudio.getAudioPath());
                 }
-
-            } catch (Exception e) {
+                // 2-2. 새 음성파일을 올바른 audioNo, lang 참조하여 업로드
+                newPath = fileService.uploadAudio(newAudioFile , audioDto.getAudioNo(), audioDto.getLang());
+                // 2-3. DTO에 새로운 음성 정보 설정 (audioPath와 imageName 모두 올바르게 설정)
+                audioDto.setAudioPath(newPath);
+                audioDto.setAudioName(newAudioFile.getOriginalFilename());
+            } catch (Exception e) { // 2-4. 파일 처리 중 예외 발생 시, 업로드 파일 삭제하고 예외처리
+                if( newPath != null){
+                    fileService.deleteFile(newPath);
+                }
                 throw new IOException("음성 파일 변경 중에 오류 발생했습니다." , e);
             }
+        } else {
+            // 2-5. 음성파일이 바뀌지 않았으면, 기존 음성파일 정보 그대로 유지
+            audioDto.setAudioName(originalAudio.getAudioName());
+            audioDto.setAudioPath(originalAudio.getAudioPath());
         }
         return audioMapper.updateAudio(audioDto);
     }
@@ -83,14 +100,29 @@ public class AudioService {
     // 음성 테이블 레코드를 삭제한다.
     // 매개변수 int audioNo
     // 반환 int
+    public int deleteAudio(int audioNo){
+        // 1. DB에 파일 있는지 확인 후 삭제
+        AudioDto audio = audioMapper.getIndiAudio(audioNo);
+        if (audio.getAudioPath() != null) {
+            fileService.deleteFile(audio.getAudioPath());
+        }
+        // 2. DB 삭제
+        return audioMapper.deleteAudio(audioNo);
+    }
 
     // [AAD-04]	음성파일 전체조회 getAudio()
     // 음성 테이블 레코드를 모두 조회한다
     // 반환 List<AudioDto>
+    public List<AudioDto> getAudio() {
+        return audioMapper.getAudio();
+    }
 
     // [AAD-05] 음성파일 개별조회 getIndiAudio()
     // 음성 테이블 레코드를 조회한다
     // 매개변수 int audioNo
     // 반환 AudioDto
+    public AudioDto getIndiAudio(int audioNo) {
+        return audioMapper.getIndiAudio(audioNo);
+    }
 
 }

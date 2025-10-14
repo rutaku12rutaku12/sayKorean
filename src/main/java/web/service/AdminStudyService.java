@@ -141,7 +141,7 @@ public class AdminStudyService {
                 // 2-2. 새 파일을 올바른 examNo로 업로드
                 newPath = fileService.uploadImage(newImageFile, examDto.getExamNo());
                 // 2-3. DTO에 새로운 이미지 정보 설정 (imagePath와 imageName 모두 올바르게 설정)
-                examDto.setImageName(newPath);
+                examDto.setImagePath(newPath);
                 examDto.setImageName(newImageFile.getOriginalFilename());
             } catch (Exception e) { // 2-4. 파일 처리 중 예외 발생 시, 업로드 파일 삭제하고 예외처리
                 if (newPath != null) {
@@ -162,7 +162,7 @@ public class AdminStudyService {
     // 매개변수 int
     // 반환 int
     public int deleteExam(int examNo) {
-        // 1. DB에 파일 있는지 확인
+        // 1. DB에 파일 있는지 확인 후 삭제
         ExamDto exam = adminStudyMapper.getIndiExam(examNo);
         if (exam.getImagePath() != null) {
             fileService.deleteFile(exam.getImagePath());

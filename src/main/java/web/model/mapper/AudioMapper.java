@@ -19,6 +19,10 @@ public interface AudioMapper {
     @Options(useGeneratedKeys = true , keyProperty = "audioNo")
     int createAudio(AudioDto audioDto);
 
+    // 예문 생성 후 이미지 정보 업데이트
+    @Update("update audio set audioName = #{audioName} , audioPath = #{audioPath} where audioNo = #{audioNo}")
+    int updateAudioAfterCreate(AudioDto audioDto);
+
     // [AAD-02] 음성파일 수정	updateAudio()
     // 음성 테이블 레코드를 변경한다.
     // 매개변수 AudioDto
