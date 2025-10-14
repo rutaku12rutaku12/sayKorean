@@ -174,28 +174,28 @@ public class UserController {
         else return ResponseEntity.status(400).body(0);
     }
 
-    // getGenreNo
-    @GetMapping("/me/genre")
-    public ResponseEntity<?> getGenreNo(HttpSession session) {
-        Integer userNo = (Integer) session.getAttribute("userNo");
-        if (userNo == null) return ResponseEntity.status(401).build();
-
-        Integer genreNo = userService.getGenreNo(userNo); // DB에서 읽음
-        if (genreNo == null) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(genreNo);
-    }
-
-    // 선호 장르 변경
-    @PutMapping("/me/genre")
-    public ResponseEntity<Void> updateGenre(@RequestParam int genreNo, HttpSession session) {
-        Integer userNo = (Integer) session.getAttribute("userNo");
-        if (userNo == null) return ResponseEntity.status(401).build();
-
-        userService.updateGenre(userNo, genreNo); // DB 업데이트
-
-        return ResponseEntity.noContent().build(); // 204
-    }
+//    // getGenreNo
+//    @GetMapping("/me/genre")
+//    public ResponseEntity<?> getGenreNo(HttpSession session) {
+//        Integer userNo = (Integer) session.getAttribute("userNo");
+//        if (userNo == null) return ResponseEntity.status(401).build();
+//
+//        Integer genreNo = userService.getGenreNo(userNo); // DB에서 읽음
+//        if (genreNo == null) return ResponseEntity.notFound().build();
+//
+//        return ResponseEntity.ok(genreNo);
+//    }
+//
+//    // 선호 장르 변경
+//    @PutMapping("/me/genre")
+//    public ResponseEntity<Void> updateGenre(@RequestParam int genreNo, HttpSession session) {
+//        Integer userNo = (Integer) session.getAttribute("userNo");
+//        if (userNo == null) return ResponseEntity.status(401).build();
+//
+//        userService.updateGenre(userNo, genreNo); // DB 업데이트
+//
+//        return ResponseEntity.noContent().build(); // 204
+//    }
 
 
 

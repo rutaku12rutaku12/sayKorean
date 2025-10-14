@@ -18,11 +18,11 @@ export default function SignUpPage (props){
                     // const [genreNo, setGenreNo] = useState(""); 기본값1
     
     // 중복 여부 상태 관리 
-    const [emailCheck, setEamilCheck] = useState(false);
-    
+    const [emailCheck, setEmailCheck] = useState(false);
+    const [phoneCheck, setPhoneCheck] = useState(false);
 
     
-    // 중복검사 
+    // 중복검사1
     const CheckEmail = async () =>{
         try{
             // CORS 옵션 허용
@@ -31,9 +31,29 @@ export default function SignUpPage (props){
             console.log(response);
             const data = response.data;
             console.log("중복여부", data)
-
-        }catch (e){
-            console.log("중복 : " ,e)
+            if(data==1){
+            setEmailCheck(true);
+            alert("사용 가능한 이메일입니다.")
+            }else{alert("이미 등록된 이메일입니다.")}
+        }catch (e){alert("이메일 형식이 올바르지 않습니다.")
+            console.log("예외 : " ,e)
+        }
+    }
+    const CheckPhone = async () =>{
+        try{
+            // CORS 옵션 허용
+            const option = { withCredentials : true }
+            const response = await axios.get(`http://localhost:8080/saykorean/checkphone?phone=${phone}`,option)
+            console.log(response);
+            const data = response.data;
+            console.log("중복여부", data)
+            setPhoneCheck(true);
+            if(data==1){
+            setPhoneCheck(true);
+            alert("사용 가능한 연락처입니다.")
+            }else{alert("이미 등록된 연락처입니다.")}
+        }catch (e){alert("연락처 형식이 올바르지 않습니다.")
+            console.log("예외 : " ,e)
         }
     }
 
@@ -48,7 +68,7 @@ export default function SignUpPage (props){
             닉네임 (nickName) <br/>
             <input type="nickName" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickname(e.target.value)} /> <br/>
             연락처 (phone) <br/>
-            <input type="phone" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <button> 중복확인</button> <br/>
+            <input type="phone" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <button onClick={CheckPhone}> 중복확인</button> <br/>
             <br/>
             <button>회원가입 (SignUp) </button>
         </div>

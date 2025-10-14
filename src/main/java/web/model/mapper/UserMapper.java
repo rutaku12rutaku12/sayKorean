@@ -9,7 +9,7 @@ import web.model.dto.UserDto;
 public interface UserMapper {
 
     // [US-01] 회원가입 signUp()
-    @Insert("insert into users (name,email,password,nickName,phone,genreNo) values ( #{name},#{email},#{password},#{nickName},#{phone},#{genreNo})")
+    @Insert("insert into users (name,email,password,nickName,phone) values ( #{name},#{email},#{password},#{nickName},#{phone})")
     @Options(useGeneratedKeys = true, keyProperty = "userNo") // 마이바티스 generatekey 사용 어노테이션 : insert 이후 pk값인 userNo를 반환하기 위해서 사용
     public int signUp(UserDto userDto);
 
@@ -18,7 +18,7 @@ public interface UserMapper {
     public int logIn(UserDto userDto);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
-    @Select("select userNo,name,email,nickName,phone,userState,userDate,genreNo from users where UserNo = #{userNo}")
+    @Select("select userNo,name,email,nickName,phone,userState,userDate from users where UserNo = #{userNo}")
     public UserDto info( int userNo );
 
     // [US-05] 이메일 중복검사 checkEmail()
@@ -50,13 +50,13 @@ public interface UserMapper {
     @Update("update users set userState = -1 where userNo=#{userNo} and password=#{password}")
     public int deleteUserStatus(UserDto userDto);
 
-    // getGenre
-    @Select("SELECT genreNo FROM users WHERE userNo=#{userNo}")
-    public int getGenreNo( int userNo );
-
-    // updateGenre
-    @Update("UPDATE users SET genreNo = #{genreNo} WHERE userNo = #{userNo}")
-    boolean updateGenre(@Param("userNo") int userNo, @Param("genreNo") int genreNo);
+//    // getGenre
+//    @Select("SELECT genreNo FROM users WHERE userNo=#{userNo}")
+//    public int getGenreNo( int userNo );
+//
+//    // updateGenre
+//    @Update("UPDATE users SET genreNo = #{genreNo} WHERE userNo = #{userNo}")
+//    boolean updateGenre(@Param("userNo") int userNo, @Param("genreNo") int genreNo);
 
 
 } // interface end
