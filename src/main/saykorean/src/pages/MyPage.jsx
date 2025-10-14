@@ -4,8 +4,8 @@ import { useEffect } from "react"
 import { logIn } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 
-console.log("MyPage.jsx open")
 export default function MyPage( props ){
+    console.log("MyPage.jsx open")
     
     
     // store 저장된 상태 가져오기 

@@ -8,7 +8,7 @@ import BeforeStudy from "./pages/BeforeStudy";
 import Study from "./pages/Study"
 import SignUpPage from "./pages/SignUpPage";
 import LogInPage from "./pages/LoginPage";
-import FindPage from "./pages/findPage";
+import FindPage from "./pages/FindPage";
 import Footer from "./components/Footer";
 import ExampleList from "./pages/ExampleList";
 import Genre from "./pages/Genre";

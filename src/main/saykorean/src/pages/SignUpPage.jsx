@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 
-console.log("SignUpPage.jsx open")
 export default function SignUpPage (props){
+    console.log("SignUpPage.jsx open")
     
     // disptach , navigate 함수 가져오기
     const dispatch = useDispatch();
@@ -98,15 +98,15 @@ export default function SignUpPage (props){
     return(<> <h3>회원가입</h3><br/>
         <div>
             이름 (name) <br/>
-            <input type="name" placeholder="이름을 입력해주세요." value={name} onChange={(e)=> setName(e.target.value)} /> <br/>
+            <input type="text" placeholder="이름을 입력해주세요." value={name} onChange={(e)=> setName(e.target.value)} /> <br/>
             이메일 (email) <br/>
             <input type="email" placeholder="이메일을 입력해주세요." value={email} onChange={(e)=> setEmail(e.target.value)} /> <button onClick={CheckEmail}> 중복확인</button> <br/>
             비밀번호 (password) <br/>
             <input type="password" placeholder="비밀번호를 입력해주세요." value={password} onChange={(e)=> setPassword(e.target.value)} /> <br/>
             닉네임 (nickName) <br/>
-            <input type="nickName" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickname(e.target.value)} /> <br/>
+            <input type="text" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickname(e.target.value)} /> <br/>
             연락처 (phone) <br/>
-            <input type="phone" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <button onClick={CheckPhone}> 중복확인</button> <br/>
+            <input type="tel" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <button onClick={CheckPhone}> 중복확인</button> <br/>
             <br/>
             <button onClick={onSignup}>회원가입 (SignUp) </button>
         </div>

@@ -4,10 +4,10 @@ import axios from "axios";
 import { logIn } from "../store/userSlice";
 import { useState } from "react";
 
-console.log("LogInPage.jsx open")
+
 
 export default function LogInPage(props){
-    
+    console.log("LogInPage.jsx open")
     // dispatch 함수 가져오기
     const dispatch = useDispatch();
     // 가상 URL 로 페이지 전환 navigate 함수 가져오기

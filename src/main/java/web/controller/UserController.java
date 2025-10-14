@@ -117,8 +117,7 @@ public class UserController {
     // [US-08] 비밀번호 찾기 findPwrd()
     @GetMapping("/findpwrd")
     public ResponseEntity<String> findPwrd(@NotBlank @RequestParam String name, @Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
-    @NotBlank @RequestParam String phone, @Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
-    @NotBlank @RequestParam String email){
+    @NotBlank @RequestParam String phone, @NotBlank @RequestParam String email){
         String result = userService.findPwrd(name, phone, email);
         if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
         return ResponseEntity.status(200).body(result);
