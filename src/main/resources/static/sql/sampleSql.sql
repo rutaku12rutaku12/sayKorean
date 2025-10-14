@@ -1,5 +1,5 @@
 
-  USE sayKorean;
+USE sayKorean;
 
 INSERT INTO genre (genreName) VALUES
 ('일상회화'),
@@ -11,40 +11,40 @@ INSERT INTO genre (genreName) VALUES
 ('방언');
 
 INSERT INTO users
-  (name, email, password, nickName, phone, signupMethod, userState, genreNo)
+  (name, email, password, nickName, phone, signupMethod, userState)
 VALUES
-('홍길동', 'user01@example.com', 'pass#01!', '토돌이', '01012340001', 1, 1, 1),
-('김영희', 'user02@example.com', 'pass#02!', '영희',   '01012340002', 2, 1, 2),
-('John Smith', 'user03@example.com', 'pass#03!', 'john', '01012340003', 3, 1, 3),
-('田中太郎', 'user04@example.com', 'pass#04!', 'たなか', '01012340004', 1, 1, 4),
-('王伟', 'user05@example.com', 'pass#05!', 'wang', '01012340005', 4, 1, 5),
-('María López', 'user06@example.com', 'pass#06!', 'maria', '01012340006', 2, 1, 6),
-('Alice Kim', 'user07@example.com', 'pass#07!', 'alice', '01012340007', 3, 1, 7),
-('이수민', 'user08@example.com', 'pass#08!', '수민', '01012340008', 1, 1, 1),
-('박준호', 'user09@example.com', 'pass#09!', '준호', '01012340009', 2, 1, 2),
-('김민지', 'user10@example.com', 'pass#10!', '민지', '01012340010', 3, 1, 3),
+('홍길동', 'user01@example.com', 'pass#01!', '토돌이', '01012340001', 1, 1),
+('김영희', 'user02@example.com', 'pass#02!', '영희',   '01012340002', 2, 1),
+('John Smith', 'user03@example.com', 'pass#03!', 'john', '01012340003', 3, 1),
+('田中太郎', 'user04@example.com', 'pass#04!', 'たなか', '01012340004', 1, 1),
+('王伟', 'user05@example.com', 'pass#05!', 'wang', '01012340005', 4, 1),
+('María López', 'user06@example.com', 'pass#06!', 'maria', '01012340006', 2, 1),
+('Alice Kim', 'user07@example.com', 'pass#07!', 'alice', '01012340007', 3, 1),
+('이수민', 'user08@example.com', 'pass#08!', '수민', '01012340008', 1, 1),
+('박준호', 'user09@example.com', 'pass#09!', '준호', '01012340009', 2, 1),
+('김민지', 'user10@example.com', 'pass#10!', '민지', '01012340010', 3, 1),
 
-('Sara Park', 'user11@example.com', 'pass#11!', 'sara', '01012340011', 4, 1, 4),
-('佐藤花子', 'user12@example.com', 'pass#12!', 'はなこ', '01012340012', 1, 1, 5),
-('Li Wei', 'user13@example.com', 'pass#13!', 'liwei', '01012340013', 2, 1, 6),
-('Carlos Ruiz', 'user14@example.com', 'pass#14!', 'carlos', '01012340014', 3, 1, 7),
-('최유진', 'user15@example.com', 'pass#15!', '유진', '01012340015', 1, 1, 1),
-('정하늘', 'user16@example.com', 'pass#16!', '하늘', '01012340016', 2, 1, 2),
-('김도윤', 'user17@example.com', 'pass#17!', '도윤', '01012340017', 3, 1, 3),
-('Olivia Lee', 'user18@example.com', 'pass#18!', 'olivia', '01012340018', 4, 1, 4),
-('Daniel Choi', 'user19@example.com', 'pass#19!', 'daniel', '01012340019', 1, 1, 5),
-('박서연', 'user20@example.com', 'pass#20!', '서연', '01012340020', 2, 1, 6),
+('Sara Park', 'user11@example.com', 'pass#11!', 'sara', '01012340011', 4, 1),
+('佐藤花子', 'user12@example.com', 'pass#12!', 'はなこ', '01012340012', 1, 1),
+('Li Wei', 'user13@example.com', 'pass#13!', 'liwei', '01012340013', 2, 1),
+('Carlos Ruiz', 'user14@example.com', 'pass#14!', 'carlos', '01012340014', 3, 1),
+('최유진', 'user15@example.com', 'pass#15!', '유진', '01012340015', 1, 1),
+('정하늘', 'user16@example.com', 'pass#16!', '하늘', '01012340016', 2, 1),
+('김도윤', 'user17@example.com', 'pass#17!', '도윤', '01012340017', 3, 1),
+('Olivia Lee', 'user18@example.com', 'pass#18!', 'olivia', '01012340018', 4, 1),
+('Daniel Choi', 'user19@example.com', 'pass#19!', 'daniel', '01012340019', 1, 1),
+('박서연', 'user20@example.com', 'pass#20!', '서연', '01012340020', 2, 1),
 
-('김하준', 'user21@example.com', 'pass#21!', '하준', '01012340021', 3, 1, 7),
-('이아린', 'user22@example.com', 'pass#22!', '아린', '01012340022', 4, 1, 1),
-('Noah Kim', 'user23@example.com', 'pass#23!', 'noah', '01012340023', 1, 1, 2),
-('Emma Park', 'user24@example.com', 'pass#24!', 'emma', '01012340024', 2, 1, 3),
-('Sophia Cho', 'user25@example.com', 'pass#25!', 'sophia', '01012340025', 3, 1, 4),
-('Mason Han', 'user26@example.com', 'pass#26!', 'mason', '01012340026', 4, 1, 5),
-('김지후', 'user27@example.com', 'pass#27!', '지후', '01012340027', 1, 1, 6),
-('이서윤', 'user28@example.com', 'pass#28!', '서윤', '01012340028', 2, 1, 7),
-('박민서', 'user29@example.com', 'pass#29!', '민서', '01012340029', 3, 1, 1),
-('한예린', 'user30@example.com', 'pass#30!', '예린', '01012340030', 4, 1, 2);
+('김하준', 'user21@example.com', 'pass#21!', '하준', '01012340021', 3, 1),
+('이아린', 'user22@example.com', 'pass#22!', '아린', '01012340022', 4, 1),
+('Noah Kim', 'user23@example.com', 'pass#23!', 'noah', '01012340023', 1, 1),
+('Emma Park', 'user24@example.com', 'pass#24!', 'emma', '01012340024', 2, 1),
+('Sophia Cho', 'user25@example.com', 'pass#25!', 'sophia', '01012340025', 3, 1),
+('Mason Han', 'user26@example.com', 'pass#26!', 'mason', '01012340026', 4, 1),
+('김지후', 'user27@example.com', 'pass#27!', '지후', '01012340027', 1, 1),
+('이서윤', 'user28@example.com', 'pass#28!', '서윤', '01012340028', 2, 1),
+('박민서', 'user29@example.com', 'pass#29!', '민서', '01012340029', 3, 1),
+('한예린', 'user30@example.com', 'pass#30!', '예린', '01012340030', 4, 1);
 
 INSERT INTO study
   ( themeKo, themeJp, themeCn, themeEn, themeEs,

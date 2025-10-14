@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS exam (                                        -- exam
   examCn     VARCHAR(500) NOT NULL UNIQUE,                               -- 중국어 예문: 고유
   examEn     VARCHAR(500) NOT NULL UNIQUE,                               -- 영어 예문: 고유
   examEs     VARCHAR(500) NOT NULL UNIQUE,                               -- 스페인어 예문: 고유
-  imageName  VARCHAR(255) NOT NULL,                                      -- 그림 파일명
-  imagePath  VARCHAR(255) NOT NULL,                                      -- 그림 파일 경로
+  imageName  VARCHAR(255) ,                                      		-- 그림 파일명
+  imagePath  VARCHAR(255) ,                                      		-- 그림 파일 경로
   studyNo    INT          NOT NULL,                                      -- FK: 교육번호(study.themeNo)
   PRIMARY KEY (examNo),                                                  -- 기본키 지정
   CONSTRAINT fk_exam_study                                               -- FK 이름
@@ -75,8 +75,8 @@ CREATE INDEX idx_exam_studyNo ON exam(studyNo);                          -- FK �
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS audio (                                       -- audio 테이블 생성
   audioNo   INT          NOT NULL AUTO_INCREMENT,                        -- PK: 음성파일번호 자동증가
-  audioName VARCHAR(255) NOT NULL,                                       -- 음성 파일명
-  audioPath VARCHAR(255) NOT NULL,                                       -- 음성 파일 경로
+  audioName VARCHAR(255) ,                                       -- 음성 파일명
+  audioPath VARCHAR(255) ,                                       -- 음성 파일 경로
   lang      INT          NOT NULL,                                       -- 언어 코드(예: 0=ko 등)
   examNo    INT          NOT NULL,                                       -- FK: 예문번호(exam.examNo)
   PRIMARY KEY (audioNo),                                                 -- 기본키 지정
@@ -103,11 +103,7 @@ CREATE TABLE IF NOT EXISTS users (                                      -- users
   userState    INT              NOT NULL DEFAULT 1,                      -- 상태 코드 기본 1
   userDate     DATETIME         NOT NULL DEFAULT NOW(),                  -- 가입일시 기본 now()
   userUpdate   DATETIME         NOT NULL DEFAULT NOW() ON UPDATE NOW(),  -- 수정일시 자동 갱신
-  genreNo   INT UNSIGNED  NOT NULL default 1,                            -- FK: 장르번호
-  PRIMARY KEY (userNo),                                                  -- 기본키 지정
-  CONSTRAINT fk_user_genre                                            -- FK 이름
-    FOREIGN KEY (genreNo) REFERENCES genre(genreNo)                      -- genre.genreNo 참조
-    ON UPDATE CASCADE ON DELETE RESTRICT                                  -- 장르 변경 전파 / 삭제 제한
+  PRIMARY KEY (userNo)                                                   -- 기본키 지정
 ) ENGINE=InnoDB                                                          -- InnoDB 엔진
   DEFAULT CHARSET = utf8mb4                                              -- 문자셋
   COLLATE = utf8mb4_0900_ai_ci;                                          -- 콜레이션

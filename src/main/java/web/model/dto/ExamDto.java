@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -22,4 +23,7 @@ public class ExamDto {
     private String  imagePath;  // 그림 파일 경로
 
     private int studyNo;    // FK: study.themeNo
+
+    private MultipartFile imageFile;    // 이미지파일 등록용 멤버변수 
+    private MultipartFile newImageFile; // 이미지파일 수정용 멤버변수
 }

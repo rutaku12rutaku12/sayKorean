@@ -44,7 +44,6 @@ public class FileService {
         String year = String.valueOf(now.getYear()).substring(2); // 23 , 24 , 25(년)
         String monthDir = month + "_" + year; // mar_25
 
-
         // 3-2 경로 폴더 없으면 생성
         String targetPath = baseTargetPath + monthDir + "/";
         File dir = new File(targetPath);
