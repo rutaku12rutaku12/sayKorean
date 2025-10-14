@@ -139,7 +139,7 @@ public class AdminStudyController {
     // @RequestPart는 JSON과 파일을 함께 받을 때 사용
     // 어트리뷰트(생략)으로 처리 가능
     // URL : http://localhost:8080/saykorean/admin/study/exam
-    // BODY : { "examKo" : "배고파 죽겠지?" , "examRoman" : "baegopa jukgetjji?" , "examJp" : "お腹すいて死にそう?" , "examCn" : "饿死了?" , "examEn" : "you are starving?" , "examEs" : "es muero de hambre." , "imageName" : "100_img" , "imagePath" : "/image/oct_twpfive" , "studyNo" : 4 }
+    // BODY : { "examKo" : "배고파 죽겠지?" , "examRoman" : "baegopa jukgetjji?" , "examJp" : "お腹すいて死にそう?" , "examCn" : "饿死了?" , "examEn" : "you are starving?" , "examEs" : "es muero de hambre." , "imageName" : "100_img" , "imagePath" : "/image/oct_25" , "studyNo" : 4 }
     @PostMapping("/exam")
     public ResponseEntity<Integer> createExam(ExamDto examDto) throws IOException {
         int result = adminStudyService.createExam(examDto , examDto.getImageFile() );
@@ -151,7 +151,7 @@ public class AdminStudyController {
     // 매개변수 StudyDto
     // 반환 int
     // URL : http://localhost:8080/saykorean/admin/study/exam
-    // BODY : { "examNo" : 1 , "examKo" : "배고파 죽겠느뇨?" , "examRoman" : "baegopa jukgetda." , "examJp" : "お腹すいて死にそう。" , "examCn" : "饿死了。" , "examEn" : "I’m starving." , "examEs" : "Me muero de hambre." , "imageName" : "1_img" , "imagePath" : "/image/oct_twpfive" , "studyNo" : 4 }
+    // BODY : { "examNo" : 1 , "examKo" : "배고파 죽겠느뇨?" , "examRoman" : "baegopa jukgetda." , "examJp" : "お腹すいて死にそう。" , "examCn" : "饿死了。" , "examEn" : "I’m starving." , "examEs" : "Me muero de hambre." , "imageName" : "1_img" , "imagePath" : "/image/oct_25" , "studyNo" : 4 }
     @PutMapping("/exam")
     public ResponseEntity<Integer> updateExam(ExamDto examDto) throws IOException {
         int result = adminStudyService.updateExam(examDto, examDto.getNewImageFile());

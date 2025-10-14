@@ -27,8 +27,18 @@ public class FileService {
     }
 
     // [2] 오디오 업로드
-    public String uploadAudio(MultipartFile file , int examNo , String lang) throws IOException {
-        return uploadFile(file, audioPath, examNo, lang + "_voice");
+    public String uploadAudio(MultipartFile file , int examNo , int lang) throws IOException {
+        String langCode;
+
+        // [*] 언어 코드 변환
+        switch (lang) {
+            case 1 -> langCode = "kor";
+            case 2 -> langCode = "eng";
+            default -> throw new IllegalArgumentException("지원하지 않는 언어 코드입니다. (1=kor, 2=eng)");
+        }
+
+        // [*] type 에 {langCode}_voice 형태로 전달 → 파일명 {examNo}_{langCode}_voice.{확장자}
+        return uploadFile(file, audioPath, examNo, langCode + "_voice");
     }
 
     // [3] 공통 파일 업로드 로직
@@ -85,7 +95,7 @@ public class FileService {
     }
 
     // [5] 파일 수정
-    public String updateFile(MultipartFile newFile , String oldRelativePath , int examNo , String type) throws IOException {
+    public String updateFile(MultipartFile newFile , String oldRelativePath , int examNo , String type, int lang) throws IOException {
         // 5-1 기존 파일이 있을 경우 삭제
         if (oldRelativePath != null && !oldRelativePath.isBlank()){
             deleteFile(oldRelativePath);
@@ -94,7 +104,7 @@ public class FileService {
         if (type.equals("img")) {
             return uploadImage(newFile, examNo);
         } else if (type.equals("_voice")) {
-            return uploadAudio(newFile , examNo, type.replace("_voice" , ""));
+            return uploadAudio(newFile , examNo, lang);
         }
         // 5-3 예외처리
         throw new IllegalStateException("수정 경로가 올바르지 않습니다.");
