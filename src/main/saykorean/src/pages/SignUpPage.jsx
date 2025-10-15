@@ -13,7 +13,7 @@ export default function SignUpPage (props){
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [nickName, setNickname] = useState("");
+    const [nickName, setNickName] = useState("");
     const [phone, setPhone] = useState("");
                     // const [genreNo, setGenreNo] = useState(""); 기본값1
     
@@ -104,7 +104,7 @@ export default function SignUpPage (props){
             비밀번호 (password) <br/>
             <input type="password" placeholder="비밀번호를 입력해주세요." value={password} onChange={(e)=> setPassword(e.target.value)} /> <br/>
             닉네임 (nickName) <br/>
-            <input type="text" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickname(e.target.value)} /> <br/>
+            <input type="text" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickName(e.target.value)} /> <br/>
             연락처 (phone) <br/>
             <input type="tel" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <button onClick={CheckPhone}> 중복확인</button> <br/>
             <br/>

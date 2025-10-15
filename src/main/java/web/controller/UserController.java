@@ -10,8 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import web.model.dto.LoginDto;
-import web.model.dto.UserDto;
+import web.model.dto.*;
 import web.service.UserService;
 
 @RestController
@@ -125,7 +124,7 @@ public class UserController {
 
     // [US-09] 회원정보 수정 updateUserInfo()
     @PutMapping("/updateuserinfo")
-    public ResponseEntity<Integer> updateUserInfo(@Valid @RequestBody UserDto userDto , HttpServletRequest request ){
+    public ResponseEntity<Integer> updateUserInfo(@Valid @RequestBody UpdateUserInfoDto updateUserInfoDto , HttpServletRequest request ){
         // 세션 객체 꺼내기
         HttpSession session = request.getSession();
         // 만약 세션이 없거나 로그인이 안되어 있으면 null
@@ -139,14 +138,14 @@ public class UserController {
         }
         int userNo = (int)obj;
         // dto 담아주기
-        userDto.setUserNo(userNo);
-        int result = userService.updateUserInfo(userDto);
+        updateUserInfoDto.setUserNo(userNo);
+        int result = userService.updateUserInfo(updateUserInfoDto);
         return ResponseEntity.status(200).body(result);
     } // func end
 
     // [US-10] 비밀번호 수정 updatePwrd()
     @PutMapping("/updatepwrd")
-    public ResponseEntity<Integer> updatePwrd(@Valid @RequestBody UserDto userDto , HttpServletRequest request){
+    public ResponseEntity<Integer> updatePwrd(@Valid @RequestBody UpdatePwrdDto updatePwrdDto , HttpServletRequest request){
         // 세션 객체 꺼내기
         HttpSession session = request.getSession();
         // 만약 세션이 없거나 로그인이 안되어 있으면 null
@@ -160,14 +159,14 @@ public class UserController {
         }
         int userNo = (int)obj;
         // dto 담아주기
-        userDto.setUserNo(userNo);
-        int result = userService.updatePwrd(userDto);
+        updatePwrdDto.setUserNo(userNo);
+        int result = userService.updatePwrd(updatePwrdDto);
         return ResponseEntity.status(200).body(result);
     } // func end
 
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()
     @PutMapping("/deleteuser")
-    public ResponseEntity<Integer> deleteUserStatus(@Valid @RequestBody UserDto userDto, HttpServletRequest request){
+    public ResponseEntity<Integer> deleteUserStatus(@Valid @RequestBody DeleteUserStatusDto deleteUserStatusDto, HttpServletRequest request){
         HttpSession session = request.getSession();
         if(session==null || session.getAttribute("userNo")==null){
             return ResponseEntity.status(400).body(0);
@@ -177,8 +176,8 @@ public class UserController {
             return ResponseEntity.status(400).body(0);
         }
         int userNo = (int)obj;
-        userDto.setUserNo(userNo);
-        int result = userService.deleteUserStatus(userDto);
+        deleteUserStatusDto.setUserNo(userNo);
+        int result = userService.deleteUserStatus(deleteUserStatusDto);
         if( result > 0){
         // 회원상태 수정(삭제) 후 세션 제거 : 로그아웃 상태로
         session.removeAttribute("userNo");

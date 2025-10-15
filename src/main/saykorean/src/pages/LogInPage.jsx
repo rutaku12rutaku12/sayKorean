@@ -36,7 +36,7 @@ export default function LogInPage(props){
             console.log("로그인 성공")
         }catch(e){console.log("로그인 실패 : ", e)
             console.log("입력 이메일:", email, "입력 비번:", password);
-            alert("이메일 또는 비밀번호가 잘못 되었습니다. 이메일과 비밀번호를 정확히 입력해 주세요. ")
+            alert("로그인 정보가 잘못되거나 없는 계정입니다.")
         }
 
     }
