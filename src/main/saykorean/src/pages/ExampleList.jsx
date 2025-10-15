@@ -1,11 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import SuccessExamList from "./SuccessExamList";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
 export default function ExampleList() {
+  const navigate = useNavigate();
   const { studyNo } = useParams(); // URL에서 주제번호 가져오기
 
   // 상태 정의
@@ -13,6 +16,7 @@ export default function ExampleList() {
   const [examples, setExamples] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [studies, setStudies] = useState([]);
 
   // [1] 주제 상세 데이터 가져오기
   const fetchSubject = async (n) => {
@@ -58,6 +62,52 @@ export default function ExampleList() {
     })();
   }, [studyNo]);
 
+  
+
+// -----------------------------------//
+
+
+
+
+const loadStudiesFromLocal = () => {
+    try {
+      const raw = localStorage.getItem("studies");
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr)
+        ? arr.map(Number).filter(n => Number.isFinite(n) && n > 0)
+        : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveStudiesToLocal = (arr) => {
+    localStorage.setItem("studies", JSON.stringify(arr));
+  };
+
+
+// -----------------------------------//
+
+
+  // studyNo localStorage에 안전하게 저장하고 SuccessExamList로 이동하기 위한 함수
+  const successBtn = () => {
+    const id = Number(studyNo);
+    if (!Number.isFinite(id) || id <= 0) {
+      console.warn("Invalid studyNo:", studyNo);
+      return;
+    }
+
+    setStudies(prev => {
+      const next = Array.from(new Set([...prev, id])); // 중복 제거
+      saveStudiesToLocal(next);
+      console.log( next );
+      return next;
+    });
+   
+    navigate("/successexamlist");
+  };
+
+
   // [4] 렌더링
   return (
     <div id="ExampleList">
@@ -76,11 +126,8 @@ export default function ExampleList() {
                   </li>
               ))}
           </ul>
-
-          <button>
-              {/* className="successBtn" onClick={ successBtn } */}
-              완료
-          </button>
+      
+          <button className="successBtn" onClick={ () => successBtn(studyNo) }> 완료</button>
       </div>
   );
 }

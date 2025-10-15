@@ -65,54 +65,89 @@ export default function Study() {
   const { studyNo } = useParams(); // URL에서 /study/:studyNo 의 값을 읽음 
 
   // 상태 정의
-  const [ selectedGenreNo, setSelectedGenreNo ] = useState(null); // 내 장르 (DB에서 조회)
-  const [ subjects, setSubjects ] = useState( [] );                 // 주제 목록
-  const [ subject, setSubject ] = useState( null );                 // 주제 상세
-  const [ examples, setExamples ] = useState( [] );                 // 예문
-  const [ loading, setLoading ] = useState( false );
-  const [ error, setError ] = useState( "" );
+  const [selectedGenreNo, setSelectedGenreNo] = useState(null); // 내 장르 (DB에서 조회)
+  const [subjects, setSubjects] = useState([]);                 // 주제 목록
+  const [subject, setSubject] = useState(null);                 // 주제 상세                // 예문
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   // --------------------------
   // API: 내 장르 조회 (세션 기반)
   //  - 백엔드: GET /saykorean/me/genre
   //  - 숫자 또는 { genreNo: n } 형태 모두 호환
   // --------------------------
-  async function fetchMyGenreNo() {
-    const res = await axios.get( "/saykorean/me/genre" ); // ← 백엔드 경로와 일치
-    const g = res.data;
-    return ( typeof g === "number" ) ? g : g?.genreNo ?? null;
+  // async function fetchMyGenreNo() {
+  //   const res = await axios.get( "/saykorean/me/genre" ); // ← 백엔드 경로와 일치
+  //   const g = res.data;
+  //   return ( typeof g === "number" ) ? g : g?.genreNo ?? null;
+  // }
+
+  // xxxxxxxxx 로컬스토리지에서 장르번호 읽기 (동기, 숫자 변환 + 유효성 검사) xxxxxxx
+  // function getGenreNo() {
+  //   const raw = localStorage.getItem("selectedGenreNo"); // 문자열 또는 null
+  //   const genreNo = Number(raw);
+  //   // [selectedGenreNo] [object Object] → parsed: NaN 왜 이런 오류가 뜰까?
+  //   // localStorage에는 객체기 저장됨, localStorage.setItem은 문자열만 저장
+  //   // 객체를 넣으면 자동으로 "[object Object]"가 되어 버리고, 그걸 Number()로 변환하면 NaN.
+  //   console.log("[selectedGenreNo]", raw, "→ parsed:", genreNo);
+  //   return Number.isFinite(genreNo) && genreNo > 0 ? genreNo : null;       // 유효한 양수면 반환, 아니면 null
+  // }
+
+
+  function getGenreNo() {
+    const genreNo = localStorage.getItem("selectedGenreNo"); // 문자열 또는 null
+    console.log( genreNo );
+    if (genreNo == null) return null;
+
+    // 1) 숫자 문자열 시도
+    const n = Number(genreNo);
+    if (Number.isFinite(n) && n > 0) return n;
+
+    // 2) 혹시 JSON 문자열로 저장돼 있다면 파싱 시도
+    try {
+      const obj = JSON.parse(genreNo); // ex) '{"genreNo":1}'
+      const m = Number(obj?.genreNo ?? obj);
+      if (Number.isFinite(m) && m > 0) return m;
+    } catch (_e ) { console.log( e )}
+
+    // 3) 완전 잘못된 케이스([object Object] 등)면 제거하고 null
+    console.warn("Corrupted selectedGenreNo in localStorage:", genreNo);
+    localStorage.removeItem("selectedGenreNo");
+    return null;
   }
+
 
   // --------------------------
   // API: 장르별 주제 목록 조회
   //  - 백엔드: GET /saykorean/study/getSubject?genreNo=...
   //  - 배열/객체 등 응답을 asArray로 표준화
   // --------------------------
-  async function fetchSubjectsByGenre( genreNo ) {
+  async function getSubject(genreNo) {
+
+
     const res = await axios.get(
-       "/saykorean/study/getSubject",
-       { params: { genreNo } }
-       );
-    return asArray( res.data );
+      "/saykorean/study/getSubject",
+      { params: { genreNo } }
+    );
+    console.log( res.data );
+    return asArray(res.data);
   }
 
   // --------------------------
   // API: 주제 상세 조회
   //  - 백엔드: GET /saykorean/study/getDailyStudy?studyNo=...
   // --------------------------
-  async function fetchSubject(studyNoValue) {
+  async function getDailyStudy(studyNoValue) {
     const res = await axios.get(
-       "/saykorean/study/getDailyStudy",
-       { params: { studyNo: studyNoValue } }
-       );
+      "/saykorean/study/getDailyStudy",
+      { params: { studyNo: studyNoValue } }
+    );
     return res.data;
   }
 
 
   // ------------------------------------------------------
   // 마운트 시 1회 실행:
-  //  - 내 장르 번호를 서버에서 가져오고
-  //  - 그 장르의 주제 목록을 불러와서 subjects 상태에 세팅
   // ------------------------------------------------------
   useEffect(() => {
     (async () => {
@@ -120,56 +155,37 @@ export default function Study() {
         setLoading(true); // 로딩 시작
         setError(""); // 에러 초기화
 
-        // 세션 기반으로 내 장르 가져오기
-        const myGenre = await fetchMyGenreNo(); 
+        const genreNo = getGenreNo();
 
 
         // 장르번호가 유효하지 않으면 에러
-        if ( !Number.isFinite( Number( myGenre ) ) ) { 
+        if (!Number.isFinite(Number(genreNo))) {
           setError("로그인이 필요하거나 선호 장르가 설정되지 않았습니다.");
           return;
         }
 
-        // 장르번호 상태 저장
-        setSelectedGenreNo( myGenre ); 
-
         // 장르에 해당하는 주제 목록 조회
-        const list = await fetchSubjectsByGenre( myGenre) ; 
+        const list = await getSubject(genreNo);
+        const normalized = (Array.isArray(list) ? list : [])
+        .map(s => ({
+            id: Number(s?.studyNo),
+            label: s?.themeKo || s?.themeEn || `주제 #${s?.studyNo}`,
+            subLabel: s?.themeEn ? `(${s.themeEn})` : ""
+          }))
+          .filter(it => Number.isFinite(it.id) && it.id > 0);
+        setSubjects(normalized);
 
-        //  서버에서 내려준 주제 목록을 화면에 맞는 형태로 정규화
-        //    - id: 숫자(PK)로 통일
-        //    - label: 표시에 쓸 문자열(한글/영문)
-        //    - subLabel: 보조 표기(영문 제목 등)
-        const seen = new Set(); // 중복 id 방지
-        const normalized = [];
-        for ( const s of (Array.isArray(list) ? list : []) ) {
-          // 여러 이름 가능성 대비: studyNo 또는 id/대문자/과거명(themeNo)까지 커버
-          const rawId = s?.studyNo ?? s?.id ?? s?.STUDY_NO ?? s?.themeNo;
-          const id = Number(rawId); // 숫자로 변환
-          // 유효하지 않은 id(비숫자/0/음수)나 중복은 건너뛰기
-          if ( !Number.isFinite(id) || id <= 0 || seen.has(id) ) continue;
-          seen.add(id);
-          normalized.push({
-            id,  // 클릭 시 라우팅에 사용
-            // 한글 없으면 영문, 그래도 없으면 번호로 표시
-            label: s.themeKo || s.themeEn || `주제 #${id}`,
-            // 영문이 있으면 괄호로 보조표시
-            subLabel: s.themeEn ? `(${s.themeEn})` : ""
-          });
-        }
-         // 주제 목록 상태 업데이트
-        setSubjects( normalized );
       } catch (e) {
         // 인증 실패(세션 없음)일 경우 사용자에게 로그인 안내
-        if ( e?.response?.status === 401 ) setError( "로그인이 필요합니다." );
+        if (e?.response?.status === 401) setError("로그인이 필요합니다.");
         else {
-          console.error( e );
+          console.error(e);
           // 사용자 메시지
-          setError( "초기 데이터를 불러오는 중 문제가 발생했어요." );
+          setError("초기 데이터를 불러오는 중 문제가 발생했어요.");
         }
       } finally {
         // 로딩 종료
-        setLoading( false );
+        setLoading(false);
       }
     })();
     // 의존성 배열 빈 값 → 컴포넌트 마운트 시 1회만 실행
@@ -180,35 +196,35 @@ export default function Study() {
   //  - 목록 화면(/study)에서는 상세 비움
   // ------------------------------------------------------
   useEffect(() => {
-    if ( !studyNo ) // URL에 studyNo가 없으면(=목록 화면)
-      { setSubject( null ); // 상세 초기화
-        setExamples( [] ); // 예문 초기화
-        return; 
-      }
+    if (!studyNo) // URL에 studyNo가 없으면(=목록 화면)
+    {
+      setSubject(null); // 상세 초기화
+      return;
+    }
 
-       // URL 파라미터를 숫자로 변환
-    const n = Number( studyNo );  
+    // URL 파라미터를 숫자로 변환
+    const n = Number(studyNo);
     // 유효하지 않은 숫자이면 에러
-    if (!Number.isFinite( n )) {
-      setError( "잘못된 학습 번호입니다." ); 
-      return; 
+    if (!Number.isFinite(n)) {
+      setError("잘못된 학습 번호입니다.");
+      return;
     }
 
     (async () => { // 비동기 즉시실행으로 상세/예문 요청
       try {
-        setLoading( true );  // 로딩 시작
-        setError( "" );      // 에러 초기화
-        const s = await fetchSubject( n ); // 주제 상세 가져오기
-        setSubject( s ); // 상세 상태 저장
-      } catch ( e ) {
-        console.error( e );
-        setError( "학습 데이터를 불러오는 중 문제가 발생했어요." ); // 사용자 메시지
+        setLoading(true);  // 로딩 시작
+        setError("");      // 에러 초기화
+        const s = await getDailyStudy(n); // 주제 상세 가져오기
+        setSubject(s); // 상세 상태 저장
+      } catch (e) {
+        console.error(e);
+        setError("학습 데이터를 불러오는 중 문제가 발생했어요."); // 사용자 메시지
       } finally {
-        setLoading( false ); // 로딩 종료
+        setLoading(false); // 로딩 종료
       }
-    })(); 
+    })();
     // URL의 studyNo가 바뀔 때마다 다시 실행
-  }, [ studyNo ]); 
+  }, [studyNo]);
 
 
 
@@ -220,15 +236,18 @@ export default function Study() {
   // ------------------------------------------------------
   return (
     <div id="Study">
-      { loading && <div className="toast loading">불러오는 중…</div> } {/* 로딩 표시 */}
-      { error && <div className="toast error">{error}</div> } {/* 에러 표시 */}
+      {loading && <div className="toast loading">불러오는 중…</div>} {/* 로딩 표시 */}
+      {error && <div className="toast error">{error}</div>} {/* 에러 표시 */}
 
       {/* 내 장르로 주제 목록만 먼저 보여주고, 클릭 시 상세 페이지로 이동 */}
+      {/*  목록은 studyNo가 없을 때만 보여준다 */}
+    {!studyNo && (
       <PickerSection
-        title={ selectedGenreNo ? `주제 선택 (장르 #${selectedGenreNo})` : "주제 선택" }
+        title={selectedGenreNo ? `주제 선택 (장르 #${selectedGenreNo})` : "주제 선택"}
         items={subjects}
-        activeId={ Number(studyNo) || null }
+        activeId={null}  // 목록만 보여줄 때 굳이 활성 표시 필요 없음
       />
+    )}
 
       {/* 주제 상세 + 예문: studyNo 있을 때만 */}
       {studyNo && subject && (

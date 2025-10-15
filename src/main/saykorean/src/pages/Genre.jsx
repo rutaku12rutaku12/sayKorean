@@ -1,5 +1,6 @@
 import "../styles/Genre.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
@@ -7,21 +8,35 @@ import axios from "axios";
 
 
 export default function Genre(props) {
+    
+    // navigate는 반환값이 함수! 구조분해하면 안됨!
+    const navigate = useNavigate();
 
     // 상태 정의 : 무조건 안에 있어야힘
-    const [genres, setGenres] = useState([]);                 // 주제 목록
-    const [genre, setGenre] = useState(null);                 // 주제 상세
+    const [genres, setGenres] = useState([]);                 // 장르 목록
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
 
-    // 장르 선택 시: localStorage 저장 후 /study 로 이동
-    const pickGenre = (genreNo) => {
-        // localStorage 저장
-        localStorage.setItem("selectedGenreNo", String(genreNo));
-        navigate("/study"); // 여기서 주제 목록 페이지로 이동
+    // 장르번호 localStorage에 안전하게 저장하기 위한 함수
+    const saveGenreNo = (selectedGenreNo) => {
+        const n = Number( selectedGenreNo?.genreNo ?? selectedGenreNo );  // 객체면 .genreNo, 아니면 그대로
+        if (!Number.isFinite(n) || n <= 0) { // n이 음수면
+            console.warn("Invalid genreNo:", selectedGenreNo);
+            return false;
+        }
+        localStorage.setItem("selectedGenreNo", String(n)); // 항상 문자열로
+
+        return true;
     };
 
+    // 사용
+    const saved = Number(localStorage.getItem("selectedGenreNo"));
+    console.log( saved );
+    const pickGenre = (genreNo) => {
+        if (!saveGenreNo( genreNo )) return;
+        navigate("/study");
+    };
 
 
 
@@ -56,7 +71,7 @@ export default function Genre(props) {
                     <button
                         key={g.genreNo}                 // 고유 key
                         className="pillBtn"
-                        onClick={() => pickGenre(g.genreNo)}  // 이벤트 핸들러 안에서는 훅 호출 금지
+                        onClick={() => pickGenre(g.genreNo)}
                     >
                         <span className="label">{g.genreName}</span>
                     </button>
