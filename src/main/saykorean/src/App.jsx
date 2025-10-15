@@ -12,6 +12,8 @@ import FindPage from "./pages/FindPage";
 import Footer from "./components/Footer";
 import ExampleList from "./pages/ExampleList";
 import Genre from "./pages/Genre";
+import SuccessExamList from "./pages/SuccessExamList";
+
 // 관리자단(PC)
 import AdminStudyList from "./adminPages/AdminStudyList";
 import AdminHome from "./adminPages/AdminHome";
@@ -83,6 +85,7 @@ function App() {
             <Route path="/study" element={<Study />} />          {/* 주제 목록 */}
             <Route path="/study/:studyNo" element={<Study />} /> {/* 주제 상세 */}
             <Route path="/exampleList/:studyNo" element={<ExampleList />} /> {/* 예문 */}
+            <Route path="/successexamlist" element = { <SuccessExamList/>}> </Route>
           </Route>
         </Routes>
       </BrowserRouter >
