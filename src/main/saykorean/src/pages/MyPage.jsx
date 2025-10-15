@@ -11,7 +11,7 @@ export default function MyPage( props ){
     // store 저장된 상태 가져오기 
     const {isAuthenticated, userInfo} = useSelector((state)=>state.user);
 
-    // dispath 함수가져오기 
+    // dispath , navigate 함수가져오기 
     const dispath = useDispatch();
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function MyPage( props ){
     };
 
     // 최초 1번 렌더링
-    useEffect( () => {info() },[])
+    useEffect( () => { info() } , [] )
     // 내 정보 조회 함수
     const info = async () => {
         try{console.log("info.exe")

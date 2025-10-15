@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { logOut } from "../store/userSlice";
 export default function HomePage ( props ){
     console.log("HomePage.jsx open")
