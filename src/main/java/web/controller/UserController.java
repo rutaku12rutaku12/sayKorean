@@ -96,7 +96,7 @@ public class UserController {
 
     // [US-06] 연락처 중복검사 checkPhone()
     @GetMapping("/checkphone")                  // @Pattern 정규식 유효성 어노테이션
-    public ResponseEntity<Integer> checkPhone(@Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
+    public ResponseEntity<Integer> checkPhone(@Pattern(regexp = "^\\+?[1-9]\\d{7,14}$", message = "올바른 휴대폰 번호를 입력해주세요.")
                                                   @NotBlank @RequestParam String phone){
         if (phone == null || phone.trim().isEmpty()) {
             return ResponseEntity.status(400).body(-1);

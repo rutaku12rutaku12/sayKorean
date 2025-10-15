@@ -58,11 +58,11 @@ export default function MyInfoUpdatePage(props){
     return(<>
         <h3>사용자 정보 수정</h3>
         <br/>
-        닉네임<br/>
-        연락처<br/>
+        닉네임 <input type="text"/><br/>
+        연락처 <input type="tel"/><br/> 
         <button onClick={onUpdate}>수정</button>
         <h3>비밀번호 수정</h3>
-        비밀번호<br/>
+        비밀번호 <input type="password"/> <br/>
 
         <br/>
         <h3></h3>

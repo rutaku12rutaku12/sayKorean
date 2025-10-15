@@ -5,6 +5,7 @@ import { useState } from "react";
 export default function FindPage(props){
     console.log("FindPage.jsx open")
 
+    // ** REF로 바꾸기 !!! TODO
         // 인풋 상태 관리 
         const [name, setName] = useState("");
         const [phone, setPhone] = useState("");
