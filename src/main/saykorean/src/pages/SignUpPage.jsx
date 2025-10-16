@@ -117,8 +117,8 @@ export default function SignUpPage (props){
             value={phone}
             onChange={setPhone}
                 inputProps={{ name: 'phone', required: true }}
-                inputStyle={{ width: '175px', height: '20px', fontSize: '15px' }}
-            /> <button onClick={CheckPhone}> 중복 확인</button> <br/>
+                inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
+            /> <button onClick={CheckPhone}> 중복 확인</button> <br/>   
             <br/>
             <button onClick={onSignup}>회원가입 (SignUp) </button>
         </div>
