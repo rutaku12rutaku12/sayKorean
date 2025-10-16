@@ -71,8 +71,8 @@ export default function ExampleList() {
 
 const loadStudiesFromLocal = () => {
     try {
-      const raw = localStorage.getItem("studies");
-      const arr = raw ? JSON.parse(raw) : [];
+      const studies = localStorage.getItem("studies");
+      const arr = studies ? JSON.parse(studies) : [];
       return Array.isArray(arr)
         ? arr.map(Number).filter(n => Number.isFinite(n) && n > 0)
         : [];
@@ -86,6 +86,7 @@ const loadStudiesFromLocal = () => {
   };
 
 
+
 // -----------------------------------//
 
 
@@ -97,14 +98,29 @@ const loadStudiesFromLocal = () => {
       return;
     }
 
-    setStudies(prev => {
-      const next = Array.from(new Set([...prev, id])); // 중복 제거
-      saveStudiesToLocal(next);
-      console.log( next );
-      return next;
-    });
-   
-    navigate("/successexamlist");
+
+    // 1) localStorage에서 현재 리스트 읽기
+  let base = [];
+  try {
+    const raw = localStorage.getItem("studies");
+    base = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(base)) base = [];        // 이전에 "1" 처럼 문자열 저장됐던 경우 방어
+  } catch {
+    base = [];
+  }
+
+  // 2) 새 id를 병합 + 중복 제거
+  const next = Array.from(new Set([...base, id]));
+  console.log( next );
+
+  // 3) 저장
+  localStorage.setItem("studies", JSON.stringify(next));
+
+  // 4) (선택) state도 맞춰두면 좋음
+  setStudies(next);
+
+  // 5) 이동
+  navigate("/successexamlist");
   };
 
 
