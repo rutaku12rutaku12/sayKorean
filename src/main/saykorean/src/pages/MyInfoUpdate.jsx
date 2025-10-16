@@ -123,7 +123,7 @@ export default function MyInfoUpdatePage(props){
             value={phone}
             onChange={setPhone}
                 inputProps={{ name: 'phone', required: true }}
-                inputStyle={{ width: '40px', height: '5px', fontSize: '1.5rem' }}
+                inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
         />
         <button onClick={CheckPhone}>중복 확인</button><br/> 
         <button onClick={onUpdate}>수정</button>
