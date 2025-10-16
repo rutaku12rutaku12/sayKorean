@@ -75,7 +75,7 @@ export default function AdminStudyEdit(props) {
     }
 
     // [2-1] 주제 입력 핸들러
-    const handleStudyChange = (field, value) => {
+    const handleStudyChange = async (field, value) => {
         setStudyData(e => ({
             ...e,
             [field]: value
@@ -83,7 +83,7 @@ export default function AdminStudyEdit(props) {
     };
 
     // [2-2] 예문 입력 핸들러
-    const handleExamChange = (index, field, value) => {
+    const handleExamChange = async (index, field, value) => {
         setExamList(e => {
             const newList = [...e];
             newList[index] = {
@@ -95,7 +95,7 @@ export default function AdminStudyEdit(props) {
     }
 
     // [2-3] 새 이미지 파일 선택 핸들러
-    const handleNewImageFile = (index, file) => {
+    const handleNewImageFile = async (index, file) => {
         setExamList(e => {
             const newList = [...e];
             newList[index] = {
@@ -106,8 +106,8 @@ export default function AdminStudyEdit(props) {
         })
     }
 
-    // [2-4] 새 음성 파일 추가 핸들러
-    const handleAddNewAudioFile = (examIndex, lang, file) => {
+    // [2-4] 새 음성 파일 추가 핸들러 * 비동기함수 추가
+    const handleAddNewAudioFile = async (examIndex, lang, file) => {
         setExamList(e => {
             const newList = [...e];
             if (!newList[examIndex].newAudioFiles) {
@@ -119,7 +119,7 @@ export default function AdminStudyEdit(props) {
     }
 
     // [2-5] 새 음성 파일삭제 핸들러
-    const handleRemoveNewAudioFile = (examIndex, audioIndex) => {
+    const handleRemoveNewAudioFile = async (examIndex, audioIndex) => {
         setExamList(e => {
             const newList = [...e];
             newList[examIndex].newAudioFiles = newList[examIndex].newAudioFiles.filter((_, i) => i !== audioIndex);

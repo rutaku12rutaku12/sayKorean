@@ -173,7 +173,7 @@ export default function AdminStudyCreate(props) {
         return true;
     }
 
-    // [7] 교육 등록 실행
+    // [7] 교육 등록 실행 * axios 문제. 예문이 null이어도 등록이 됨
     const handleSubmit = async () => {
         // * 기본 유효성 검사 로직 사용
         if (!validateData()) return;
