@@ -35,17 +35,28 @@ export default function MyPage( props ){
     }
 
     // 출석 조회 함수 
+
+
+
+    //--------------정유진-------------//
+    const onGenre = async() => {
+    navigate("/genre");
+    };
+
     return(<>
     { isAuthenticated==true ?
     <ul>
         <li>NickName : {userInfo.nickName}</li>
         <li>가입일자 : {userInfo.userDate}</li>
         <li ><button onClick={onUpdate}>설정</button></li>
-        <li>뭘?넣을</li>
+        <li><button className="onGenre" onClick={onGenre}> 장르 설정 </button></li>
     </ul>
     :
     <h3>잘못된 접근입니다. 로그인 후 다시 시도해주세요.</h3>
     }
     </>)
+
+    
+    
     
 }

@@ -29,9 +29,9 @@ export default function BeforeStudy() {
 //   })();
 // }, []);
 
-  const startGenre = async() => {
+  const startStudy = async() => {
     // 목록 화면으로 이동 (주제 미선택 상태)
-    navigate("/genre");
+    navigate("/study");
   };
 
   return (
@@ -39,7 +39,7 @@ export default function BeforeStudy() {
       <img className="startGenreImg" src="/img/BeforeStudy.png" />
       <div className="startBox">
         <h3>한국어를 배워보아요</h3>
-        <button className="startGenre" onClick={startGenre}> 학습 시작 </button>
+        <button className="startStudy" onClick={startStudy}> 학습 시작 </button>
       </div>
     </div>
   );

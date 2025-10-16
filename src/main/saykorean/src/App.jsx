@@ -64,6 +64,7 @@ function App() {
 
   return (
     <>
+    <div id="App">
       <h3> 루트페이지 </h3>
       <BrowserRouter>
         <Routes>
@@ -96,6 +97,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter >
+      </div>
     </>
   )
 }

@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-// 응답을 배열로 표준화
+//  응답을 배열로 표준화
 function asArray(payload) {
   // 만약 문자열(JSON 텍스트)이면 JSON으로 파싱 시도
   if ( typeof payload === "string" ) {
