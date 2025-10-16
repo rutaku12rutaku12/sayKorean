@@ -1,9 +1,7 @@
 
-#footer{
+#footer {
     background-color: #FFF9F0;
-    margin: 0 auto;
-    padding: 0 auto;
-    width: 410px;
+    border: 1px solid #FFF9F0;
 }
 
 #footer .list{

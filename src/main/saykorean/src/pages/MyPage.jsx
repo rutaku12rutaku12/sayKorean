@@ -3,6 +3,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import { logIn } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import "../styles/MyPage.css"
 
 export default function MyPage( props ){
     console.log("MyPage.jsx open")
@@ -44,16 +45,27 @@ export default function MyPage( props ){
     };
 
     return(<>
-    { isAuthenticated==true ?
-    <ul>
-        <li>NickName : {userInfo.nickName}</li>
-        <li>가입일자 : {userInfo.userDate}</li>
-        <li ><button onClick={onUpdate}>설정</button></li>
-        <li><button className="onGenre" onClick={onGenre}> 장르 설정 </button></li>
-    </ul>
-    :
-    <h3>잘못된 접근입니다. 로그인 후 다시 시도해주세요.</h3>
-    }
+    <div id="MyPage">
+      <section className="panel">
+        <h3 className="panelTitle">마이페이지</h3>
+
+        <ul className="infoList">
+          <li className="infoRow">
+            <span className="infoKey">닉네임</span>
+            <span className="infoValue">{userInfo?.nickName}</span>
+          </li>
+          <li className="infoRow">
+            <span className="infoKey">가입일자</span>
+            <span className="infoValue">{userInfo?.userDate}</span>
+          </li>
+        </ul>
+
+        <div className="btnGroup">
+          <button className="pillBtn" onClick={onUpdate}>회원정보 수정</button>
+          <button className="pillBtn" onClick={onGenre}>장르 설정</button>
+        </div>
+      </section>
+    </div>
     </>)
 
     

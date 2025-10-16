@@ -1,17 +1,16 @@
 #App{
   width: 410px;
   margin: 0 auto;
-  padding: 0 auto;
 }
 /* 레이아웃 프레임: 자식 absolute의 기준 */
-.user-frame {
+#user-frame {
   position: relative;
   width: 410px;
   margin: 0 auto;
 }
 
 /* 관리자 버튼: 우측 최상단 고정 */
-.admin-btn {
+#user-frame .admin-btn {
   position: absolute;
   top: 8px;     /* ⬅︎ 기존 bottom을 top으로 변경 */
   right: 8px;
@@ -20,8 +19,14 @@
   z-index: 10;
 }
 
-.admin-btn img {
+#user-frame .admin-btn img {
   width: 100%;
   height: 100%;
   display: block;
 }
+
+#user-frame .footer{
+  .app-frame > *:not(footer):last-child { margin-bottom: 0 !important; }
+}
+
+#user-frame .footer { margin-top: 0 !important; display: flow-root; }

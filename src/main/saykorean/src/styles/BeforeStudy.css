@@ -1,34 +1,67 @@
-*{
-    border: 1px solid red;
-    color: #6B4E42;
-    
+/* 전체 프레임: 410px 고정, 가운데 정렬 */
+#BeforeStudy {
+  border: 1px solid red;
+  position: relative;
+  padding: 16px 0 24px;
+  box-sizing: border-box;
+  background-color: rgb(255, 249, 240, 0.3);
 }
 
-#startGenre{
-    width: 410px;
-    margin: 0 auto;
-    padding: 0 auto;
-    text-align: center;
+/* 메인 이미지 */
+#BeforeStudy .startGenreImg {
+  margin: 20px auto;
+  display: block;
+  width: 80%;
+  height: auto;
+  border-radius: 16px;
 }
 
-.startGenreImg{
-    margin-top: 30px;
-    width: 220px;
-    height: 300px;
+/* 텍스트 + 버튼 박스 */
+#BeforeStudy .startBox {
+  width: 350px;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  margin: 16px auto;
+  padding: 10px;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  color: rgb(107, 78, 66);
 }
 
-.startBox{
-    border: 1px solid #eeeeee;
-    border-radius: 10px;
-    width: 220px;
-    height: 100px;
-    vertical-align: center;
-    margin: 20px 95px;
+#BeforeStudy .startBox h3 {
+  font-size: 30px;
+  font-weight: 800;
+  margin: 0;
 }
-.startGenre{
-    border: 1px solid #7bc8ac;
-    background-color: #A8E6CF;
-    border-radius: 10px;
-    width: 70px;
-    height: 25px;
+
+/* 시작 버튼: Genre의 pill 버튼 톤과 통일 */
+#BeforeStudy .startStudy {
+  width: 180px;              /* 필요하면 410px로 변경 가능 */
+  height: 60px;
+  border-radius: 100px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  color: rgb(107, 78, 66);
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+#BeforeStudy .startStudy:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+}
+
+#BeforeStudy .startStudy:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+/* 모바일 폭 대응 */
+@media (max-width: 430px) {
+  #BeforeStudy { width: 100%; }
+  #BeforeStudy .startStudy { width: 100%; }
 }

@@ -1,0 +1,99 @@
+/* 페이지 래퍼
+#MyPage .panel {
+  background-color: rgba(255, 249, 240, 0.3);
+  text-align: center;
+  padding: 16px 0 24px;
+}
+
+/* 타이틀 */
+#MyPage .panelTitle {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 30px;
+  color: rgb(107, 78, 66);
+}
+
+/* 정보 리스트 */
+#MyPage .infoList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+#MyPage .infoRow {
+  width: 360px;               /* Genre와 동일 폭 */
+  min-height: 48px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  color: rgb(107, 78, 66);
+}
+
+#MyPage .infoKey {
+  font-weight: 700;
+}
+
+#MyPage .infoValue {
+  opacity: 0.9;
+}
+
+/* 버튼 그룹 */
+#MyPage .btnGroup {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+/* Genre와 같은 pill 버튼 */
+#MyPage .pillBtn {
+  width: 360px;               /* 고정 */
+  height: 70px;               /* 고정 */
+  margin-bottom: 2px;
+
+  border-radius: 100px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  color: rgb(107, 78, 66);
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+#MyPage .pillBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+}
+
+#MyPage .pillBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+/* 빈 상태 안내 */
+#MyPage .emptyNotice {
+  width: 360px;
+  margin: 0 auto 16px;
+  padding: 18px 14px;
+  border: 1px dashed #e5e7eb;
+  border-radius: 14px;
+  color: rgb(107, 78, 66);
+  background: #fff;
+}
+
+/* 모바일 폭 대응 */
+@media (max-width: 430px) {
+  #MyPage .infoRow,
+  #MyPage .pillBtn,
+  #MyPage .emptyNotice {
+    width: 100%;
+  }
+}

@@ -35,7 +35,7 @@ export default function BeforeStudy() {
   };
 
   return (
-    <div id="startGenre">
+    <div id="BeforeStudy">
       <img className="startGenreImg" src="/img/BeforeStudy.png" />
       <div className="startBox">
         <h3>한국어를 배워보아요</h3>

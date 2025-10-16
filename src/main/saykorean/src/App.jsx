@@ -31,9 +31,9 @@ import "./styles/App.css";
 const UserLayout = () => {
 
   return (<>
-    <div className="user-frame">
+    <div id="user-frame">
       <Outlet />
-      <Footer />
+      <Footer className="footer" />
 
       {/* ⬇︎ 우측 하단이었던 버튼을 className으로 상단 고정 */}
       <Link to="/admin" className="admin-btn" aria-label="관리자">
