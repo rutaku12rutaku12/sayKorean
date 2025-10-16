@@ -14,7 +14,7 @@ public interface UserMapper {
     public int signUp(UserDto userDto);
 
     // [US-02] 로그인 logIn()
-    @Select("select * from users where email = #{email} and password = #{password} where userState != -1")
+    @Select("select * from users where email = #{email} and password = #{password} and userState != -1")
     public int logIn(LoginDto loginDto);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
