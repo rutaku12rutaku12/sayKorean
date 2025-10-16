@@ -30,13 +30,14 @@ import "./styles/App.css";
 const UserLayout = () => {
 
   return (<>
-    <div style={{
-      width: '410px',
-      margin: '0 auto',
-    }}>
-      <Outlet /> {/* Outlet: 자식 컴포넌트가 들어가는 자리*/}
-      <Footer /> {/* 공통 Footer */}
-      <Link to="/admin" > <img style={{ float: 'right', width: '49.6px', height: '49.6px' }} src="/img/admin.svg" /> </Link>
+    <div className="user-frame">
+      <Outlet />
+      <Footer />
+
+      {/* ⬇︎ 우측 하단이었던 버튼을 className으로 상단 고정 */}
+      <Link to="/admin" className="admin-btn" aria-label="관리자">
+        <img src="/img/admin.svg" alt="관리자" />
+      </Link>
     </div>
   </>)
 
