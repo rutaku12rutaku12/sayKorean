@@ -20,7 +20,7 @@ public class UserDto {
     @NotBlank
     private String password; // 비밀번호(예시 길이)
     private String nickName; // 닉네임 기본값
-    @Pattern(regexp = "(^\\+?[1-9]\\d{1,14}$)", message = "올바른 휴대폰 번호를 입력해주세요.")
+    @Pattern(regexp = "^\\+?[1-9]\\d{7,14}$", message = "올바른 휴대폰 번호를 입력해주세요.")
     @NotBlank
     private String phone; // 연락처: 고유(옵션 필수X)
     private int signupMethod; // 가입방식 코드 기본 1
