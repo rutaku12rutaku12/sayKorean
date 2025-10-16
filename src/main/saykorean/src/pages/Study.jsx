@@ -241,13 +241,13 @@ export default function Study() {
 
       {/* 내 장르로 주제 목록만 먼저 보여주고, 클릭 시 상세 페이지로 이동 */}
       {/*  목록은 studyNo가 없을 때만 보여준다 */}
-    {!studyNo && (
-      <PickerSection
-        title={selectedGenreNo ? `주제 선택 (장르 #${selectedGenreNo})` : "주제 선택"}
-        items={subjects}
-        activeId={null}  // 목록만 보여줄 때 굳이 활성 표시 필요 없음
-      />
-    )}
+      {!studyNo && (
+        <PickerSection
+          title={selectedGenreNo ? `주제 선택 (장르 #${selectedGenreNo})` : "주제 선택"}
+          items={subjects}
+          activeId={null}  // 목록만 보여줄 때 굳이 활성 표시 필요 없음
+        />
+      )}
 
       {/* 주제 상세 + 예문: studyNo 있을 때만 */}
       {studyNo && subject && (
@@ -257,7 +257,7 @@ export default function Study() {
             <h3>{subject?.themeKo ?? subject?.themeEn ?? "제목 없음"}</h3>
           </div>
 
-          { /*  주제 해설 영역 추가 */ }
+          { /*  주제 해설 영역 추가 */}
           {subject?.commenKo && (
             <div className="commenKo">
               <p>{subject.commenKo}</p>
@@ -265,11 +265,11 @@ export default function Study() {
           )}
 
 
-          { /* 예문 페이지로 이동하는 버튼 */ }
+          { /* 예문 페이지로 이동하는 버튼 */}
           <button
             className="goExampleBtn"
             onClick={() => navigate(`/exampleList/${studyNo}`)} >
-              다음
+            다음
           </button>
 
 

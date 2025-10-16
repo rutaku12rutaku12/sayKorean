@@ -1,9 +1,58 @@
-*{
+/* * {
     border: 1px solid red;
-    color: #6B4E42;
+    color: rgb(107, 78, 66);
+    margin: 0 auto;
+    padding: 0 auto;
+} */
+
+/* .pillBtn{ width: 360px; height: 70px; margin-bottom: 30px; } */
+#Genre .panel {
+    background-color: rgb(255, 249, 240, 0.3);
+    text-align: center;
 }
-.pillBtn{
-    width: 360px;
-    height: 70px;
+
+#Genre .panelTitle {
+    margin-top: 40px;
     margin-bottom: 30px;
+    text-align: center;
+    font-size: 30px;
+}
+
+/* 장르 버튼(고정 폭/높이) */
+#Genre .pillBtn {
+    width: 360px; /* 고정 */
+    height: 70px; /* 필요하면 고정 */
+    margin-bottom: 10px;
+    
+    border-radius: 100px;
+    border: 1px solid #e5e7eb;
+    background: linear-gradient(180deg, #fff, #fafafa);
+    font-weight: bold;
+    transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+    cursor: pointer;
+}
+
+#Genre .label {
+    font-size: 18px;
+}
+
+#Genre .pillBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+}
+
+#Genre .pillBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+/* 모바일에서만 100%로 */
+@media (max-width: 430px) {
+    #Genre .list {
+        grid-template-columns: 1fr;
+    }
+
+    #Genre .pillBtn {
+        width: 100%;
+    }
 }

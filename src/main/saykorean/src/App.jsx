@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import ExampleList from "./pages/ExampleList";
 import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
+// import Setting from "./pages/Setting";
 
 // 관리자단(PC)
 import AdminStudyList from "./adminPages/AdminStudyList";
@@ -20,6 +21,9 @@ import AdminHome from "./adminPages/AdminHome";
 import AdminStudyCreate from "./adminPages/AdminStudyCreate";
 import AdminStudyEdit from "./adminPages/AdminStudyEdit";
 import AdminNav from "./components/AdminNav";
+
+
+import "./styles/App.css";
 
 
 // 사용자단 레이아웃
@@ -30,9 +34,8 @@ const UserLayout = () => {
       width: '410px',
       margin: '0 auto',
     }}>
-      <h3> 사용자 화면 레이아웃 </h3>
-      <Outlet /> {/* Outlet: 자식 컴포넌트가 들어가는 자리 */}
-      <Footer /> {/* 공통 Footer  */}
+      <Outlet /> {/* Outlet: 자식 컴포넌트가 들어가는 자리*/}
+      <Footer /> {/* 공통 Footer */}
       <Link to="/admin" > <img style={{ float: 'right', width: '49.6px', height: '49.6px' }} src="/img/admin.svg" /> </Link>
     </div>
   </>)
@@ -86,6 +89,7 @@ function App() {
             <Route path="/study/:studyNo" element={<Study />} /> {/* 주제 상세 */}
             <Route path="/exampleList/:studyNo" element={<ExampleList />} /> {/* 예문 */}
             <Route path="/successexamlist" element = { <SuccessExamList/>}> </Route>
+            {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
           </Route>
         </Routes>
       </BrowserRouter >

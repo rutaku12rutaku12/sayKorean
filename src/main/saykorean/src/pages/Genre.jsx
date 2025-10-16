@@ -60,22 +60,24 @@ export default function Genre(props) {
 
 
     return (<>
-        <div className="panel">
-            <h3 className="panelTitle">장르 선택</h3>
+        <div id="Genre">
+            <div className="panel">
+                <h3 className="panelTitle">장르 선택</h3>
 
-            {loading && <div className="toast loading">불러오는 중…</div>}
-            {error && <div className="toast error">{error}</div>}
+                {loading && <div className="toast loading">불러오는 중…</div>}
+                {error && <div className="toast error">{error}</div>}
 
-            <div className="list">
-                {genres.map((g) => (
-                    <button
-                        key={g.genreNo}                 // 고유 key
-                        className="pillBtn"
-                        onClick={() => pickGenre(g.genreNo)}
-                    >
-                        <span className="label">{g.genreName}</span>
-                    </button>
-                ))}
+                <div className="list">
+                    {genres.map((g) => (
+                        <button
+                            key={g.genreNo}                 // 고유 key
+                            className="pillBtn"
+                            onClick={() => pickGenre(g.genreNo)}
+                        >
+                            <span className="label">{g.genreName}</span>
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
     </>)

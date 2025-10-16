@@ -6,7 +6,7 @@
     width: 410px;
 }
 
-.list{
+#footer .list{
     list-style: none;
     display: flex;
     justify-content: space-between;

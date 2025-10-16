@@ -1,15 +1,41 @@
-
-/* 배너 - 정유진 수정 중!!! */
-.banner{
-    position: fixed;
-    right: 380px; top: 100px;
-    width: 280px;
-    height: 716px;
-    background-color: white;
-
+/* 410px 앱 프레임 (레이아웃 기준) */
+#AppFrame {
+  position: relative;     /* ✅ 자식 absolute 기준 */
+  width: 410px;           /* 요구사항: 고정 폭 */
+  margin: 0 auto;         /* 가운데 정렬 */
 }
-@media ( max-width: 1080px ) {
-  .banner{
-    display: none;
-  }
+
+/* 오른쪽 최상단 설정 버튼 */
+#AppFrame .settingsBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  z-index: 100;           /* 내용 위로 */
+}
+#AppFrame .settingsBtn img {
+  width: 22px;
+  height: 22px;
+}
+
+/* (선택) 관리자 바로가기 버튼을 하단 오른쪽에 두고 싶다면 */
+#AppFrame .adminShortcut {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+}
+#AppFrame .adminShortcut img {
+  width: 100%;
+  height: 100%;
 }
