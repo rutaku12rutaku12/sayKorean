@@ -2,6 +2,7 @@
   width: 410px;
   margin: 0 auto;
 }
+
 /* 레이아웃 프레임: 자식 absolute의 기준 */
 #user-frame {
   position: relative;
