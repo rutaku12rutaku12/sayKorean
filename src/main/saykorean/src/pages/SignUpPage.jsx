@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function SignUpPage (props){
     console.log("SignUpPage.jsx open")
@@ -55,7 +57,7 @@ export default function SignUpPage (props){
             // CORS 옵션 허용
             const option = { withCredentials : true,
                             params:{phone:phone}
-             }
+            }; console.log("검사할 번호 : ", phone);
             const response = await axios.get("http://localhost:8080/saykorean/checkphone",option)
             console.log(response);
             const data = response.data;
@@ -77,6 +79,7 @@ export default function SignUpPage (props){
         }
     }
 
+
     // 회원가입 함수 
     const onSignup = async()=>{
         try{
@@ -85,6 +88,7 @@ export default function SignUpPage (props){
             // CORS 옵션 허용
             const option = { withCredentials : true }    
             const response = await axios.post("http://localhost:8080/saykorean/signup",obj,option)
+            console.log("보내는값확인",obj);
             const data = response.data;
             console.log("userNo",data,"으로 가입");
             alert("Welcome! 회원이 되신 것을 환영합니다. ")
@@ -100,13 +104,21 @@ export default function SignUpPage (props){
             이름 (name) <br/>
             <input type="text" placeholder="이름을 입력해주세요." value={name} onChange={(e)=> setName(e.target.value)} /> <br/>
             이메일 (email) <br/>
-            <input type="email" placeholder="이메일을 입력해주세요." value={email} onChange={(e)=> setEmail(e.target.value)} /> <button onClick={CheckEmail}> 중복확인</button> <br/>
+            <input type="email" placeholder="이메일을 입력해주세요." value={email} onChange={(e)=> setEmail(e.target.value)} /> <button onClick={CheckEmail}> 중복 확인</button> <br/>
             비밀번호 (password) <br/>
             <input type="password" placeholder="비밀번호를 입력해주세요." value={password} onChange={(e)=> setPassword(e.target.value)} /> <br/>
             닉네임 (nickName) <br/>
             <input type="text" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickName(e.target.value)} /> <br/>
             연락처 (phone) <br/>
-            <input type="tel" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <button onClick={CheckPhone}> 중복확인</button> <br/>
+            <PhoneInput
+            country={'kr'} // initial country
+            preferredCountries={['us', 'cn', 'jp', 'kr']} // country codes to be at the top
+            enableSearch={true}
+            value={phone}
+            onChange={setPhone}
+                inputProps={{ name: 'phone', required: true }}
+                inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
+            /> <button onClick={CheckPhone}> 중복 확인</button> <br/>   
             <br/>
             <button onClick={onSignup}>회원가입 (SignUp) </button>
         </div>
