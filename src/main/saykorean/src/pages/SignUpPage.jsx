@@ -20,8 +20,8 @@ export default function SignUpPage (props){
                     // const [genreNo, setGenreNo] = useState(""); 기본값1
     
     // 중복 여부 상태 관리 
-    const [emailCheck, setEmailCheck] = useState(false);
-    const [phoneCheck, setPhoneCheck] = useState(false);
+    const [emailCheck, setEmailCheck] = useState(true);
+    const [phoneCheck, setPhoneCheck] = useState(true);
 
     
     // 이메일 중복검사
@@ -36,16 +36,14 @@ export default function SignUpPage (props){
             console.log(response);
             const data = response.data;
             console.log("중복이면 1 , 사용가능 0 반환:", data)
-            if(data==-1){
+            if(data==0){
                 setEmailCheck(false);
-            }
+                {alert("사용 가능한 이메일입니다.")}}
             else if(data==1){
-            setEmailCheck(false);
-            alert("이미 등록된 이메일입니다.")}
-            else if(data==0){
-            setEmailCheck(true);
-                {alert("사용 가능한 이메일입니다.")}
-            }
+                setEmailCheck(true);
+                alert("이미 등록된 이메일입니다.")}
+            else if(data==-1){
+                setEmailCheck(true);}
             else{alert("이메일 형식에 맞게 입력해 주세요.")}
         }catch (e){alert("이메일 형식이 올바르지 않습니다.")
             console.log("예외 : " ,e)
@@ -62,16 +60,16 @@ export default function SignUpPage (props){
             console.log(response);
             const data = response.data;
             console.log("중복이면 1 , 사용가능 0 반환:", data)
-            if(data==-1){
-                setPhoneCheck(true);
-            }
-            else if(data==0){
+            if(data==0){
                 setPhoneCheck(false);
                 {alert("사용 가능한 연락처입니다.")}
-            }
+            } 
             else if(data==1){
             setPhoneCheck(true);
             alert("이미 등록된 연락처입니다.")
+            }
+            else if(data==-1){
+                setPhoneCheck(true);
             }
             else{alert("전화번호 형식에 맞게 입력해 주세요.")}
         }catch (e){alert("연락처 형식이 올바르지 않습니다.")
@@ -85,6 +83,7 @@ export default function SignUpPage (props){
         try{
             const obj = { name : name , email: email, password:password, nickName: nickName , phone : phone}
             console.log(obj);
+            if(emailCheck || phoneCheck) return alert("중복확인을 해주세요.")
             // CORS 옵션 허용
             const option = { withCredentials : true }    
             const response = await axios.post("http://localhost:8080/saykorean/signup",obj,option)
@@ -98,6 +97,7 @@ export default function SignUpPage (props){
                 alert("회원가입이 실패 했습니다.");
                 console.log("회원가입 실패", e)}
     }
+
 
     return(<> <h3>회원가입</h3><br/>
         <div>
