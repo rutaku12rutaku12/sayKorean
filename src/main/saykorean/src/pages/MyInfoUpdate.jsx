@@ -66,9 +66,9 @@ export default function MyInfoUpdatePage(props){
     // 비밀번호 수정 함수 TODO!!
     const onUpdatePwrd = async (newPassword,checkPassword) => {
         console.log("onUpdatePwrd")
-        if(newPassword == checkPassword) return alert("변경할 비밀번호가 다릅니다.")
+        if(newPassword != checkPassword) {return alert("변경할 비밀번호가 다릅니다.")}
         try{
-        const obj = { newPassword }
+        const obj = { userNo: userInfo.userNo, password:newPassword };
         const option = { withCredentials : true }
         const response = await axios.put("http://localhost:8080/saykorean/updatepwrd",obj,option)
         const data = response.data;
@@ -163,7 +163,7 @@ export default function MyInfoUpdatePage(props){
         기존 비밀번호 <input type="password" value={password} onChange={(e)=> setPassword(e.target.value)}/> <br/><br/>
         새로운 비밀번호 <input type="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} /> <br/>
         새로운 비밀번호 확인 <input type="password" value={checkPassword} onChange={(e)=>setCheckPassword(e.target.value)} /> <br/>
-        <button onClick={onUpdatePwrd}>수정</button>
+        <button onClick={()=>onUpdatePwrd(newPassword,checkPassword)}>수정</button>
 
         <br/>
         <h3></h3>
