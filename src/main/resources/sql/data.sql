@@ -35,17 +35,16 @@ VALUES
 ('Daniel Choi', 'user19@example.com', 'pass#19!', 'daniel', '+8201012340019', 1, 1),
 ('박서연', 'user20@example.com', 'pass#20!', '서연', '+8201012340020', 2, 1),
 
-('김하준', 'user21@example.com', 'pass#21!', '하준', '+8201012340021', 3, 1),
-('이아린', 'user22@example.com', 'pass#22!', '아린', '+8201012340022', 4, 1),
-('Noah Kim', 'user23@example.com', 'pass#23!', 'noah', '+8201012340023', 1, 1),
-('Emma Park', 'user24@example.com', 'pass#24!', 'emma', '+8201012340024', 2, 1),
-('Sophia Cho', 'user25@example.com', 'pass#25!', 'sophia', '+8201012340025', 3, 1),
-('Mason Han', 'user26@example.com', 'pass#26!', 'mason', '+8201012340026', 4, 1),
-('김지후', 'user27@example.com', 'pass#27!', '지후', '+8201012340027', 1, 1),
-('이서윤', 'user28@example.com', 'pass#28!', '서윤', '+8201012340028', 2, 1),
-('박민서', 'user29@example.com', 'pass#29!', '민서', '+8201012340029', 3, 1),
-('한예린', 'user30@example.com', 'pass#30!', '예린', '+8201012340030', 4, 1);
-
+('김하준', 'user21@example.com', 'pass#21!', '하준', '01012340021', 3, 1),
+('이아린', 'user22@example.com', 'pass#22!', '아린', '01012340022', 4, 1),
+('Noah Kim', 'user23@example.com', 'pass#23!', 'noah', '01012340023', 1, 1),
+('Emma Park', 'user24@example.com', 'pass#24!', 'emma', '01012340024', 2, 1),
+('Sophia Cho', 'user25@example.com', 'pass#25!', 'sophia', '01012340025', 3, 1),
+('Mason Han', 'user26@example.com', 'pass#26!', 'mason', '01012340026', 4, 1),
+('김지후', 'user27@example.com', 'pass#27!', '지후', '01012340027', 1, 1),
+('이서윤', 'user28@example.com', 'pass#28!', '서윤', '01012340028', 2, 1),
+('박민서', 'user29@example.com', 'pass#29!', '민서', '01012340029', 3, 1),
+('한예린', 'user30@example.com', 'pass#30!', '예린', '01012340030', 4, 1);
 
 INSERT INTO study
   ( themeKo, themeJp, themeCn, themeEn, themeEs,
@@ -526,5 +525,3 @@ INSERT INTO loading (loadTitle, loadInfo, loadFileName) VALUES
 ('롯데타워', '서울의 랜드마크입니다', '28_load_img'),
 ('광장시장', '빈대떡으로 유명한 전통시장입니다', '29_load_img'),
 ('서울시청', '시민들의 행정 중심지입니다', '30_load_img');
-
-select * from users;
