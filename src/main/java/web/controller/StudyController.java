@@ -20,7 +20,6 @@ public class StudyController {
     // 로그인 확인 : { "email" : "user01@example.com" , "password" : "pass#01!" }
 
     private final StudyService studyService;
-    private final UserService userService;
 
 
     // 장르 목록
