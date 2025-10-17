@@ -1,3 +1,8 @@
+#homePage{
+  color: #6B4E42;
+  box-shadow: 0 6px 5px rgba(0, 0, 0, 0.23);
+}
+
 /* 부모(UserLayout)의 410px 프레임 안에서만 동작 */
 .homePage {
   position: relative;            /* 배경 absolute 기준 */
@@ -16,11 +21,11 @@
   pointer-events: none;
 }
 
-.homePage__title {
-  font-size: 25px;
-  margin: 15px 0 12px;
-  text-align: center;
+.homePage .logoImg{
+  margin-top: 55px;
+  width: 300px;
 }
+
 
 .homePage__content {
   margin-top: 25px;
@@ -31,13 +36,13 @@
 }
 
 .mainImg {
-  width: 100%;
+  width: 70%;
   max-width: 360px;
-  height: auto;
   display: block;
 }
 
 .homePage__actions button {
+  color : #6B4E42;
   width: 160px;
   height: 44px;
   margin: 6px;

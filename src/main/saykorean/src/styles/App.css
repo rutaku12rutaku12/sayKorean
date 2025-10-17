@@ -25,9 +25,3 @@
   height: 100%;
   display: block;
 }
-
-#user-frame .footer{
-  .app-frame > *:not(footer):last-child { margin-bottom: 0 !important; }
-}
-
-#user-frame .footer { margin-top: 0 !important; display: flow-root; }
