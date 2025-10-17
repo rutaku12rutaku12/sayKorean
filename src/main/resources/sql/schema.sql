@@ -64,11 +64,11 @@ CREATE TABLE IF NOT EXISTS users (
 -- 3) 로딩 테이블 (독립 - FK 없음)
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS loading (
-  loadNo       INT  NOT NULL AUTO_INCREMENT,
-  loadTitle    TEXT NOT NULL,
-  loadInfo     TEXT NOT NULL,
-  loadFileName TEXT NOT NULL,
-  PRIMARY KEY (loadNo)
+    loadNo INT NOT NULL AUTO_INCREMENT,       -- 로딩번호
+    loadTitle TEXT NOT NULL,                  -- 로딩제목
+    loadInfo TEXT NOT NULL,                   -- 로딩이미지설명
+    loadFileName TEXT NOT NULL,               -- 로딩이미지파일명
+    PRIMARY KEY (loadNo)                      -- 기본키
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
