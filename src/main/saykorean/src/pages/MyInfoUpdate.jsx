@@ -34,6 +34,7 @@ export default function MyInfoUpdatePage(props){
             setName(data.name);
             setNickName(data.nickName);
             setPhone(data.phone);
+            setUserInfo(data);
             console.log(data);
             // 로그인된 데이터 정보를 userInfo에 담기
             dispath(logIn(data));
@@ -45,13 +46,14 @@ export default function MyInfoUpdatePage(props){
     const onUpdate = async () => {
         console.log("onUpdate.exe")
         // return에 존재하는 input 마크업 내에 value={?} 값과 연결됨.
-        try{const obj = { name, nickName , phone } // 
+        try{const obj = { userNo: userInfo.userNo, name, nickName , phone } // 
             console.log("수정할 정보:", obj)
             // CORS 허용
             const option = { withCredentials : true }
-            const response = await axios.put("http://localhost:8080/saykorean/updateuserinfo",userInfo,option)
+            const response = await axios.put("http://localhost:8080/saykorean/updateuserinfo",obj,option)
             const data = response.data
-
+            setUserInfo(data);
+            dispath(logIn(updatedData));
         }catch(e){console.log(e)}
     }
     // 비밀번호 수정 함수
@@ -110,6 +112,20 @@ export default function MyInfoUpdatePage(props){
         }catch(e){console.log(e)}
     }
 
+    // 전화번호에 +값이 빠지는걸 추가 시키는 함수
+    const handlePhoneChange = (value, country, event, formattedValue) => {
+        // 공백 제거
+        let phoneWithPlus = (value || "").replace(/\s+/g, "");
+
+        // + 없으면 붙이기
+        if (!phoneWithPlus.startsWith("+")) {
+            phoneWithPlus = "+" + phoneWithPlus;
+        }
+
+        setPhone(phoneWithPlus);
+        console.log("저장될 phone:", phoneWithPlus);
+    };
+
     return(<>
         <h3>사용자 정보 수정</h3>
         <br/>
@@ -121,7 +137,7 @@ export default function MyInfoUpdatePage(props){
             preferredCountries={['us', 'cn', 'jp', 'kr']} // country codes to be at the top
             enableSearch={true}
             value={phone}
-            onChange={setPhone}
+            onChange={handlePhoneChange}
                 inputProps={{ name: 'phone', required: true }}
                 inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
         />

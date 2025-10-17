@@ -98,6 +98,20 @@ export default function SignUpPage (props){
                 console.log("회원가입 실패", e)}
     }
 
+    // 전화번호에 +값이 빠지는걸 추가 시키는 함수
+    const handlePhoneChange = (value, country, event, formattedValue) => {
+        // 공백 제거
+        let phoneWithPlus = (value || "").replace(/\s+/g, "");
+
+        // + 없으면 붙이기
+        if (!phoneWithPlus.startsWith("+")) {
+            phoneWithPlus = "+" + phoneWithPlus;
+        }
+
+        setPhone(phoneWithPlus);
+        console.log("저장될 phone:", phoneWithPlus);
+    };
+
 
     return(<> <h3>회원가입</h3><br/>
         <div>
@@ -115,10 +129,10 @@ export default function SignUpPage (props){
             preferredCountries={['us', 'cn', 'jp', 'kr']} // country codes to be at the top
             enableSearch={true}
             value={phone}
-            onChange={setPhone}
+            onChange={handlePhoneChange}
                 inputProps={{ name: 'phone', required: true }}
                 inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
-            /> <button onClick={CheckPhone}> 중복 확인</button> <br/>   
+            /> <button type="button" onClick={CheckPhone}> 중복 확인</button> <br/>   
             <br/>
             <button onClick={onSignup}>회원가입 (SignUp) </button>
         </div>
