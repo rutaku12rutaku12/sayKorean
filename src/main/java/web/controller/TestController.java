@@ -11,8 +11,5 @@ import web.service.TestService;
 @RequiredArgsConstructor
 public class TestController { // class start
 
-    //
     private final TestService testService;
-
-
 }
