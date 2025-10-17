@@ -17,7 +17,7 @@ export default function MyInfoUpdatePage(props){
     const [phone, setPhone] = useState("");
 
     // 중복 여부 상태 관리 
-    const [phoneCheck, setPhoneCheck] = useState(false);
+    const [phoneCheck, setPhoneCheck] = useState(true);
 
     // dispath , navigate 함수가져오기 
     const dispath = useDispatch();
