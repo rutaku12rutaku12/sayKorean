@@ -1,0 +1,135 @@
+/* 전체 섹션 */
+#SignUp {
+  background-color: rgba(255, 249, 240, 0.3);
+  padding: 16px 0 24px;
+  box-sizing: border-box;
+  color: rgb(107, 78, 66);
+}
+
+/* 제목 */
+#SignUp .panelTitle {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+/* 폼 래퍼 */
+#SignUp .form {
+  display: grid;
+  gap: 14px;
+  justify-items: center;        /* 가운데 정렬 */
+}
+
+/* 라벨 */
+#SignUp .label {
+  width: 360px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* 인풋 공통 */
+#SignUp .input {
+  width: 360px;
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  padding: 0 14px;
+  font-size: 16px;
+  color: rgb(107, 78, 66);
+  box-sizing: border-box;
+  outline: none;
+  transition: box-shadow 120ms ease, border-color 120ms ease;
+}
+
+#SignUp .input:focus {
+  border-color: #d6ccc2;
+  box-shadow: 0 0 0 4px rgba(214, 204, 194, 0.25);
+}
+
+/* 인풋 + 옆 버튼 한 줄 구성 */
+#SignUp .row {
+  width: 360px;
+  display: grid;
+  grid-template-columns: 1fr 120px; /* 입력 1fr, 버튼 120px */
+  align-items: center;
+  gap: 8px;
+}
+
+/* 옆(중복확인) 버튼 */
+#SignUp .sideBtn {
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 120ms ease, box-shadow 120ms ease;
+}
+
+#SignUp .sideBtn:hover {
+  background: rgba(107, 78, 66, 0.05);
+  box-shadow: 0 6px 14px rgba(107, 78, 66, 0.06);
+}
+
+/* 최종 가입 버튼(장르 버튼 톤) */
+#SignUp .pillBtn {
+  width: 360px;
+  height: 60px;
+  border-radius: 100px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  color: rgb(107, 78, 66);
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+#SignUp .pillBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+}
+
+#SignUp .pillBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+/* react-phone-input-2 스타일 맞추기 */
+#SignUp .phone {             /* containerClass */
+  width: 100%;
+}
+
+#SignUp .phoneInput {        /* inputClass */
+  width: 100% !important;
+  height: 56px !important;
+  border-radius: 12px !important;
+  border: 1px solid #e5e7eb !important;
+  padding-left: 48px !important; /* 국기 영역 여백 */
+  font-size: 16px !important;
+  color: rgb(107, 78, 66) !important;
+}
+
+#SignUp .phone .flag-dropdown { /* 버튼 쪽 */
+  border: 1px solid #e5e7eb !important;
+  border-right: none !important;
+  border-radius: 12px 0 0 12px !important;
+}
+
+#SignUp .phone .selected-flag {
+  border-radius: 12px 0 0 12px !important;
+}
+
+@media (max-width: 430px) {
+  #SignUp .label,
+  #SignUp .row,
+  #SignUp .input,
+  #SignUp .pillBtn {
+    width: 100%;
+  }
+  #SignUp .row { grid-template-columns: 1fr 110px; }
+}
