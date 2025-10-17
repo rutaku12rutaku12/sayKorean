@@ -1,4 +1,4 @@
-USE sayKorean;
+-- USE sayKorean;
 
 
 
