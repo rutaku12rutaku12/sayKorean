@@ -1,6 +1,5 @@
 // 공부화면 들어가기 전 : 문장을 배우세요(시작) 화면
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import axios from "axios";
 import "../styles/BeforeStudy.css";
 

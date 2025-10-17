@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import "../styles/SignUpPage.css"
 
 export default function SignUpPage (props){
     console.log("SignUpPage.jsx open")

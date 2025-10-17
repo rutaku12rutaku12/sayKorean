@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { logIn } from "../store/userSlice";
 import { useState } from "react";
-
-
+import "../styles/LogIn.css";
 
 export default function LogInPage(props){
     console.log("LogInPage.jsx open")
@@ -40,13 +39,78 @@ export default function LogInPage(props){
         }
 
     }
-    return(<><h3>로그인 페이지 </h3>
-    <input type="email" placeholder="이메일" value={email} onChange={(e)=> setEmail(e.target.value)} />
-    <br/>
-    <input type="password" placeholder="비밀번호" value={password} onChange={(e)=>setPassword(e.target.value)} />
-    <br/>
-    <button onClick={onLogin}>로그인</button>
-    <br/>
-    <button onClick={onFind}>이메일찾기/비밀번호찾기</button>  
-    </>)
+      return (
+    <div id="SignUp">
+      <h3 className="panelTitle">회원가입</h3>
+
+      <div className="form">
+        <div className="label">이름 (name)</div>
+        <input
+          className="input"
+          type="text"
+          placeholder="이름을 입력해주세요."
+          value={name}
+          onChange={(e)=> setName(e.target.value)}
+          autoComplete="name"
+        />
+
+        <div className="label">이메일 (email)</div>
+        <div className="row">
+          <input
+            className="input"
+            type="email"
+            placeholder="이메일을 입력해주세요."
+            value={email}
+            onChange={(e)=> setEmail(e.target.value)}
+            autoComplete="username"
+          />
+          <button type="button" className="sideBtn" onClick={CheckEmail}>
+            중복 확인
+          </button>
+        </div>
+
+        <div className="label">비밀번호 (password)</div>
+        <input
+          className="input"
+          type="password"
+          placeholder="비밀번호를 입력해주세요."
+          value={password}
+          onChange={(e)=> setPassword(e.target.value)}
+          autoComplete="new-password"
+        />
+
+        <div className="label">닉네임 (nickName)</div>
+        <input
+          className="input"
+          type="text"
+          placeholder="닉네임을 입력해주세요."
+          value={nickName}
+          onChange={(e)=> setNickName(e.target.value)}
+          autoComplete="nickname"
+        />
+
+        <div className="label">연락처 (phone)</div>
+        <div className="row">
+          <PhoneInput
+            country={'kr'}
+            preferredCountries={['us', 'cn', 'jp', 'kr']}
+            enableSearch={true}
+            value={phone}
+            onChange={setPhone}
+            inputProps={{ name: 'phone', required: true, autoComplete: 'tel' }}
+            containerClass="phone"     // CSS와 연결
+            inputClass="phoneInput"    // CSS와 연결
+            buttonClass="phoneBtn"     // (옵션) 필요 시 커스텀
+          />
+          <button type="button" className="sideBtn" onClick={CheckPhone}>
+            중복 확인
+          </button>
+        </div>
+
+        <button type="button" className="pillBtn" onClick={onSignup}>
+          회원가입 (Sign Up)
+        </button>
+      </div>
+    </div>
+  );
 }
