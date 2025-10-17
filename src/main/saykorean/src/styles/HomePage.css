@@ -1,5 +1,6 @@
 #homePage{
   color: #6B4E42;
+  box-shadow: 0 6px 5px rgba(0, 0, 0, 0.23);
 }
 
 /* 부모(UserLayout)의 410px 프레임 안에서만 동작 */
