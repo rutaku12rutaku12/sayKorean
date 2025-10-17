@@ -120,7 +120,11 @@ export default function SignUpPage (props){
                 inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
             /> <button onClick={CheckPhone}> 중복 확인</button> <br/>   
             <br/>
+            <div>
+            {!phoneCheck && !emailCheck && name && email && password && nickName && phone }{
             <button onClick={onSignup}>회원가입 (SignUp) </button>
+            } 
+            </div>
         </div>
     </>)
 }

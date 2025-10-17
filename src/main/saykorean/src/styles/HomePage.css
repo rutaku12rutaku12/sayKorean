@@ -10,7 +10,7 @@
 .homePage__bg {
   position: absolute;
   inset: 0;                            
-  background: url("/public/img/다운로드 (2) 1.png") no-repeat center;
+  background: url("/img/다운로드 (2) 1.png") no-repeat center;
   background-size: 100% 100%;   
   z-index: -1;
   pointer-events: none;
