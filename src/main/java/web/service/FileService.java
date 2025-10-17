@@ -14,7 +14,7 @@ import java.util.Locale;
 @Transactional
 public class FileService {
 
-    // [*] 기본 경로 설정
+    // [*] 기본 경로 설정 ##
     private String baseDir = System.getProperty("user.dir");
 
     // 업로드 경로 정의
