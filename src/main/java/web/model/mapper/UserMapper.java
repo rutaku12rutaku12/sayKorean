@@ -8,7 +8,7 @@ import web.model.dto.*;
 @Mapper
 public interface UserMapper {
 
-    // [US-01] 회원가입 signUp()
+    // [US-01] 회원가입 signUp() 테스트
     @Insert("insert into users (name,email,password,nickName,phone) values ( #{name},#{email},#{password},#{nickName},#{phone})")
     @Options(useGeneratedKeys = true, keyProperty = "userNo") // 마이바티스 generatekey 사용 어노테이션 : insert 이후 pk값인 userNo를 반환하기 위해서 사용
     public int signUp(UserDto userDto);
