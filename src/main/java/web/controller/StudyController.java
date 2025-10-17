@@ -22,7 +22,7 @@ public class StudyController {
     private final StudyService studyService;
 
 
-    // 장르 목록
+    // 장르 목록 //
     @GetMapping("/getGenre")
     public ResponseEntity< List< GenreDto > > getGenre(){
         return ResponseEntity.ok( studyService.getGenre() );
