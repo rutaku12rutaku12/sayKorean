@@ -16,7 +16,7 @@ import java.util.List;
 @Transactional // 관리자 검증 비즈니스 로직을 통과해야 DB <-> 클라이언트 처리를 함
 @RequiredArgsConstructor
 public class AdminStudyService {
-    // DI
+    // [*] DI
     private final AdminStudyMapper adminStudyMapper;
     private final FileService fileService;
 
