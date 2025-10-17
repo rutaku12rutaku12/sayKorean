@@ -24,7 +24,7 @@ export default function HomePage ( props ){
     }
     return (
         <div id="homePage" className="homePage">
-            {/* ✅ 이 한 줄이 ‘이 페이지에서만’ 배경 역할을 함 */}
+            {/* 이 한 줄이 ‘이 페이지에서만’ 배경 역할을 함 */}
             <div className="homePage__bg" aria-hidden="true" />
 
             <h3 className="homePage__title">재밌는 한국어</h3>

@@ -37,7 +37,7 @@ const UserLayout = () => {
 
       {/* ⬇︎ 우측 하단이었던 버튼을 className으로 상단 고정 */}
       <Link to="/admin" className="admin-btn" aria-label="관리자">
-        <img src="/img/admin.svg" alt="관리자" />
+        <img src="/img/설정.svg" alt="관리자" />
       </Link>
     </div>
   </>)
