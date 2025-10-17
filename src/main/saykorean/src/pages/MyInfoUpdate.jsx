@@ -19,6 +19,10 @@ export default function MyInfoUpdatePage(props){
     // 중복 여부 상태 관리 
     const [phoneCheck, setPhoneCheck] = useState(true);
 
+    // 새로운 패스워드 확인 상태 관리
+    const [checkPassword, setCheckPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+
     // dispath , navigate 함수가져오기 
     const dispath = useDispatch();
     const navigate = useNavigate();
@@ -34,6 +38,7 @@ export default function MyInfoUpdatePage(props){
             setName(data.name);
             setNickName(data.nickName);
             setPhone(data.phone);
+            setUserInfo(data);
             console.log(data);
             // 로그인된 데이터 정보를 userInfo에 담기
             dispath(logIn(data));
@@ -45,21 +50,34 @@ export default function MyInfoUpdatePage(props){
     const onUpdate = async () => {
         console.log("onUpdate.exe")
         // return에 존재하는 input 마크업 내에 value={?} 값과 연결됨.
-        try{const obj = { name, nickName , phone } // 
+        try{const obj = { userNo: userInfo.userNo, name, nickName , phone }
             console.log("수정할 정보:", obj)
             // CORS 허용
             const option = { withCredentials : true }
-            const response = await axios.put("http://localhost:8080/saykorean/updateuserinfo",userInfo,option)
-            const data = response.data
-
-        }catch(e){console.log(e)}
+            const response = await axios.put("http://localhost:8080/saykorean/updateuserinfo",obj,option)
+            const data = response.data;
+            setUserInfo(data);
+            dispath(logIn(data));
+            alert("회원정보가 정상적으로 수정되었습니다.");
+        }catch(e){console.log(e);
+            alert("오류가 발생하였습니다.")
+        }
     }
-    // 비밀번호 수정 함수
-    const onUpdatePwrd = async () => {
+    // 비밀번호 수정 함수 TODO!!
+    const onUpdatePwrd = async (newPassword,checkPassword) => {
         console.log("onUpdatePwrd")
+        if(newPassword != checkPassword) {return alert("변경할 비밀번호가 다릅니다.")}
         try{
-
-        }catch(e){console.log(e)}
+        const obj = { userNo: userInfo.userNo, password:newPassword };
+        const option = { withCredentials : true }
+        const response = await axios.put("http://localhost:8080/saykorean/updatepwrd",obj,option)
+        const data = response.data;
+        console.log(data);
+        setUserInfo(data);
+        alert("비밀번호가 정상적으로 수정되었습니다.");
+        }catch(e){console.log(e);
+            alert("오류가 발생하였습니다.")
+        }
     }
 
     // 연락처 중복검사
@@ -110,6 +128,20 @@ export default function MyInfoUpdatePage(props){
         }catch(e){console.log(e)}
     }
 
+    // 전화번호에 +값이 빠지는걸 추가 시키는 함수
+    const handlePhoneChange = (value, country, event, formattedValue) => {
+        // 공백 제거
+        let phoneWithPlus = (value || "").replace(/\s+/g, "");
+
+        // + 없으면 붙이기
+        if (!phoneWithPlus.startsWith("+")) {
+            phoneWithPlus = "+" + phoneWithPlus;
+        }
+
+        setPhone(phoneWithPlus);
+        console.log("저장될 phone:", phoneWithPlus);
+    };
+
     return(<>
         <h3>사용자 정보 수정</h3>
         <br/>
@@ -121,15 +153,17 @@ export default function MyInfoUpdatePage(props){
             preferredCountries={['us', 'cn', 'jp', 'kr']} // country codes to be at the top
             enableSearch={true}
             value={phone}
-            onChange={setPhone}
+            onChange={handlePhoneChange}
                 inputProps={{ name: 'phone', required: true }}
                 inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
         />
         <button onClick={CheckPhone}>중복 확인</button><br/> 
         <button onClick={onUpdate}>수정</button>
         <h3>비밀번호 수정</h3>
-        비밀번호 <input type="password" value={password} onChange={(e)=> setPassword(e.target.value)}/> <br/>
-        <button onClick={onUpdatePwrd}>수정</button>
+        기존 비밀번호 <input type="password" value={password} onChange={(e)=> setPassword(e.target.value)}/> <br/><br/>
+        새로운 비밀번호 <input type="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} /> <br/>
+        새로운 비밀번호 확인 <input type="password" value={checkPassword} onChange={(e)=>setCheckPassword(e.target.value)} /> <br/>
+        <button onClick={()=>onUpdatePwrd(newPassword,checkPassword)}>수정</button>
 
         <br/>
         <h3></h3>
