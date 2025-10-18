@@ -11,7 +11,7 @@ import java.util.List;
 public interface AttendMapper {
 
     // [AT-1] 출석하기 attend()
-    @Insert("insert into attendance (attenDate , userNo ) values (#{attenDate} , #{userNo})")
+    @Insert("insert into attendance ( userNo ) value ( #{userNo})")
     public int attend(AttendDto attendDto);
 
     // [AT-2] 출석 조회 getAttend()

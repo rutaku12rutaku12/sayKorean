@@ -37,18 +37,19 @@ export default function LogInPage(props){
             setUserInfo(data);
             console.log(data);
             // 로그인된 데이터 정보를 userInfo에 담기
-            dispath(logIn(data));
+            dispatch(logIn(data));
             setUserInfo(data);
+            return data;
         }catch(e){console.log(e)}
     }
 
     // 출석하기 함수
     const onAttend = async() =>{
-        const obj = {userNo:userInfo.userNo}
+        const data = await info();
+        const obj = {userNo:data.userNo}
         const option = {withCredentials : true}
         const response = await axios.post("http://localhost:8080/saykorean/attend",obj,option)
-        const data = response.data;
-        console.log(data);
+        console.log(response);
         alert("출석체크가 되었습니다.")
     }
     
