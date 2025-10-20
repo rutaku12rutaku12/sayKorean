@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import web.model.dto.AttendDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -18,5 +19,7 @@ public interface AttendMapper {
     @Select("select * from attendance where userNo=#{userNo}")
     public List<AttendDto> getAttend(int userNo);
 
-
+    // [AT-3] 출석 중복 조회
+    @Select("SELECT * FROM attendance WHERE userNo = #{userNo} AND DATE(attendday) = #{attendday}")
+    public List<AttendDto> checkAttend(int userNo , LocalDate attendday);
 }

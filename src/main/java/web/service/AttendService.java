@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.AttendDto;
 import web.model.mapper.AttendMapper;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,5 +28,6 @@ public class AttendService {
         List<AttendDto> result = attendMapper.getAttend(userNo);
         return result;
     }
+    //
 
 }

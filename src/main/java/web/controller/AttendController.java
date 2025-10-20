@@ -35,6 +35,7 @@ public class AttendController {
 
         int result = attendService.attend(attendDto);
         return ResponseEntity.status(200).body(result);
+
     }
 
 
