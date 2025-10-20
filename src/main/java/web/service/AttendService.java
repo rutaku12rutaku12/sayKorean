@@ -1,11 +1,14 @@
 package web.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.jdbc.SQL;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.AttendDto;
 import web.model.mapper.AttendMapper;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,9 +20,10 @@ public class AttendService {
     private final AttendMapper attendMapper;
 
     // [AT-1] 출석하기 attend()
-    public int attend(AttendDto attendDto){
-        int result = attendMapper.attend(attendDto);
-        return result;
+    public int attend(AttendDto attendDto) throws DuplicateKeyException {
+
+            int result = attendMapper.attend(attendDto);
+            return result;
     }
 
 

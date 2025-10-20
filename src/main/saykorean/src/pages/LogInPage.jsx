@@ -45,12 +45,21 @@ export default function LogInPage(props){
 
     // 출석하기 함수
     const onAttend = async() =>{
-        const data = await info();
-        const obj = {userNo:data.userNo}
-        const option = {withCredentials : true}
-        const response = await axios.post("http://localhost:8080/saykorean/attend",obj,option)
-        console.log(response);
-        alert("출석체크가 되었습니다.")
+        try{
+            const data = await info();
+            const obj = {userNo:data.userNo}
+            const option = {withCredentials : true}
+            const response = await axios.post("http://localhost:8080/saykorean/attend",obj,option)
+            console.log(response);
+            if(response.status==200){
+            alert("출석체크가 되었습니다.")}
+            else if(response.status==222)
+                {alert(response.data)}
+            else{console.log("오류 발생")} }
+        catch(e)            
+            {alert("출석체크 오류가 발생했습니다.");
+                console.log(e);
+            }
     }
     
 
