@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class AttendDto {
     private int attenNo;          // PK: 출석번호
     private String attenDate;  // 출석일시 (DATETIME)
+    private String attendDay; // 출석일자
     private int userNo;           // FK: 사용자번호 (INT UNSIGNED → Integer 사용)
 }

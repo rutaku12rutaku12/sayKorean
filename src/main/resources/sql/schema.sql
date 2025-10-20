@@ -64,11 +64,11 @@ CREATE TABLE IF NOT EXISTS users (
 -- 3) 로딩 테이블 (독립 - FK 없음)
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS loading (
-    loadNo INT NOT NULL AUTO_INCREMENT,       -- 로딩번호
-    loadTitle TEXT NOT NULL,                  -- 로딩제목
-    loadInfo TEXT NOT NULL,                   -- 로딩이미지설명
-    loadFileName TEXT NOT NULL,               -- 로딩이미지파일명
-    PRIMARY KEY (loadNo)                      -- 기본키
+  loadNo       INT  NOT NULL AUTO_INCREMENT,
+  loadTitle    TEXT NOT NULL,
+  loadInfo     TEXT NOT NULL,
+  loadFileName TEXT NOT NULL,
+  PRIMARY KEY (loadNo)
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -102,10 +102,11 @@ CREATE TABLE IF NOT EXISTS study (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS attendance (
   attenNo   INT      NOT NULL AUTO_INCREMENT,
-  attenDate DATETIME NOT NULL,
+  attenDate DATETIME NOT NULL default now(),
+  attendDay date not null default (CURRENT_DATE),
   userNo    INT      NOT NULL,
   PRIMARY KEY (attenNo),
-  UNIQUE KEY uq_attendance_user_datetime (userNo, attenDate),
+  UNIQUE KEY uq_attendance_user_datetime (userNo, attendDay),
   CONSTRAINT fk_attendance_user
     FOREIGN KEY (userNo) REFERENCES users(userNo)
     ON UPDATE CASCADE ON DELETE CASCADE
