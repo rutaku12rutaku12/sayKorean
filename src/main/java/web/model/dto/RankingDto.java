@@ -21,4 +21,8 @@ public class RankingDto { // class start
     private int testItemNo; // 시험문항번호(FK)
     private int userNo; // 사용자번호(FK)
 
+    // 점수집계용
+//    private int score; // 정답 개수
+//    private int total; // 전체 문항 수
+
 } // class end

@@ -8,12 +8,6 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 description = 'Demo project for Spring Boot'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -22,6 +16,12 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 dependencies {
@@ -46,6 +46,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     // [10] validation (dto 에서 유효성 검사 )
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // [11] Gemini api
+    implementation 'com.google.genai:google-genai:1.0.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0' // JSON 파싱
+
 }
 
 tasks.named('test') {
