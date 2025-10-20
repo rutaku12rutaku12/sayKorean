@@ -85,6 +85,43 @@ export default function AdminStudyCreate(props) {
         }));
     };
 
+    // [2-1] 주제/해설 자동 번역 핸들러
+    const handleTranslateStudy = async () => {
+        if (!studyData.themeKo.trim() && !studyData.commenKo.trim()) {
+            alert("번역할 한국어 주제 또는 해설을 입력해주세요.");
+            return;
+        }
+
+        try {
+            dispatch(setLoading(true));
+            const r = await studyApi.translate({
+                themeKo: studyData.themeKo,
+                commenKo: studyData.commenKo
+            });
+            const { themeJp, themeCn, themeEn, themeEs, commenJp, commenCn, commenEn, commenEs }
+                = r.data;
+
+            setStudyData(e => ({
+                ...e,
+                themeJp: themeJp || e.themeJp,
+                themeCn: themeCn || e.themeCn,
+                themeEn: themeEn || e.themeEn,
+                themeEs: themeEs || e.themeEs,
+                commenJp: commenJp || e.commenJp,
+                commenCn: commenCn || e.commenCn,
+                commenEn: commenEn || e.commenEn,
+                commenEs: commenEs || e.commenEs,
+            }));
+            alert("주제 및 해설 자동 번역이 완료되었습니다.");
+        } catch (e) {
+            console.error("주제/해설 자동 번역 실패: ", e);
+            alert("번역 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
     // [3-1] 예문 추가
     const handleAddExam = () => {
         setExamList(e => [...e, {
@@ -115,6 +152,39 @@ export default function AdminStudyCreate(props) {
             return newList;
         })
     };
+
+    // [3-4] 예문 자동 번역 핸들러
+    const handleTranslateExam = async (index) => {
+        const exam = examList[index];
+        if (!exam.examKo.trim()) {
+            alert("번역할 한국어 예문을 입력해주세요.");
+            return;
+        }
+
+        try {
+            dispatch(setLoading(true));
+            const r = await examApi.translate({ examKo: exam.examKo });
+            const { examJp, examCn, examEn, examEs } = r.data;
+            setExamList(e => {
+                const newList = [...e];
+                newList[index] = {
+                    ...newList[index],
+                    examJp: examJp || newList[index].examJp,
+                    examCn: examCn || newList[index].examCn,
+                    examEn: examEn || newList[index].examEn,
+                    examEs: examEs || newList[index].examEs,
+                };
+                return newList;
+            });
+            alert(`${index + 1}번째 예문 자동 번역이 완료되었습니다.`);
+        } catch (e) {
+            console.error("예문 자동 번역 실패: ", e);
+            alert("예문 번역 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            dispatch(setLoading(false));
+        }
+    }
 
     // [4] 이미지 파일 선택 핸들러
     const handleImageFileChange = (index, file) => {
@@ -228,7 +298,6 @@ export default function AdminStudyCreate(props) {
     }
 
 
-
     return (<>
         <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
             <h2>교육 등록</h2>
@@ -268,7 +337,12 @@ export default function AdminStudyCreate(props) {
 
             {/* 주제 섹션 */}
             <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <h3>2. 주제 입력</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h3>2. 주제 입력</h3>
+                    <button onClick={handleTranslateStudy} style={{ padding: '8px 20px', backgroundColor: '#FFC107', color: 'black', border: 'none', borderRadius: '4px' }}>
+                        주제/해설 자동번역
+                    </button>
+                </div>
 
                 <div style={{ display: 'grid', gap: '15px' }}>
                     <div>
@@ -380,14 +454,22 @@ export default function AdminStudyCreate(props) {
                     <div key={examIndex} style={{ marginBottom: '30px', padding: '15px', border: '2px solid #eee', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                             <h4>예문 {examIndex + 1}</h4>
-                            {examList.length > 1 && (
+                            <div>
                                 <button
-                                    onClick={() => handleRemoveExam(examIndex)}
-                                    style={{ padding: '5px 15px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}
+                                    onClick={() => handleTranslateExam(examIndex)}
+                                    style={{ padding: '5px 15px', backgroundColor: '#FFC107', color: 'black', border: 'none', borderRadius: '4px', marginRight: '10px' }}
                                 >
-                                    삭제
+                                    자동번역
                                 </button>
-                            )}
+                                {examList.length > 1 && (
+                                    <button
+                                        onClick={() => handleRemoveExam(examIndex)}
+                                        style={{ padding: '5px 15px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}
+                                    >
+                                        삭제
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
                         {/* 예문 텍스트 입력 */}
@@ -521,3 +603,4 @@ export default function AdminStudyCreate(props) {
         </div>
     </>)
 }
+

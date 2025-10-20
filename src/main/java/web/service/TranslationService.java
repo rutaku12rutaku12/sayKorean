@@ -77,8 +77,8 @@ public class TranslationService {
 
         // 1-4. 예문 번역
         if (requestDto.getExamKo() != null && !requestDto.getExamKo().isEmpty()) {
-            response.setExamJp(translateText("jp" , requestDto.getCommenKo()));
-            response.setExamCn(translateText("cn" , requestDto.getCommenKo()));
+            response.setExamJp(translateText("jp" , requestDto.getExamKo()));
+            response.setExamCn(translateText("cn" , requestDto.getExamKo()));
             response.setExamEn(translateText("en" , requestDto.getExamKo()));
             response.setExamEs(translateText("es" , requestDto.getExamKo()));
         }
