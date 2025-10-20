@@ -15,6 +15,7 @@ import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
 // import Setting from "./pages/Setting";
 import Page404 from "./pages/Page404";
+import Score from "./pages/Score";
 
 // 관리자단(PC)
 import AdminStudyList from "./adminPages/AdminStudyList";
@@ -94,6 +95,7 @@ function App() {
             <Route path="/successexamlist" element = { <SuccessExamList/>}> </Route>
             <Route path="*" element={<Page404 />} />
             {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
+            <Route path="/score" element={<Score/>}></Route>
           </Route>
         </Routes>
       </BrowserRouter >
