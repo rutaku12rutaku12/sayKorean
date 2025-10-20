@@ -46,6 +46,20 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     // [10] validation (dto 에서 유효성 검사 )
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // [11] Google Cloud Translation API - 자동 번역
+    implementation 'com.google.cloud:google-cloud-translate:2.30.0'
+    // [12] Google Cloud Text-to-Speech API - TTS
+    implementation 'com.google.cloud:google-cloud-texttospeech:2.78.0'
+    // [13] Google Gemini API - AI 채점
+    implementation 'com.google.cloud:google-cloud-aiplatform:3.35.0'
+    // [*] JSON 처리 (이미 있을 수 있음)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    // [*] 테스트
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // [11] Gemini api
+    implementation 'com.google.genai:google-genai:1.0.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0' // JSON 파싱
+
 }
 
 tasks.named('test') {

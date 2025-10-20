@@ -26,6 +26,7 @@ export default function HomePage ( props ){
         <div id="homePage" className="homePage">
             {/* 이 한 줄이 ‘이 페이지에서만’ 배경 역할을 함 */}
             <div className="homePage__bg" aria-hidden="true" />
+            
 
             <img className="logoImg" src="/img/logo.png"/>
 
