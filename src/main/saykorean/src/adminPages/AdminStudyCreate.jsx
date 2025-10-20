@@ -306,7 +306,6 @@ export default function AdminStudyCreate(props) {
             <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
                 <h3>1. 장르 선택</h3>
 
-                {/* 새 장르 생성 */}
                 <div style={{ marginBottom: '15px' }}>
                     <input
                         type="text"
@@ -320,7 +319,6 @@ export default function AdminStudyCreate(props) {
                     </button>
                 </div>
 
-                {/* 기존 장르 선택 */}
                 <select
                     value={selectedGenreNo}
                     onChange={(e) => setSelectedGenreNo(e.target.value)}
@@ -364,6 +362,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.themeJp}
                                 onChange={(e) => handleStudyChange('themeJp', e.target.value)}
                                 style={{ width: '100%', padding: '8px' }}
+                                placeholder={studyData.themeJp || "자동번역 결과"}
                             />
                         </div>
                         <div>
@@ -373,6 +372,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.themeCn}
                                 onChange={(e) => handleStudyChange('themeCn', e.target.value)}
                                 style={{ width: '100%', padding: '8px' }}
+                                placeholder={studyData.themeCn || "자동번역 결과"}
                             />
                         </div>
                         <div>
@@ -382,6 +382,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.themeEn}
                                 onChange={(e) => handleStudyChange('themeEn', e.target.value)}
                                 style={{ width: '100%', padding: '8px' }}
+                                placeholder={studyData.themeEn || "자동번역 결과"}
                             />
                         </div>
                         <div>
@@ -391,6 +392,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.themeEs}
                                 onChange={(e) => handleStudyChange('themeEs', e.target.value)}
                                 style={{ width: '100%', padding: '8px' }}
+                                placeholder={studyData.themeEs || "자동번역 결과"}
                             />
                         </div>
                     </div>
@@ -411,6 +413,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.commenJp}
                                 onChange={(e) => handleStudyChange('commenJp', e.target.value)}
                                 style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                placeholder={studyData.commenJp || "자동번역 결과"}
                             />
                         </div>
                         <div>
@@ -419,6 +422,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.commenCn}
                                 onChange={(e) => handleStudyChange('commenCn', e.target.value)}
                                 style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                placeholder={studyData.commenCn || "자동번역 결과"}
                             />
                         </div>
                         <div>
@@ -427,6 +431,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.commenEn}
                                 onChange={(e) => handleStudyChange('commenEn', e.target.value)}
                                 style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                placeholder={studyData.commenEn || "자동번역 결과"}
                             />
                         </div>
                         <div>
@@ -435,6 +440,7 @@ export default function AdminStudyCreate(props) {
                                 value={studyData.commenEs}
                                 onChange={(e) => handleStudyChange('commenEs', e.target.value)}
                                 style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                placeholder={studyData.commenEs || "자동번역 결과"}
                             />
                         </div>
                     </div>

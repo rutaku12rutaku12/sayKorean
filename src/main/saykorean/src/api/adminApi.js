@@ -95,6 +95,9 @@ export const examApi = {
     },
     // 5) 예문 삭제
     delete: (examNo) => api.delete(`/study/exam?examNo=${examNo}`),
+    // 6) 예문 자동번역
+    translate: (translationRequestDto) => api.post("/study/translate",
+        translationRequestDto),
 };
 
 // [4] 음성 API
