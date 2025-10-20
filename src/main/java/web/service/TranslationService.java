@@ -1,10 +1,7 @@
 package web.service;
 
 import com.google.api.client.util.Value;
-import com.google.cloud.texttospeech.v1.SsmlVoiceGender;
-import com.google.cloud.texttospeech.v1.SynthesisInput;
-import com.google.cloud.texttospeech.v1.TextToSpeechClient;
-import com.google.cloud.texttospeech.v1.VoiceSelectionParams;
+import com.google.cloud.texttospeech.v1.*;
 import com.google.cloud.translate.v3.LocationName;
 import com.google.cloud.translate.v3.TranslateTextRequest;
 import com.google.cloud.translate.v3.TranslateTextResponse;
@@ -103,11 +100,19 @@ public class TranslationService {
                             .setSsmlGender(SsmlVoiceGender.NEUTRAL)
                             .build();
 
-            return null;
+            AudioConfig audioConfig = AudioConfig.newBuilder().setAudioEncoding(AudioEncoding.MP3).build();
+
+            SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input , voice , audioConfig);
+
+            return response.getAudioContent().toByteArray();
         }
     }
 
     // [3] 제미나이 채점 API (스프링 & 리액트 처리 후 ㄱㄱ)
+    public int scoreWithGemini(String userInput) {
+        log.info("제미나이 API를 이용한 채점 로직 호출 " , userInput);
+        return (int) (Math.random() * 100);
+    }
 
 
 }
