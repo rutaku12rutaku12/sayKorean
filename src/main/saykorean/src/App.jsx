@@ -108,7 +108,7 @@ function App() {
               <Route path="*" element={<Page404 />} />
               {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
               <Route path="/testlist" element={<TestList/>}></Route>
-              <Route path="/test/:testNo" element={<TestList />} />
+              <Route path="/test/:testNo" element={<Test />}></Route>
             </Route>
           </Routes>
         </BrowserRouter >

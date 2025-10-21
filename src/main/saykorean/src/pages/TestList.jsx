@@ -41,7 +41,7 @@ export default function TestList( props ){
                         <li key={t.testNo} className="testList">
                             <div className="test">
                                 {t.testTitle ?? `테스트 #${t.testNo}`}
-                                <button onClick={() => navigate(`/testList/${t.testNo}`)}> 이동 </button>
+                                <button onClick={() => navigate(`/test/${t.testNo}`)}> 이동 </button>
                             </div>
                         </li>
                     ))}
