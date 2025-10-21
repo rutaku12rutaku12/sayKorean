@@ -82,7 +82,7 @@ public class FileService {
         return "/upload/audio/" + monthDir + "/" + newFileName;
     }
 
-    // [3] 공통 파일 업로드 로직
+    // [3] 공통 파일 업로드 로직 ㄹㄹㄹ
     private String uploadFile(MultipartFile file, String baseTargetPath, int examNo , String type) throws IOException {
         // [*] 파일 존재여부 확인
         if( file == null || file.isEmpty()){
