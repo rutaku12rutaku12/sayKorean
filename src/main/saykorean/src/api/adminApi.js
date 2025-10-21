@@ -98,6 +98,8 @@ export const examApi = {
     // 6) 예문 자동번역
     translate: (translationRequestDto) => api.post("/study/translate",
         translationRequestDto),
+    // 7) 예문 발음기호 자동 생성성성
+    romanize: (text) => api.get(`/study/romanize?text=${text}`),
 };
 
 // [4] 음성 API
@@ -129,7 +131,7 @@ export const audioApi = {
     },
     // 3-2) 음성 생성(TTS)
     createFromTTS: (ttsData) => {
-        return api.post('/audio/tts' , {
+        return api.post('/audio/tts', {
             text: ttsData.text,
             languageCode: ttsData.languageCode, // ko-KR, en-US
             examNo: ttsData.examNo,

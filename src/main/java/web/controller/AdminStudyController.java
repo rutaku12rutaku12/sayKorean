@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import web.model.dto.*;
 import web.service.AdminStudyService;
+import web.service.RomanizerService;
 import web.service.TranslationService;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 
 
 // [*] 예외 핸들러 : 전역으로도 사용 가능
@@ -46,6 +50,7 @@ public class AdminStudyController {
     // [*] DI
     private final AdminStudyService adminStudyService;
     private final TranslationService translationService;
+    private final RomanizerService romanizerService;
 
     // [AUTO-Translate] 자동 번역 컨트롤러
     @PostMapping("/translate")
@@ -57,6 +62,14 @@ public class AdminStudyController {
             log.error("번역에 실패했습니다." , e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    // [*] 한국어 - 발음기호 변환 컨트롤러 (파이썬 라이브러리)
+    // URL : http://localhost:8080/saykorean/admin/study/romanize?text=안녕하세요
+    @GetMapping("/romanize")
+    public Map<String , String> romanize(@RequestParam String text) {
+        String romanized = romanizerService.romanize(text);
+        return Map.of("original" , text , "romanized" , romanized);
     }
 
     // [AGR-01] 장르 생성

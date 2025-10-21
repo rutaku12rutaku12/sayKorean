@@ -59,6 +59,8 @@ dependencies {
     // [11] Gemini api
     implementation 'com.google.genai:google-genai:1.0.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0' // JSON 파싱
+    // [12] crizin (발음기호 라이브러리)
+    implementation 'net.crizin:korean-romanizer:2.0.1' // Maven Central 기준
 
 }
 

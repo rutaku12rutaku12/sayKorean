@@ -6,6 +6,8 @@ import { setGenres, setLoading, setError } from "../store/adminSlice";
 
 export default function AdminStudyCreate(props) {
 
+
+
     // [*] 가상DOM, 리덕스
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,6 +55,7 @@ export default function AdminStudyCreate(props) {
     useEffect(() => {
         fetchGenres();
     }, []);
+
 
     // [1-1] 장르 목록 불러오기
     const fetchGenres = async () => {
@@ -192,6 +195,44 @@ export default function AdminStudyCreate(props) {
         }
     }
 
+    // [3-5] 예문 발음기호 자동 생성 핸들러 (디버깅용)
+    const handleRomanizeExam = async (index) => {
+        console.log(`[DEBUG] 1. handleRomanizeExam 호출됨. 인덱스: ${index}`);
+        const exam = examList[index];
+        if (!exam.examKo.trim()) {
+            alert("발음 기호로 변환할 한국어 예문을 입력해주세요.");
+            return;
+        }
+        console.log(`[DEBUG] 2. 변환할 한국어 텍스트: "${exam.examKo}"`);
+
+        try {
+            dispatch(setLoading(true));
+            const r = await examApi.romanize(exam.examKo);
+            
+            console.log("[DEBUG] 3. API 응답 받음:", r);
+            console.log("[DEBUG] 4. API 응답 데이터 (r.data):", r.data);
+
+            const { romanized } = r.data;
+            console.log(`[DEBUG] 5. 추출된 발음기호: "${romanized}"`);
+
+            if (romanized) {
+                handleExamChange(index, 'examRoman', romanized);
+                console.log("[DEBUG] 6. handleExamChange 호출하여 상태 업데이트 시도.");
+                alert(`${index + 1}번째 예문 발음기호 생성이 완료되었습니다.`);
+            } else {
+                console.error("[DEBUG] 'romanized' 값이 응답에 없습니다.");
+                alert("API 응답 형식에 문제가 있습니다. 개발자 콘솔을 확인해주세요.");
+            }
+
+        } catch (e) {
+            console.error("[DEBUG] 7. 예문 발음기호 생성 중 오류 발생: ", e);
+            alert("예문 발음기호 생성 중 오류가 발생했습니다. 개발자 콘솔을 확인해주세요.");
+            dispatch(setError(e.message));
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
     // [4] 이미지 파일 선택 핸들러
     const handleImageFileChange = (index, file) => {
         setExamList(e => {
@@ -208,10 +249,10 @@ export default function AdminStudyCreate(props) {
     const handleAddAudioFile = (examIndex, lang, file) => {
         setExamList(e => {
             const newList = [...e];
-            newList[examIndex].audioFiles.push({ 
+            newList[examIndex].audioFiles.push({
                 type: 'file',
-                lang, 
-                file 
+                lang,
+                file
             });
             return newList;
         })
@@ -338,12 +379,13 @@ export default function AdminStudyCreate(props) {
         }
     }
 
+
+
     // [8] 언어 설정 함수
     const getLangText = (lang) => {
         const langMap = { 1: '한국어', 2: '영어' };
         return langMap[lang] || '알 수 없음';
     }
-
 
     return (<>
         <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
@@ -504,10 +546,18 @@ export default function AdminStudyCreate(props) {
                 </div>
 
                 {examList.map((exam, examIndex) => (
+
                     <div key={examIndex} style={{ marginBottom: '30px', padding: '15px', border: '2px solid #eee', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                             <h4>예문 {examIndex + 1}</h4>
+
                             <div>
+                                <button
+                                    onClick={() => handleRomanizeExam(examIndex)}
+                                    style={{ padding: '5px 15px', backgroundColor: '#673AB7', color: 'white', border: 'none', borderRadius: '4px', marginRight: '10px' }}
+                                >
+                                    자동 발음 생성
+                                </button>
                                 <button
                                     onClick={() => handleTranslateExam(examIndex)}
                                     style={{ padding: '5px 15px', backgroundColor: '#FFC107', color: 'black', border: 'none', borderRadius: '4px', marginRight: '10px' }}
@@ -632,14 +682,30 @@ export default function AdminStudyCreate(props) {
                                     🤖 방법 2: TTS로 음성 생성 (Google AI)
                                 </label>
                                 <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                                    <select id={`ttsLang-${examIndex}`} style={{ padding: '8px' }}>
+                                    <select
+                                        id={`ttsLang-${examIndex}`}
+                                        style={{ padding: '8px' }}
+                                        onChange={(e) => {
+                                            const lang = parseInt(e.target.value);
+                                            const inputBox = document.getElementById(`ttsText-${examIndex}`);
+                                            // 언어별 예문 매칭
+                                            let newText = "";
+                                            if (lang === 1) {                   // 한국어
+                                                newText = exam.examKo || '';
+                                            } else if (lang === 2) {            // 영어
+                                                newText = exam.examEn || '';
+                                            }
+                                            // 자동 입력
+                                            inputBox.value = newText;
+                                        }}>
                                         <option value={1}>한국어</option>
                                         <option value={2}>영어</option>
                                     </select>
-                                    <input
+                                    <input 
                                         type="text"
                                         id={`ttsText-${examIndex}`}
                                         placeholder="음성으로 변환할 텍스트 입력"
+                                        defaultValue={exam.examKo}   // ✅ 기본값을 바로 세팅
                                         style={{ padding: '8px', flex: 1 }}
                                     />
                                     <button
@@ -659,7 +725,7 @@ export default function AdminStudyCreate(props) {
                                     </button>
                                 </div>
                                 <p style={{ fontSize: '12px', color: '#666', margin: '5px 0 0 0' }}>
-                                    💡 팁: 예문 텍스트를 그대로 입력하면 자동으로 음성이 생성됩니다
+                                    💡 팁: 언어 선택 시 해당 예문이 자동으로 입력됩니다.
                                 </p>
                             </div>
 
@@ -727,4 +793,3 @@ export default function AdminStudyCreate(props) {
         </div>
     </>)
 }
-
