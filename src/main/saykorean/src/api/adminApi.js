@@ -107,7 +107,7 @@ export const audioApi = {
     getAll: () => api.get('/audio'),
     // 2) 음성 상세 조회
     getIndi: (audioNo) => api.get(`/audio/indi?audioNo=${audioNo}`),
-    // 3) 음성 생성
+    // 3-1) 음성 생성(파일 업로드)
     create: (audioDto) => {
         // 음성 파일 전송 위한 폼데이터
         const formData = new FormData();
@@ -126,6 +126,15 @@ export const audioApi = {
 
         // 3-3) 텍스트, 음성 파일 반환
         return apiFormData.post('/audio', formData);
+    },
+    // 3-2) 음성 생성(TTS)
+    createFromTTS: (ttsData) => {
+        return api.post('/audio/tts' , {
+            text: ttsData.text,
+            languageCode: ttsData.languageCode, // ko-KR, en-US
+            examNo: ttsData.examNo,
+            lang: ttsData.lang // 1 : 한국어 , 2 : 영어
+        });
     },
     // 4) 음성 수정
     update: (audioDto) => {

@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -26,7 +27,7 @@ public class FileService {
         return uploadFile(file, imagePath, examNo, "img");
     }
 
-    // [2] 오디오 업로드
+    // [2-1] 오디오 파일 업로드
     public String uploadAudio(MultipartFile file , int examNo , int lang) throws IOException {
         String langCode;
 
@@ -41,7 +42,47 @@ public class FileService {
         return uploadFile(file, audioPath, examNo, langCode + "_voice");
     }
 
-    // [3] 공통 파일 업로드 로직
+    // [2-2] TTS로 생성된 오디오 바이트 배열 저장
+    public String uploadAudioFromBytes(byte[] audioData, int examNo, int lang) throws IOException {
+        String langCode;
+
+        // 언어 코드 변환
+        switch (lang) {
+            case 1 -> langCode = "kor";
+            case 2 -> langCode = "eng";
+            default -> throw new IllegalArgumentException("지원하지 않는 언어 코드입니다.");
+        }
+
+        // 월 계산
+        LocalDate now = LocalDate.now();
+        String month = now.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toLowerCase();
+        String year = String.valueOf(now.getYear()).substring(2);
+        String monthDir = month + "_" + year; // ex) mar_25
+
+        // 경로 폴더 없으면 생성
+        String targetPath = audioPath + monthDir + "/";
+        File dir = new File(targetPath);
+        if (!dir.exists()) dir.mkdirs();
+
+        // 파일명 규칙 : {examNo}_{langCode}_voice.mp3 (TTS는 mp3만 지원)
+        String newFileName = examNo + "_" + langCode + "_voice.mp3";
+
+        // 실제 저장 경로
+        File targetFile = new File(targetPath + newFileName);
+        
+        // 기존 파일 덮어쓰기
+        if (targetFile.exists()) targetFile.delete();
+        
+        // 바이트 배열을 파일로 저장
+        try (FileOutputStream fos = new FileOutputStream(targetFile)) {
+            fos.write(audioData);
+        }
+        
+        // DB에 저장할 상대경로 반환
+        return "/upload/audio/" + monthDir + "/" + newFileName;
+    }
+
+    // [3] 공통 파일 업로드 로직 ㄹㄹㄹ
     private String uploadFile(MultipartFile file, String baseTargetPath, int examNo , String type) throws IOException {
         // [*] 파일 존재여부 확인
         if( file == null || file.isEmpty()){

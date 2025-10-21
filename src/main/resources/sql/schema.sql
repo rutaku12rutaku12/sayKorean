@@ -171,6 +171,8 @@ CREATE TABLE IF NOT EXISTS audio (
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+  ALTER TABLE audio MODIFY audioName VARCHAR(255) NULL;
+  ALTER TABLE audio MODIFY audioPath VARCHAR(255) NULL;
 
 -- =====================================================================
 -- 9) 시험문항 테이블 (3단계 - FK: examNo, testNo)

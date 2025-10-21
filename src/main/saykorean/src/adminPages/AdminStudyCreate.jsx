@@ -43,6 +43,12 @@ export default function AdminStudyCreate(props) {
         }
     ])
 
+    // [*] 언어 코드 매핑 (Google TTS 형식)
+    const languageCodeMap = {
+        1: 'ko-KR',     // 한국어
+        2: 'en-US'      // 영어
+    };
+
     // [*] 컴포넌트 마운트 시 장르 목록 불러오기
     useEffect(() => {
         fetchGenres();
@@ -198,16 +204,39 @@ export default function AdminStudyCreate(props) {
         })
     }
 
-    // [5] 음성 파일 추가 핸들러
+    // [5-1] 음성 파일 추가 핸들러
     const handleAddAudioFile = (examIndex, lang, file) => {
         setExamList(e => {
             const newList = [...e];
-            newList[examIndex].audioFiles.push({ lang, file });
+            newList[examIndex].audioFiles.push({ 
+                type: 'file',
+                lang, 
+                file 
+            });
             return newList;
         })
     }
 
-    // [5-1] 음성 파일 삭제 핸들러
+    // [5-2] 음성 TTS 추가 핸들러
+    const handleAddAudioTTS = (examIndex, lang, text) => {
+        if (!text || !text.trim()) {
+            alert("텍스트를 입력해주세요.")
+            return;
+        }
+
+        setExamList(e => {
+            const newList = [...e];
+            newList[examIndex].audioFiles.push({
+                type: 'tts',
+                lang,
+                text: text.trim(),
+                languageCode: languageCodeMap[lang]
+            });
+            return newList;
+        })
+    }
+
+    // [5-3] 음성 파일 삭제 핸들러
     const handleRemoveAudioFile = (examIndex, audioIndex) => {
         setExamList(e => {
             const newList = [...e];
@@ -274,14 +303,26 @@ export default function AdminStudyCreate(props) {
 
                 // 3. 해당 예문의 음성 파일 생성
                 for (let j = 0; j < exam.audioFiles.length; j++) {
-                    const audioFile = exam.audioFiles[j];
+                    const audioData = exam.audioFiles[j];
 
-                    await audioApi.create({
-                        lang: audioFile.lang,
-                        examNo: createdExamNo,
-                        audioFile: audioFile.file
-                    })
-                    console.log(`Audio ${j + 1} 생성 완료`);
+                    if (audioData.type == 'file') {
+                        // 3-1. 파일 업로드 방식
+                        await audioApi.create({
+                            lang: audioData.lang,
+                            examNo: createdExamNo,
+                            audioFile: audioData.file
+                        })
+                        console.log(`Audio ${j + 1} (파일) 생성 완료`);
+                    } else if (audioData.type == 'tts') {
+                        // 3-2. TTS 방식
+                        await audioApi.createFromTTS({
+                            text: audioData.text,
+                            languageCode: audioData.languageCode,
+                            examNo: createdExamNo,
+                            lang: audioData.lang
+                        });
+                        console.log(`Audio ${j + 1} (TTS) 생성 완료`);
+                    }
                 }
             }
 
@@ -295,6 +336,12 @@ export default function AdminStudyCreate(props) {
         } finally {
             dispatch(setLoading(false));
         }
+    }
+
+    // [8] 언어 설정 함수
+    const getLangText = (lang) => {
+        const langMap = { 1: '한국어', 2: '영어' };
+        return langMap[lang] || '알 수 없음';
     }
 
 
@@ -539,42 +586,113 @@ export default function AdminStudyCreate(props) {
                             {exam.imageFile && <span style={{ marginLeft: '10px', color: '#4CAF50' }}>✓ {exam.imageFile.name}</span>}
                         </div>
 
-                        {/* 음성 파일 */}
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>음성 파일</label>
-                            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                                <select id={`audioLang-${examIndex}`} style={{ padding: '8px' }}>
-                                    <option value={1}>한국어</option>
-                                    <option value={2}>영어</option>
-                                </select>
-                                <input
-                                    type="file"
-                                    accept="audio/*"
-                                    id={`audioFile-${examIndex}`}
-                                    style={{ padding: '8px' }}
-                                />
-                                <button
-                                    onClick={() => {
-                                        const lang = parseInt(document.getElementById(`audioLang-${examIndex}`).value);
-                                        const file = document.getElementById(`audioFile-${examIndex}`).files[0];
-                                        if (file) {
-                                            handleAddAudioFile(examIndex, lang, file);
-                                            document.getElementById(`audioFile-${examIndex}`).value = '';
-                                        }
-                                    }}
-                                    style={{ padding: '8px 20px', backgroundColor: '#2196F3', color: 'white', border: 'none', borderRadius: '4px' }}
-                                >
-                                    음성 추가
-                                </button>
+                        {/* 음성 파일 - 파일 업로드 방식 */}
+                        <div style={{ marginBottom: '15px', padding: '15px', backgroundColor: '#fff', borderRadius: '4px' }}>
+                            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', fontSize: '16px' }}>
+                                🎤 음성 파일 등록
+                            </label>
+
+                            {/* 방법 1: 파일 직접 업로드 */}
+                            <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#1976D2' }}>
+                                    📁 방법 1: 파일 직접 업로드
+                                </label>
+                                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                                    <select id={`audioLang-${examIndex}`} style={{ padding: '8px' }}>
+                                        <option value={1}>한국어</option>
+                                        <option value={2}>영어</option>
+                                    </select>
+                                    <input
+                                        type="file"
+                                        accept="audio/*"
+                                        id={`audioFile-${examIndex}`}
+                                        style={{ padding: '8px', flex: 1 }}
+                                    />
+                                    <button
+                                        onClick={() => {
+                                            const lang = parseInt(document.getElementById(`audioLang-${examIndex}`).value);
+                                            const file = document.getElementById(`audioFile-${examIndex}`).files[0];
+                                            if (file) {
+                                                handleAddAudioFile(examIndex, lang, file);
+                                                document.getElementById(`audioFile-${examIndex}`).value = '';
+                                            } else {
+                                                alert('파일을 선택해주세요.');
+                                            }
+                                        }}
+                                        style={{ padding: '8px 20px', backgroundColor: '#2196F3', color: 'white', border: 'none', borderRadius: '4px' }}
+                                    >
+                                        파일 추가
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* 방법 2: TTS로 생성 */}
+                            <div style={{ padding: '10px', backgroundColor: '#e8f5e9', borderRadius: '4px' }}>
+                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#388E3C' }}>
+                                    🤖 방법 2: TTS로 음성 생성 (Google AI)
+                                </label>
+                                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                                    <select id={`ttsLang-${examIndex}`} style={{ padding: '8px' }}>
+                                        <option value={1}>한국어</option>
+                                        <option value={2}>영어</option>
+                                    </select>
+                                    <input
+                                        type="text"
+                                        id={`ttsText-${examIndex}`}
+                                        placeholder="음성으로 변환할 텍스트 입력"
+                                        style={{ padding: '8px', flex: 1 }}
+                                    />
+                                    <button
+                                        onClick={() => {
+                                            const lang = parseInt(document.getElementById(`ttsLang-${examIndex}`).value);
+                                            const text = document.getElementById(`ttsText-${examIndex}`).value;
+                                            if (text && text.trim()) {
+                                                handleAddAudioTTS(examIndex, lang, text);
+                                                document.getElementById(`ttsText-${examIndex}`).value = '';
+                                            } else {
+                                                alert('텍스트를 입력해주세요.');
+                                            }
+                                        }}
+                                        style={{ padding: '8px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}
+                                    >
+                                        TTS 생성
+                                    </button>
+                                </div>
+                                <p style={{ fontSize: '12px', color: '#666', margin: '5px 0 0 0' }}>
+                                    💡 팁: 예문 텍스트를 그대로 입력하면 자동으로 음성이 생성됩니다
+                                </p>
                             </div>
 
                             {/* 추가된 음성 파일 목록 */}
                             {exam.audioFiles.length > 0 && (
-                                <div style={{ marginTop: '10px' }}>
+                                <div style={{ marginTop: '15px' }}>
+                                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                                        등록된 음성 ({exam.audioFiles.length}개)
+                                    </label>
                                     {exam.audioFiles.map((audio, audioIndex) => (
-                                        <div key={audioIndex} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '5px', padding: '5px', backgroundColor: '#fff', borderRadius: '4px' }}>
-                                            <span style={{ flex: 1 }}>
-                                                {audio.lang === 1 ? '🇰🇷 한국어' : '🇺🇸 영어'} - {audio.file.name}
+                                        <div key={audioIndex} style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '10px',
+                                            marginBottom: '5px',
+                                            padding: '8px',
+                                            backgroundColor: audio.type === 'tts' ? '#e3f2fd' : '#fff3e0',
+                                            borderRadius: '4px',
+                                            border: `1px solid ${audio.type === 'tts' ? '#2196F3' : '#FF9800'}`
+                                        }}>
+                                            <span style={{
+                                                padding: '2px 8px',
+                                                backgroundColor: audio.type === 'tts' ? '#2196F3' : '#FF9800',
+                                                color: 'white',
+                                                borderRadius: '3px',
+                                                fontSize: '11px',
+                                                fontWeight: 'bold'
+                                            }}>
+                                                {audio.type === 'tts' ? 'TTS' : 'FILE'}
+                                            </span>
+                                            <span style={{ flex: 1, fontSize: '14px' }}>
+                                                {getLangText(audio.lang)} -
+                                                {audio.type === 'file' ? ` ${audio.file.name}` : ` "${audio.text}"`}
                                             </span>
                                             <button
                                                 onClick={() => handleRemoveAudioFile(examIndex, audioIndex)}
