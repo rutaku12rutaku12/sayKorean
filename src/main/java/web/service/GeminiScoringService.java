@@ -36,16 +36,15 @@ public class GeminiScoringService {
         }
 
         String prompt = """
-                You are a strict grader for short free-text answers.
-                Score from 0 to 100 ONLY as an integer.
+                점수는 0부터 100 사이의 정수로만 매깁니다!
+                의미적 동등성, 문법, 관련성을 고려해서 채점하겠습니다!
                 Consider semantic equivalence, grammar, and relevance.
 
-                Language hint: %s
-                Question: %s
-                Ground truth: %s
-                User answer: %s
+                언어 힌트: %s
+                문항: %s
+                기준 정답: %s
+                사용자 답변: %s
 
-                Reply with ONLY the integer score (0~100). No words.
                 """.formatted(
                 nullToEmpty(langHint),
                 nullToEmpty(question),
