@@ -1,5 +1,6 @@
 import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 // 사용자단(모바일)
+import LoadingPage from "./pages/LoadingPage";
 import HomePage from "./pages/HomePage";
 import MyPage from "./pages/MyPage";
 import MyInfoUpdate from "./pages/MyInfoUpdate";
@@ -14,7 +15,12 @@ import ExampleList from "./pages/ExampleList";
 import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
 // import Setting from "./pages/Setting";
+
+// 로딩페이지
+import LoadingPage from "./pages/LoadingPage";
+// 404페이지
 import Page404 from "./pages/Page404";
+import TestList from "./pages/TestList";
 
 // 관리자단(PC)
 import AdminStudyList from "./adminPages/AdminStudyList";
@@ -57,7 +63,7 @@ const AdminLayout = () => {
       <AdminNav /> {/* 관리자 헤드 내비게이션  */}
       <h3> 관리자 화면 레이아웃 </h3>
       <Outlet /> {/* Outlet: 자식 컴포넌트가 들어가는 자리 */}
-      <Link to="/"> <img style={{ float: 'right' }} src="/img/myPage.svg" /> </Link>
+      <Link to="/home"> <img style={{ float: 'right' }} src="/img/myPage.svg" /> </Link>
     </div >
   </>)
 }
@@ -82,6 +88,12 @@ function App() {
               <Route path="test/edit/:testNo" element={<AdminTestEdit />} />
             </Route>
 
+          {/* 로딩페이지 */}
+          <Route path="/" element={<LoadingPage />} ></Route>
+{/* 404페이지 */}
+          <Route path="*" element={<Page404 />} />
+
+
 
             {/* 사용자단 */}
             <Route element={<UserLayout />}>
@@ -100,6 +112,8 @@ function App() {
               <Route path="/successexamlist" element={<SuccessExamList />}> </Route>
               <Route path="*" element={<Page404 />} />
               {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
+              <Route path="/testlist" element={<TestList/>}></Route>
+              <Route path="/test/:testNo" element={<Test />}></Route>
             </Route>
           </Routes>
         </BrowserRouter >

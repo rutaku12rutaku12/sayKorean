@@ -9,8 +9,6 @@ import axios from "axios";
 
 export default function Genre(props) {
     
-    // navigate는 반환값이 함수! 구조분해하면 안됨!
-    const navigate = useNavigate();
 
     // 상태 정의 : 무조건 안에 있어야힘
     const [genres, setGenres] = useState([]);                 // 장르 목록
@@ -35,7 +33,6 @@ export default function Genre(props) {
     console.log( saved );
     const pickGenre = (genreNo) => {
         if (!saveGenreNo( genreNo )) return;
-        navigate("/study");
     };
 
 

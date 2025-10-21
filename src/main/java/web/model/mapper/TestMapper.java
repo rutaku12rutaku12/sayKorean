@@ -17,8 +17,8 @@ public interface TestMapper { // mapper start
 
     // 내가 배운 주제에 맞는 시험 목록 출력
     // 1) 시험 목록 (특정 studyNo)
-    @Select("SELECT * FROM test WHERE studyNo = #{studyNo} ORDER BY testNo DESC")
-    List<TestDto> getListTest( int studyNo );
+    @Select("SELECT * FROM test")
+    List<TestDto> getListTest();
 
 
     // 2) 특정 시험의 문항 목록
@@ -42,8 +42,10 @@ public interface TestMapper { // mapper start
     // 5) 점수 집계 (해당 시험/회차)
     // - score = 정답 개수
     // - total = 전체 문항 수
-    @Select("SELECT SUM(CASE WHEN r.isCorrect = 1 THEN 1 ELSE 0 END) AS score, COUNT(*) AS total FROM ranking r JOIN testItem ti ON ti.testItemNo = r.testItemNo WHERE r.userNo = #{userNo} AND r.testRound = #{testRound} AND ti.testNo = #{testNo}")
-    RankingDto getScore( int userNo , int testNo , int testRound );
+    @Select("SELECT SUM(CASE WHEN r.isCorrect = 1 THEN 1 ELSE 0 END) AS score, COUNT(*) AS total " +
+            "FROM ranking r JOIN testItem ti ON ti.testItemNo = r.testItemNo " +
+            "WHERE r.userNo = #{userNo} AND r.testRound = #{testRound} AND ti.testNo = #{testNo}")
+    RankingDto getScore(int userNo, int testNo, int testRound);
 
 
 
