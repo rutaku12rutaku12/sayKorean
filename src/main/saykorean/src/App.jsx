@@ -16,8 +16,6 @@ import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
 // import Setting from "./pages/Setting";
 
-// 로딩페이지
-import LoadingPage from "./pages/LoadingPage";
 // 404페이지
 import Page404 from "./pages/Page404";
 import TestList from "./pages/TestList";
