@@ -38,7 +38,6 @@ public class GeminiScoringService {
         String prompt = """
                 점수는 0부터 100 사이의 정수로만 매깁니다!
                 의미적 동등성, 문법, 관련성을 고려해서 채점하겠습니다!
-                Consider semantic equivalence, grammar, and relevance.
 
                 언어 힌트: %s
                 문항: %s

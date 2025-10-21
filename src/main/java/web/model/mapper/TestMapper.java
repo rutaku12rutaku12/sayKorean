@@ -17,8 +17,8 @@ public interface TestMapper { // mapper start
 
     // 내가 배운 주제에 맞는 시험 목록 출력
     // 1) 시험 목록 (특정 studyNo)
-    @Select("SELECT * FROM test WHERE studyNo = #{studyNo} ORDER BY testNo DESC")
-    List<TestDto> getListTest( int studyNo );
+    @Select("SELECT * FROM test")
+    List<TestDto> getListTest();
 
 
     // 2) 특정 시험의 문항 목록

@@ -22,9 +22,9 @@ public class TestService { // class start
     // 통과 기준 점수
     private static final int PASS_THRESHOLD = 60;
 
-    // [1] 시험 목록 조회 (특정 studyNo 기준)
-    public List<TestDto> getListTest(int studyNo) {
-        return testMapper.getListTest(studyNo);
+    // [1] 시험 목록 조회
+    public List<TestDto> getListTest() {
+        return testMapper.getListTest();
     }
 
     // [2] 특정 시험의 문항 목록 조회

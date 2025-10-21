@@ -21,10 +21,10 @@ public class TestController { // class start
 
     private final TestService testService;
 
-    // 1) 특정 studyNo에 속한 시험 목록 조회
+    // 1) 시험 목록 조회
     @GetMapping("")
-    public ResponseEntity<List<TestDto>> getListTest(@RequestParam int studyNo) {
-        return ResponseEntity.ok(testService.getListTest(studyNo));
+    public ResponseEntity<List<TestDto>> getListTest() {
+        return ResponseEntity.ok(testService.getListTest());
     }
 
     // 2) 특정 시험(testNo)의 문항 목록 조회

@@ -16,6 +16,7 @@ import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
 // import Setting from "./pages/Setting";
 import Page404 from "./pages/Page404";
+import TestList from "./pages/TestList";
 
 // 관리자단(PC)
 import AdminStudyList from "./adminPages/AdminStudyList";
@@ -86,24 +87,6 @@ function App() {
           {/* 로딩 */}
           <Route path="/" element={<LoadingPage />} ></Route>
 
-          {/* 사용자단 */}
-          <Route element={<UserLayout />}>
-            <Route path="/home" element={<HomePage />} ></Route>
-            <Route path="/mypage" element={<MyPage />} ></Route>
-            <Route path="/update" element={<MyInfoUpdate />} />
-            <Route path="/beforestudy" element={<BeforeStudy />} ></Route>
-            <Route path="/test" element={<Test />} ></Route>
-            <Route path="/signup" element={<SignUpPage/>} />
-            <Route path="/login" element={<LogInPage/>} />
-            <Route path="/find" element={<FindPage/>} />
-            <Route path="/genre" element={<Genre/>} /> {/* 장르 목록 */}
-            <Route path="/study" element={<Study />} />          {/* 주제 목록 */}
-            <Route path="/study/:studyNo" element={<Study />} /> {/* 주제 상세 */}
-            <Route path="/exampleList/:studyNo" element={<ExampleList />} /> {/* 예문 */}
-            <Route path="/successexamlist" element = { <SuccessExamList/>}> </Route>
-            <Route path="*" element={<Page404 />} />
-            {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
-          </Route>
 
 
 
@@ -124,6 +107,8 @@ function App() {
               <Route path="/successexamlist" element={<SuccessExamList />}> </Route>
               <Route path="*" element={<Page404 />} />
               {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
+              <Route path="/testlist" element={<TestList/>}></Route>
+              <Route path="/test/:testNo" element={<TestList />} />
             </Route>
           </Routes>
         </BrowserRouter >
