@@ -12,6 +12,7 @@ public interface AdminTestMapper {
     // 1) 셀렉트 박스 활용하여 Genre -> 하위 Study 테이블 -> 하위 Exam 테이블 조회 후 StudyNo 연동
     // 2) 시험제목(testTitle)을 입력받는다
     // 3) 해당하는 Study 테이블의 studyNo를 FK로 받는다."
+    // 4) *난수화해서 다른 문제에 생성될 수 있도록 하기*
 
     // [ATE-02] 시험 수정 updateTest()
     // 시험 테이블 레코드를 변경한다
@@ -60,6 +61,7 @@ public interface AdminTestMapper {
     // 시험문항 테이블 레코드를 조회한다
     // 매개변수 int
     // 반환 TestItemDto
+    // * 난수화해서 사용자가 시험을 풀 때 조회할 수 있게 한다.
 
 
 

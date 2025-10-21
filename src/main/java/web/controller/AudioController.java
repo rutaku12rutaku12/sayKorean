@@ -58,6 +58,8 @@ public class AudioController {
         return ResponseEntity.ok(result);
     }
 
+    // [AAD-01-TTS] 음성파일 생성(TTS 사용)
+
 
     // [AAD-02] 음성파일 수정	updateAudio()
     // 음성 테이블 레코드를 변경한다.

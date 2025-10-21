@@ -2,15 +2,15 @@ package web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.devtools.v137.io.IO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import web.model.dto.ExamDto;
-import web.model.dto.GenreDto;
-import web.model.dto.StudyDto;
+import web.model.dto.*;
 import web.service.AdminStudyService;
+import web.service.TranslationService;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,12 +38,26 @@ class AdminStudyExceptionHandler {
     }
 }
 
+@Slf4j
 @RestController
 @RequestMapping("/saykorean/admin/study")
 @RequiredArgsConstructor
 public class AdminStudyController {
     // [*] DI
     private final AdminStudyService adminStudyService;
+    private final TranslationService translationService;
+
+    // [AUTO-Translate] 자동 번역 컨트롤러
+    @PostMapping("/translate")
+    public ResponseEntity<TranslatedDataDto> translateTexts(@RequestBody TranslationRequestDto requestDto)  {
+        try {
+            TranslatedDataDto reponse = translationService.translateAll(requestDto);
+            return ResponseEntity.ok(reponse);
+        } catch (IOException e) {
+            log.error("번역에 실패했습니다." , e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
     // [AGR-01] 장르 생성
     // 장르 테이블 레코드를 추가한다
