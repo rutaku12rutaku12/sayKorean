@@ -136,6 +136,10 @@ CREATE TABLE IF NOT EXISTS exam (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
+  ALTER TABLE exam
+  MODIFY COLUMN imageName VARCHAR(255) NULL DEFAULT 'no_image',
+  MODIFY COLUMN imagePath VARCHAR(255) NULL DEFAULT '/images/default';
+
 -- =====================================================================
 -- 7) 시험 테이블 (2단계 - FK: studyNo)
 -- =====================================================================
