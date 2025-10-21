@@ -61,6 +61,7 @@ public interface AdminTestMapper {
     // 시험문항 테이블 레코드를 조회한다
     // 매개변수 int
     // 반환 TestItemDto
+    // * 난수화해서 사용자가 시험을 풀 때 조회할 수 있게 한다.
 
 
 
