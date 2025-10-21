@@ -2,11 +2,14 @@ package web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.AudioDto;
+import web.model.dto.TtsRequestDto;
 import web.service.AudioService;
+import web.service.TranslationService;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,6 +38,7 @@ class AudioExceptionHandler {
 
 
 
+@Slf4j
 @RestController
 @RequestMapping("/saykorean/admin/audio")
 @RequiredArgsConstructor
@@ -42,6 +46,7 @@ public class AudioController {
 
     // [*] DI
     private final AudioService audioService;
+    private final TranslationService translationService;
 
     // [AAD-01] 음성파일 생성 createAudio()
     // 음성 테이블 레코드를 추가한다
@@ -59,6 +64,29 @@ public class AudioController {
     }
 
     // [AAD-01-TTS] 음성파일 생성(TTS 사용)
+    // URL : http://localhost:8080/saykorean/admin/audio/tts
+    // BODY : { "text": "안녕하세요", "languageCode": "ko-KR", "examNo": 1, "lang": 1 }
+    @PostMapping("/tts")
+    public ResponseEntity<Integer> createAudioFromTTS(@RequestBody TtsRequestDto ttsRequest) throws IOException {
+        try {
+            log.info("TTS 요청 - 텍스트: {}, 언어: {}, examNo: {}",
+                    ttsRequest.getText() , ttsRequest.getLanguageCode(), ttsRequest.getExamNo());
+
+            // 1. Google TTS API 호출하여 음성 데이터 생성
+            byte[] audioData = translationService.textToSpeech(
+                    ttsRequest.getText() ,
+                    ttsRequest.getLanguageCode()
+            );
+            
+            // 2. AudioDto 생성
+            
+            // 3. 음성 파일 저장
+
+        } catch (Exception e){
+            log.error("TTS 음성 파일 생성 실패" , e);
+            throw new RuntimeException("음성 파일 생성에 실패했습니다: " + e.getMessage());
+        }
+    }
 
 
     // [AAD-02] 음성파일 수정	updateAudio()

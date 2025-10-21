@@ -17,7 +17,7 @@ export default function AdminHome(props) {
                 <button onClick={() => navigate('/admin/study/create')} style={{
                     padding: '20px 40px',
                     fontSize: '18px',
-                    backgroundColor: '#4CAF50',
+                    backgroundColor: ' #A8E6CF',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -30,13 +30,40 @@ export default function AdminHome(props) {
                     style={{
                         padding: '20px 40px',
                         fontSize: '18px',
-                        backgroundColor: '#2196F3',
+                        backgroundColor: '#FFAAA5',
                         color: 'white',
                         border: 'none',
                         borderRadius: '8px',
                         cursor: 'pointer'
                     }}>
                     교육 목록으로 이동
+                </button>
+            </div>
+
+            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '60px' }}>
+                <button onClick={() => navigate('/admin/test/create')} style={{
+                    padding: '20px 40px',
+                    fontSize: '18px',
+                    backgroundColor: '#FF8C6B',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer'
+                }}>
+                    시험 등록하기
+                </button>
+                <button
+                    onClick={() => navigate('/admin/test')}
+                    style={{
+                        padding: '20px 40px',
+                        fontSize: '18px',
+                        backgroundColor: '#6B4E42',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer'
+                    }}>
+                    시험 목록으로 이동
                 </button>
             </div>
 
