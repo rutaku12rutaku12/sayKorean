@@ -41,6 +41,9 @@ export const studyApi = {
     update: (studyDto) => api.put("/study", studyDto),
     // 5) 교육 삭제
     delete: (studyNo) => api.delete(`/study?studyNo=${studyNo}`),
+    // 6) 자동 번역
+    translate: (translationRequestDto) => api.post("/study/translate",
+        translationRequestDto),
 };
 
 // [3] 예문 API
@@ -92,6 +95,9 @@ export const examApi = {
     },
     // 5) 예문 삭제
     delete: (examNo) => api.delete(`/study/exam?examNo=${examNo}`),
+    // 6) 예문 자동번역
+    translate: (translationRequestDto) => api.post("/study/translate",
+        translationRequestDto),
 };
 
 // [4] 음성 API

@@ -42,8 +42,10 @@ public interface TestMapper { // mapper start
     // 5) 점수 집계 (해당 시험/회차)
     // - score = 정답 개수
     // - total = 전체 문항 수
-    @Select("SELECT SUM(CASE WHEN r.isCorrect = 1 THEN 1 ELSE 0 END) AS score, COUNT(*) AS total FROM ranking r JOIN testItem ti ON ti.testItemNo = r.testItemNo WHERE r.userNo = #{userNo} AND r.testRound = #{testRound} AND ti.testNo = #{testNo}")
-    RankingDto getScore( int userNo , int testNo , int testRound );
+    @Select("SELECT SUM(CASE WHEN r.isCorrect = 1 THEN 1 ELSE 0 END) AS score, COUNT(*) AS total " +
+            "FROM ranking r JOIN testItem ti ON ti.testItemNo = r.testItemNo " +
+            "WHERE r.userNo = #{userNo} AND r.testRound = #{testRound} AND ti.testNo = #{testNo}")
+    RankingDto getScore(int userNo, int testNo, int testRound);
 
 
 

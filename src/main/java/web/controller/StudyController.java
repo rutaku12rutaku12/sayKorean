@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/saykorean/study")
 @RequiredArgsConstructor
 public class StudyController {
-    // 로그인 확인 : { "email" : "user01@example.com" , "password" : "pass#01!" }
+    // 로그인 확인 : { "email" : "user01@example.com" , "password" : "pass#01!" } ###
 
     private final StudyService studyService;
 
