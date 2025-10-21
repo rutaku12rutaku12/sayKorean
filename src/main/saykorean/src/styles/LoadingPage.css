@@ -34,3 +34,25 @@
 .homePage__actions button:active {
   transform: translateY(0);
 }
+
+#loading-frame {
+  text-align: center;
+  position: relative;
+}
+
+.image-container {
+  position: relative; /* 이미지 위에 텍스트를 올리기 위한 기준 */
+  display: inline-block;
+}
+
+.text-on-image {
+  position: absolute;
+  top: 100px;      /* 이미지 위쪽에서 떨어진 거리 */
+  left: 50%;      /* 가운데 정렬 */
+  transform: translateX(-50%);
+  color: white;   /* 텍스트 색상 */
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* 가독성 향상 */
+  background-color: #FFF9F0;
+}
