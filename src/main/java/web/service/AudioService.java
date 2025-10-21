@@ -1,6 +1,7 @@
 package web.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Log4j2
 public class AudioService {
 
     // DI
@@ -47,12 +49,45 @@ public class AudioService {
                 if (audioPath != null){
                     fileService.deleteFile(audioPath);
                 }
-                audioMapper.deleteAudio(audioDto.getExamNo());
+                audioMapper.deleteAudio(audioDto.getAudioNo());
                 throw new IOException("음성 파일 업로드 중 오류 발생하여 생성이 취소되었습니다." , e);
             }
         }
         // 3. 생성한 음성 레코드의 PK 반환
         return audioDto.getAudioNo();
+    }
+
+    // [AAD-01-TTS] 음성파일 생성 (TTS 바이트 배열 방식)
+    public int createAudioFromBytes(AudioDto audioDto , byte[] audioData) throws IOException {
+        // 1. 텍스트 데이터 먼저 DB 저장
+        audioDto.setAudioName(null);
+        audioDto.setAudioPath(null);
+        audioMapper.createAudio(audioDto);
+
+        String audioPath = null;
+        try {
+            // 2. 바이트 배열을 파일로 저장 및 경로 반환
+            audioPath = fileService.uploadAudioFromBytes(audioData, audioDto.getExamNo(), audioDto.getLang());
+
+            // 3. DTO에 경로와 파일명 설정
+            String fileName = audioPath.substring(audioPath.lastIndexOf("/") + 1);
+            audioDto.setAudioName(fileName);
+            audioDto.setAudioPath(audioPath);
+
+            // 4. DB에 음성 정보 업데이트
+            audioMapper.updateAudioAfterCreate(audioDto);
+
+            log.info("TTS 음성 파일 생성 완료 - audioNo: {}, path: {}", audioDto.getAudioNo(), audioPath);
+            return audioDto.getAudioNo();
+
+        } catch (Exception e) {
+            // 예외 발생 시 롤백
+            if (audioPath != null){
+                fileService.deleteFile(audioPath);
+            }
+            audioMapper.deleteAudio(audioDto.getAudioNo());
+            throw new IOException("TTS 음성 파일 생성 중 오류 발생: " + e.getMessage() , e);
+        }
     }
 
     // [AAD-02] 음성파일 수정	updateAudio()

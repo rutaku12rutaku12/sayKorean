@@ -58,7 +58,7 @@ public class AudioController {
     // URL : http://localhost:8080/saykorean/admin/audio
     // BODY : { "audioName" : "1_kor_voice" , "audioPath" : "/audio/oct_25" , "lang" : 1 , "examNo" : 1 }
     @PostMapping("")
-    public ResponseEntity<Integer> createAudio(AudioDto audioDto) throws IOException {
+    public ResponseEntity<Integer> createAudio(@ModelAttribute AudioDto audioDto) throws IOException {
         int result = audioService.createAudio(audioDto , audioDto.getAudioFile());
         return ResponseEntity.ok(result);
     }
@@ -79,9 +79,15 @@ public class AudioController {
             );
             
             // 2. AudioDto 생성
-            
+            AudioDto audioDto = new AudioDto();
+            audioDto.setExamNo(ttsRequest.getExamNo());
+            audioDto.setLang(ttsRequest.getLang());
+
             // 3. 음성 파일 저장
-            return null;
+            int result = audioService.createAudioFromBytes(audioDto, audioData);
+
+            log.info("TTS 음성 파일 생성 완료 - audioNo: {}" , result);
+            return ResponseEntity.ok(result);
 
         } catch (Exception e){
             log.error("TTS 음성 파일 생성 실패" , e);

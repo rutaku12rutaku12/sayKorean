@@ -40,8 +40,8 @@ public interface AdminTestMapper {
     // 매개변수 TestItemDto
     // 반환 int(PK)
     // 1) ATE-01 로직 실행 후 examNo와 testNo를 이어받는다.
-    // 2) 셀렉트박스로 그림/음성/주관식을 제공한다.
-    // 3) 시험문항 질문(question)을 입력받는다.
+    // 2) 셀렉트박스로 질문유형(그림/음성/주관식)을 제공한다.
+    // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기
 
     // [ATI-02]	시험문항 수정	updateTestItem()
     // 시험문항 테이블 레코드를 변경한다

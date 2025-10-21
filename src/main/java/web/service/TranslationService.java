@@ -127,24 +127,44 @@ public class TranslationService {
         // 1-5. 리턴
         return response;
 
-        // 로마자 변환은 없음 ㅜㅜ
+        // 로마자 변환은 없음 ㅜㅜ 파이썬에서 찾아서 하기
     }
 
     // [2] 구글 TTS API
+    // languageCode 형식: ko-KR, en-US, ja-JP, zh-CN, es-ES
     public byte[] textToSpeech(String text, String languageCode) throws IOException {
-        try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
-            SynthesisInput input = SynthesisInput.newBuilder().setText(text).build();
+        InputStream credentialsStream = new ClassPathResource(credentialsFile).getInputStream();
+        GoogleCredentials credentials = GoogleCredentials.fromStream(credentialsStream);
+        TextToSpeechSettings settings = TextToSpeechSettings.newBuilder()
+                .setCredentialsProvider(() -> credentials)
+                .build();
 
+        try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create(settings)) {
+            // 입력 텍스트 설정
+            SynthesisInput input = SynthesisInput.newBuilder()
+                    .setText(text)
+                    .build();
+
+            // 음성 설정
             VoiceSelectionParams voice =
                     VoiceSelectionParams.newBuilder()
                             .setLanguageCode(languageCode)
                             .setSsmlGender(SsmlVoiceGender.NEUTRAL)
                             .build();
 
-            AudioConfig audioConfig = AudioConfig.newBuilder().setAudioEncoding(AudioEncoding.MP3).build();
+            // 오디오 설정 (MP3 포맷)
+            AudioConfig audioConfig = AudioConfig.newBuilder()
+                    .setAudioEncoding(AudioEncoding.MP3)
+                    .build();
 
-            SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice, audioConfig);
+            // TTS 요청 실행
+            SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(
+                    input, 
+                    voice, 
+                    audioConfig
+            );
 
+            // 바이트 배열로 반환
             return response.getAudioContent().toByteArray();
         }
     }
