@@ -73,7 +73,7 @@ export default function LogInPage(props){
             const data = response.data;
             console.log("현재 로그인한 userNo:",data);
             dispatch(logIn(obj));
-            navigate("/");
+            navigate("/home");
             console.log("로그인 성공")
             onAttend();
         }catch(e){console.log("로그인 실패 : ", e)
