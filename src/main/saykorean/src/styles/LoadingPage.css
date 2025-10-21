@@ -1,0 +1,17 @@
+*{
+    border:1px solid red; 
+}
+
+#loading-frame {
+  position: relative;
+  width: 410px;
+  margin: 0 auto;
+}
+
+#loading-footer {
+    
+    width: 410px;
+    background-color: #FFF9F0;
+    border: 1px solid #FFF9F0;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+}
