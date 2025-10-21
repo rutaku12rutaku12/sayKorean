@@ -35,7 +35,6 @@ export default function Genre(props) {
     console.log( saved );
     const pickGenre = (genreNo) => {
         if (!saveGenreNo( genreNo )) return;
-        navigate("/study");
     };
 
 
