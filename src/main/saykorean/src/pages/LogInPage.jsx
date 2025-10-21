@@ -96,8 +96,10 @@ export default function LogInPage(props){
         </div>
         <input type="password" placeholder="비밀번호" value={password} onChange={(e)=>setPassword(e.target.value)} />
     <br/>
-    <button onClick={onLogin}>로그인</button>
-    <br/>
-    <button onClick={onFind}>이메일찾기/비밀번호찾기</button>  
+    <div className="homePage__actions">
+        <button onClick={onLogin}>로그인</button>
+        <br/>
+        <button onClick={onFind}>이메일찾기/비밀번호찾기</button>  
+    </div>
     </>)
 }
