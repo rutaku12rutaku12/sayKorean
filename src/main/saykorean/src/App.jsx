@@ -104,9 +104,6 @@ function App() {
             <Route path="*" element={<Page404 />} />
             {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
           </Route>
-
-        </Routes>
-      </BrowserRouter >
             {/* 사용자단 */}
             <Route element={<UserLayout />}>
               <Route path="/" element={<HomePage />} ></Route>
@@ -128,8 +125,7 @@ function App() {
           </Routes>
         </BrowserRouter >
       </div>
-    </>
-  )
+    </>)
 }
 
 export default App
