@@ -1,6 +1,5 @@
 import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 // 사용자단(모바일)
-import LoadingPage from "./pages/LoadingPage";
 import HomePage from "./pages/HomePage";
 import MyPage from "./pages/MyPage";
 import MyInfoUpdate from "./pages/MyInfoUpdate";
@@ -15,6 +14,10 @@ import ExampleList from "./pages/ExampleList";
 import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
 // import Setting from "./pages/Setting";
+
+// 로딩페이지
+import LoadingPage from "./pages/LoadingPage";
+// 404페이지
 import Page404 from "./pages/Page404";
 
 // 관리자단(PC)
@@ -83,9 +86,10 @@ function App() {
               <Route path="test/edit/:testNo" element={<AdminTestEdit />} />
             </Route>
 
-          {/* 로딩 */}
+          {/* 로딩페이지 */}
           <Route path="/" element={<LoadingPage />} ></Route>
-
+          {/* 404페이지 */}
+          <Route path="*" element={<Page404 />} />
           {/* 사용자단 */}
           <Route element={<UserLayout />}>
             <Route path="/home" element={<HomePage />} ></Route>
@@ -101,30 +105,8 @@ function App() {
             <Route path="/study/:studyNo" element={<Study />} /> {/* 주제 상세 */}
             <Route path="/exampleList/:studyNo" element={<ExampleList />} /> {/* 예문 */}
             <Route path="/successexamlist" element = { <SuccessExamList/>}> </Route>
-            <Route path="*" element={<Page404 />} />
             {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
           </Route>
-
-
-
-            {/* 사용자단 */}
-            <Route element={<UserLayout />}>
-              <Route path="/" element={<HomePage />} ></Route>
-              <Route path="/mypage" element={<MyPage />} ></Route>
-              <Route path="/update" element={<MyInfoUpdate />} />
-              <Route path="/beforestudy" element={<BeforeStudy />} ></Route>
-              <Route path="/test" element={<Test />} ></Route>
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="/login" element={<LogInPage />} />
-              <Route path="/find" element={<FindPage />} />
-              <Route path="/genre" element={<Genre />} /> {/* 장르 목록 */}
-              <Route path="/study" element={<Study />} />          {/* 주제 목록 */}
-              <Route path="/study/:studyNo" element={<Study />} /> {/* 주제 상세 */}
-              <Route path="/exampleList/:studyNo" element={<ExampleList />} /> {/* 예문 */}
-              <Route path="/successexamlist" element={<SuccessExamList />}> </Route>
-              <Route path="*" element={<Page404 />} />
-              {/* <Route path="/setting" element={<Setting />} />   설정 라우트 */}
-            </Route>
           </Routes>
         </BrowserRouter >
       </div>

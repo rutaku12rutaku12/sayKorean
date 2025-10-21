@@ -1,4 +1,4 @@
-
+*{border: 1px solid red;}
 
 #loading-frame {
   position: relative;
@@ -12,4 +12,25 @@
     background-color: #FFF9F0;
     border: 1px solid #FFF9F0;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+}
+
+.homePage__actions{
+  display: flex;
+  justify-content: center;
+}
+
+.homePage__actions button {
+  color : #6B4E42;
+  width: 160px;
+  height: 44px;
+  margin: 6px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.homePage__actions button:active {
+  transform: translateY(0);
 }

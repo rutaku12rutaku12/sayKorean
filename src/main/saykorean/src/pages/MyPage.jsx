@@ -88,8 +88,18 @@ export default function MyPage( props ){
       return maxStreak;
     };
 
+    // 비로그인시 error 페이지로 이동
+    useEffect(() => {
+      if (!isAuthenticated) {
+        navigate("/error"); // 로그인 안 되어 있으면 바로 이동
+      }
+    }, [isAuthenticated, navigate]);
+
+    // 이동 전에 화면 깜빡임 방지
+    if (!isAuthenticated) return null;
 
     return(<>
+
     <div id="MyPage">
       <section className="panel">
         <h3 className="panelTitle">마이페이지</h3>
@@ -121,6 +131,7 @@ export default function MyPage( props ){
         </div>
       </section>
     </div>
+    
     </>)
 
     
