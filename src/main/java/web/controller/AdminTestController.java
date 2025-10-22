@@ -50,7 +50,7 @@ public class AdminTestController {
     // URL : http://localhost:8080/saykorean/admin/test
     // BODY : { "testTitle" : "인사 표현 익히기" , "studyNo" : 1 }
 
-    // [ATE-02] 시험 수정 updateTest()
+    // [ATE-02] 시험 수정 updateTest() ##
     // 시험 테이블 레코드를 변경한다
     // 매개변수 TestDto
     // 반환 int
