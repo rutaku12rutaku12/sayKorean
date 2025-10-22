@@ -64,7 +64,7 @@ public class AdminStudyController {
         }
     }
 
-    // [*] 한국어 - 발음기호 변환 컨트롤러 (파이썬 라이브러리)
+    // [*] 한국어 - 발음기호 변환 컨트롤러
     // URL : http://localhost:8080/saykorean/admin/study/romanize?text=안녕하세요
     @GetMapping("/romanize")
     public Map<String , String> romanize(@RequestParam String text) {

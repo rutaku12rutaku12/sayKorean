@@ -1,6 +1,7 @@
 package web.model.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
+import web.model.dto.TestDto;
 
 @Mapper
 public interface AdminTestMapper {
@@ -13,6 +14,9 @@ public interface AdminTestMapper {
     // 2) 시험제목(testTitle)을 입력받는다
     // 3) 해당하는 Study 테이블의 studyNo를 FK로 받는다."
     // 4) *난수화해서 다른 문제에 생성될 수 있도록 하기*
+    @Insert("insert into test (testTitle, studyNo) values (#{testTitle}, #{studyNo})")
+    @Options(useGeneratedKeys = true, keyProperty = "testNo")
+    int createTest(TestDto testDto);
 
     // [ATE-02] 시험 수정 updateTest()
     // 시험 테이블 레코드를 변경한다
@@ -20,11 +24,15 @@ public interface AdminTestMapper {
     // 반환 int
     // 1) ATE-01 로직에서 연결한 studyNo가 같은 study 테이블의 주제를 불러온다.
     // 2) 시험제목(testTitle)을 수정한다
+    @Update("update test set testTitle = #{testTitle} , studyNo = #{studyNo} where testNo = #{testNo} ")
+    int updateTest(TestDto testDto);
 
     // [ATE-03] 시험 삭제 deleteTest()
     // 시험 테이블 레코드를 삭제한다
     // 매개변수 int
     // 반환 int
+    @Delete("delete from test where testNo = #{testNo}")
+    int deleteTest(int testNo);
 
     // [ATE-04] 시험 전체조회 getTest()
     // 시험 테이블 레코드를 모두 조회한다
