@@ -13,7 +13,7 @@ public interface AdminTestMapper {
     // 1) 셀렉트 박스 활용하여 Genre -> 하위 Study 테이블 -> 하위 Exam 테이블 조회 후 StudyNo 연동
     // 2) 시험제목(testTitle)을 입력받는다
     // 3) 해당하는 Study 테이블의 studyNo를 FK로 받는다."
-    // 4) *난수화해서 다른 문제에 생성될 수 있도록 하기*
+    // 4) * 난수화해서 다른 문제에 생성될 수 있도록 하기 *
     @Insert("insert into test (testTitle, studyNo) values (#{testTitle}, #{studyNo})")
     @Options(useGeneratedKeys = true, keyProperty = "testNo")
     int createTest(TestDto testDto);
@@ -49,7 +49,7 @@ public interface AdminTestMapper {
     // 반환 int(PK)
     // 1) ATE-01 로직 실행 후 examNo와 testNo를 이어받는다.
     // 2) 셀렉트박스로 질문유형(그림/음성/주관식)을 제공한다.
-    // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기
+    // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기 (예문 하나씩 가져와서)
 
     // [ATI-02]	시험문항 수정	updateTestItem()
     // 시험문항 테이블 레코드를 변경한다
