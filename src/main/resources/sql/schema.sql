@@ -197,17 +197,20 @@ CREATE TABLE IF NOT EXISTS testItem (
 -- 10) 랭킹 테이블 (4단계 - FK: testItemNo, userNo)
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS ranking (
-  rankNo     INT          NOT NULL AUTO_INCREMENT,
-  testRound  INT          NOT NULL,
-  userAnswer VARCHAR(500) NOT NULL DEFAULT '객관식 문항이거나 공란으로 제출했습니다.',
-  isCorrect  TINYINT      NOT NULL DEFAULT 0,
-  resultDate DATETIME     NOT NULL DEFAULT NOW(),
-  testItemNo INT          NOT NULL,
-  userNo     INT          NOT NULL,
+  rankNo         INT          NOT NULL AUTO_INCREMENT,                -- PK
+  testRound      INT          NOT NULL,                               -- 시험 회차
+  selectedExamNo INT          DEFAULT NULL,                           -- 객관식일 경우 선택된 보기 (examNo)
+  userAnswer     VARCHAR(500) NOT NULL DEFAULT '객관식 문항이거나 공란으로 제출했습니다.',
+  isCorrect      TINYINT      NOT NULL DEFAULT 0,                     -- 정답 여부
+  resultDate     DATETIME     NOT NULL DEFAULT NOW(),                 -- 제출 시각
+  testItemNo     INT          NOT NULL,                               -- FK: 문항
+  userNo         INT          NOT NULL,                               -- FK: 사용자
   PRIMARY KEY (rankNo),
+
   CONSTRAINT fk_ranking_testItem
     FOREIGN KEY (testItemNo) REFERENCES testItem(testItemNo)
     ON UPDATE CASCADE ON DELETE CASCADE,
+
   CONSTRAINT fk_ranking_user
     FOREIGN KEY (userNo) REFERENCES users(userNo)
     ON UPDATE CASCADE ON DELETE CASCADE
