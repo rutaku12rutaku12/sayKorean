@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS testItem (
   COLLATE = utf8mb4_0900_ai_ci;
 
 -- =====================================================================
--- 10) 랭킹 테이블 (4단계 - FK: testItemNo, userNo)
+-- 10) 랭킹 테이블 (4단계 - FK: testItemNo, userNo) // 확인 필요
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS ranking (
   rankNo         INT          NOT NULL AUTO_INCREMENT,                -- PK
