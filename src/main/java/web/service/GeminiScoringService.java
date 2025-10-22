@@ -79,7 +79,7 @@ public class GeminiScoringService {
         return new ScoreResult(score, text);
     }
 
-    // ㅜparseScore()는 비정상 응답에도 0점 fallback → 안정적
+    // parseScore()는 비정상 응답에도 0점 fallback → 안정적
     private static int parseScore(String raw) {
         Matcher m = INT_PATTERN.matcher(raw);
         if (m.find()) {

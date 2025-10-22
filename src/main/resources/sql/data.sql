@@ -450,6 +450,8 @@ INSERT INTO test (testTitle, studyNo) VALUES
 
 INSERT INTO testItem (question, examNo, testNo) VALUES
 ('그림: 올바른 인사 표현을 고르세요.', 1, 1),
+('음성: 올바른 인사 표현을 고르세요222.', 1, 1),
+('주관식: 올바른 인사 표현을 고르세요333.', 1, 1),
 ('음성: 약속 시간에 맞는 답변을 고르세요.', 2, 2),
 ('주관식: 식당에서 주문할 때 사용할 문장을 작성하세요.', 3, 3),
 ('그림: 길을 묻는 올바른 표현을 선택하세요.', 4, 4),
@@ -526,6 +528,3 @@ INSERT INTO loading (loadTitle, loadInfo, loadFileName) VALUES
 ('롯데타워', '서울의 랜드마크입니다', '28_load_img'),
 ('광장시장', '빈대떡으로 유명한 전통시장입니다', '29_load_img'),
 ('서울시청', '시민들의 행정 중심지입니다', '30_load_img');
-
-select * from users;
-select * from attendance;

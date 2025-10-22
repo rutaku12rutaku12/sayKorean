@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logIn } from "../store/userSlice";
+axios.defaults.baseURL = "http://localhost:8080";
 
 export default function TestList( props ){
 
