@@ -28,10 +28,10 @@ public class TestController { // class start
     }
 
     // 2) 특정 시험(testNo)의 문항 목록 조회
-    @GetMapping("/findtestitem")
-    public ResponseEntity<List<TestItemDto>> findTestItem(@RequestParam int testNo) {
-        return ResponseEntity.ok(testService.findTestItem(testNo));
-    }
+//    @GetMapping("/findtestitem")
+//    public ResponseEntity<List<TestItemDto>> findTestItem(@RequestParam int testNo) {
+//        return ResponseEntity.ok(testService.findTestItem(testNo));
+//    }
 
     // 3) 랭킹(응답 기록) 저장 — 직접 insert 테스트용
     @PostMapping("")

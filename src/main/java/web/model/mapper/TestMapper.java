@@ -1,13 +1,8 @@
 package web.model.mapper;
 
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import web.model.dto.ExamDto;
-import web.model.dto.RankingDto;
-import web.model.dto.TestDto;
-import web.model.dto.TestItemDto;
+import org.apache.ibatis.annotations.*;
+import web.model.dto.*;
 
 import java.util.List;
 
@@ -22,12 +17,53 @@ public interface TestMapper { // mapper start
 
 
     // 2) 특정 시험의 문항 목록
-    @Select("SELECT testItemNo, question, examNo, testNo FROM testItem WHERE testNo = #{testNo} ORDER BY testItemNo")
-    List<TestItemDto> findTestItem( int testNo );
+//    @Select("SELECT testItemNo, question, examNo, testNo FROM testItem WHERE testNo = #{testNo} ORDER BY testItemNo")
+//    List<TestItemDto> findTestItem( int testNo );
+
+
+    // 문항 + 정답(exam) 이미지까지 한 번에 로드 (INNER JOIN)
+    @Select(
+            "SELECT " +
+                    "ti.testItemNo, " +
+                    "ti.question, " +
+                    "ti.testNo, " +
+                    "ti.examNo, " +
+                    "e.examKo, " +
+                    "e.imageName, " +
+                    "e.imagePath " +
+                    "FROM testItem ti " +
+                    "INNER JOIN exam e ON e.examNo = ti.examNo " +
+                    "WHERE ti.testNo = #{testNo} " +
+                    "ORDER BY ti.testItemNo"
+    )
+    @Results(id = "TestItemWithMediaMap", value = {
+            @Result(column = "testItemNo", property = "testItemNo", id = true),
+            @Result(column = "question",   property = "question"),
+            @Result(column = "testNo",     property = "testNo"),
+            @Result(column = "examNo",     property = "examNo"),
+            @Result(column = "examKo",     property = "examKo"),
+            @Result(column = "imageName",  property = "imageName"),
+            @Result(column = "imagePath",  property = "imagePath"),
+
+            // 오디오는 1:N 이므로 별도 쿼리로 매핑 (@Many)
+            @Result(property = "audios", column = "examNo",
+                    many = @Many(select = "web.model.mapper.TestMapper.findAudiosByExamNo"))
+    })
+    List<TestItemWithMediaDto> findTestItemsWithMedia(int testNo);
+
+
+    // 🎧 exam별 오디오 목록
+    @Select(
+            "SELECT audioNo, audioName, audioPath, lang, examNo " +
+                    "FROM audio " +
+                    "WHERE examNo = #{examNo} " +
+                    "ORDER BY audioNo"
+    )
+    List<AudioDto> findAudiosByExamNo(int examNo);
 
     // 3) 정답(예문) 조회: Gemini 채점용 ground truth 확보
     @Select("SELECT examNo, examKo, examEn, examJp, examCn, examEs FROM exam WHERE examNo = #{examNo}")
-    ExamDto findExamByNo(int examNo);
+    ExamDto findExamByNo( int examNo );
 
 
 
