@@ -1,98 +1,73 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-import {useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
+export default function Test() {
+  const { testNo } = useParams();
+  const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState("");
 
-function asArray( payload ){
-    if( typeof payload === "string" ){
-        try{
-            payload = JSON.parse( payload );
-        }catch{
-
-        }
-    }
-
-
-    if (Array.isArray(payload)) return payload;
-
-    if (payload && typeof payload === "object") {
-        // 객체라면 자주 쓰는 키(data/list/items/content/result) 중 배열을 찾아 반환
-        for (const k of ["data", "list", "items", "content", "result"]) {
-            if (Array.isArray(payload[k])) return payload[k];
-        }
-    }
-    // 위 조건에 모두 해당 안 되면 빈 배열 리턴
-    return [];
-} // func end
-
-
-export default function Test (props){
-
-      const { testNo } = useParams();
-
-    const [loading,setLoading] = useState(false);
-    const [error,setError] = useState("");
-    const [test,setTest] = useState([]);
-
-    async function findTestItem( testNoValue ){
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
         const res = await axios.get(
             "/saykorean/test/findtestitem",
-            { params : { testNo : testNoValue } }
-        );
-        return asArray(res.data);
+             { params: { testNo } }
+            );
+        setItems(Array.isArray(res.data) ? res.data : []);
+      } catch {
+        setMsg("불러오는 중 오류가 발생했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [testNo]);
+
+  async function submitAnswer(testItemNo, selectedExamNo, userAnswer = "", langHint = "ko") {
+    try {
+      const body = {
+        testRound: 1,
+        selectedExamNo, // 객관식이면 examNo 전달
+        userAnswer,     // 서술형이면 입력값 전달
+        langHint
+      };
+      const res = await axios.post(`/saykorean/test/test/${testNo}/items/${testItemNo}/free`, body);
+      navigate(`/result/${testNo}`);
+    } catch (e) {
+      console.error(e);
+      alert("제출 실패");
     }
+  }
 
-    useEffect( () => {
-        if( !testNo ){ // URL에 testNo가 없으면
-            setTest(null);
-            return; // 상세 초기화
-        }
+  return (
+    <div>
+      <h3>시험 문항</h3>
+      {loading && <p>불러오는 중...</p>}
+      {msg && <p>{msg}</p>}
 
-        // URL 파라미터를 숫자로 변환
-        const n = Number( testNo );
-        if( !Number.isFinite(n) ){
-            setError("잘못된 테스트 번호입니다.");
-            return;
-        }
+      {items.map((q) => (
+        <div key={q.testItemNo} className="question-card">
+          <p>{q.testItemNo}. {q.question}</p>
 
-        (async() => { // 비동기 즉시실행으로 상세 요청
-            try{
-                setLoading(true);
-                setError("");
-                const t = await findTestItem(n); // 테스트 상세 가져오기
-                setTest(t);
-            }catch( e ){
-                console.error(e);
-                setError("데이터를 불러오는 중 문제가 발생했어요."); // 사용자 메시지
-            }finally{
-                setLoading(false); // 로딩 종료
-            }
-        })();
-        // URL의 testNo가 바뀔 때마다 다시 실행
-    } , [testNo]);
+          {/* 객관식 예시 */}
+          {q.options?.map((opt) => (
+            <button key={opt.examNo} onClick={() => submitAnswer(q.testItemNo, opt.examNo)}>
+              {opt.label}
+            </button>
+          ))}
 
-
-    return (<>
-    <div id="Test">
-      {loading && <div className="toast loading">불러오는 중…</div>} {/* 로딩 표시 */}
-      {error && <div className="toast error">{error}</div>} {/* 에러 표시 */}
+          {/* 서술형 예시 */}
+          {!q.options && (
+            <textarea
+              placeholder="답을 입력하세요"
+              onBlur={(e) => submitAnswer(q.testItemNo, null, e.target.value)}
+            />
+          )}
+        </div>
+      ))}
     </div>
-
-        <ul className="testWrap">
-            {Array.isArray(test) && test.map((t) => (
-                <li key={t.testItemNo} className="test">
-                    <div className="test1">
-                        <div>{`${t.testItemNo}번문제`}</div>
-                        <div>{t.question}</div>
-                    </div>
-                </li>
-            ))}
-        </ul>
-
-
-    </>)
+  );
 }
