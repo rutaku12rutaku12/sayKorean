@@ -1,18 +1,13 @@
-*{border: 1px solid red;}
 
+/* 전체 프레임 */
 #loading-frame {
   position: relative;
   width: 410px;
+  height: 97.87vh;
   margin: 0 auto;
 }
 
-#loading-footer {
-    
-    width: 410px;
-    background-color: #FFF9F0;
-    border: 1px solid #FFF9F0;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
-}
+
 
 .homePage__actions{
   display: flex;
@@ -45,14 +40,84 @@
   display: inline-block;
 }
 
+.image-container img{
+  height: 80vh;
+    object-fit: cover;           /* 이미지 비율 유지하면서 꽉 채움 */
+  object-position: center top; /* 이미지의 '보이는 영역'을 위쪽 기준으로 조정 */
+  
+}
+
+/* 타이틀텍스트 ex) ❝숭례문❞ “숭례문” */
+.title{
+  color: #6B4E42;
+  background-color: white;
+  font-size: 30px;
+  font-family: sans-serif;
+  padding: 10px;
+  font-weight: 1000;
+}
+
+/* 말풍선 ex) 숭례문은 ~~ 남대문이라고 불립니다.*/
 .text-on-image {
   position: absolute;
-  top: 100px;      /* 이미지 위쪽에서 떨어진 거리 */
+  width: 250px;
+  top: 80px;      /* 이미지 위쪽에서 떨어진 거리 */
   left: 50%;      /* 가운데 정렬 */
+  padding:10px 50px;
   transform: translateX(-50%);
-  color: white;   /* 텍스트 색상 */
-  font-size: 24px;
-  font-weight: bold;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* 가독성 향상 */
+  color: #6B4E42;   /* 텍스트 색상 */
+  font-size: 22px;
+  font-weight: 900;
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* 가독성 향상 */
   background-color: #FFF9F0;
+  border-radius: 15px;
+  display: flex;
+  text-align: justify;
+  
+}
+
+/* 하단텍스트 ex) 토돌이 당근수집중 */
+#loading-footer { 
+    width: 410px;
+    background-color: #FFF9F0;
+    border: 1px solid #FFF9F0;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+    height: 8vh;
+     color: #6B4E42;
+    font-weight: 1000;
+    font-size: 30px;
+}
+
+/* 이미지 안 버튼 */
+.image-buttons {
+  position: absolute; /* 이미지 안에서 절대 위치 */
+  bottom: 100px;       /* 이미지 아래쪽에서 20px */
+  left: 50%;          /* 가로 중앙 */
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;          /* 버튼 사이 간격 */
+}
+
+.image-buttons button {
+  color: #6B4E42;
+  width: 160px;
+  height: 44px;
+  margin: 6px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 2; /* 이미지 위로 표시 */
+}
+
+/* 버튼 이펙트 호버 */
+.image-buttons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+}
+/* 버튼 이펙트 클릭시 */
+.image-buttons button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
 }

@@ -74,7 +74,6 @@ function App() {
   return (
     <>
       <div>
-        <h3> 루트페이지 </h3>
         <BrowserRouter>
           <Routes>
             {/* 관리자단 */}
