@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import web.model.dto.ExamDto;
 import web.model.dto.GenreDto;
+import web.model.dto.LanguageDto;
 import web.model.dto.StudyDto;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public interface StudyMapper { // mapper start
     // 특정 장르의 주제 목록 조회
     @Select("SELECT studyNo, themeKo,themeJp,themeCn,themeEn,themeEs FROM study WHERE genreNo = #{genreNo} ORDER BY studyNo")
     List<StudyDto> getSubject( int genreNo );
+
+    // 언어 목록 조회
+    @Select("SELECT langNo, langName FROM languages ORDER BY langNo")
+    List<LanguageDto> getLang();
 
 
     // 주제와 주제에 대한 해설 조회

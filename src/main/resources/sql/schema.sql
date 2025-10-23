@@ -63,15 +63,15 @@ CREATE TABLE IF NOT EXISTS users (
 -- =====================================================================
 -- 3) 로딩 테이블 (독립 - FK 없음)
 -- =====================================================================
-CREATE TABLE IF NOT EXISTS loading (
-  loadNo       INT  NOT NULL AUTO_INCREMENT,
-  loadTitle    TEXT NOT NULL,
-  loadInfo     TEXT NOT NULL,
-  loadFileName TEXT NOT NULL,
-  PRIMARY KEY (loadNo)
-) ENGINE=InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+-- CREATE TABLE IF NOT EXISTS loading (
+--  loadNo       INT  NOT NULL AUTO_INCREMENT,
+--  loadTitle    TEXT NOT NULL,
+--  loadInfo     TEXT NOT NULL,
+--  loadFileName TEXT NOT NULL,
+--  PRIMARY KEY (loadNo)
+-- ) ENGINE=InnoDB
+--  DEFAULT CHARSET = utf8mb4
+--  COLLATE = utf8mb4_0900_ai_ci;
 
 -- =====================================================================
 -- 4) 교육 주제 테이블 (1단계 - FK: genreNo)
@@ -217,3 +217,14 @@ CREATE TABLE IF NOT EXISTS ranking (
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
+  -- =====================================================================
+  -- 11) 언어 테이블
+  -- =====================================================================
+  CREATE TABLE IF NOT EXISTS languages (
+    langNo   INT NOT NULL AUTO_INCREMENT,
+    langName VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY (langNo)
+  ) ENGINE=InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;

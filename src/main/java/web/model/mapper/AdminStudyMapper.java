@@ -105,4 +105,12 @@ public interface AdminStudyMapper {
     @Select("select * from exam where examNo = #{examNo} ")
     ExamDto getIndiExam(int examNo);
 
+    // [AEX-06] 특정 주제의 예문 목록 조회 getExamsByStudyNo()
+    // studyNo로 예문 목록을 조회한다
+    // 매개변수 int studyNo
+    // 반환 List<ExamDto>
+    // * 시험 문항 생성 시 해당 주제의 예문을 가져오기 위해 사용
+    @Select("select * from exam where studyNo = #{studyNo} order by examNo")
+    List<ExamDto> getExamsByStudyNo(int studyNo);
+
 }

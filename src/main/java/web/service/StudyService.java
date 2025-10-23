@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.ExamDto;
 import web.model.dto.GenreDto;
+import web.model.dto.LanguageDto;
 import web.model.dto.StudyDto;
 import web.model.mapper.StudyMapper;
 
@@ -28,6 +29,12 @@ public class StudyService { // class start
     // 특정 장르의 주제 목록
     public List<StudyDto> getSubject( int genreNo ){
         List< StudyDto > result = studyMapper.getSubject( genreNo );
+        return result;
+    }
+
+    // 언어 목록
+    public List<LanguageDto> getLang(){
+        List<LanguageDto> result = studyMapper.getLang();
         return result;
     }
 

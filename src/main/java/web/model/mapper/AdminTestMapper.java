@@ -2,6 +2,9 @@ package web.model.mapper;
 
 import org.apache.ibatis.annotations.*;
 import web.model.dto.TestDto;
+import web.model.dto.TestItemDto;
+
+import java.util.List;
 
 @Mapper
 public interface AdminTestMapper {
@@ -37,11 +40,15 @@ public interface AdminTestMapper {
     // [ATE-04] 시험 전체조회 getTest()
     // 시험 테이블 레코드를 모두 조회한다
     // 반환 List<TestDto>
+    @Select("select * from test")
+    List<TestDto> getTest();
 
     // [ATE-05]	시험 개별조회	getIndiTest()
     // 시험 테이블 레코드를 조회한다
     // 매개변수 int
     // 반환 TestDto
+    @Select("select * from test where testNo = #{testNo}")
+    TestDto getIndiTest(int testNo);
 
     // [ATI-01]	시험문항 생성	createTestItem()
     // 시험문항 테이블 레코드를 추가한다
@@ -50,29 +57,36 @@ public interface AdminTestMapper {
     // 1) ATE-01 로직 실행 후 examNo와 testNo를 이어받는다.
     // 2) 셀렉트박스로 질문유형(그림/음성/주관식)을 제공한다.
     // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기 (예문 하나씩 가져와서)
+    @Insert("insert into testItem(question , examNo , testNo) values (#{question} , #{examNo} , #{testNo})")
+    @Options(useGeneratedKeys = true , keyProperty = "testItemNo")
+    int createTestItem(TestItemDto testItemDto);
 
     // [ATI-02]	시험문항 수정	updateTestItem()
     // 시험문항 테이블 레코드를 변경한다
     // 매개변수 TestItemDto
     // 반환 int
+    @Update("update testItem set question = #{question} , examNo = #{examNo} , testNo = #{testNo} where testItemNo = #{testItemNo} ")
+    int updateTestItem(TestItemDto testItemDto);
 
     // [ATI-03]	시험문항 삭제	deleteTestItem()
     // 시험문항 테이블 레코드를 삭제한다
     // 매개변수 int
     // 반환 int
+    @Delete("delete from testItem where testItemNo = #{testItemNo} ")
+    int deleteTestItem(int testItemNo);
 
     // [ATI-04]	시험문항 전체조회	getTestItem()
     // 시험문항 테이블 레코드를 모두 조회한다
     // 반환 List<TestItemDto>
+    @Select("select * from testItem")
+    List<TestItemDto> getTestItem();
 
     // [ATI-05]	시험문항 개별조회	getIndiTestItem()
     // 시험문항 테이블 레코드를 조회한다
     // 매개변수 int
     // 반환 TestItemDto
     // * 난수화해서 사용자가 시험을 풀 때 조회할 수 있게 한다.
-
-
-
-
+    @Select("select * from testItem where testItemNo = #{testItemNo} ")
+    TestItemDto getIndiTestItem(int testItemNo);
 
 }

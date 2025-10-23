@@ -10,6 +10,13 @@
   cursor: pointer;
 }
 
+/* 버튼 이펙트 클릭시 */
 .homePage__actions button:active {
   transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+/* 버튼 이펙트 호버 */
+.homePage__actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
 }

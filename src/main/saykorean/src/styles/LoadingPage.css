@@ -73,7 +73,7 @@
   border-radius: 15px;
   display: flex;
   text-align: justify;
-  
+  line-height:25px;
 }
 
 /* 하단텍스트 ex) 토돌이 당근수집중 */
@@ -85,7 +85,7 @@
     height: 8vh;
      color: #6B4E42;
     font-weight: 1000;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 /* 이미지 안 버튼 */

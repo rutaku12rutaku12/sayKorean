@@ -50,7 +50,7 @@ export default function Test() {
       setSubmitting(true);
       const body = {
         testRound: 1,
-        selectedExamNo,                  // 객관식이면 examNo
+        selectedExamNo : selectedExamNo ?? 0,                  // 객관식이면 examNo
         userAnswer: selectedExamNo ? "" : subjective, // 주관식이면 입력값
         langHint: "ko",
       };
@@ -61,7 +61,7 @@ export default function Test() {
       );
 
       const { score, isCorrect } = res.data || {};
-      setFeedback({ correct: isCorrect === 1, score: Number(score) || 0 });
+      setFeedback({ correct: isCorrect == 1, score: Number(score) || 0 });
 
       // 피드백 보여주고 “다음 문제” 버튼 활성화
     } catch (e) {
@@ -79,7 +79,7 @@ export default function Test() {
       setSubjective("");
       setFeedback(null);
     } else {
-      navigate(`/result/${testNo}`);
+      navigate(`/testresult/${testNo}`);
     }
   }
 
@@ -158,9 +158,7 @@ export default function Test() {
             <div className="feedback">
               <div className={`toast ${feedback.correct ? "ok" : "no"}`}>
                 {feedback.correct ? "정답!" : "오답!"}
-                {typeof feedback.score === "number" && !isMultiple && (
-                  <span style={{marginLeft: 8}}>{feedback.score}점</span>
-                )}
+                {typeof feedback.score === "number" && !isMultiple }
               </div>
               <button className="btn next" onClick={goNext}>
                 {idx < items.length - 1 ? "다음 문제" : "결과 보기"}

@@ -49,41 +49,45 @@ public class TestService {
             String userAnswer,      // 주관식이면 필수
             String langHint
     ) {
-        // 1) 문항 로드: 해당 시험의 문항 목록에서 testItemNo로 필터
+        // 1) 문항 로드
         TestItemWithMediaDto item = testMapper.findTestItemsWithMedia(testNo).stream()
                 .filter(t -> t.getTestItemNo() == testItemNo)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 testItemNo 입니다."));
 
         final String q = (item.getQuestion() == null) ? "" : item.getQuestion().trim();
-
-        // 로그로 실제 분기 확인
         System.out.printf("[DEBUG] testItemNo=%d, question='%s'%n", testItemNo, q);
 
-        // 2) 정답 예문 로드: 문항이 가리키는 examNo 기반
+        // 2) 정답 예문 로드
         ExamDto exam = testMapper.findExamByNo(item.getExamNo());
         if (exam == null) throw new IllegalArgumentException("예문(exam)을 찾을 수 없습니다.");
 
         int score = 0;
         int isCorrect = 0;
 
-        // 3) 규칙: 그림이나 음성으로 시작하면 객관식, 주관식으로 시작하면 주관식
+        // 3) 규칙: "그림:" / "음성:" → 객관식 , "주관식:" → 서술형
         if (isMultipleChoice(q)) {
             if (selectedExamNo == null) {
+                // selectedExamNo가 null일 경우 방어
                 System.err.println("[WARN] 객관식 문제인데 selectedExamNo가 null입니다 → 오답 처리");
                 isCorrect = 0;
                 score = 0;
             } else {
-                // Null-safe 비교
-                isCorrect = (selectedExamNo != null && selectedExamNo.equals(item.getExamNo())) ? 1 : 0;
+                //  null-safe 비교
+                isCorrect = selectedExamNo.equals(item.getExamNo()) ? 1 : 0;
                 score = (isCorrect == 1) ? 100 : 0;
             }
         }
         else if (isSubjective(q)) {
-            // 주관식: Gemini로 의미 유사도 기반 채점
+            // 주관식: Gemini로 채점
             String groundTruth = pickGroundTruthByLang(exam, langHint);
             try {
-                score = gemini.score(q, groundTruth, nullToEmpty(userAnswer), langHint).score();
+                score = gemini.score(
+                        q.replaceFirst("^주관식\\s*:?\\s*", ""), // "주관식:" prefix 제거
+                        groundTruth,
+                        nullToEmpty(userAnswer),
+                        langHint
+                ).score();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 score = 0; // 장애 시 0점
@@ -91,11 +95,11 @@ public class TestService {
             isCorrect = (score >= PASS_THRESHOLD) ? 1 : 0;
         }
         else {
-            // 규칙에 맞지 않는 경우 방어 -> 프리픽스 형식이 맞지 않음
+            // 규칙에 맞지 않는 경우 방어
             throw new IllegalArgumentException("문항 유형을 판별할 수 없습니다. (그림:/음성:/주관식: 중 하나로 시작해야 합니다)");
         }
 
-        // 4) 랭킹 저장: 제출 결과를 영속화(누적 기록)
+        // 4) 랭킹 저장
         RankingDto rec = new RankingDto();
         rec.setTestRound(testRound);
         rec.setSelectedExamNo(selectedExamNo);
@@ -108,20 +112,20 @@ public class TestService {
         System.out.printf("[RESULT] userNo=%d, testItemNo=%d, score=%d, isCorrect=%d%n",
                 userNo, testItemNo, score, isCorrect);
 
-        return score; // 컨트롤러로 점수 반환(정답 여부는 컨트롤러에서 파생)
+        return score;
     }
 
     // --- helpers ---
-
     private boolean isMultipleChoice(String q) {
-        String s = q.toLowerCase();
-        // 공백 고려, "그림:", "음성:" 케이스만 객관식
-        return s.startsWith("그림") || s.startsWith("음성");
+        if (q == null) return false;
+        String s = q.strip().replaceAll("\\s+", ""); // 공백·콜론 제거
+        return s.startsWith("그림:") || s.startsWith("음성:");
     }
 
     private boolean isSubjective(String q) {
-        String s = q.toLowerCase();
-        return s.startsWith("주관식");
+        if (q == null) return false;
+        String s = q.strip().replaceAll("\\s+", "");
+        return s.startsWith("주관식:");
     }
 
     private String pickGroundTruthByLang(ExamDto exam, String langHint) {

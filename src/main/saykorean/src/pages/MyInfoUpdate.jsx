@@ -122,7 +122,7 @@ export default function MyInfoUpdatePage(props){
             if(data==1){
                 alert("회원탈퇴가 완료되었습니다.")
                 dispath(logOut());
-                navigate("/home");
+                navigate("/login");
             }
 
         }catch(e){console.log(e)}

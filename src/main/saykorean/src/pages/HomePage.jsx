@@ -26,7 +26,7 @@ export default function HomePage ( props ){
     // 비로그인시 error 페이지로 이동
         useEffect(() => {
           if (!isAuthenticated) {
-            navigate("/error"); // 로그인 안 되어 있으면 바로 이동
+            navigate("/login"); // 로그인 안 되어 있으면 바로 이동
           }
         }, [isAuthenticated, navigate]);
     
