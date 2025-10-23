@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import web.config.EnvLoader;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -13,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//GeminiScoringService
 // Google Gemini REST API 호출 → 0~100 점수 반환
 @Service
 @RequiredArgsConstructor
@@ -27,23 +27,28 @@ public class GeminiScoringService {
 
     public record ScoreResult(int score, String rawText) {}
 
-    // question(문항) + groundTruth(기준정답) + userAnswer(사용자답) → 0~100 점수
-
     public ScoreResult score(String question, String groundTruth, String userAnswer, String langHint) throws Exception {
-        String apiKey = System.getenv("GOOGLE_API_KEY");
+
+        // [1] JSON 환경파일 자동 로드
+        EnvLoader.loadJsonEnv("src/main/resources/env.app.json");
+
+        String apiKey = System.getProperty("GOOGLE_API_KEY");
+        if (apiKey == null || apiKey.isBlank()) {
+            apiKey = System.getenv("GOOGLE_API_KEY");
+        }
         if (apiKey == null || apiKey.isBlank()) {
             throw new IllegalStateException("GOOGLE_API_KEY 환경변수가 비어 있습니다.");
         }
 
+        // [2] 프롬프트 정의
         String prompt = """
-                점수는 0부터 100 사이의 정수로만 매깁니다!
-                의미적 동등성, 문법, 관련성을 고려해서 채점하겠습니다!
+                점수는 0부터 100 사이의 정수로만 매깁니다.
+                의미적 동등성, 문법, 관련성을 고려해서 채점해주세요.
 
                 언어 힌트: %s
                 문항: %s
                 기준 정답: %s
                 사용자 답변: %s
-
                 """.formatted(
                 nullToEmpty(langHint),
                 nullToEmpty(question),
@@ -51,16 +56,21 @@ public class GeminiScoringService {
                 nullToEmpty(userAnswer)
         );
 
-        // Google AI Studio REST: POST /v1beta/models/...:generateContent
-        URI uri = URI.create("https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent?key=" + apiKey);
+        // [3] ✅ 최신 v1beta generateContent 형식으로 JSON 구성
+        String bodyJson = om.writeValueAsString(
+                om.createObjectNode()
+                        .putArray("contents")
+                        .addObject()
+                        .putArray("parts")
+                        .addObject()
+                        .put("text", prompt)
+        );
 
-        String bodyJson = om.createObjectNode()
-                .putArray("contents")
-                .addObject()
-                .putArray("parts")
-                .addObject()
-                .put("text", prompt)
-                .toString();
+        System.out.println("[DEBUG] bodyJson = " + bodyJson);
+
+        // [4] 올바른 엔드포인트 (v1beta + generateContent)
+        URI uri = URI.create("https://generativelanguage.googleapis.com/v1beta/models/"
+                + MODEL + ":generateContent?key=" + apiKey);
 
         HttpRequest req = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/json; charset=UTF-8")
@@ -68,25 +78,33 @@ public class GeminiScoringService {
                 .build();
 
         HttpResponse<String> res = http.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+        // [5] 오류 처리
         if (res.statusCode() / 100 != 2) {
             throw new RuntimeException("Gemini API error: HTTP " + res.statusCode() + " - " + res.body());
         }
 
+        // [6] 응답 파싱
         JsonNode root = om.readTree(res.body());
-        String text = root.path("candidates").path(0).path("content").path("parts").path(0).path("text").asText("");
+        String text = root.path("candidates")
+                .path(0)
+                .path("content")
+                .path("parts")
+                .path(0)
+                .path("text")
+                .asText("");
+
         int score = parseScore(text);
 
         return new ScoreResult(score, text);
     }
 
-    // ㅜparseScore()는 비정상 응답에도 0점 fallback → 안정적
+    // 숫자 파싱: "95점" → 95
     private static int parseScore(String raw) {
         Matcher m = INT_PATTERN.matcher(raw);
         if (m.find()) {
             int v = Integer.parseInt(m.group(1));
-            if (v < 0) v = 0;
-            if (v > 100) v = 100;
-            return v;
+            return Math.max(0, Math.min(100, v));
         }
         return 0;
     }

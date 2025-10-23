@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { logOut } from "../store/userSlice";
 import "../styles/HomePage.css"
+import { useEffect } from "react";
 export default function HomePage ( props ){
     console.log("HomePage.jsx open")
     // navigate, dispatch 함수 가져오기
@@ -22,6 +23,16 @@ export default function HomePage ( props ){
             dispatch(logOut());
         }catch(e){console.log("로그아웃 실패 : ", e)}
     }
+    // 비로그인시 error 페이지로 이동
+        useEffect(() => {
+          if (!isAuthenticated) {
+            navigate("/error"); // 로그인 안 되어 있으면 바로 이동
+          }
+        }, [isAuthenticated, navigate]);
+    
+        // 이동 전에 화면 깜빡임 방지
+        if (!isAuthenticated) return null;
+    
     return (
         <div id="homePage" className="homePage">
             {/* 이 한 줄이 ‘이 페이지에서만’ 배경 역할을 함 */}
