@@ -528,3 +528,11 @@ INSERT INTO loading (loadTitle, loadInfo, loadFileName) VALUES
 ('롯데타워', '서울의 랜드마크입니다', '28_load_img'),
 ('광장시장', '빈대떡으로 유명한 전통시장입니다', '29_load_img'),
 ('서울시청', '시민들의 행정 중심지입니다', '30_load_img');
+
+
+INSERT INTO languages (langName) VALUES
+('한국어'),
+('일본어'),
+('중국어'),
+('영어'),
+('스페인어');
