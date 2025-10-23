@@ -45,6 +45,6 @@ bin/
 .DS_Store
 /logs/
 /logs/
-src/main/resources/application.properties
-src/main/resources/handy-boulevard-475706-q2-004880c33563.json
-src/main/resources/env.example.jsonsrc/main/resources/env.example.json
+**/src/main/resources/application.properties
+**/src/main/resources/handy-boulevard-475706-q2-004880c33563.json
+**/src/main/resources/env.example.jsonsrc/main/resources/env.example.json
