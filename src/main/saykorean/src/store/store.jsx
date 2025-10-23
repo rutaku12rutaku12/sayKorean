@@ -3,11 +3,22 @@ import userSlice from "./userSlice";
 import adminSlice from "./adminSlice";
 import attendSlice from "./attendSlice";
 
+import storageSession from 'redux-persist/lib/storage/session';
+
+// 세션스토리지에 'user'라는 이름으로 상태 저장
+const persistConfig = {key:'user', storage: storageSession}
+
+// 리듀서에 persist 설정
+import { persistStore , persistReducer } from 'redux-persist';
+
+// persistReducer( 옵션 , 설정리듀서 )
+const persistedReducer = persistReducer( persistConfig , userSlice );
+
 // 스토어 생성
 const store = configureStore({
     reducer:{
         // 슬라이스 (상태) 등록
-        user:userSlice,
+        user:persistedReducer,
         attend:attendSlice,
         admin:adminSlice
     } ,
@@ -19,3 +30,5 @@ const store = configureStore({
 })
 
 export default store;
+
+export const persistor = persistStore( store );
