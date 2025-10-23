@@ -47,4 +47,4 @@ bin/
 /logs/
 src/main/resources/application.properties
 src/main/resources/handy-boulevard-475706-q2-004880c33563.json
-/src/main/resources/
+src/main/resources/env.app.json
