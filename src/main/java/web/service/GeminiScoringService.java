@@ -14,12 +14,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// Google Gemini REST API 호출 → 0~100 점수 반환
+/*
+ * Gemini 2.5 Flash REST API 기반 자동 채점 서비스
+ * - 0~100 점수만 추출
+ * - SDK 설치 불필요
+ */
 @Service
 @RequiredArgsConstructor
 public class GeminiScoringService {
 
-    private static final String MODEL = "gemini-1.5-flash";
+    private static final String MODEL = "gemini-2.5-flash";
     private static final Pattern INT_PATTERN = Pattern.compile("(\\d{1,3})");
 
     private final ObjectMapper om = new ObjectMapper();
@@ -29,21 +33,21 @@ public class GeminiScoringService {
 
     public ScoreResult score(String question, String groundTruth, String userAnswer, String langHint) throws Exception {
 
-        // [1] JSON 환경파일 자동 로드
+        // [1] 환경 변수 로드
         EnvLoader.loadJsonEnv("src/main/resources/env.app.json");
 
         String apiKey = System.getProperty("GOOGLE_API_KEY");
         if (apiKey == null || apiKey.isBlank()) {
-            apiKey = System.getenv("GOOGLE_API_KEY");
+            apiKey = System.getProperty("GOOGLE_API_KEY");
         }
         if (apiKey == null || apiKey.isBlank()) {
-            throw new IllegalStateException("GOOGLE_API_KEY 환경변수가 비어 있습니다.");
+            throw new IllegalStateException("Google API Key가 비어 있습니다. 환경변수를 확인하세요.");
         }
 
-        // [2] 프롬프트 정의
+        // [2] 프롬프트 작성
         String prompt = """
-                점수는 0부터 100 사이의 정수로만 매깁니다.
-                의미적 동등성, 문법, 관련성을 고려해서 채점해주세요.
+                점수는 반드시 0부터 100 사이의 정수로만 출력하세요.
+                의미적 동등성, 문법, 관련성을 고려해 채점합니다.
 
                 언어 힌트: %s
                 문항: %s
@@ -56,19 +60,21 @@ public class GeminiScoringService {
                 nullToEmpty(userAnswer)
         );
 
-        // [3] ✅ 최신 v1beta generateContent 형식으로 JSON 구성
-        String bodyJson = om.writeValueAsString(
-                om.createObjectNode()
-                        .putArray("contents")
-                        .addObject()
-                        .putArray("parts")
-                        .addObject()
-                        .put("text", prompt)
-        );
+        // [3] 요청 JSON (2.5-flash 최신 스키마)
+        String bodyJson = """
+        {
+          "contents": [
+            {
+              "role": "user",
+              "parts": [
+                { "text": %s }
+              ]
+            }
+          ]
+        }
+        """.formatted(om.writeValueAsString(prompt));
 
-        System.out.println("[DEBUG] bodyJson = " + bodyJson);
-
-        // [4] 올바른 엔드포인트 (v1beta + generateContent)
+        // [4] 요청 생성
         URI uri = URI.create("https://generativelanguage.googleapis.com/v1beta/models/"
                 + MODEL + ":generateContent?key=" + apiKey);
 
@@ -77,9 +83,9 @@ public class GeminiScoringService {
                 .POST(HttpRequest.BodyPublishers.ofString(bodyJson, StandardCharsets.UTF_8))
                 .build();
 
+        // [5] 전송 및 응답 수신
         HttpResponse<String> res = http.send(req, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
 
-        // [5] 오류 처리
         if (res.statusCode() / 100 != 2) {
             throw new RuntimeException("Gemini API error: HTTP " + res.statusCode() + " - " + res.body());
         }
@@ -95,13 +101,11 @@ public class GeminiScoringService {
                 .asText("");
 
         int score = parseScore(text);
-
         return new ScoreResult(score, text);
     }
 
-    // 숫자 파싱: "95점" → 95
     private static int parseScore(String raw) {
-        Matcher m = INT_PATTERN.matcher(raw);
+        Matcher m = INT_PATTERN.matcher(raw == null ? "" : raw);
         if (m.find()) {
             int v = Integer.parseInt(m.group(1));
             return Math.max(0, Math.min(100, v));
@@ -109,5 +113,7 @@ public class GeminiScoringService {
         return 0;
     }
 
-    private static String nullToEmpty(String s) { return s == null ? "" : s; }
+    private static String nullToEmpty(String s) {
+        return s == null ? "" : s;
+    }
 }

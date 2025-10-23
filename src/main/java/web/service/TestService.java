@@ -68,18 +68,18 @@ public class TestService {
         // 3) 규칙: "그림:" / "음성:" → 객관식 , "주관식:" → 서술형
         if (isMultipleChoice(q)) {
             if (selectedExamNo == null) {
-                // ✅ selectedExamNo가 null일 경우 방어
+                // selectedExamNo가 null일 경우 방어
                 System.err.println("[WARN] 객관식 문제인데 selectedExamNo가 null입니다 → 오답 처리");
                 isCorrect = 0;
                 score = 0;
             } else {
-                // ✅ null-safe 비교
+                //  null-safe 비교
                 isCorrect = selectedExamNo.equals(item.getExamNo()) ? 1 : 0;
                 score = (isCorrect == 1) ? 100 : 0;
             }
         }
         else if (isSubjective(q)) {
-            // ✅ 주관식: Gemini로 채점
+            // 주관식: Gemini로 채점
             String groundTruth = pickGroundTruthByLang(exam, langHint);
             try {
                 score = gemini.score(
@@ -95,7 +95,7 @@ public class TestService {
             isCorrect = (score >= PASS_THRESHOLD) ? 1 : 0;
         }
         else {
-            // ✅ 규칙에 맞지 않는 경우 방어
+            // 규칙에 맞지 않는 경우 방어
             throw new IllegalArgumentException("문항 유형을 판별할 수 없습니다. (그림:/음성:/주관식: 중 하나로 시작해야 합니다)");
         }
 
