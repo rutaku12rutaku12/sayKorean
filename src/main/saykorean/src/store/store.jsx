@@ -4,7 +4,7 @@ import adminSlice from "./adminSlice";
 import attendSlice from "./attendSlice";
 
 import storageSession from 'redux-persist/lib/storage/session';
-
+console.log(storageSession);
 // 세션스토리지에 'user'라는 이름으로 상태 저장
 const persistConfig = {key:'user', storage: storageSession}
 
