@@ -15,6 +15,7 @@ import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
 import TestList from "./pages/TestList";
 import Language from "./pages/Language";
+import TestResult from "./pages/TestResult";
 // import Setting from "./pages/Setting";
 
 // 로딩페이지 
@@ -115,6 +116,8 @@ function App() {
               <Route path="/testlist" element={<TestList/>}></Route>
               <Route path="/test/:testNo" element={<Test />}></Route>
               <Route path="/language" element={<Language/>}></Route>
+              <Route path="/testresult/:testNo" element={<TestResult />}></Route>
+
             </Route>
           </Routes>
         </BrowserRouter >

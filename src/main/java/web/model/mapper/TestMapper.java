@@ -52,7 +52,7 @@ public interface TestMapper { // mapper start
     List<TestItemWithMediaDto> findTestItemsWithMedia(int testNo);
 
 
-    // 🎧 exam별 오디오 목록
+    // exam별 오디오 목록
     @Select(
             "SELECT audioNo, audioName, audioPath, lang, examNo " +
                     "FROM audio " +
