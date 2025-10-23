@@ -50,7 +50,7 @@ public class AdminTestController {
     // URL : http://localhost:8080/saykorean/admin/test
     // BODY : { "testTitle" : "인사 표현 익히기" , "studyNo" : 1 }
 
-    // [ATE-02] 시험 수정 updateTest()
+    // [ATE-02] 시험 수정 updateTest() ##
     // 시험 테이블 레코드를 변경한다
     // 매개변수 TestDto
     // 반환 int
@@ -82,7 +82,7 @@ public class AdminTestController {
     // 반환 int(PK)
     // 1) ATE-01 로직 실행 후 examNo와 testNo를 이어받는다.
     // 2) 셀렉트박스로 질문유형(그림/음성/주관식)을 제공한다.
-    // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기
+    // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기 (예문 하나씩 가져와서)
     // URL : http://localhost:8080/saykorean/admin/testitem
     // BODY : { "question" : "그림1: 올바른 인사 표현을 고르세요." , "examNo" : 1 , "testNo" : 1 }
 

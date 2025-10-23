@@ -5,6 +5,7 @@ build/
 !**/src/test/**/build/
 application.properties
 handy-boulevard-475706-q2-004880c33563.json
+env.app.json
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

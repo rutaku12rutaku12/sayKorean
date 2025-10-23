@@ -3,7 +3,10 @@ package web.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.model.dto.TestDto;
 import web.model.mapper.AdminTestMapper;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,6 +22,10 @@ public class AdminTestService {
     // 1) 셀렉트 박스 활용하여 Genre -> 하위 Study 테이블 -> 하위 Exam 테이블 조회 후 StudyNo 연동
     // 2) 시험제목(testTitle)을 입력받는다
     // 3) 해당하는 Study 테이블의 studyNo를 FK로 받는다."
+    public int createTest(TestDto testDto) {
+        adminTestMapper.createTest(testDto);
+        return testDto.getTestNo(); // PK 반환
+    }
 
     // [ATE-02] 시험 수정 updateTest()
     // 시험 테이블 레코드를 변경한다
@@ -26,15 +33,24 @@ public class AdminTestService {
     // 반환 int
     // 1) ATE-01 로직에서 연결한 studyNo가 같은 study 테이블의 주제를 불러온다.
     // 2) 시험제목(testTitle)을 수정한다
+    public int updateTest(TestDto testDto) {
+        return adminTestMapper.updateTest(testDto);
+    }
 
     // [ATE-03] 시험 삭제 deleteTest()
     // 시험 테이블 레코드를 삭제한다
     // 매개변수 int
     // 반환 int
+    public int deleteTest(int testNo) {
+        return adminTestMapper.deleteTest(testNo);
+    }
 
     // [ATE-04] 시험 전체조회 getTest()
     // 시험 테이블 레코드를 모두 조회한다
     // 반환 List<TestDto>
+    public List<TestDto> getTest () {
+        return adminTestMapper.getTest();
+    }
 
     // [ATE-05]	시험 개별조회	getIndiTest()
     // 시험 테이블 레코드를 조회한다
@@ -47,7 +63,9 @@ public class AdminTestService {
     // 반환 int(PK)
     // 1) ATE-01 로직 실행 후 examNo와 testNo를 이어받는다.
     // 2) 셀렉트박스로 질문유형(그림/음성/주관식)을 제공한다.
-    // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기
+    // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩 만들기 (예문 하나씩 가져와서)
+    // *) 생성할 때 최소 3개 이상의 시험문항이 있어야함!
+    // *) 생성할 때 그림, 음성, 주관식 문항이 1개 이상씩 있어야함!
 
     // [ATI-02]	시험문항 수정	updateTestItem()
     // 시험문항 테이블 레코드를 변경한다
