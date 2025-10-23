@@ -217,3 +217,14 @@ CREATE TABLE IF NOT EXISTS ranking (
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+
+  -- =====================================================================
+  -- 11) 언어 테이블
+  -- =====================================================================
+  CREATE TABLE IF NOT EXISTS languages (
+    langNo   INT NOT NULL AUTO_INCREMENT,
+    langName VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY (langNo)
+  ) ENGINE=InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
