@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.ExamDto;
 import web.model.dto.GenreDto;
+import web.model.dto.LanguageDto;
 import web.model.dto.StudyDto;
 import web.service.StudyService;
 import web.service.UserService;
@@ -35,6 +36,12 @@ public class StudyController {
     @GetMapping("/getSubject")
     public ResponseEntity<List<StudyDto>> getSubject( @RequestParam @Positive int genreNo) {
         return ResponseEntity.ok(studyService.getSubject(genreNo));
+    }
+
+    // 언어 목록 조회
+    @GetMapping("/getlang")
+    public ResponseEntity<List<LanguageDto>> getLang(){
+        return ResponseEntity.ok( studyService.getLang() );
     }
 
 
