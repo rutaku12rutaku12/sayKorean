@@ -50,7 +50,7 @@ export default function Test() {
       setSubmitting(true);
       const body = {
         testRound: 1,
-        selectedExamNo,                  // 객관식이면 examNo
+        selectedExamNo : selectedExamNo ?? 0,                  // 객관식이면 examNo
         userAnswer: selectedExamNo ? "" : subjective, // 주관식이면 입력값
         langHint: "ko",
       };
