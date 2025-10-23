@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Language(props) {
+
+    const navigate = useNavigate();
   // 목록은 배열, 선택값은 단일 값(번호)
   const [languages, setLanguages] = useState([]);
   const [selectedLangNo, setSelectedLangNo] = useState(() => {
@@ -20,6 +23,9 @@ export default function Language(props) {
       return false;
     }
     localStorage.setItem("selectedLangNo", String(n));
+    console.log( "selectedLangNo : " + selectedLangNo );
+    alert( "언어가 변경되었습니다!" );
+
     return true;
   };
 
@@ -33,7 +39,7 @@ export default function Language(props) {
       try {
         setLoading(true);
         setError("");
-        const res = await axios.get("/saykorean/test/getLang");
+        const res = await axios.get("/saykorean/study/getlang");
         const list = Array.isArray(res.data) ? res.data : [];
         setLanguages(list);
 
@@ -62,7 +68,7 @@ export default function Language(props) {
 
           <div className="list">
             {languages.map((l) => {
-              const isActive = selectedLangNo === l.langNo;
+              const isActive = selectedLangNo == l.langNo;
               return (
                 <button
                   key={l.langNo}
@@ -71,7 +77,6 @@ export default function Language(props) {
                   onClick={() => pickLangNo(l.langNo)}
                 >
                   <span className="label">{l.langName}</span>
-                  {isActive && <span className="check">✓</span>}
                 </button>
               );
             })}

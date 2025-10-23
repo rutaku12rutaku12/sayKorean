@@ -55,6 +55,10 @@ export default function MyPage( props ){
     navigate("/genre");
     };
 
+    const onLanguage = async() => {
+      navigate("/language");
+    }
+
         // 최대 연속 출석일 계산 함수
     const getMaxStreak = (attendList) => {
       if (!attendList || attendList.length === 0) return 0;
@@ -128,6 +132,7 @@ export default function MyPage( props ){
         <div className="btnGroup">
           <button className="pillBtn" onClick={onUpdate}>회원정보 수정</button>
           <button className="pillBtn" onClick={onGenre}>장르 설정</button>
+          <button className="pillBtn" onClick={onLanguage}>언어 설정</button>
         </div>
       </section>
     </div>

@@ -24,7 +24,7 @@ public interface StudyMapper { // mapper start
     List<StudyDto> getSubject( int genreNo );
 
     // 언어 목록 조회
-    @Select("SELECT langNo, langName FROM language ORDER BY langNo")
+    @Select("SELECT langNo, langName FROM languages ORDER BY langNo")
     List<LanguageDto> getLang();
 
 
