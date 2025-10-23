@@ -89,5 +89,4 @@ public interface AdminTestMapper {
     @Select("select * from testItem where testItemNo = #{testItemNo} ")
     TestItemDto getIndiTestItem(int testItemNo);
 
-
 }

@@ -51,7 +51,7 @@ public class TestController {
     // [4] 문제 제출 (객관식/주관식 통합)
     // - 세션의 userNo 사용
     // 경로 변수로 시험/문항 지정
-    @PostMapping("/{testNo}/items/{testItemNo}/answer")
+    @PostMapping(value = "/{testNo}/items/{testItemNo}/answer")
     public ResponseEntity<?> submitAnswer(
             @PathVariable int testNo,
             @PathVariable int testItemNo,
