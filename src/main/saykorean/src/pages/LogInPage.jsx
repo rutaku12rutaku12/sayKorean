@@ -99,7 +99,9 @@ export default function LogInPage(props){
     <div className="homePage__actions">
         <button onClick={onLogin}>로그인</button>
         <br/>
-        <button onClick={onFind}>이메일찾기/비밀번호찾기</button>  
+        <button onClick={onFind}>이메일찾기/비밀번호찾기</button>     
+        <br/>
+        <button onClick={() => navigate("/signup")}>회원가입</button>
     </div>
     </>)
 }
