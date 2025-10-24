@@ -10,7 +10,7 @@ export default function Test() {
   const [idx, setIdx] = useState(0);              // 현재 문제 인덱스
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
-  
+
 
   const [submitting, setSubmitting] = useState(false);
   const [subjective, setSubjective] = useState(""); // 주관식 입력값
@@ -51,7 +51,7 @@ export default function Test() {
       setSubmitting(true);
       const body = {
         testRound: 1,
-        selectedExamNo : selectedExamNo ?? 0,                  // 객관식이면 examNo
+        selectedExamNo: selectedExamNo ?? 0,                  // 객관식이면 examNo
         userAnswer: selectedExamNo ? "" : subjective, // 주관식이면 입력값
         langHint: "ko",
       };
@@ -98,42 +98,69 @@ export default function Test() {
             <p className="q-text">{cur.question}</p>
           </div>
 
-          
-                  {/* 이미지는 src가 유효할 때만 렌더 */}
-                  {safeSrc(cur?.imagePath) && (
-                      <div className="q-media">
-                          <img
-                              src={safeSrc(cur.imagePath)}
-                              alt={cur.imageName || "question"}
-                              style={{ maxWidth: 320 }}
-                          />
-                      </div>
-                  )}
 
-                  {/* 오디오는 유효한 src만 필터링해서 렌더 */}
-                  {Array.isArray(cur?.audios) &&
-                      cur.audios.filter(a => safeSrc(a?.audioPath)).length > 0 && (
-                          <div className="q-audios">
-                              {cur.audios
-                                  .filter(a => safeSrc(a?.audioPath))
-                                  .map(a => (
-                                      <audio key={a.audioNo} controls src={safeSrc(a.audioPath)} />
-                                  ))}
-                          </div>
-                      )}
+          {/* 이미지는 src가 유효할 때만 렌더 */}
+          {safeSrc(cur?.imagePath) && (
+            <div className="q-media">
+              <img
+                src={safeSrc(cur.imagePath)}
+                alt={cur.imageName || "question"}
+                style={{ maxWidth: 320 }}
+              />
+            </div>
+          )}
 
-          {/* 객관식: examKo 한 보기(또는 옵션 테이블 쓰면 options.map으로 변경) */}
+          {/* 오디오는 유효한 src만 필터링해서 렌더 */}
+          {Array.isArray(cur?.audios) &&
+            cur.audios.filter(a => safeSrc(a?.audioPath)).length > 0 && (
+              <div className="q-audios">
+                {cur.audios
+                  .filter(a => safeSrc(a?.audioPath))
+                  .map(a => (
+                    <audio key={a.audioNo} controls src={safeSrc(a.audioPath)} />
+                  ))}
+              </div>
+            )}
+
+          { /* 여기부터 수정 */}
+          {/* 객관식: 선택지 3개 (정답 1개 + 오답 2개) 
+          examKo 한 보기(또는 옵션 테이블 쓰면 options.map으로 변경) */}
           {isMultiple ? (
             <div className="q-actions">
-              <button
-                className="btn"
-                disabled={submitting || !!feedback}
-                onClick={() => submitAnswer(cur.examNo)}
-              >
-                {cur.examKo}
-              </button>
+              {cur.options && cur.options.length > 0 ? (
+                cur.options.map((option, optIdx) => (
+                  <button
+                    key={optIdx}
+                    className="btn option-btn"
+                    disabled={submitting || !!feedback}
+                    onClick={() => submitAnswer(option.examNo)}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      maxWidth: "480px",
+                      margin: "10px auto",
+                      padding: "15px",
+                      fontSize: "16px",
+                      textAlign: "left",
+                      border: "2px solid #ddd",
+                      borderRadius: "8px",
+                      backgroundColor: feedback
+                        ? option.isCorrect
+                          ? "#d4edda"
+                          : "#f8d7da"
+                        : "#fff",
+                      cursor: submitting || feedback ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    {option.examKo}
+                  </button>
+                ))
+              ) : (
+                <p style={{ color: "#999" }}>선택지를 불러올 수 없습니다.</p>
+              )}
             </div>
           ) : (
+            // 여기까지 수정 
             // 주관식
             <div className="q-actions">
               <textarea
@@ -142,7 +169,7 @@ export default function Test() {
                 placeholder="답을 입력하세요"
                 disabled={submitting || !!feedback}
                 rows={4}
-                style={{width: "100%", maxWidth: 480}}
+                style={{ width: "100%", maxWidth: 480 }}
               />
               <button
                 className="btn primary"
@@ -154,16 +181,43 @@ export default function Test() {
             </div>
           )}
 
-          {/* 피드백 뱃지 + 다음 문제 버튼 */}
+          { /* 여기부터 수정 */}
+          {/* 피드백 배지 + 다음 문제 버튼 */}
           {feedback && (
-            <div className="feedback">
-              <div className={`toast ${feedback.correct ? "ok" : "no"}`}>
-                {feedback.correct ? "정답!" : "오답!"}
-                {typeof feedback.score === "number" && !isMultiple }
+            <div className="feedback" style={{ marginTop: "20px" }}>
+              <div
+                className={`toast ${feedback.correct ? "ok" : "no"}`}
+                style={{
+                  padding: "15px",
+                  borderRadius: "8px",
+                  marginBottom: "15px",
+                  backgroundColor: feedback.correct ? "#d4edda" : "#f8d7da",
+                  color: feedback.correct ? "#155724" : "#721c24",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                {feedback.correct ? "✅ 정답!" : "❌ 오답!"}
+                {typeof feedback.score === "number" && !isMultiple && (
+                  <span style={{ marginLeft: 8 }}>{feedback.score}점</span>
+                )}
               </div>
-              <button className="btn next" onClick={goNext}>
+              <button
+                className="btn next"
+                onClick={goNext}
+                style={{
+                  padding: "12px 30px",
+                  backgroundColor: "#4CAF50",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
                 {idx < items.length - 1 ? "다음 문제" : "결과 보기"}
               </button>
+              { /* 여기까지 수정 */}
             </div>
           )}
         </div>

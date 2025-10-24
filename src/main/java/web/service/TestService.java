@@ -9,7 +9,8 @@ import web.model.dto.TestDto;
 import web.model.dto.TestItemWithMediaDto;
 import web.model.mapper.TestMapper;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +23,66 @@ public class TestService {
     // [1] 시험 목록
     public List<TestDto> getListTest() { return testMapper.getListTest(); }
 
-    // [2] 문항 목록 (이미지/오디오 포함)
-    public List<TestItemWithMediaDto> findTestItem(int testNo) {
-        return testMapper.findTestItemsWithMedia(testNo);
+    // [2] 문항 목록 (이미지/오디오 포함) - 난수화된 오답 추가 <수정>
+    public List<Map<String , Object>> findTestItemWithOptions(int testNo) {
+        // 1. 문항 목록 조회
+        List<TestItemWithMediaDto> items = testMapper.findTestItemsWithMedia(testNo);
+        List<Map<String , Object>> result = new ArrayList<>();
+
+        for (TestItemWithMediaDto item : items){
+            Map<String , Object> itemMap = new HashMap<>();
+            itemMap.put("testItemNo" , item.getTestItemNo());
+            itemMap.put("question" , item.getQuestion());
+            itemMap.put("testNo" , item.getTestNo());
+            itemMap.put("imageName" , item.getImageName());
+            itemMap.put("imagePath" , item.getImagePath());
+            itemMap.put("audios", item.getAudios());
+
+            // 객관식 문항인 경우 (그림 , 음성)
+            if (isMultipleChoice(item.getQuestion())) {
+                // 정답 examNo
+                int correctExamNo = item.getExamNo();
+                ExamDto correctExam = testMapper.findExamByNo(correctExamNo);
+
+                if (correctExam != null) {
+                    // 랜덤한 오답 예문 2개 DB에서 가져오기
+                    List<ExamDto> selectedWrong = testMapper.findRandomExamsExcluding(correctExamNo, 2);
+
+                    // 선택지 목록 생성 (정답 1개 + 오답 2개)
+                    List<Map<String, Object>> options = new ArrayList<>();
+
+                    // 정답 추가
+                    Map<String, Object> correctOption = new HashMap<>();
+                    correctOption.put("examNo", correctExam.getExamNo());
+                    correctOption.put("examKo", correctExam.getExamKo());
+                    correctOption.put("isCorrect", true);
+                    options.add(correctOption);
+
+                    // 오답 추가
+                    for (ExamDto wrong : selectedWrong) {
+                        Map<String, Object> wrongOption = new HashMap<>();
+                        wrongOption.put("examNo", wrong.getExamNo());
+                        wrongOption.put("examKo", wrong.getExamKo());
+                        wrongOption.put("isCorrect", false);
+                        options.add(wrongOption);
+                    }
+
+                    // 선택지 섞기
+                    Collections.shuffle(options);
+                    itemMap.put("options", options);
+                }
+            } else {
+                // 주관식일 경우 정답 저장
+                itemMap.put("correctExamNo" , item.getExamNo());
+                itemMap.put("correctExamKo" , item.getExamKo());
+            }
+
+            result.add(itemMap);
+
+        }
+
+        return result;
+
     }
 
     // [3] 정답 예문 조회
