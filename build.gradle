@@ -56,10 +56,12 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     // [*] 테스트
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    // [11] Gemini api
+    // [14] Gemini api
     implementation("com.google.genai:google-genai:1.24.0")
-    // [12] crizin (발음기호 라이브러리)
+    // [15] crizin (발음기호 라이브러리)
     implementation 'net.crizin:korean-romanizer:2.0.1' // Maven Central 기준
+    // [16] Springdoc OpenAPI 3(Swagger)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 
 }
 

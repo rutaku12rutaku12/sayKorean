@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.TranslatedDataDto;
 import web.model.dto.TranslationRequestDto;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -169,7 +168,7 @@ public class TranslationService {
         }
     }
 
-    // [3] 제미나이 채점 API (스프링 & 리액트 처리 후 ㄱㄱ)
+    // [3] 제미나이 채점 API (스프링 & 리액트 처리 후 ㄱㄱ -> 유진님이 잘 처리함)
     public int scoreWithGemini(String userInput) {
         log.info("제미나이 API를 이용한 채점 로직 호출 ", userInput);
         return (int) (Math.random() * 100);
