@@ -92,7 +92,7 @@ export default function AdminTestCreate() {
                         examKo: selected[1]?.examKo || ""
                     },
                     {
-                        question: "주관식: 올바른 표현을 고르세요.",
+                        question: "주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.",
                         examNo: selected[2]?.examNo || null,
                         examKo: selected[2]?.examKo || ""
                     }
