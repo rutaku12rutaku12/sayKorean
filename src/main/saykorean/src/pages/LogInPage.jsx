@@ -61,8 +61,6 @@ export default function LogInPage(props){
                 console.log(e);
             }
     }
-
-
     
 
     // 로그인 처리 함수 정의 

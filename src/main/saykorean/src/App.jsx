@@ -7,7 +7,7 @@ import Test from "./pages/Test";
 import BeforeStudy from "./pages/BeforeStudy";
 import Study from "./pages/Study"
 import SignUpPage from "./pages/SignUpPage";
-import LogInPage from "./pages/LoginPage";
+import LogInPage from "./pages/LogInPage";
 import FindPage from "./pages/FindPage";
 import Footer from "./components/Footer";
 import ExampleList from "./pages/ExampleList";

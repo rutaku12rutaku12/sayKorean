@@ -1,9 +1,14 @@
 import "../styles/TestResult.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+axios.defaults.baseURL = "http://localhost:8080";
 
 export default function TestResult() {
+
+  const navigate = useNavigate();
+
+
   const { testNo } = useParams();
   const [score, setScore] = useState(null);
 
@@ -21,6 +26,10 @@ export default function TestResult() {
     })();
   }, [testNo]);
 
+  const returnTest = async() => {
+    navigate("/testlist");
+  }
+
   return (
     <div id="TestResult">
       <h3 className="panelTitle">시험 결과</h3>
@@ -31,6 +40,7 @@ export default function TestResult() {
             정답 {score.score} / 총 {score.total}
           </p>
         )}
+        <button className="returnBtn" onClick={returnTest}>테스트 화면으로 돌아가기</button>
       </div>
     </div>
   );
