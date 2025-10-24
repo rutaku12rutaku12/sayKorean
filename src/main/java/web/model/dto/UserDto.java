@@ -28,4 +28,6 @@ public class UserDto {
     private String userDate; // 가입일시 기본 now()
     private String userUpdate; // 수정일시 자동 갱신
     private int genreNo; // FK: 장르번호
+
+    private String recaptcha; // 가입 시 리캡차 토큰
 }

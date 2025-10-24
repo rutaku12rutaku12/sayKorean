@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import "../styles/SignUpPage.css"
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function SignUpPage (props){
     console.log("SignUpPage.jsx open")
@@ -82,7 +83,7 @@ export default function SignUpPage (props){
     // 회원가입 함수 
     const onSignup = async()=>{
         try{
-            const obj = { name : name , email: email, password:password, nickName: nickName , phone : phone}
+            const obj = { name : name , email: email, password:password, nickName: nickName , phone : phone, recaptcha: captchaValue}
             console.log(obj);
             if(emailCheck || phoneCheck) return alert("중복확인을 해주세요.")
             // CORS 옵션 허용
@@ -113,6 +114,17 @@ export default function SignUpPage (props){
         console.log("저장될 phone:", phoneWithPlus);
     };
 
+    // reCaptcha 상태 관리
+    const [captchaValue, setCaptchaValue] = useState("");
+    // siteKey=
+    const API_KEY = "6Le0NfUrAAAAAMx1CWGt6TkO8q_Fl3Ep_2UsiODu"; 
+
+    const handleCaptchaChange = (value) => {
+    console.log("캡챠 값:", value);
+    setCaptchaValue(value || "");
+    };
+    
+    
 
     return(<> <h3>회원가입</h3><br/>
         <div>
@@ -135,6 +147,10 @@ export default function SignUpPage (props){
                 inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
             /> <button type="button" onClick={CheckPhone}> 중복 확인</button> <br/>   
             <br/>
+            <ReCAPTCHA
+                sitekey={API_KEY}
+                onChange={handleCaptchaChange}
+            />
             <button onClick={onSignup}>회원가입 (SignUp) </button>
         </div>
     </>)

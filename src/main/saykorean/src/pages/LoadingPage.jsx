@@ -91,6 +91,10 @@ import { useNavigate } from "react-router-dom";
             dispatch(logOut());
         }catch(e){console.log("로그아웃 실패 : ", e)}
     }
+
+
+    
+
       return (
       <div id="loading-frame">
         <div className="image-container">
