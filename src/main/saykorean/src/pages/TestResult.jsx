@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.withCredentials = true;
 
 export default function TestResult() {
 

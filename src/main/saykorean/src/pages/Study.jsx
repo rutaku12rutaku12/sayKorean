@@ -2,6 +2,7 @@ import "../styles/Study.css";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 //  응답을 배열로 표준화
 function asArray(payload) {

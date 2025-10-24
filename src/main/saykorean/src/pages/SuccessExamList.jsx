@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";    
 import { useNavigate } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
+
 export default function SuccessExamList( props ){
 
     const navigate = useNavigate();

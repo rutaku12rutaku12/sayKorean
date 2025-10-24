@@ -5,6 +5,7 @@ import { logIn } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import "../styles/MyPage.css"
 import { getAttend } from "../store/attendSlice";
+axios.defaults.withCredentials = true;
 
 export default function MyPage( props ){
     console.log("MyPage.jsx open")

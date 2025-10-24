@@ -2,6 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 export default function Test() {
   const { testNo } = useParams();
   const navigate = useNavigate();

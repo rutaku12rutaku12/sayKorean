@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../store/userSlice";
 
 axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.withCredentials = true;
 
 export default function BeforeStudy() {
   const navigate = useNavigate();

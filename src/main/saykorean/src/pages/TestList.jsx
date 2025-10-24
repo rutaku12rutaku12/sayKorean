@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logIn } from "../store/userSlice";
 axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.withCredentials = true;
 
 export default function TestList( props ){
 
