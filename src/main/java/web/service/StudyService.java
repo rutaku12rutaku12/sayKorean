@@ -27,8 +27,8 @@ public class StudyService { // class start
     }
 
     // 특정 장르의 주제 목록
-    public List<StudyDto> getSubject( int genreNo ){
-        List< StudyDto > result = studyMapper.getSubject( genreNo );
+    public List<StudyDto> getSubject( int genreNo , int langNo ){
+        List< StudyDto > result = studyMapper.getSubject( genreNo , langNo );
         return result;
     }
 
@@ -39,16 +39,16 @@ public class StudyService { // class start
     }
 
     // 주제와 주제에 대한 해설 조회
-    public StudyDto getDailyStudy( int studyNo ){
-        StudyDto result = studyMapper.getDailyStudy( studyNo );
+    public StudyDto getDailyStudy( int studyNo , int langNo ){
+        StudyDto result = studyMapper.getDailyStudy( studyNo , langNo );
         return result;
 
     }
 
     // 주제에 맞는 예문 조회
     // 일단은 DB저장 없이 조회만 가능
-    public List<ExamDto> getDailyStudy2( int studyNo ){
-        List<ExamDto> result = studyMapper.getDailyStudy2( studyNo );
+    public List<ExamDto> getDailyStudy2( int studyNo , int langNo ){
+        List<ExamDto> result = studyMapper.getDailyStudy2( studyNo , langNo );
         return result;
     }
 
