@@ -14,6 +14,7 @@ export default function TestResult() {
           params: { userNo: 1, testNo, testRound: 1 }
         });
         setScore(res.data);
+        console.log( res.data );
       } catch (e) {
         console.error(e);
       }
