@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import i18n, { setAppLanguage } from "../i18n";
+// import i18n, { setAppLanguage } from "../i18n";
 axios.defaults.baseURL = "http://localhost:8080";
 
 
