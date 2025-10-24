@@ -29,22 +29,30 @@ public class RankingService {
     // 랭킹 테이블 레코드를 조회한다.
     // 사용자닉네임(userNo FK)과 시험명(examNo FK), 시험문항명(examNo FK)도 함께 조회.
     // 랭킹 로직
-    // 1) 정답왕 : 정답률이 높은 순
-    // (isCorrect의 인트값 합산이 가장 높은 사람)
-    // 2) 도전왕 : 가장 많이 문제를 푼 순서
-    // (isCorrect의 레코드 합산이 가장 높은 사람)
-    // 3) 끈기왕 : 같은 문제에 여러번 도전한 순
-    // (testRound의 평균값이 가장 높은 사람)
     // 매개변수 int
     // 반환 List<RankingDto>
+
+    // 1) 정답왕 : 정답률이 높은 순
+    // (isCorrect의 인트값 합산이 가장 높은 사람)
+
+    // 2) 도전왕 : 가장 많이 문제를 푼 순서
+    // (isCorrect의 레코드 합산이 가장 높은 사람)
+
+    // 3) 끈기왕 : 같은 문제에 여러번 도전한 순
+    // (testRound의 평균값이 가장 높은 사람)
+
 
     // [RK-04]	랭킹 검색조회	searchRank()
     // 랭킹 테이블 레코드를 검색조회한다.
     // 사용자닉네임(userNo FK)과 시험명(examNo FK), 시험문항명(examNo FK)도 함께 조회.
     // 서브쿼리 활용
-    // 1) 사용자(userNo 조인)
-    // 2) 시험문항별(testItemNo 조인)
     // 매개변수 int
     // 반환 RankingDto
+
+    // 1) 사용자(userNo 조인)
+
+    // 2) 시험문항별(testItemNo 조인)
+
+    // 3) 사용자, 시험문항 복합 검색
 
 }
