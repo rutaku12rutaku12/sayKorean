@@ -11,6 +11,7 @@ export default function TestResult() {
 
   const { testNo } = useParams();
   const [score, setScore] = useState(null);
+  const [, setGenreName] = useState("");
 
   useEffect(() => {
     (async () => {

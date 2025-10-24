@@ -9,6 +9,7 @@ export default function Language(props) {
     const [languages, setLanguages] = useState([]);
     const [selectedLangNo, setSelectedLangNo] = useState(() => {
         const saved = Number(localStorage.getItem("selectedLangNo"));
+        navigate("/mypage")
         return Number.isFinite(saved) && saved > 0 ? saved : null;
     });
 

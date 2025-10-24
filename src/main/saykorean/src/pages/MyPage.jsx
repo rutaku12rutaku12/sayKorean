@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { logIn } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import "../styles/MyPage.css"
@@ -13,6 +13,8 @@ export default function MyPage( props ){
     // store 저장된 상태 가져오기 
     const {isAuthenticated, userInfo } = useSelector((state)=>state.user);
     const {attendInfo } = useSelector((state)=>state.attend);
+    const [genreName, setGenreName] = useState("");
+    const [langName, setLangName] = useState("")
 
     // dispatch , navigate 함수가져오기 
     const dispatch = useDispatch();
@@ -24,7 +26,7 @@ export default function MyPage( props ){
     };
 
     // 최초 1번 렌더링
-    useEffect( () => { info(); onAttend(); } , [] )
+    useEffect( () => { info(); onAttend(); getGenre();} , [] )
     // 내 정보 조회 함수
     const info = async () => {
         try{console.log("info.exe")
@@ -58,6 +60,48 @@ export default function MyPage( props ){
     const onLanguage = async() => {
       navigate("/language");
     }
+
+  const getGenre = async () => {
+    try {
+      const genreNo = Number(localStorage.getItem("selectedGenreNo"));
+      if (!genreNo) return;
+
+      // 장르 목록 조회 API (controller: saykorean/study/getGenre)
+      const res = await axios.get("http://localhost:8080/saykorean/study/getGenre");
+      const list = res.data;
+
+      // genreNo 일치하는 항목 찾기
+      const selected = list.find((g) => g.genreNo == genreNo);
+      if (selected) {
+        setGenreName(selected.genreName);
+      } else {
+        setGenreName("미설정");
+      }
+    } catch (e) {
+      console.error( "장르 조회 오류:", e );
+    }
+
+  }
+
+  const getLanguage = async() => {
+    try{
+      const langNo = Number( localStorage.getItem("selectedLangNo") );
+      if( !langNo ) return;
+
+      const res = await axios.get("http://localhost:8080/saykorean/study/getLang");
+      const list = res.data;
+
+      const selected = list.find( (l) => l.langNo == langNo );
+      if( selected ){
+        setLangName( selected.langName );
+      }else{
+        setLangName("미설정");
+      }
+
+    }catch(e){
+      console.error( "언어 조회 오류 :" + e );
+    }
+  }
 
         // 최대 연속 출석일 계산 함수
     const getMaxStreak = (attendList) => {
@@ -126,6 +170,14 @@ export default function MyPage( props ){
             <span className="infoValue">
               {attendInfo ? getMaxStreak(attendInfo) : 0}일
             </span>
+          </li>
+          <li className="infoRow">
+            <span className="infoKey">내가 선택한 장르</span>
+            <span className="infoValue">{genreName || "미설정"}</span>
+          </li>
+          <li className="infoRow">
+            <span className="infoKey">내가 선택한 언어</span>
+            <span className="infoValue">{langName || "미설정"}</span>
           </li>
         </ul>
 

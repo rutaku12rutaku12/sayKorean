@@ -9,9 +9,11 @@ import axios from "axios";
 
 export default function Genre(props) {
     
+    const navigate = useNavigate();
+    
 
     // 상태 정의 : 무조건 안에 있어야힘
-    const [genres, setGenres] = useState([]);                 // 장르 목록
+    const [genres, setGenres] = useState([]);  // 장르 목록;
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -32,7 +34,9 @@ export default function Genre(props) {
     const saved = Number(localStorage.getItem("selectedGenreNo"));
     console.log( saved );
     const pickGenre = (genreNo) => {
-        if (!saveGenreNo( genreNo )) return;
+        if (!saveGenreNo( genreNo ))
+            navigate("/mypage");
+            return;
     };
 
 

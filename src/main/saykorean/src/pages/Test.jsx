@@ -10,6 +10,7 @@ export default function Test() {
   const [idx, setIdx] = useState(0);              // 현재 문제 인덱스
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+  
 
   const [submitting, setSubmitting] = useState(false);
   const [subjective, setSubjective] = useState(""); // 주관식 입력값
