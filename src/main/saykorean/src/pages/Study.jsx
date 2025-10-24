@@ -71,6 +71,7 @@ export default function Study() {
   const [subject, setSubject] = useState(null);                 // 주제 상세                // 예문
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [langNo, setLangNo] = useState( 0 );
 
   // --------------------------
   // API: 내 장르 조회 (세션 기반)
@@ -147,12 +148,25 @@ export default function Study() {
   }
 
 
+  // --------------------------
+  // 언어 설정 조회
+  // --------------------------
+  const getLang = async() => {
+      const langNo = Number(localStorage.getItem("selectedGenreNo"));
+      if (!langNo){
+        console.error( "저장된 언어 설정이 없습니다." );
+        return;
+      }
+  }
+
+
   // ------------------------------------------------------
   // 마운트 시 1회 실행:
   // ------------------------------------------------------
   useEffect(() => {
     (async () => {
       try {
+        getLang(); // 언어 설정 가져오기
         setLoading(true); // 로딩 시작
         setError(""); // 에러 초기화
 
@@ -255,7 +269,7 @@ export default function Study() {
         <section className="panel detail">
           <div className="mainTheme">
             <img className="studyImg" src="/img/rabbit.png" alt="rabbit" /> {/* 썸네일 이미지 */}
-            <h3>{subject?.themeKo ?? subject?.themeEn ?? "제목 없음"}</h3>
+            <h3>{subject?.themeKo ?? subject?.lang ?? "제목 없음"}</h3>
           </div>
 
           { /*  주제 해설 영역 추가 */}

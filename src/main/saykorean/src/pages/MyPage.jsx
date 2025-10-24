@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/MyPage.css"
 import { getAttend } from "../store/attendSlice";
 axios.defaults.withCredentials = true;
+import { useTranslation } from "react-i18next";
 
 export default function MyPage( props ){
     console.log("MyPage.jsx open")
@@ -16,6 +17,7 @@ export default function MyPage( props ){
     const {attendInfo } = useSelector((state)=>state.attend);
     const [genreName, setGenreName] = useState("");
     const [langName, setLangName] = useState("")
+    const { t } = useTranslation();
 
     // dispatch , navigate 함수가져오기 
     const dispatch = useDispatch();
@@ -27,7 +29,7 @@ export default function MyPage( props ){
     };
 
     // 최초 1번 렌더링
-    useEffect( () => { info(); onAttend(); getGenre();} , [] )
+    useEffect( () => { info(); onAttend(); getGenre(); getLang(); } , [] )
     // 내 정보 조회 함수
     const info = async () => {
         try{console.log("info.exe")
@@ -84,12 +86,12 @@ export default function MyPage( props ){
 
   }
 
-  const getLanguage = async() => {
+  const getLang = async() => {
     try{
       const langNo = Number( localStorage.getItem("selectedLangNo") );
       if( !langNo ) return;
 
-      const res = await axios.get("http://localhost:8080/saykorean/study/getLang");
+      const res = await axios.get("http://localhost:8080/saykorean/study/getlang");
       const list = res.data;
 
       const selected = list.find( (l) => l.langNo == langNo );
@@ -151,41 +153,41 @@ export default function MyPage( props ){
 
     <div id="MyPage">
       <section className="panel">
-        <h3 className="panelTitle">마이페이지</h3>
+        <h3 className="panelTitle">{t("마이페이지")}</h3>
 
         <ul className="infoList">
           <li className="infoRow">
-            <span className="infoKey">닉네임</span>
+            <span className="infoKey">{t("닉네임")}</span>
             <span className="infoValue">{userInfo?.nickName}</span>
           </li>
           <li className="infoRow">
-            <span className="infoKey">가입일자</span>
+            <span className="infoKey">{t("가입일자")}</span>
             <span className="infoValue">{userInfo?.userDate}</span>
           </li>
           <li className="infoRow">
-            <span className="infoKey">총 출석일수</span>
-            <span className="infoValue">{attendInfo ? attendInfo.length : 0}일</span>
+            <span className="infoKey">{t("총 출석일수")}</span>
+            <span className="infoValue">{attendInfo ? attendInfo.length : 0}{t("일")}</span>
           </li>
           <li className="infoRow">
-            <span className="infoKey">현재 연속 출석일수</span>
+            <span className="infoKey">{t("현재 연속 출석일수")}</span>
             <span className="infoValue">
               {attendInfo ? getMaxStreak(attendInfo) : 0}일
             </span>
           </li>
           <li className="infoRow">
-            <span className="infoKey">내가 선택한 장르</span>
+            <span className="infoKey">{t("내가 선택한 장르")}</span>
             <span className="infoValue">{genreName || "미설정"}</span>
           </li>
           <li className="infoRow">
-            <span className="infoKey">내가 선택한 언어</span>
+            <span className="infoKey">{t("내가 선택한 언어")}</span>
             <span className="infoValue">{langName || "미설정"}</span>
           </li>
         </ul>
 
         <div className="btnGroup">
-          <button className="pillBtn" onClick={onUpdate}>회원정보 수정</button>
-          <button className="pillBtn" onClick={onGenre}>장르 설정</button>
-          <button className="pillBtn" onClick={onLanguage}>언어 설정</button>
+          <button className="pillBtn" onClick={onUpdate}>{t("회원정보 수정")}</button>
+          <button className="pillBtn" onClick={onGenre}>{t("장르 설정")}</button>
+          <button className="pillBtn" onClick={onLanguage}>{t("언어 설정")}</button>
         </div>
       </section>
     </div>
