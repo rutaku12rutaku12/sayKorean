@@ -12,6 +12,7 @@ import web.service.TestService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/saykorean/test")
@@ -33,8 +34,8 @@ public class TestController {
     }
 
      @GetMapping("/findtestitem")
-    public ResponseEntity<List<TestItemWithMediaDto>> findTestItem( @RequestParam int testNo ){
-        return ResponseEntity.ok( testService.findTestItem( testNo ) );
+    public ResponseEntity<List<Map<String , Object>>> findTestItem(@RequestParam int testNo ){
+        return ResponseEntity.ok( testService.findTestItemWithOptions( testNo ) );
     }
 
     // [3] 특정 사용자/회차의 점수 조회

@@ -61,13 +61,13 @@ public interface TestMapper { // mapper start
     )
     List<AudioDto> findAudiosByExamNo(int examNo);
 
-    // 3) 정답(예문) 조회: Gemini 채점용 ground truth 확보
+    // 3-1) 정답(예문) 조회: Gemini 채점용 ground truth 확보
     @Select("SELECT examNo, examKo, examEn, examJp, examCn, examEs FROM exam WHERE examNo = #{examNo}")
     ExamDto findExamByNo( int examNo );
 
-
-
-
+    // [동진추가] 3-2 N개의 랜덤 오답 예문 조회 (정답 제외)
+    @Select("select examNo, examKo from exam where examNo != #{excludedExamNo} order by rand() limit #{limit}")
+    List<ExamDto> findRandomExamsExcluding(@Param("excludedExamNo") int excludedExamNo, @Param("limit") int limit);
 
     // 전체 점수 출력 - 로직 : 랭킹테이블에 저장 -> 점수 집계
 
