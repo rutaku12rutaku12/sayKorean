@@ -14,6 +14,7 @@ import web.model.mapper.UserMapper;
 public class UserService {
 
     private final UserMapper userMapper;
+    private final RankingService rankingService;
 
     // [US-01] 회원가입 signUp()
     public int signUp(UserDto userDto){
@@ -80,9 +81,20 @@ public class UserService {
     } // func end
 
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()
+    // <수정> 랭킹 삭제 서비스 추가했습니다
     public int deleteUserStatus(DeleteUserStatusDto deleteUserStatusDto){
-        int result = userMapper.deleteUserStatus(deleteUserStatusDto);
-        return result;
+
+        int userNo = deleteUserStatusDto.getUserNo();
+        try {
+            // 1) 랭킹 데이터 삭제
+            rankingService.deleteRankByUser(userNo);
+            // 2) 회원 상태 변경
+            int result = userMapper.deleteUserStatus(deleteUserStatusDto);
+
+            return result;
+        } catch (Exception e) {
+            throw new RuntimeException("회원 탈퇴 처리 중 오류 발생: " + e.getMessage() , e);
+        }
     }
 
 

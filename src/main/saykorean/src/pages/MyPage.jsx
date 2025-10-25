@@ -2,67 +2,74 @@ import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { logIn } from "../store/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/MyPage.css"
 import { getAttend } from "../store/attendSlice";
 axios.defaults.withCredentials = true;
 import { useTranslation } from "react-i18next";
+import Ranking from "./Ranking";
 
-export default function MyPage( props ){
-    console.log("MyPage.jsx open")
-    
-    
-    // store 저장된 상태 가져오기 
-    const {isAuthenticated, userInfo } = useSelector((state)=>state.user);
-    const {attendInfo } = useSelector((state)=>state.attend);
-    const [genreName, setGenreName] = useState("");
-    const [langName, setLangName] = useState("")
-    const { t } = useTranslation();
+export default function MyPage(props) {
+  console.log("MyPage.jsx open")
 
-    // dispatch , navigate 함수가져오기 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    // 수정페이지로 이동 함수 MyInfoUpdate.jsx
-    const onUpdate = async() => {
+  // store 저장된 상태 가져오기 
+  const { isAuthenticated, userInfo } = useSelector((state) => state.user);
+  const { attendInfo } = useSelector((state) => state.attend);
+  const [genreName, setGenreName] = useState("");
+  const [langName, setLangName] = useState("")
+  const { t } = useTranslation();
+
+  // dispatch , navigate 함수가져오기 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // 수정페이지로 이동 함수 MyInfoUpdate.jsx
+  const onUpdate = async () => {
     navigate("/update");
-    };
+  };
 
-    // 최초 1번 렌더링
-    useEffect( () => { info(); onAttend(); getGenre(); getLang(); } , [] )
-    // 내 정보 조회 함수
-    const info = async () => {
-        try{console.log("info.exe")
-            const option = { withCredentials : true }
-            const response = await axios.get("http://localhost:8080/saykorean/info",option)
-            const data = response.data
-            console.log(data);
-            // 로그인된 데이터 정보를 userInfo에 담기
-            dispatch(logIn(data));
-        }catch(e){console.log(e)}
-    }
+  // 최초 1번 렌더링
+  useEffect(() => { info(); onAttend(); getGenre(); getLang(); }, [])
+  // 내 정보 조회 함수
+  const info = async () => {
+    try {
+      console.log("info.exe")
+      const option = { withCredentials: true }
+      const response = await axios.get("http://localhost:8080/saykorean/info", option)
+      const data = response.data
+      console.log(data);
+      // 로그인된 데이터 정보를 userInfo에 담기
+      dispatch(logIn(data));
+    } catch (e) { console.log(e) }
+  }
 
-    // 출석 조회 함수 
-    const onAttend = async () =>{
-      try{console.log("getAttend.exe");
-          const option = { withCredentials : true }
-          const response = await axios.get("http://localhost:8080/saykorean/attend",option)
-          const data = response.data
-          console.log(data);
-          // 로그인된 데이터 정보를 attendInfo에 담기
-          dispatch(getAttend(data));
-      }catch(e){console.log(e)}
-    }
+  // 출석 조회 함수 
+  const onAttend = async () => {
+    try {
+      console.log("getAttend.exe");
+      const option = { withCredentials: true }
+      const response = await axios.get("http://localhost:8080/saykorean/attend", option)
+      const data = response.data
+      console.log(data);
+      // 로그인된 데이터 정보를 attendInfo에 담기
+      dispatch(getAttend(data));
+    } catch (e) { console.log(e) }
+  }
 
 
-    //--------------정유진-------------//
-    const onGenre = async() => {
+  //--------------정유진-------------//
+  const onGenre = async () => {
     navigate("/genre");
-    };
+  };
 
-    const onLanguage = async() => {
-      navigate("/language");
-    }
+  const onLanguage = async () => {
+    navigate("/language");
+  }
+
+  const onRanking = async () => {
+    navigate("/rank")
+  }
 
   const getGenre = async () => {
     try {
@@ -81,75 +88,75 @@ export default function MyPage( props ){
         setGenreName("미설정");
       }
     } catch (e) {
-      console.error( "장르 조회 오류:", e );
+      console.error("장르 조회 오류:", e);
     }
 
   }
 
-  const getLang = async() => {
-    try{
-      const langNo = Number( localStorage.getItem("selectedLangNo") );
-      if( !langNo ) return;
+  const getLang = async () => {
+    try {
+      const langNo = Number(localStorage.getItem("selectedLangNo"));
+      if (!langNo) return;
 
       const res = await axios.get("http://localhost:8080/saykorean/study/getlang");
       const list = res.data;
 
-      const selected = list.find( (l) => l.langNo == langNo );
-      if( selected ){
-        setLangName( selected.langName );
-      }else{
+      const selected = list.find((l) => l.langNo == langNo);
+      if (selected) {
+        setLangName(selected.langName);
+      } else {
         setLangName("미설정");
       }
 
-    }catch(e){
-      console.error( "언어 조회 오류 :" + e );
+    } catch (e) {
+      console.error("언어 조회 오류 :" + e);
     }
   }
 
-        // 최대 연속 출석일 계산 함수
-    const getMaxStreak = (attendList) => {
-      if (!attendList || attendList.length === 0) return 0;
+  // 최대 연속 출석일 계산 함수
+  const getMaxStreak = (attendList) => {
+    if (!attendList || attendList.length === 0) return 0;
 
-      // attendDay 기준으로 날짜만 추출해서 Date 객체로 변환 후 정렬
-      const dates = attendList
-        .map(item => new Date(item.attendDay))
-        .sort((a, b) => a - b);
+    // attendDay 기준으로 날짜만 추출해서 Date 객체로 변환 후 정렬
+    const dates = attendList
+      .map(item => new Date(item.attendDay))
+      .sort((a, b) => a - b);
 
-      let maxStreak = 1;      // 최대 연속일
-      let currentStreak = 1;  // 현재 연속일
+    let maxStreak = 1;      // 최대 연속일
+    let currentStreak = 1;  // 현재 연속일
 
-      for (let i = 1; i < dates.length; i++) {
-        // 하루(24시간) 차이 계산
-        const diffDays = (dates[i] - dates[i - 1]) / (1000 * 60 * 60 * 24);
+    for (let i = 1; i < dates.length; i++) {
+      // 하루(24시간) 차이 계산
+      const diffDays = (dates[i] - dates[i - 1]) / (1000 * 60 * 60 * 24);
 
-        if (diffDays === 1) {
-          // 하루 차이 → 연속 출석
-          currentStreak += 1;
-        } else {
-          // 연속 끊김 → 초기화
-          currentStreak = 1;
-        }
-
-        // 최대값 갱신
-        if (currentStreak > maxStreak) {
-          maxStreak = currentStreak;
-        }
+      if (diffDays === 1) {
+        // 하루 차이 → 연속 출석
+        currentStreak += 1;
+      } else {
+        // 연속 끊김 → 초기화
+        currentStreak = 1;
       }
 
-      return maxStreak;
-    };
-
-    // 비로그인시 error 페이지로 이동
-    useEffect(() => {
-      if (!isAuthenticated) {
-        navigate("/login"); // 로그인 안 되어 있으면 바로 이동
+      // 최대값 갱신
+      if (currentStreak > maxStreak) {
+        maxStreak = currentStreak;
       }
-    }, [isAuthenticated, navigate]);
+    }
 
-    // 이동 전에 화면 깜빡임 방지
-    if (!isAuthenticated) return null;
+    return maxStreak;
+  };
 
-    return(<>
+  // 비로그인시 error 페이지로 이동
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login"); // 로그인 안 되어 있으면 바로 이동
+    }
+  }, [isAuthenticated, navigate]);
+
+  // 이동 전에 화면 깜빡임 방지
+  if (!isAuthenticated) return null;
+
+  return (<>
 
     <div id="MyPage">
       <section className="panel">
@@ -188,13 +195,14 @@ export default function MyPage( props ){
           <button className="pillBtn" onClick={onUpdate}>{t("회원정보 수정")}</button>
           <button className="pillBtn" onClick={onGenre}>{t("장르 설정")}</button>
           <button className="pillBtn" onClick={onLanguage}>{t("언어 설정")}</button>
+          <button className="pillBtn" onClick={onRanking}>{t("랭킹 보기")}</button>
         </div>
       </section>
     </div>
-    
-    </>)
 
-    
-    
-    
+  </>)
+
+
+
+
 }
