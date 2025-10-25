@@ -3,6 +3,7 @@ package web.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.*;
@@ -15,8 +16,14 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    // 비크립트 라이브러리 객체 주입
+    private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
     // [US-01] 회원가입 signUp()
     public int signUp(UserDto userDto){
+        // 비밀번호를 해쉬화
+        userDto.setPassword(bcrypt.encode(userDto.getPassword() ) );
+
         int result = userMapper.signUp(userDto);
         // insert 성공 시 userNo 반환
         if(result>=1){
@@ -26,9 +33,14 @@ public class UserService {
     } // func end
 
     // [US-02] 로그인 logIn()
-    public int logIn(LoginDto loginDto){
-        int result = userMapper.logIn(loginDto);
-        return result;
+    public LoginDto logIn(LoginDto loginDto){
+        LoginDto result = userMapper.logIn(loginDto);
+        // 평문과 암호문 비교
+        boolean result2 = bcrypt.matches( loginDto.getPassword(), result.getPassword());
+        if( result2 ){
+            result.setPassword(null);
+            return result;
+        }else {return null;}
     } // func end
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
@@ -74,9 +86,18 @@ public class UserService {
     } // func end
 
     // [US-10] 비밀번호 수정 updatePwrd()
-    public int updatePwrd(UpdatePwrdDto updatePwrdDto){
+    public UpdatePwrdDto updatePwrd(UpdatePwrdDto updatePwrdDto){
+        // 해시화
+        updatePwrdDto.setPassword(bcrypt.encode(updatePwrdDto.getPassword() ) );
         int result = userMapper.updatePwrd(updatePwrdDto);
-        return result;
+        if (result > 0){
+            return UpdatePwrdDto.builder()
+                    .userNo(updatePwrdDto.getUserNo())
+                    // 비밀번호 제거
+                    .password((null))
+                    .build();
+        }
+        return null;
     } // func end
 
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()

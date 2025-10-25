@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS users (
   userNo       INT          NOT NULL AUTO_INCREMENT,
   name         VARCHAR(200) NOT NULL,
   email        VARCHAR(50)  NOT NULL UNIQUE,
-  password     VARCHAR(50)  NOT NULL,
+  password     VARCHAR(100)  NOT NULL,
   nickName     VARCHAR(50)  NOT NULL DEFAULT '토돌이',
   phone        VARCHAR(15)  UNIQUE,
   signupMethod INT          NOT NULL DEFAULT 1,

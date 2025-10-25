@@ -15,5 +15,6 @@ public class LoginDto {
     private String email;
     @NotBlank
     private String password;
+    private int userNo;
     private int userState =1;
 }
