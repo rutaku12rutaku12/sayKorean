@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { genreApi, studyApi, examApi, audioApi } from "../api/adminApi";
 import { setGenres } from "../store/adminSlice";
 import { useEffect, useState } from "react";
+import "../styles/AdminCommon.css";
 
 export default function AdminStudyEdit(props) {
 

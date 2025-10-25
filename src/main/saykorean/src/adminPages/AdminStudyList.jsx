@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setGenres, setStudies, setExams, setAudios } from "../store/adminSlice";
 import { audioApi, examApi, genreApi, studyApi } from "../api/adminApi";
+import "../styles/AdminCommon.css";
 
 export default function AdminStudyList(props) {
 

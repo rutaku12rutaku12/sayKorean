@@ -4,6 +4,7 @@ import { testApi, testItemApi } from "../api/adminTestApi";
 import { useEffect, useState } from "react";
 import { examApi, genreApi, studyApi } from "../api/adminApi";
 import { setGenres } from "../store/adminSlice";
+import "../styles/AdminCommon.css";
 
 export default function AdminTestCreate() {
     // [*] 가상돔, 리덕스

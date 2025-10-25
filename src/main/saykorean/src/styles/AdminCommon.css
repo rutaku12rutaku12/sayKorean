@@ -1,0 +1,514 @@
+/* ====================================
+   관리자 페이지 전용 CSS
+   - 모든 클래스는 admin- 접두사 사용
+   - 사용자단과 완전히 분리
+   ==================================== */
+
+/* ====== 1. CSS 변수 정의 (관리자 전용) ====== */
+:root {
+  /* 간격 */
+  --admin-spacing-xs: 5px;
+  --admin-spacing-sm: 10px;
+  --admin-spacing-md: 15px;
+  --admin-spacing-lg: 20px;
+  --admin-spacing-xl: 30px;
+  --admin-spacing-xxl: 40px;
+  
+  /* 테두리 반경 */
+  --admin-radius-sm: 4px;
+  --admin-radius-md: 6px;
+  --admin-radius-lg: 8px;
+  
+  /* 그림자 */
+  --admin-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --admin-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --admin-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ====== 2. 레이아웃 ====== */
+.admin-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-container-wide {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.admin-center {
+  padding: 40px;
+  text-align: center;
+}
+
+/* ====== 3. 헤더 ====== */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.admin-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* ====== 4. 네비게이션 ====== */
+.admin-nav {
+  margin-bottom: 20px;
+}
+
+/* ====== 5. 섹션 / 카드 ====== */
+.admin-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.admin-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin-section-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.admin-card {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.admin-card-collapsible {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+  background-color: #f5f5f5;
+}
+
+.admin-card-header:hover {
+  background-color: #e3f2fd;
+}
+
+.admin-card-header-expanded {
+  background-color: #e3f2fd;
+}
+
+.admin-card-body {
+  padding: 15px;
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
+}
+
+.admin-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ====== 6. 버튼 ====== */
+.admin-btn {
+  padding: 8px 20px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.admin-btn-lg {
+  padding: 15px 40px;
+  font-size: 16px;
+}
+
+.admin-btn-sm {
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+.admin-btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-btn-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ====== 7. 입력 요소 ====== */
+.admin-input,
+.admin-select,
+.admin-textarea {
+  width: 100%;
+  padding: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.admin-input:focus,
+.admin-select:focus,
+.admin-textarea:focus {
+  outline: none;
+  border-color: #2196F3;
+}
+
+.admin-input:disabled,
+.admin-select:disabled,
+.admin-textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.admin-textarea {
+  resize: vertical;
+}
+
+.admin-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.admin-file-input {
+  padding: 8px;
+}
+
+/* ====== 8. 폼 그룹 ====== */
+.admin-form-group {
+  margin-bottom: 15px;
+}
+
+.admin-form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.admin-form-hint {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* ====== 9. 그리드 레이아웃 ====== */
+.admin-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.admin-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.admin-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.admin-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+/* ====== 10. 아이템 ====== */
+.admin-item {
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+.admin-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.admin-item-content {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ====== 11. 뱃지 ====== */
+.admin-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 3px;
+  color: white;
+}
+
+.admin-badge-blue {
+  background-color: #2196F3;
+}
+
+.admin-badge-orange {
+  background-color: #FF9800;
+}
+
+.admin-badge-green {
+  background-color: #4CAF50;
+}
+
+/* ====== 12. 오디오 섹션 ====== */
+.admin-audio-section {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.admin-audio-method {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.admin-audio-method-file {
+  background-color: #f5f5f5;
+}
+
+.admin-audio-method-tts {
+  background-color: #e8f5e9;
+}
+
+.admin-audio-method-title {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.admin-audio-list {
+  margin-top: 15px;
+}
+
+.admin-audio-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.admin-audio-item-file {
+  background-color: #fff3e0;
+  border: 1px solid #FF9800;
+}
+
+.admin-audio-item-tts {
+  background-color: #e3f2fd;
+  border: 1px solid #2196F3;
+}
+
+.admin-audio-item-existing {
+  background-color: #f5f5f5;
+}
+
+.admin-audio-item-text {
+  flex: 1;
+  font-size: 14px;
+}
+
+/* ====== 13. 이미지 미리보기 ====== */
+.admin-image-preview {
+  margin-bottom: 10px;
+}
+
+.admin-image-preview p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.admin-image-preview img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 4px;
+}
+
+/* ====== 14. 정보 박스 ====== */
+.admin-info-box {
+  padding: 10px;
+  background-color: #e8f5e9;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.admin-info-box p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* ====== 15. 로딩 / 빈 상태 ====== */
+.admin-loading {
+  padding: 40px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.admin-empty {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+}
+
+.admin-empty p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* ====== 16. 유틸리티 클래스 ====== */
+.admin-text-center {
+  text-align: center;
+}
+
+.admin-text-right {
+  text-align: right;
+}
+
+.admin-text-small {
+  font-size: 12px;
+}
+
+.admin-text-medium {
+  font-size: 14px;
+}
+
+.admin-text-large {
+  font-size: 16px;
+}
+
+.admin-text-muted {
+  color: #666;
+}
+
+.admin-font-bold {
+  font-weight: bold;
+}
+
+.admin-font-semibold {
+  font-weight: 600;
+}
+
+.admin-mb-0 { margin-bottom: 0; }
+.admin-mb-sm { margin-bottom: 10px; }
+.admin-mb-md { margin-bottom: 15px; }
+.admin-mb-lg { margin-bottom: 20px; }
+.admin-mb-xl { margin-bottom: 30px; }
+.admin-mb-xxl { margin-bottom: 40px; }
+
+.admin-mt-0 { margin-top: 0; }
+.admin-mt-sm { margin-top: 10px; }
+.admin-mt-md { margin-top: 15px; }
+.admin-mt-lg { margin-top: 20px; }
+.admin-mt-xl { margin-top: 30px; }
+.admin-mt-xxl { margin-top: 40px; }
+
+.admin-flex {
+  display: flex;
+}
+
+.admin-flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-flex-gap-sm {
+  gap: 10px;
+}
+
+.admin-flex-gap-md {
+  gap: 15px;
+}
+
+.admin-flex-gap-lg {
+  gap: 20px;
+}
+
+/* ====== 17. 반응형 디자인 ====== */
+@media (max-width: 768px) {
+  .admin-container,
+  .admin-container-wide {
+    padding: 10px;
+  }
+  
+  .admin-grid-2,
+  .admin-grid-3,
+  .admin-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-header,
+  .admin-section-header,
+  .admin-card-header,
+  .admin-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .admin-btn-group,
+  .admin-btn-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .admin-btn-group .admin-btn,
+  .admin-btn-actions .admin-btn {
+    width: 100%;
+  }
+}

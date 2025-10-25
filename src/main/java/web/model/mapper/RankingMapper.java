@@ -79,7 +79,7 @@ public interface RankingMapper {
     List<Map<String, Object>> getPersistenceRank();
 
 
-    // [RK-04]	랭킹 검색조회	searchRank()
+    // [RK-04]	랭킹 검색조회	searchRank() (안할거)
     // 랭킹 테이블 레코드를 검색조회한다.
     // 사용자닉네임(userNo FK)과 시험명(examNo FK), 시험문항명(examNo FK)도 함께 조회.
     // 서브쿼리 활용

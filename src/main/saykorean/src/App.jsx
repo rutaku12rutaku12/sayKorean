@@ -73,9 +73,6 @@ const AdminLayout = () => (
     <AdminNav />
     <h3> 관리자 화면 레이아웃 </h3>
     <Outlet />
-    <Link to="/home">
-      <img style={{ float: 'right' }} src="/img/myPage.svg" alt="홈" />
-    </Link>
   </div>
 );
 
