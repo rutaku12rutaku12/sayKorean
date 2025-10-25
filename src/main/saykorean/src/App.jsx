@@ -42,6 +42,7 @@ import AdminTestEdit from "./adminPages/AdminTestEdit";
 import Ranking from "./pages/Ranking.jsx";
 
 import "./styles/App.css";
+
 // 언어 변환 - 정유진
 
 const LANG_MAP = {
@@ -71,7 +72,6 @@ const UserLayout = () => (
 const AdminLayout = () => (
   <div style={{ width: '1280px', margin: '0 auto' }}>
     <AdminNav />
-    <h3> 관리자 화면 레이아웃 </h3>
     <Outlet />
   </div>
 );

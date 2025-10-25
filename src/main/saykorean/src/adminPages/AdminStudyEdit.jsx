@@ -60,7 +60,6 @@ export default function AdminStudyEdit(props) {
             // 예문 전체 조회 후 해당 주제 예문만 필터링
             const examRes = await examApi.getAll();
             const studyExams = examRes.data.filter(exam => exam.studyNo == parseInt(studyNo));
-            console.log("studyApi:", studyApi);
 
             // 각 예문의 음성 파일 조회
             const audioRes = await audioApi.getAll();
@@ -113,7 +112,7 @@ export default function AdminStudyEdit(props) {
         })
     }
 
-    // [2-4] 새 음성 파일 추가 핸들러 * 비동기함수 추가
+    // [2-4] 새 음성 파일 추가 핸들러
     const handleAddNewAudioFile = async (examIndex, lang, file) => {
         setExamList(e => {
             const newList = [...e];
@@ -129,7 +128,7 @@ export default function AdminStudyEdit(props) {
         })
     }
 
-    // [2-4] TTS 새 음성 추가 핸들러
+    // [2-5] TTS 새 음성 추가 핸들러
     const handleAddNewAudioTTS = async (examIndex, lang, text) => {
         if (!text || !text.trim()) {
             alert("텍스트를 입력해주세요.");
@@ -151,7 +150,7 @@ export default function AdminStudyEdit(props) {
         })
     }
 
-    // [2-5] 새 음성 파일삭제 핸들러
+    // [2-6] 새 음성 파일삭제 핸들러
     const handleRemoveNewAudioFile = async (examIndex, audioIndex) => {
         setExamList(e => {
             const newList = [...e];
@@ -160,7 +159,7 @@ export default function AdminStudyEdit(props) {
         })
     }
 
-    // [2-6] 기존 음성 파일 삭제 핸들러
+    // [2-7] 기존 음성 파일 삭제 핸들러
     const handleDeleteExistingAudio = async (examIndex, audioNo) => {
         if (!window.confirm("이 음성 파일을 삭제하시겠습니까?")) return;
 
@@ -181,9 +180,8 @@ export default function AdminStudyEdit(props) {
         }
     }
 
-    // [2-7] 예문 추가
+    // [2-8] 예문 추가
     const handleAddExam = () => {
-        // 새 예문은 examNo가 없음 (추가 시 생성됨)
         setExamList(e => [...e, {
             examKo: "",
             examRoman: "",
@@ -199,7 +197,7 @@ export default function AdminStudyEdit(props) {
         }]);
     };
 
-    // [2-8] 예문 삭제
+    // [2-9] 예문 삭제
     const handleDeleteExam = async (index, examNo) => {
         if (!examNo) {
             // DB에 저장되지 않은 예문은 바로 삭제
@@ -348,22 +346,21 @@ export default function AdminStudyEdit(props) {
 
     // [*] 페이지 로딩 로직
     if (loading) {
-        return <div style={{ padding: '40px', textAlign: 'center' }}>로딩 중...</div>;
+        return <div className="admin-loading">로딩 중...</div>;
     }
 
-
-
-    return (<>
-        <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+    return (
+        <div className="admin-container">
             <h2>교육 수정</h2>
 
             {/* 장르 섹션 */}
-            <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+            <div className="admin-section">
                 <h3>1. 장르 선택</h3>
                 <select
                     value={studyData.genreNo}
                     onChange={(e) => handleStudyChange('genreNo', parseInt(e.target.value))}
-                    style={{ padding: '8px', width: '320px' }}
+                    className="admin-select"
+                    style={{ width: '320px' }}
                 >
                     <option value="">장르를 선택하세요</option>
                     {genres.map(genre => (
@@ -375,99 +372,103 @@ export default function AdminStudyEdit(props) {
             </div>
 
             {/* 주제 섹션 */}
-            <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+            <div className="admin-section">
                 <h3>2. 주제 수정</h3>
 
-                <div style={{ display: 'grid', gap: '15px' }}>
-                    <div>
-                        <label>한국어 주제 *</label>
+                <div className="admin-grid">
+                    <div className="admin-form-group">
+                        <label className="admin-form-label">한국어 주제 *</label>
                         <input
                             type="text"
                             value={studyData.themeKo}
                             onChange={(e) => handleStudyChange('themeKo', e.target.value)}
-                            style={{ width: '100%', padding: '8px' }}
+                            className="admin-input"
                         />
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                        <div>
-                            <label>일본어 주제</label>
+                    <div className="admin-grid-2">
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">일본어 주제</label>
                             <input
                                 type="text"
                                 value={studyData.themeJp}
                                 onChange={(e) => handleStudyChange('themeJp', e.target.value)}
-                                style={{ width: '100%', padding: '8px' }}
+                                className="admin-input"
                             />
                         </div>
-                        <div>
-                            <label>중국어 주제</label>
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">중국어 주제</label>
                             <input
                                 type="text"
                                 value={studyData.themeCn}
                                 onChange={(e) => handleStudyChange('themeCn', e.target.value)}
-                                style={{ width: '100%', padding: '8px' }}
+                                className="admin-input"
                             />
                         </div>
-                        <div>
-                            <label>영어 주제</label>
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">영어 주제</label>
                             <input
                                 type="text"
                                 value={studyData.themeEn}
                                 onChange={(e) => handleStudyChange('themeEn', e.target.value)}
-                                style={{ width: '100%', padding: '8px' }}
+                                className="admin-input"
                             />
                         </div>
-                        <div>
-                            <label>스페인어 주제</label>
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">스페인어 주제</label>
                             <input
                                 type="text"
                                 value={studyData.themeEs}
                                 onChange={(e) => handleStudyChange('themeEs', e.target.value)}
-                                style={{ width: '100%', padding: '8px' }}
+                                className="admin-input"
                             />
                         </div>
                     </div>
 
-                    <div>
-                        <label>한국어 해설</label>
+                    <div className="admin-form-group">
+                        <label className="admin-form-label">한국어 해설</label>
                         <textarea
                             value={studyData.commenKo}
                             onChange={(e) => handleStudyChange('commenKo', e.target.value)}
-                            style={{ width: '100%', padding: '8px', minHeight: '80px' }}
+                            className="admin-textarea"
                         />
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                        <div>
-                            <label>일본어 해설</label>
+                    <div className="admin-grid-2">
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">일본어 해설</label>
                             <textarea
                                 value={studyData.commenJp}
                                 onChange={(e) => handleStudyChange('commenJp', e.target.value)}
-                                style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                className="admin-textarea"
+                                style={{ minHeight: '60px' }}
                             />
                         </div>
-                        <div>
-                            <label>중국어 해설</label>
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">중국어 해설</label>
                             <textarea
                                 value={studyData.commenCn}
                                 onChange={(e) => handleStudyChange('commenCn', e.target.value)}
-                                style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                className="admin-textarea"
+                                style={{ minHeight: '60px' }}
                             />
                         </div>
-                        <div>
-                            <label>영어 해설</label>
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">영어 해설</label>
                             <textarea
                                 value={studyData.commenEn}
                                 onChange={(e) => handleStudyChange('commenEn', e.target.value)}
-                                style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                className="admin-textarea"
+                                style={{ minHeight: '60px' }}
                             />
                         </div>
-                        <div>
-                            <label>스페인어 해설</label>
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">스페인어 해설</label>
                             <textarea
                                 value={studyData.commenEs}
                                 onChange={(e) => handleStudyChange('commenEs', e.target.value)}
-                                style={{ width: '100%', padding: '8px', minHeight: '60px' }}
+                                className="admin-textarea"
+                                style={{ minHeight: '60px' }}
                             />
                         </div>
                     </div>
@@ -475,86 +476,86 @@ export default function AdminStudyEdit(props) {
             </div>
 
             {/* 예문 섹션 */}
-            <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div className="admin-section">
+                <div className="admin-flex-between admin-mb-lg">
                     <h3>3. 예문 수정</h3>
-                    <button onClick={handleAddExam} style={{ padding: '8px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}>
+                    <button onClick={handleAddExam} className="admin-btn admin-btn-success">
                         예문 추가
                     </button>
                 </div>
 
                 {examList.map((exam, examIndex) => (
-                    <div key={examIndex} style={{ marginBottom: '30px', padding: '15px', border: '2px solid #eee', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                    <div key={examIndex} className="admin-exam-item">
+                        <div className="admin-flex-between admin-mb-md">
                             <h4>예문 {examIndex + 1} {exam.examNo ? `(ID: ${exam.examNo})` : '(새로 추가)'}</h4>
                             <button
                                 onClick={() => handleDeleteExam(examIndex, exam.examNo)}
-                                style={{ padding: '5px 15px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}
+                                className="admin-btn admin-btn-sm admin-btn-danger"
                             >
                                 삭제
                             </button>
                         </div>
 
                         {/* 예문 텍스트 입력 */}
-                        <div style={{ display: 'grid', gap: '10px', marginBottom: '15px' }}>
+                        <div className="admin-exam-content">
                             <input
                                 type="text"
                                 placeholder="한국어 예문 *"
                                 value={exam.examKo}
                                 onChange={(e) => handleExamChange(examIndex, 'examKo', e.target.value)}
-                                style={{ width: '100%', padding: '8px' }}
+                                className="admin-input"
                             />
                             <input
                                 type="text"
                                 placeholder="발음/로마자"
                                 value={exam.examRoman}
                                 onChange={(e) => handleExamChange(examIndex, 'examRoman', e.target.value)}
-                                style={{ width: '100%', padding: '8px' }}
+                                className="admin-input"
                             />
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                            <div className="admin-grid-2">
                                 <input
                                     type="text"
                                     placeholder="일본어 예문"
                                     value={exam.examJp}
                                     onChange={(e) => handleExamChange(examIndex, 'examJp', e.target.value)}
-                                    style={{ padding: '8px' }}
+                                    className="admin-input"
                                 />
                                 <input
                                     type="text"
                                     placeholder="중국어 예문"
                                     value={exam.examCn}
                                     onChange={(e) => handleExamChange(examIndex, 'examCn', e.target.value)}
-                                    style={{ padding: '8px' }}
+                                    className="admin-input"
                                 />
                                 <input
                                     type="text"
                                     placeholder="영어 예문"
                                     value={exam.examEn}
                                     onChange={(e) => handleExamChange(examIndex, 'examEn', e.target.value)}
-                                    style={{ padding: '8px' }}
+                                    className="admin-input"
                                 />
                                 <input
                                     type="text"
                                     placeholder="스페인어 예문"
                                     value={exam.examEs}
                                     onChange={(e) => handleExamChange(examIndex, 'examEs', e.target.value)}
-                                    style={{ padding: '8px' }}
+                                    className="admin-input"
                                 />
                             </div>
                         </div>
 
                         {/* 이미지 파일 */}
-                        <div style={{ marginBottom: '15px' }}>
-                            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>이미지 파일</label>
+                        <div className="admin-form-group">
+                            <label className="admin-form-label">이미지 파일</label>
 
                             {exam.imagePath && (
-                                <div style={{ marginBottom: '10px' }}>
-                                    <p style={{ fontSize: '14px', color: '#666' }}>현재 이미지:</p>
+                                <div className="admin-mb-sm">
+                                    <p className="admin-text-muted" style={{ fontSize: '14px' }}>현재 이미지:</p>
                                     <img
                                         src={exam.imagePath}
                                         alt="현재 이미지"
-                                        style={{ maxWidth: '200px', maxHeight: '200px', borderRadius: '4px' }}
+                                        className="admin-image-preview"
                                         onError={(e) => { e.target.style.display = 'none'; }}
                                     />
                                 </div>
@@ -564,23 +565,23 @@ export default function AdminStudyEdit(props) {
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => handleNewImageFile(examIndex, e.target.files[0])}
-                                style={{ padding: '8px' }}
+                                className="admin-input"
                             />
-                            {exam.newImageFile && <span style={{ marginLeft: '10px', color: '#4CAF50' }}>✓ 새 이미지: {exam.newImageFile.name}</span>}
+                            {exam.newImageFile && <span className="admin-text-success admin-mt-sm" style={{ display: 'block' }}>✓ 새 이미지: {exam.newImageFile.name}</span>}
                         </div>
 
                         {/* 기존 음성 파일 목록 */}
                         {exam.audioFiles && exam.audioFiles.length > 0 && (
-                            <div style={{ marginBottom: '15px', padding: '10px', backgroundColor: '#fff', borderRadius: '4px' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>기존 음성 파일</label>
-                                {exam.audioFiles.map((audio, audioIndex) => (
-                                    <div key={audio.audioNo} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '5px', padding: '5px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
-                                        <span style={{ flex: 1, fontSize: '14px' }}>
+                            <div className="admin-audio-section admin-mb-md">
+                                <label className="admin-form-label">기존 음성 파일</label>
+                                {exam.audioFiles.map((audio) => (
+                                    <div key={audio.audioNo} className="admin-flex-between" style={{ marginBottom: '5px', padding: '5px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+                                        <span style={{ fontSize: '14px' }}>
                                             {getLangText(audio.lang)} - {audio.audioName}
                                         </span>
                                         <button
                                             onClick={() => handleDeleteExistingAudio(examIndex, audio.audioNo)}
-                                            style={{ padding: '4px 12px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px' }}
+                                            className="admin-btn admin-btn-sm admin-btn-danger"
                                         >
                                             삭제
                                         </button>
@@ -590,18 +591,14 @@ export default function AdminStudyEdit(props) {
                         )}
 
                         {/* 새 음성 파일 추가 */}
-                        <div style={{ padding: '15px', backgroundColor: '#fff', borderRadius: '4px' }}>
-                            <label style={{ display: 'block', marginBottom: '10px', fontWeight: 'bold', fontSize: '16px' }}>
-                                🎤 새 음성 파일 추가
-                            </label>
+                        <div className="admin-audio-section">
+                            <label className="admin-form-label">🎤 새 음성 파일 추가</label>
 
                             {/* 방법 1: 파일 직접 업로드 */}
-                            <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#1976D2' }}>
-                                    📁 방법 1: 파일 직접 업로드
-                                </label>
-                                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                                    <select id={`newAudioLang-${examIndex}`} style={{ padding: '8px' }}>
+                            <div className="admin-audio-method admin-audio-method-file">
+                                <label className="admin-form-label" style={{ color: '#1976D2' }}>📁 방법 1: 파일 직접 업로드</label>
+                                <div className="admin-file-inline">
+                                    <select id={`newAudioLang-${examIndex}`} className="admin-select">
                                         <option value={1}>한국어</option>
                                         <option value={2}>영어</option>
                                     </select>
@@ -609,7 +606,7 @@ export default function AdminStudyEdit(props) {
                                         type="file"
                                         accept="audio/*"
                                         id={`newAudioFile-${examIndex}`}
-                                        style={{ padding: '8px', flex: 1 }}
+                                        className="admin-input"
                                     />
                                     <button
                                         onClick={() => {
@@ -622,7 +619,7 @@ export default function AdminStudyEdit(props) {
                                                 alert('파일을 선택해주세요.');
                                             }
                                         }}
-                                        style={{ padding: '8px 20px', backgroundColor: '#2196F3', color: 'white', border: 'none', borderRadius: '4px' }}
+                                        className="admin-btn admin-btn-info"
                                     >
                                         파일 추가
                                     </button>
@@ -630,12 +627,10 @@ export default function AdminStudyEdit(props) {
                             </div>
 
                             {/* 방법 2: TTS로 생성 */}
-                            <div style={{ padding: '10px', backgroundColor: '#e8f5e9', borderRadius: '4px' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold', color: '#388E3C' }}>
-                                    🤖 방법 2: TTS로 음성 생성 (Google AI)
-                                </label>
-                                <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                                    <select id={`newTTSLang-${examIndex}`} style={{ padding: '8px' }}>
+                            <div className="admin-audio-method admin-audio-method-tts">
+                                <label className="admin-form-label" style={{ color: '#388E3C' }}>🤖 방법 2: TTS로 음성 생성 (Google AI)</label>
+                                <div className="admin-file-inline">
+                                    <select id={`newTTSLang-${examIndex}`} className="admin-select">
                                         <option value={1}>한국어</option>
                                         <option value={2}>영어</option>
                                     </select>
@@ -643,7 +638,7 @@ export default function AdminStudyEdit(props) {
                                         type="text"
                                         id={`newTTSText-${examIndex}`}
                                         placeholder="음성으로 변환할 텍스트 입력"
-                                        style={{ padding: '8px', flex: 1 }}
+                                        className="admin-input"
                                     />
                                     <button
                                         onClick={() => {
@@ -656,50 +651,30 @@ export default function AdminStudyEdit(props) {
                                                 alert('텍스트를 입력해주세요.');
                                             }
                                         }}
-                                        style={{ padding: '8px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}
+                                        className="admin-btn admin-btn-success"
                                     >
                                         TTS 생성
                                     </button>
                                 </div>
-                                <p style={{ fontSize: '12px', color: '#666', margin: '5px 0 0 0' }}>
-                                    💡 팁: 예문 텍스트를 그대로 입력하면 자동으로 음성이 생성됩니다
-                                </p>
+                                <p className="admin-hint">💡 팁: 예문 텍스트를 그대로 입력하면 자동으로 음성이 생성됩니다</p>
                             </div>
 
                             {/* 추가된 새 음성 파일 목록 */}
                             {exam.newAudioFiles && exam.newAudioFiles.length > 0 && (
-                                <div style={{ marginTop: '15px' }}>
-                                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
-                                        추가 예정 음성 ({exam.newAudioFiles.length}개)
-                                    </label>
+                                <div className="admin-mt-md">
+                                    <label className="admin-form-label">추가 예정 음성 ({exam.newAudioFiles.length}개)</label>
                                     {exam.newAudioFiles.map((audio, audioIndex) => (
-                                        <div key={audioIndex} style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '10px',
-                                            marginBottom: '5px',
-                                            padding: '8px',
-                                            backgroundColor: audio.type === 'tts' ? '#e3f2fd' : '#fff3e0',
-                                            borderRadius: '4px',
-                                            border: `1px solid ${audio.type === 'tts' ? '#2196F3' : '#FF9800'}`
-                                        }}>
-                                            <span style={{
-                                                padding: '2px 8px',
-                                                backgroundColor: audio.type === 'tts' ? '#2196F3' : '#FF9800',
-                                                color: 'white',
-                                                borderRadius: '3px',
-                                                fontSize: '11px',
-                                                fontWeight: 'bold'
-                                            }}>
+                                        <div key={audioIndex} className={`admin-audio-list-item ${audio.type}`}>
+                                            <span className={`admin-audio-badge ${audio.type}`}>
                                                 {audio.type === 'tts' ? 'TTS' : 'FILE'}
                                             </span>
-                                            <span style={{ flex: 1, fontSize: '14px' }}>
+                                            <span className="admin-audio-text">
                                                 {getLangText(audio.lang)} -
                                                 {audio.type === 'file' ? ` ${audio.file.name}` : ` "${audio.text}"`}
                                             </span>
                                             <button
                                                 onClick={() => handleRemoveNewAudioFile(examIndex, audioIndex)}
-                                                style={{ padding: '4px 12px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px' }}
+                                                className="admin-btn admin-btn-sm admin-btn-danger"
                                             >
                                                 취소
                                             </button>
@@ -713,21 +688,21 @@ export default function AdminStudyEdit(props) {
             </div>
 
             {/* 하단 버튼 */}
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '40px' }}>
+            <div className="admin-action-buttons">
                 <button
                     onClick={() => navigate('/admin/study')}
-                    style={{ padding: '15px 40px', fontSize: '16px', backgroundColor: '#9E9E9E', color: 'white', border: 'none', borderRadius: '8px' }}
+                    className="admin-btn admin-btn-lg admin-btn-secondary"
                 >
                     취소
                 </button>
                 <button
                     onClick={handleSubmit}
                     disabled={loading}
-                    style={{ padding: '15px 40px', fontSize: '16px', backgroundColor: loading ? '#ccc' : '#4CAF50', color: 'white', border: 'none', borderRadius: '8px', cursor: loading ? 'not-allowed' : 'pointer' }}
+                    className="admin-btn admin-btn-lg admin-btn-success"
                 >
                     {loading ? '처리 중...' : '수정 완료'}
                 </button>
             </div>
         </div>
-    </>)
+    )
 }

@@ -122,50 +122,42 @@ export default function AdminStudyList(props) {
         return langMap[lang] || '알 수 없는 언어코드입니다.';
     }
 
-    return (<>
-
-        <div style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+    return (
+        <div className="admin-container">
+            <div className="admin-header">
                 <h2>교육 관리</h2>
                 <button
                     onClick={() => navigate('/admin/study/create')}
-                    style={{ padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}
+                    className="admin-btn admin-btn-success"
                 >
                     새 교육 등록
                 </button>
             </div>
 
             {/* 장르 목록 */}
-            <div style={{ marginBottom: '30px' }}>
-                <h3 style={{ borderBottom: '2px solid #333', paddingBottom: '10px' }}>장르 목록</h3>
+            <div className="admin-mb-xl">
+                <h3 className="admin-mb-lg">장르 목록</h3>
 
                 {genres.map(genre => (
-                    <div key={genre.genreNo} style={{ marginBottom: '20px', border: '1px solid #ddd', borderRadius: '8px', overflow: 'hidden' }}>
+                    <div key={genre.genreNo} className="admin-card">
                         {/* 장르 헤더 */}
                         <div
-                            style={{
-                                padding: '15px',
-                                backgroundColor: selectedGenreNo === genre.genreNo ? '#e3f2fd' : '#f5f5f5',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center'
-                            }}
+                            className={`admin-card-header ${selectedGenreNo === genre.genreNo ? 'active' : ''}`}
                             onClick={() => setSelectedGenreNo(selectedGenreNo === genre.genreNo ? null : genre.genreNo)}
                         >
                             <div>
-                                <strong style={{ fontSize: '18px' }}>{genre.genreName}</strong>
-                                <span style={{ marginLeft: '10px', color: '#666' }}>
+                                <strong className="admin-card-title">{genre.genreName}</strong>
+                                <span className="admin-card-subtitle">
                                     (주제 {getStudiesByGenre(genre.genreNo).length}개)
                                 </span>
                             </div>
-                            <div style={{ display: 'flex', gap: '10px' }}>
+                            <div className="admin-flex admin-flex-gap-md">
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleDeleteGenre(genre.genreNo);
                                     }}
-                                    style={{ padding: '5px 15px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}
+                                    className="admin-btn admin-btn-sm admin-btn-danger"
                                 >
                                     장르 삭제
                                 </button>
@@ -177,39 +169,32 @@ export default function AdminStudyList(props) {
 
                         {/* 주제 목록 (장르 선택 시 표시) */}
                         {selectedGenreNo === genre.genreNo && (
-                            <div style={{ padding: '15px', backgroundColor: '#fff' }}>
+                            <div className="admin-card-body">
                                 {getStudiesByGenre(genre.genreNo).length === 0 ? (
-                                    <p style={{ color: '#999', textAlign: 'center', padding: '20px' }}>
+                                    <p className="admin-empty-message">
                                         이 장르에 등록된 주제가 없습니다.
                                     </p>
                                 ) : (
                                     getStudiesByGenre(genre.genreNo).map(study => (
-                                        <div key={study.studyNo} style={{ marginBottom: '15px', border: '1px solid #e0e0e0', borderRadius: '6px' }}>
+                                        <div key={study.studyNo} className="admin-card admin-mb-md">
                                             {/* 주제 헤더 */}
                                             <div
-                                                style={{
-                                                    padding: '12px',
-                                                    backgroundColor: selectedStudyNo === study.studyNo ? '#fff3e0' : '#fafafa',
-                                                    cursor: 'pointer',
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'center'
-                                                }}
+                                                className={`admin-card-header ${selectedStudyNo === study.studyNo ? 'active' : ''}`}
                                                 onClick={() => setSelectedStudyNo(selectedStudyNo === study.studyNo ? null : study.studyNo)}
                                             >
                                                 <div>
                                                     <strong>{study.themeKo}</strong>
-                                                    <span style={{ marginLeft: '10px', fontSize: '14px', color: '#666' }}>
+                                                    <span className="admin-card-subtitle">
                                                         (예문 {getExamsByStudy(study.studyNo).length}개)
                                                     </span>
                                                 </div>
-                                                <div style={{ display: 'flex', gap: '8px' }}>
+                                                <div className="admin-flex admin-flex-gap-sm">
                                                     <button
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             navigate(`/admin/study/edit/${study.studyNo}`);
                                                         }}
-                                                        style={{ padding: '4px 12px', backgroundColor: '#2196F3', color: 'white', border: 'none', borderRadius: '4px', fontSize: '14px' }}
+                                                        className="admin-btn admin-btn-sm admin-btn-info"
                                                     >
                                                         수정
                                                     </button>
@@ -218,7 +203,7 @@ export default function AdminStudyList(props) {
                                                             e.stopPropagation();
                                                             handleDeleteStudy(study.studyNo);
                                                         }}
-                                                        style={{ padding: '4px 12px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', fontSize: '14px' }}
+                                                        className="admin-btn admin-btn-sm admin-btn-danger"
                                                     >
                                                         삭제
                                                     </button>
@@ -230,11 +215,11 @@ export default function AdminStudyList(props) {
 
                                             {/* 주제 상세 정보 */}
                                             {selectedStudyNo === study.studyNo && (
-                                                <div style={{ padding: '15px', backgroundColor: '#fff', borderTop: '1px solid #e0e0e0' }}>
+                                                <div className="admin-card-body">
                                                     {/* 해설 정보 */}
-                                                    <div style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f9f9f9', borderRadius: '4px' }}>
-                                                        <h4 style={{ marginBottom: '10px' }}>해설</h4>
-                                                        <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                                                    <div className="admin-detail-box admin-mb-lg">
+                                                        <h4>해설</h4>
+                                                        <div>
                                                             {study.commenKo && <p><strong>🇰🇷 한국어:</strong> {study.commenKo}</p>}
                                                             {study.commenJp && <p><strong>🇯🇵 일본어:</strong> {study.commenJp}</p>}
                                                             {study.commenCn && <p><strong>🇨🇳 중국어:</strong> {study.commenCn}</p>}
@@ -244,27 +229,27 @@ export default function AdminStudyList(props) {
                                                     </div>
 
                                                     {/* 예문 목록 */}
-                                                    <h4 style={{ marginBottom: '10px' }}>예문 목록</h4>
+                                                    <h4>예문 목록</h4>
                                                     {getExamsByStudy(study.studyNo).length === 0 ? (
-                                                        <p style={{ color: '#999', textAlign: 'center', padding: '10px' }}>
+                                                        <p className="admin-empty-message">
                                                             등록된 예문이 없습니다.
                                                         </p>
                                                     ) : (
                                                         getExamsByStudy(study.studyNo).map(exam => (
-                                                            <div key={exam.examNo} style={{ marginBottom: '15px', padding: '12px', border: '1px solid #e0e0e0', borderRadius: '4px', backgroundColor: '#fafafa' }}>
-                                                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                                                            <div key={exam.examNo} className="admin-exam-item">
+                                                                <div className="admin-flex-between admin-mb-md">
                                                                     <div style={{ flex: 1 }}>
-                                                                        <p style={{ marginBottom: '5px' }}><strong>한국어:</strong> {exam.examKo}</p>
-                                                                        {exam.examRoman && <p style={{ marginBottom: '5px', fontSize: '14px', color: '#666' }}><strong>발음:</strong> {exam.examRoman}</p>}
-                                                                        {exam.examJp && <p style={{ marginBottom: '5px', fontSize: '14px' }}><strong>일본어:</strong> {exam.examJp}</p>}
-                                                                        {exam.examCn && <p style={{ marginBottom: '5px', fontSize: '14px' }}><strong>중국어:</strong> {exam.examCn}</p>}
-                                                                        {exam.examEn && <p style={{ marginBottom: '5px', fontSize: '14px' }}><strong>영어:</strong> {exam.examEn}</p>}
-                                                                        {exam.examEs && <p style={{ marginBottom: '5px', fontSize: '14px' }}><strong>스페인어:</strong> {exam.examEs}</p>}
+                                                                        <p className="admin-mb-sm"><strong>한국어:</strong> {exam.examKo}</p>
+                                                                        {exam.examRoman && <p className="admin-mb-sm admin-text-muted"><strong>발음:</strong> {exam.examRoman}</p>}
+                                                                        {exam.examJp && <p className="admin-mb-sm"><strong>일본어:</strong> {exam.examJp}</p>}
+                                                                        {exam.examCn && <p className="admin-mb-sm"><strong>중국어:</strong> {exam.examCn}</p>}
+                                                                        {exam.examEn && <p className="admin-mb-sm"><strong>영어:</strong> {exam.examEn}</p>}
+                                                                        {exam.examEs && <p className="admin-mb-sm"><strong>스페인어:</strong> {exam.examEs}</p>}
                                                                     </div>
-                                                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                                                                    <div>
                                                                         <button
                                                                             onClick={() => handleDeleteExam(exam.examNo)}
-                                                                            style={{ padding: '4px 12px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', fontSize: '12px' }}
+                                                                            className="admin-btn admin-btn-sm admin-btn-danger"
                                                                         >
                                                                             예문 삭제
                                                                         </button>
@@ -273,11 +258,11 @@ export default function AdminStudyList(props) {
 
                                                                 {/* 이미지 */}
                                                                 {exam.imagePath && (
-                                                                    <div style={{ marginBottom: '10px' }}>
+                                                                    <div className="admin-mb-md">
                                                                         <img
                                                                             src={exam.imagePath}
                                                                             alt="예문 이미지"
-                                                                            style={{ maxWidth: '200px', maxHeight: '200px', borderRadius: '4px' }}
+                                                                            className="admin-image-preview"
                                                                             onError={(e) => { e.target.style.display = 'none'; }}
                                                                         />
                                                                     </div>
@@ -285,16 +270,17 @@ export default function AdminStudyList(props) {
 
                                                                 {/* 음성 파일 목록 */}
                                                                 {getAudiosByExam(exam.examNo).length > 0 && (
-                                                                    <div style={{ marginTop: '10px', padding: '8px', backgroundColor: '#fff', borderRadius: '4px' }}>
-                                                                        <strong style={{ fontSize: '13px' }}>음성 파일:</strong>
+                                                                    <div className="admin-audio-section">
+                                                                        <strong className="admin-mb-sm" style={{ display: 'block' }}>음성 파일:</strong>
                                                                         {getAudiosByExam(exam.examNo).map(audio => (
-                                                                            <div key={audio.audioNo} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '5px', padding: '5px', backgroundColor: '#f5f5f5', borderRadius: '3px' }}>
+                                                                            <div key={audio.audioNo} className="admin-flex-between admin-mb-sm" style={{ padding: '5px', backgroundColor: '#f5f5f5', borderRadius: '3px' }}>
                                                                                 <span style={{ fontSize: '13px' }}>
                                                                                     {getLangText(audio.lang)} - {audio.audioName}
                                                                                 </span>
                                                                                 <button
                                                                                     onClick={() => handleDeleteAudio(audio.audioNo)}
-                                                                                    style={{ padding: '3px 10px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '3px', fontSize: '11px' }}
+                                                                                    className="admin-btn admin-btn-sm admin-btn-danger"
+                                                                                    style={{ padding: '3px 10px', fontSize: '11px' }}
                                                                                 >
                                                                                     삭제
                                                                                 </button>
@@ -316,12 +302,11 @@ export default function AdminStudyList(props) {
                 ))}
 
                 {genres.length === 0 && (
-                    <p style={{ textAlign: 'center', color: '#999', padding: '40px' }}>
+                    <p className="admin-empty-message">
                         등록된 장르가 없습니다. 새 교육을 등록해주세요.
                     </p>
                 )}
             </div>
         </div>
-
-    </>)
+    )
 }

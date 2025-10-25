@@ -195,7 +195,6 @@ export default function MyPage(props) {
           <button className="pillBtn" onClick={onUpdate}>{t("회원정보 수정")}</button>
           <button className="pillBtn" onClick={onGenre}>{t("장르 설정")}</button>
           <button className="pillBtn" onClick={onLanguage}>{t("언어 설정")}</button>
-          <button className="pillBtn" onClick={onRanking}>{t("랭킹 보기")}</button>
         </div>
       </section>
     </div>
