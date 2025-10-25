@@ -21,15 +21,18 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   display: flex;
-  justify-content: space-between; /* 왼쪽(로고)과 오른쪽(메뉴) 구분 */
-  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: space-between;
+  /* 왼쪽(로고)과 오른쪽(메뉴) 구분 */
+  align-items: center;
+  /* 세로 중앙 정렬 */
   height: 70px;
 }
 
 /* 왼쪽 로고 + 타이틀 정렬 */
-.admin-nav > div {
+.admin-nav>div {
   display: flex;
-  align-items: center; /* 이미지와 텍스트 세로 정렬 */
+  align-items: center;
+  /* 이미지와 텍스트 세로 정렬 */
   gap: 10px;
 }
 
@@ -122,6 +125,10 @@
   border-radius: 4px;
   font-size: 14px;
   transition: border-color 0.3s ease;
+}
+
+.admin-select {
+  width: 100px;
 }
 
 .admin-input:focus,

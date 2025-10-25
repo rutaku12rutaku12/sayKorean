@@ -270,7 +270,7 @@ export default function Ranking() {
                 <h4>📊 랭킹 기준 설명</h4>
                 <ul style={{ lineHeight: "1.8" }}>
                     <li>
-                        <strong>정답왕:</strong> 정답률이 높은 순서로 순위를 매깁니다. (최소 10문제 이상 풀이 필요)
+                        <strong>정답왕:</strong> 정답률이 높은 순서로 순위를 매깁니다. (최소 5문제 이상 풀이 필요)
                     </li>
                     <li>
                         <strong>도전왕:</strong> 가장 많은 문제를 푼 사용자 순서로 순위를 매깁니다.

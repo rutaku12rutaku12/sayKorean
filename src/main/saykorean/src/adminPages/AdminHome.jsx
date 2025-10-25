@@ -7,10 +7,10 @@ export default function AdminHome(props) {
     const navigate = useNavigate();
 
     return (
-        <div className="admin-center">
+        <div className="admin-container admin-text-center" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
 
             <div className="admin-mb-xxl">
-                <img src="/img/adminPage.png" />
+                <img src="/img/adminPage.png" style={{ maxWidth: '400px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
             </div>
 
             <div className="admin-flex-center admin-flex-gap-lg admin-mt-xxl">
