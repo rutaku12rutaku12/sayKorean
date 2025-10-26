@@ -1,6 +1,7 @@
 package web.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -87,14 +88,20 @@ public class UserService {
 
     // [US-10] 비밀번호 수정 updatePwrd()
     public UpdatePwrdDto updatePwrd(UpdatePwrdDto updatePwrdDto){
-        // 해시화
-        updatePwrdDto.setPassword(bcrypt.encode(updatePwrdDto.getPassword() ) );
+        String DB에저장된비번 = userMapper.findPass(updatePwrdDto.getUserNo());
+        System.out.println("DB에 저장된 비밀번호 해시: " + DB에저장된비번);
+        // DB에 저장된 기존 비밀번호를 솔트를 통해 일치하는지 검증
+        if (!bcrypt.matches(updatePwrdDto.getCurrentPassword(), DB에저장된비번)) {
+            return null; // 기존 비밀번호 불일치
+        }
+        // 기존 비밀번호가 맞으면 새로운 비밀번호를 해시화
+        updatePwrdDto.setPassword(bcrypt.encode(updatePwrdDto.getNewPassword() ) );
         int result = userMapper.updatePwrd(updatePwrdDto);
         if (result > 0){
             return UpdatePwrdDto.builder()
                     .userNo(updatePwrdDto.getUserNo())
                     // 비밀번호 제거
-                    .password((null))
+                    .newPassword((null))
                     .build();
         }
         return null;

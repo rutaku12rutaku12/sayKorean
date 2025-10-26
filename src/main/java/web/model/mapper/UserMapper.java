@@ -46,6 +46,10 @@ public interface UserMapper {
     @Update("update users set password=#{password} where userNo=#{userNo}")
     public int updatePwrd(UpdatePwrdDto updatePwrdDto);
 
+    // [US-10-1] DB존재하는 비밀번호조회
+    @Select("select password from users where userNo = #{userNo}")
+    public String findPass(int userNo);
+
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()
     @Update("update users set userState = -1 where userNo=#{userNo} and password=#{password}")
     public int deleteUserStatus(DeleteUserStatusDto deleteUserStatusDto);

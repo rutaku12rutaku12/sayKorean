@@ -166,18 +166,18 @@ public class UserController {
         HttpSession session = request.getSession();
         // 만약 세션이 없거나 로그인이 안되어 있으면 null
         if( session == null || session.getAttribute("userNo") ==null ){
-            return ResponseEntity.status(400).body(0);
+            return ResponseEntity.status(400).body("로그인 정보 세션 존재x, 로그인 필요");
         }
         // 로그인된 사용자번호 꺼내기 = 수정하는 사용자의 번호
         Object obj = session.getAttribute("userNo");
-        if ( obj == null ){
-            return ResponseEntity.status(400).body(0);
-        }
         int userNo = (int)obj;
         // dto 담아주기
         updatePwrdDto.setUserNo(userNo);
         UpdatePwrdDto result = userService.updatePwrd(updatePwrdDto);
-        return ResponseEntity.status(200).body(result);
+        if( result == null){
+            return ResponseEntity.status(400).body("기존 비밀번호 불일치");
+        }
+        return ResponseEntity.status(200).body(result+"비밀번호 변경 성공");
     } // func end
 
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()
