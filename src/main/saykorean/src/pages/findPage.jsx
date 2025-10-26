@@ -25,7 +25,9 @@ export default function FindPage(props){
                 console.log("조회 결과:", data);
                 alert("이메일 : "+data);
                 
-            }catch(e){console.log(" 이메일찾기 실패 ", e)}
+            }catch(e){console.log(" 이메일찾기 실패 ", e)
+                alert("서버와 연결이 끊어졌습니다.")
+            }
         }
 
         // 비밀번호 찾기 함수
@@ -38,7 +40,9 @@ export default function FindPage(props){
                 const response = await axios.get("http://localhost:8080/saykorean/findpwrd",option)
                 const data = response.data;
                 alert("비밀번호 : "+data);
-            }catch(e){console.log(" : ", e)}
+            }catch(e){console.log(" : ", e)
+                alert("서버와 연결이 끊어졌습니다")
+            }
         }
 
     return(<>
