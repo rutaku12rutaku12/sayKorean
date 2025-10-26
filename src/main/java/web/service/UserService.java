@@ -33,6 +33,23 @@ public class UserService {
         return 0;
     } // func end
 
+    // [US-01-1] 소셜 회원가입
+    public UserDto oauth2UserSignup( String uid , String name ){
+        // 기존 회원인지 검사
+        UserDto userDto = userMapper.checkUid(uid);
+        if( userDto == null ){
+            UserDto oauthUser = new UserDto();
+            oauthUser.setUid(uid);
+            oauthUser.setSignupMethod(2);
+            oauthUser.setPassword("oauth");
+            oauthUser.setName(name);
+            oauthUser.setUrole("USER");
+            userMapper.signUp(oauthUser);
+            return oauthUser;
+        }
+        return null;
+    }
+
     // [US-02] 로그인 logIn()
     public LoginDto logIn(LoginDto loginDto){
         LoginDto result = userMapper.logIn(loginDto);

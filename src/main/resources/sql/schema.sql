@@ -55,6 +55,8 @@ CREATE TABLE IF NOT EXISTS users (
   userState    INT          NOT NULL DEFAULT 1,
   userDate     DATETIME     NOT NULL DEFAULT NOW(),
   userUpdate   DATETIME     NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  uid          VARCHAR(100) UNIQUE,
+  urole        VARCHAR(20)  NOT NULL DEFAULT 'USER',
   PRIMARY KEY (userNo)
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4

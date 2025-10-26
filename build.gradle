@@ -69,6 +69,10 @@ dependencies {
     implementation 'org.glassfish:javax.json:1.1'
     // [19] Bcrypt
     implementation 'org.springframework.security:spring-security-crypto:6.4.4'
+    // [20] 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // [21] oauth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 
 
