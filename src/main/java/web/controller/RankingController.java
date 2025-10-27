@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
+import web.model.dto.RankingDto;
 import web.service.RankingService;
+
+import java.util.List;
+import java.util.Map;
 
 // [*] 예외 핸들러 : 전역으로도 사용 가능
 @Log4j2
@@ -46,8 +47,10 @@ public class RankingController {
     // 반환 int (PK)
     // * 사용자가 시험을 본 후 로직을 받아 처리한다.
     // * 추가 : 제미나이 정확도 채점 로직 API 활용하여 isCorrect 측정
+    // 유진님이 함 패스 ㅅㄱ
     // URL : http://localhost:8080/saykorean/rank
     // BODY : { "testRound" : 1 , "userAnswer" : "객관식 문항이거나 공란으로 제출했습니다." , "isCorrect" : 1 , "resultDate" : "2025-10-16" , "testItemNo" : 1, "userNo" : 1 }
+
 
     // [RK-02]	랭킹 삭제	deleteRank()
     // 랭킹 테이블 레코드를 삭제한다.
@@ -55,6 +58,11 @@ public class RankingController {
     // 반환 int
     // * 사용자가 탈퇴했을 경우에 사용하는 로직
     // URL : http://localhost:8080/saykorean/rank?rankNo=1
+    @DeleteMapping("")
+    public ResponseEntity<Integer> deleteRank(@RequestParam int userNo) {
+        int result = rankingService.deleteRankByUser(userNo);
+        return ResponseEntity.ok(result);
+    }
 
     // [RK-03] 랭킹 분야별조회 	getRank()
     // 랭킹 테이블 레코드를 조회한다.
@@ -69,8 +77,13 @@ public class RankingController {
     // 매개변수 int
     // 반환 List<RankingDto>
     // URL : http://localhost:8080/saykorean/rank?type
+    @GetMapping("")
+    public ResponseEntity<List<Map<String, Object>>> getRank(@RequestParam String type) {
+        List<Map<String, Object>> result = rankingService.getRank(type);
+        return ResponseEntity.ok(result);
+    }
 
-    // [RK-04]	랭킹 검색조회	searchRank()
+    // [RK-04]	랭킹 검색조회	searchRank() (안할거)
     // 랭킹 테이블 레코드를 검색조회한다.
     // 사용자닉네임(userNo FK)과 시험명(examNo FK), 시험문항명(examNo FK)도 함께 조회.
     // 서브쿼리 활용
@@ -81,5 +94,13 @@ public class RankingController {
     // URL : http://localhost:8080/saykorean/rank/search?userNo=3&examNo=2
     // URL : http://localhost:8080/saykorean/rank/search?userNo=3
     // URL : http://localhost:8080/saykorean/rank/search?examNo=2
+    @GetMapping("/search")
+    public ResponseEntity<List<RankingDto>> searchRank(
+            @RequestParam(required = false) Integer userNo,
+            @RequestParam(required = false) Integer testItemNo
+    ) {
+        List<RankingDto> result = rankingService.searchRank(userNo, testItemNo);
+        return ResponseEntity.ok(result);
+    }
 
 }

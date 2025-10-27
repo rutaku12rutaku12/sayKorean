@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { testApi, testItemApi } from "../api/adminTestApi";
 import { examApi, genreApi, studyApi } from "../api/adminApi";
+import "../styles/AdminCommon.css";
 
 export default function AdminTestEdit() {
     // [*] 가상돔

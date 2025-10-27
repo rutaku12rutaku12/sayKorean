@@ -34,12 +34,14 @@ import AdminHome from "./adminPages/AdminHome";
 import AdminStudyCreate from "./adminPages/AdminStudyCreate";
 import AdminStudyEdit from "./adminPages/AdminStudyEdit";
 import AdminNav from "./components/AdminNav";
-
-
-import "./styles/App.css";
 import AdminTestList from "./adminPages/AdminTestList";
 import AdminTestCreate from "./adminPages/AdminTestCreate";
 import AdminTestEdit from "./adminPages/AdminTestEdit";
+
+// 랭킹
+import Ranking from "./pages/Ranking.jsx";
+
+import "./styles/App.css";
 
 // 언어 변환 - 정유진
 
@@ -60,8 +62,8 @@ const UserLayout = () => (
   <div id="user-frame">
     <Outlet />
     <Footer className="footer" />
-    <Link to="/admin" className="admin-btn" aria-label="관리자">
-      <img src="/img/설정.svg" alt="관리자" />
+    <Link to="/rank" className="admin-btn" aria-label="관리자">
+      <img src="/img/rank.svg" alt="관리자" />
     </Link>
   </div>
 );
@@ -70,11 +72,7 @@ const UserLayout = () => (
 const AdminLayout = () => (
   <div style={{ width: '1280px', margin: '0 auto' }}>
     <AdminNav />
-    <h3> 관리자 화면 레이아웃 </h3>
     <Outlet />
-    <Link to="/home">
-      <img style={{ float: 'right' }} src="/img/myPage.svg" alt="홈" />
-    </Link>
   </div>
 );
 
@@ -124,6 +122,7 @@ function App() {
           <Route path="/test/:testNo" element={<Test />} />
           <Route path="/language" element={<Language />} />
           <Route path="/testresult/:testNo" element={<TestResult />} />
+          <Route path="/rank" element={<Ranking />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -22,6 +22,12 @@ public class RankingDto { // class start
     private int testItemNo; // 시험문항번호(FK)
     private int userNo; // 사용자번호(FK)
 
+    // 조인 데이터
+    private String nickName;
+    private String question;
+    private int examNo;
+    private String testTitle;
+
     // getScore() 결과 매핑용 필드 추가
     private int score; // 정답 개수
     private int total; // 전체 문항 수

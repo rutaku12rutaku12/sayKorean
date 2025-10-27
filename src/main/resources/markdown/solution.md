@@ -1,3 +1,84 @@
+
+# 관리자 페이지 내비게이션 유격 현상 해결 방안
+
+## 문제 원인
+
+관리자 페이지(`AdminHome`, `AdminStudyList`, `AdminTestList`) 간 이동 시 내비게이션 바의 위치가 미세하게 변하는 현상은 각 페이지의 최상위 컨테이너 스타일이 다르기 때문입니다.
+
+- **AdminHome.jsx**: `.admin-center` 클래스를 사용하여 `padding: 60px 20px`를 가집니다.
+- **AdminStudyList.jsx**: `.admin-container` 클래스를 사용하여 `padding: 50px`를 가집니다.
+- **AdminTestList.jsx**: 인라인 스타일로 `padding: '20px'`를 가집니다.
+
+이처럼 페이지마다 상단 여백(`padding-top`)이 달라 내용이 시작되는 위치가 변하면서, 고정된 내비게이션 바가 움직이는 것처럼 보이는 것입니다.
+
+## 해결 방안
+
+모든 관리자 페이지의 최상위 컨테이너를 일관되게 `.admin-container` 클래스로 통일하여, 동일한 여백을 갖도록 수정합니다.
+
+### 1. `src/adminPages/AdminHome.jsx` 수정
+
+기존의 `.admin-center` 대신 `.admin-container`를 사용하고, 내용물 중앙 정렬을 위해 `.admin-text-center` 클래스를 추가합니다.
+
+```jsx
+import { useNavigate } from "react-router-dom";
+import "../styles/AdminCommon.css";
+
+export default function AdminHome(props) {
+
+    // 페이지 접속할 때 비밀번호 입력하게 해야함
+    const navigate = useNavigate();
+
+    return (
+        <div className="admin-container admin-text-center" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
+
+            <div className="admin-mb-xxl">
+                <img src="/img/adminPage.png" style={{ maxWidth: '400px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+            </div>
+
+            <div className="admin-flex-center admin-flex-gap-lg admin-mt-xxl">
+                <button
+                    onClick={() => navigate('/admin/study/create')}
+                    className="admin-btn admin-btn-lg admin-btn-education-create"
+                >
+                    교육 등록하기
+                </button>
+                <button
+                    onClick={() => navigate('/admin/study')}
+                    className="admin-btn admin-btn-lg admin-btn-education-list"
+                >
+                    교육 목록으로 이동
+                </button>
+            </div>
+
+            <div className="admin-flex-center admin-flex-gap-lg admin-mt-xxl">
+                <button
+                    onClick={() => navigate('/admin/test/create')}
+                    className="admin-btn admin-btn-lg admin-btn-test-create"
+                >
+                    시험 등록하기
+                </button>
+                <button
+                    onClick={() => navigate('/admin/test')}
+                    className="admin-btn admin-btn-lg admin-btn-test-list"
+                >
+                    시험 목록으로 이동
+                </button>
+            </div>
+        </div>
+    )
+}
+```
+
+**주요 변경 사항:**
+- 최상위 `div`의 클래스를 `admin-container admin-text-center`로 변경했습니다.
+- 기존 `.admin-center`의 상하 여백(`padding: 60px 20px`)과 유사한 느낌을 유지하기 위해 인라인 스타일로 `paddingTop`과 `paddingBottom`을 추가했습니다.
+- 이미지에 적용되던 스타일이 유지되도록 `img` 태그에 인라인 스타일을 추가했습니다.
+
+### 2. `src/adminPages/AdminTestList.jsx` 수정
+
+인라인 스타일을 사용하던 최상위 `div`를 `.admin-container` 클래스를 사용하도록 변경합니다.
+
+```jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { testApi, testItemApi } from "../api/adminTestApi";
@@ -107,10 +188,10 @@ export default function AdminTestList() {
 
     // [6] 로딩 메시지 (이미지 추가예정)
     if (loading) {
-        return <div style={{ padding: '40px', textAlign: 'center' }}> <img src="/img/adminPage.png" style={{ maxWidth: '400px', borderRadius: '12px' }} /> </div>;
+        return <div className="admin-loading"> 로딩 중... </div>;
     }
 
-    return (<>
+    return (
         <div className="admin-container">
             <div className="admin-header">
                 <h2>시험 관리</h2>
@@ -156,14 +237,7 @@ export default function AdminTestList() {
                                                 e.stopPropagation();
                                                 navigate(`/admin/test/edit/${test.testNo}`);
                                             }}
-                                            style={{
-                                                padding: '5px 15px',
-                                                backgroundColor: '#2196F3',
-                                                color: 'white',
-                                                border: 'none',
-                                                borderRadius: '4px',
-                                                cursor: 'pointer'
-                                            }}
+                                            className="admin-btn admin-btn-sm admin-btn-info"
                                         >
                                             수정
                                         </button>
@@ -172,14 +246,7 @@ export default function AdminTestList() {
                                                 e.stopPropagation();
                                                 handleDeleteTest(test.testNo);
                                             }}
-                                            style={{
-                                                padding: '5px 15px',
-                                                backgroundColor: '#f44336',
-                                                color: 'white',
-                                                border: 'none',
-                                                borderRadius: '4px',
-                                                cursor: 'pointer'
-                                            }}
+                                            className="admin-btn admin-btn-sm admin-btn-danger"
                                         >
                                             삭제
                                         </button>
@@ -250,7 +317,12 @@ export default function AdminTestList() {
                 </div>
             )}
         </div>
-
-
-    </>)
+    )
 }
+```
+
+**주요 변경 사항:**
+- 최상위 `div`에서 인라인 스타일을 제거하고 `className="admin-container"`로 변경했습니다.
+- 내부 요소들의 스타일을 인라인 스타일 대신 `AdminCommon.css`에 정의된 유틸리티 클래스(예: `admin-header`, `admin-btn`, `admin-card` 등)를 최대한 활용하도록 수정했습니다.
+
+위와 같이 파일들을 수정하면 모든 관리자 페이지가 동일한 레이아웃 구조를 갖게 되어, 페이지 이동 시 더 이상 유격 현상이 발생하지 않을 것입니다.

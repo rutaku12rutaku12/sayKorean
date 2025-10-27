@@ -33,7 +33,7 @@ public interface RankingMapper {
     // 1) 정답왕 : 정답률이 높은 순
     // (isCorrect의 인트값 합산이 가장 높은 사람)
     @Select("select " +
-            " u.nickname , " +
+            " u.nickName , " +
             " u.userNo, " +
             " sum(case when r.isCorrect = 1 then 1 else 0 end) as score, " +
             " count(*) as total, " +
@@ -79,12 +79,18 @@ public interface RankingMapper {
     List<Map<String, Object>> getPersistenceRank();
 
 
-    // [RK-04]	랭킹 검색조회	searchRank()
+    // [RK-04]	랭킹 검색조회	searchRank() (안할거)
     // 랭킹 테이블 레코드를 검색조회한다.
     // 사용자닉네임(userNo FK)과 시험명(examNo FK), 시험문항명(examNo FK)도 함께 조회.
     // 서브쿼리 활용
     // 매개변수 int
     // 반환 RankingDto
+
+    // 1. 닉네임 사용자 검색
+
+    // 2. 한국어
+
+    // [*] 기존 메소드(userNo, testItemNo 만 정의됨)
 
     // 1) 사용자(userNo 조인)
     @Select("select " +
@@ -97,7 +103,7 @@ public interface RankingMapper {
             " r.userNo , " +
             " u.nickName , " +
             " ti.question , " +
-            " t.testTitle , " +
+            " t.testTitle " +
             " from ranking r " +
             " join users u on r.userNo = u.userNo " +
             " join testItem ti on r.testItemNo = ti.testItemNo " +

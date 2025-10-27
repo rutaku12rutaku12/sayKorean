@@ -1,73 +1,47 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import "../styles/AdminCommon.css";
 
 export default function AdminHome(props) {
 
-    // 자연스러운 페이지 이동을 위한 내비게이트 사용
+    // 페이지 접속할 때 비밀번호 입력하게 해야함
     const navigate = useNavigate();
 
-    return (<>
-        <div style={{ padding: '40px', textAlign: 'center' }}>
-            <h3> 관리자 홈 페이지 </h3>
+    return (
+        <div className="admin-container admin-text-center" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
 
-            <div style={{ margin: '40px 0' }}>
-                <p>여기에 토돌이 호순이 그림 넣기</p>
+            <div className="admin-mb-xxl">
+                <img src="/img/adminPage.png" style={{ maxWidth: '400px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
             </div>
 
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '60px' }}>
-                <button onClick={() => navigate('/admin/study/create')} style={{
-                    padding: '20px 40px',
-                    fontSize: '18px',
-                    backgroundColor: ' #A8E6CF',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer'
-                }}>
+            <div className="admin-flex-center admin-flex-gap-lg admin-mt-xxl">
+                <button
+                    onClick={() => navigate('/admin/study/create')}
+                    className="admin-btn admin-btn-lg admin-btn-education-create"
+                >
                     교육 등록하기
                 </button>
                 <button
                     onClick={() => navigate('/admin/study')}
-                    style={{
-                        padding: '20px 40px',
-                        fontSize: '18px',
-                        backgroundColor: '#FFAAA5',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        cursor: 'pointer'
-                    }}>
+                    className="admin-btn admin-btn-lg admin-btn-education-list"
+                >
                     교육 목록으로 이동
                 </button>
             </div>
 
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '60px' }}>
-                <button onClick={() => navigate('/admin/test/create')} style={{
-                    padding: '20px 40px',
-                    fontSize: '18px',
-                    backgroundColor: '#FF8C6B',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer'
-                }}>
+            <div className="admin-flex-center admin-flex-gap-lg admin-mt-xxl">
+                <button
+                    onClick={() => navigate('/admin/test/create')}
+                    className="admin-btn admin-btn-lg admin-btn-test-create"
+                >
                     시험 등록하기
                 </button>
                 <button
                     onClick={() => navigate('/admin/test')}
-                    style={{
-                        padding: '20px 40px',
-                        fontSize: '18px',
-                        backgroundColor: '#6B4E42',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        cursor: 'pointer'
-                    }}>
+                    className="admin-btn admin-btn-lg admin-btn-test-list"
+                >
                     시험 목록으로 이동
                 </button>
             </div>
-
         </div>
-
-    </>)
+    )
 }
