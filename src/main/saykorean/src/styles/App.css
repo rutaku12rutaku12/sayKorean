@@ -11,14 +11,14 @@
 }
 
 /* 관리자 버튼: 우측 최상단 고정 */
-#user-frame .admin-btn {
+/* #user-frame .admin-btn {
   position: absolute;
   top: 8px;     /* ⬅︎ 기존 bottom을 top으로 변경 */
-  right: 8px;
+  /* right: 8px;
   width: 50px;
   height: 50px;
   z-index: 10;
-}
+} */
 
 #user-frame .admin-btn img {
   width: 100%;

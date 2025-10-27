@@ -8,9 +8,11 @@ import { getAttend } from "../store/attendSlice";
 axios.defaults.withCredentials = true;
 import { useTranslation } from "react-i18next";
 import Ranking from "./Ranking";
+import i18n from "../i18n";
 
 export default function MyPage(props) {
   console.log("MyPage.jsx open")
+
 
 
   // store 저장된 상태 가져오기 
@@ -158,48 +160,51 @@ export default function MyPage(props) {
 
   return (<>
 
-    <div id="MyPage">
-      <section className="panel">
-        <h3 className="panelTitle">{t("마이페이지")}</h3>
+  <div id="MyPage">
+    <section className="panel">
+      <h3 className="panelTitle">{t("mypage.title")}</h3>
 
-        <ul className="infoList">
-          <li className="infoRow">
-            <span className="infoKey">{t("닉네임")}</span>
-            <span className="infoValue">{userInfo?.nickName}</span>
-          </li>
-          <li className="infoRow">
-            <span className="infoKey">{t("가입일자")}</span>
-            <span className="infoValue">{userInfo?.userDate}</span>
-          </li>
-          <li className="infoRow">
-            <span className="infoKey">{t("총 출석일수")}</span>
-            <span className="infoValue">{attendInfo ? attendInfo.length : 0}{t("일")}</span>
-          </li>
-          <li className="infoRow">
-            <span className="infoKey">{t("현재 연속 출석일수")}</span>
-            <span className="infoValue">
-              {attendInfo ? getMaxStreak(attendInfo) : 0}일
-            </span>
-          </li>
-          <li className="infoRow">
-            <span className="infoKey">{t("내가 선택한 장르")}</span>
-            <span className="infoValue">{genreName || "미설정"}</span>
-          </li>
-          <li className="infoRow">
-            <span className="infoKey">{t("내가 선택한 언어")}</span>
-            <span className="infoValue">{langName || "미설정"}</span>
-          </li>
-        </ul>
+      <ul className="infoList">
+        <li className="infoRow">
+          <span className="infoKey">{t("mypage.nickname")}</span>
+          <span className="infoValue">{userInfo?.nickName}</span>
+        </li>
+        <li className="infoRow">
+          <span className="infoKey">{t("mypage.joinDate")}</span>
+          <span className="infoValue">{userInfo?.userDate}</span>
+        </li>
+        <li className="infoRow">
+          <span className="infoKey">{t("mypage.totalAttendance")}</span>
+          <span className="infoValue">
+            {attendInfo ? attendInfo.length : 0}{t("common.days")}
+          </span>
+        </li>
+        <li className="infoRow">
+          <span className="infoKey">{t("mypage.currentStreak")}</span>
+          <span className="infoValue">
+            {attendInfo ? getMaxStreak(attendInfo) : 0}{t("common.days")}
+          </span>
+        </li>
+        <li className="infoRow">
+          <span className="infoKey">{t("mypage.genre")}</span>
+          <span className="infoValue">{genreName || t("common.notset")}</span>
+        </li>
+        <li className="infoRow">
+          <span className="infoKey">{t("mypage.language")}</span>
+          <span className="infoValue">{langName || t("common.notset")}</span>
+        </li>
+      </ul>
 
-        <div className="btnGroup">
-          <button className="pillBtn" onClick={onUpdate}>{t("회원정보 수정")}</button>
-          <button className="pillBtn" onClick={onGenre}>{t("장르 설정")}</button>
-          <button className="pillBtn" onClick={onLanguage}>{t("언어 설정")}</button>
-        </div>
-      </section>
-    </div>
+      <div className="btnGroup">
+        <button className="pillBtn" onClick={onUpdate}>{t("mypage.updateInfo")}</button>
+         <button className="pillBtn" onClick={onGenre}>{t("mypage.selectGenre")}</button>
+        <button className="pillBtn" onClick={onLanguage}>{t("mypage.selectLanguage")}</button>
+      </div>
+    </section>
+  </div>
 
-  </>)
+</>)
+
 
 
 

@@ -11,6 +11,7 @@ export default function Footer(props) {
                 <li> <Link to="/mypage"><img src="/img/myPage.svg"/></Link> </li>
                 <li> <Link to="/beforestudy"><img src="/img/study.svg"/></Link> </li>
                 <li> <Link to="/testlist"><img src="/img/test.svg"/></Link> </li>
+                {/* <li> <Link to="/rank"><img src="/img/rank.svg"/></Link></li> */}
             </ul>
         </div>
     </>)

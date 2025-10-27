@@ -193,10 +193,10 @@ VALUES
  INSERT IGNORE INTO exam
   (examKo, examRoman, examJp, examCn, examEn, examEs, imageName, imagePath, studyNo)
 VALUES
-('배고파 죽겠다.','baegopa jukgetda.','お腹すいて死にそう。','饿死了。','I’m starving.','Me muero de hambre.','1_img','',4),
-('괜찮아?','gwaenchanha?','大丈夫？','你没事吧？','Are you okay?','¿Estás bien?','2_img','',1),
-('지금 바빠?','jigeum bappa?','今忙しい？','你现在忙吗？','Are you busy now?','¿Estás ocupado ahora?','3_img','',1),
-('잠깐만요.','jamkkanmanyo.','ちょっと待ってください。','请稍等。','Just a moment, please.','Un momento, por favor.','4_img','',4),
+('배고파 죽겠다.','baegopa jukgetda.','お腹すいて死にそう。','饿死了。','I’m starving.','Me muero de hambre.','1_img','/img/1_img.png',4),
+('괜찮아?','gwaenchanha?','大丈夫？','你没事吧？','Are you okay?','¿Estás bien?','2_img','/img/2_img.png',1),
+('지금 바빠?','jigeum bappa?','今忙しい？','你现在忙吗？','Are you busy now?','¿Estás ocupado ahora?','3_img','/img/3_img.png',1),
+('잠깐만요.','jamkkanmanyo.','ちょっと待ってください。','请稍等。','Just a moment, please.','Un momento, por favor.','4_img','/img/4_img.png',4),
 ('잠깐 쉬자.','jamkkan swija.','ちょっと休もう。','休息一下吧。','Let’s take a short break.','Tomemos un descanso.','5_img','',4),
 ('자리 있나요?','jari itnayo?','席は空いてますか？','有座位吗？','Do you have any seats available?','¿Hay sitio?','6_img','',3),
 ('영수증 필요해요.','yeongsujeung piryohaeyo.','領収書が必要です。','我需要收据。','I need a receipt, please.','Necesito el recibo.','7_img','',3),
@@ -272,11 +272,11 @@ VALUES
 
 
 INSERT IGNORE INTO audio (audioName, audioPath, lang, examNo) VALUES
-('1_kor_voice','',1,1),
-('2_kor_voice','',1,2),
-('3_kor_voice','',1,3),
-('4_kor_voice','',1,4),
-('5_kor_voice','',1,5),
+('1_kor_voice','/음성파일/1_kor_voice.mp3',1,1),
+('2_kor_voice','/음성파일/2_kor_voice.mp3',1,2),
+('3_kor_voice','/음성파일/3_kor_voice.mp3',1,3),
+('4_kor_voice','/음성파일/4_kor_voice.mp3',1,4),
+('5_kor_voice','/음성파일/5_kor_voice.mp3',1,5),
 ('6_kor_voice','',1,6),
 ('7_kor_voice','',1,7),
 ('8_kor_voice','',1,8),
@@ -339,11 +339,11 @@ INSERT IGNORE INTO audio (audioName, audioPath, lang, examNo) VALUES
 ('65_kor_voice','',1,65);
 
 INSERT IGNORE INTO audio (audioName, audioPath, lang, examNo) VALUES
-('1_eng_voice','',2,1),
-('2_eng_voice','',2,2),
-('3_eng_voice','',2,3),
-('4_eng_voice','',2,4),
-('5_eng_voice','',2,5),
+('1_eng_voice','/음성파일/1_eng_voice.mp3',2,1),
+('2_eng_voice','/음성파일/2_eng_voice.mp3',2,2),
+('3_eng_voice','/음성파일/3_eng_voice.mp3',2,3),
+('4_eng_voice','/음성파일/4_eng_voice.mp3',2,4),
+('5_eng_voice','/음성파일/5_eng_voice.mp3',2,5),
 ('6_eng_voice','',2,6),
 ('7_eng_voice','',2,7),
 ('8_eng_voice','',2,8),

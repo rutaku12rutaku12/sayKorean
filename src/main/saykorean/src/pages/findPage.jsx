@@ -1,5 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState } from "react";import { useTranslation } from "react-i18next";
+
+
+
 
 
 export default function FindPage(props){
@@ -7,6 +10,8 @@ export default function FindPage(props){
 
     // ** REF로 바꾸기 !!! TODO
         // 인풋 상태 관리 
+
+        const { t } = useTranslation();
         const [name, setName] = useState("");
         const [phone, setPhone] = useState("");
         const [email, setEmail] = useState("");
@@ -45,21 +50,48 @@ export default function FindPage(props){
             }
         }
 
-    return(<>
-        <h3>이메일 찾기</h3><br/>
-         이름 (name) <br/>
-            <input type="text" placeholder="이름을 입력해주세요." value={name} onChange={(e)=> setName(e.target.value)} /> <br/>
-        연락처 (phone) <br/>
-            <input type="tel" placeholder="연락처를 입력해주세요." value={phone} onChange={(e)=> setPhone(e.target.value)} /> <br/> <br/>
-        <button onClick={findEmail}>확인</button>
+    return (
+  <>
+    <h3>{t("account.findEmailTitle")}</h3><br/>
+    {t("account.name")} (name) <br/>
+    <input
+      type="text"
+      placeholder={t("account.namePlaceholder")}
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+    /> <br/>
+    {t("account.phone")} (phone) <br/>
+    <input
+      type="tel"
+      placeholder={t("account.phonePlaceholder")}
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+    /> <br/> <br/>
+    <button onClick={findEmail}>{t("common.confirm")}</button>
 
-        <h3>비밀번호 찾기</h3><br/>
-         이름 (name) <br/>
-            <input type="text" placeholder="이름을 입력해주세요." value={name2} onChange={(e)=> setName2(e.target.value)} /> <br/>
-        연락처 (phone) <br/>
-            <input type="tel" placeholder="연락처를 입력해주세요." value={phone2} onChange={(e)=> setPhone2(e.target.value)} /> <br/>
-        이메일 (email) <br/>
-            <input type="email" placeholder="이메일을 입력해주세요." value={email} onChange={(e)=> setEmail(e.target.value)} /> <br/> <br/>
-        <button onClick={findPwrd}>확인</button>
-    </>)
+    <h3>{t("account.findPasswordTitle")}</h3><br/>
+    {t("account.name")} (name) <br/>
+    <input
+      type="text"
+      placeholder={t("account.namePlaceholder")}
+      value={name2}
+      onChange={(e) => setName2(e.target.value)}
+    /> <br/>
+    {t("account.phone")} (phone) <br/>
+    <input
+      type="tel"
+      placeholder={t("account.phonePlaceholder")}
+      value={phone2}
+      onChange={(e) => setPhone2(e.target.value)}
+    /> <br/>
+    {t("account.email")} (email) <br/>
+    <input
+      type="email"
+      placeholder={t("account.emailPlaceholder")}
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+    /> <br/> <br/>
+    <button onClick={findPwrd}>{t("common.confirm")}</button>
+  </>
+);
 }

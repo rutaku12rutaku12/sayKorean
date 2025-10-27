@@ -26,6 +26,8 @@ export default function Genre(props) {
             return false;
         }
         localStorage.setItem("selectedGenreNo", String(n)); // 항상 문자열로
+        console.log( selectedGenreNo );
+        navigate("/mypage");
 
         return true;
     };
