@@ -28,7 +28,7 @@ export default function HomePage ( props ){
         }catch(e){console.log("로그아웃 실패 : ", e)}
     }
     // 비로그인시 error 페이지로 이동
-        useEffect(() => {
+        useEffect( () => {
           if (!isAuthenticated) {
             navigate("/login"); // 로그인 안 되어 있으면 바로 이동
           }

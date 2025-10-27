@@ -126,32 +126,60 @@ export default function SignUpPage (props){
     
     
 
-    return(<> <h3>회원가입</h3><br/>
-        <div>
-            이름 (name) <br/>
-            <input type="text" placeholder="이름을 입력해주세요." value={name} onChange={(e)=> setName(e.target.value)} /> <br/>
-            이메일 (email) <br/>
-            <input type="email" placeholder="이메일을 입력해주세요." value={email} onChange={(e)=> setEmail(e.target.value)} /> <button onClick={CheckEmail}> 중복 확인</button> <br/>
-            비밀번호 (password) <br/>
-            <input type="password" placeholder="비밀번호를 입력해주세요." value={password} onChange={(e)=> setPassword(e.target.value)} /> <br/>
-            닉네임 (nickName) <br/>
-            <input type="text" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickName(e.target.value)} /> <br/>
-            연락처 (phone) <br/>
-            <PhoneInput
-            country={'kr'} // initial country
-            preferredCountries={['us', 'cn', 'jp', 'kr']} // country codes to be at the top
-            enableSearch={true}
-            value={phone}
-            onChange={handlePhoneChange}
-                inputProps={{ name: 'phone', required: true }}
-                inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
-            /> <button type="button" onClick={CheckPhone}> 중복 확인</button> <br/>   
-            <br/>
-            <ReCAPTCHA
-                sitekey={API_KEY}
-                onChange={handleCaptchaChange}
-            />
-            <button onClick={onSignup}>회원가입 (SignUp) </button>
-        </div>
+    return(<> <div className="signUpWrapper">
+  <h3>회원가입</h3>
+
+  <div className="info">
+    <input type="text" placeholder="이름을 입력해주세요." value={name} onChange={e => setName(e.target.value)} />
+  </div>
+
+  <div className="info row">
+  <input 
+    type="email" 
+    placeholder="이메일을 입력해주세요." 
+    value={email} 
+    onChange={(e)=> setEmail(e.target.value)} 
+    className={emailCheck ? "input error" : "input success"} 
+  />
+  <button className={`sideBtn ${emailCheck ? "errorBtn" : "successBtn"}`} onClick={CheckEmail}>중복 확인</button>
+  </div>
+
+  <div className="info">
+    <input type="password" placeholder="비밀번호를 입력해주세요." value={password} onChange={e => setPassword(e.target.value)} />
+  </div>
+
+  <div className="info">
+    <input type="text" placeholder="닉네임을 입력해주세요." value={nickName} onChange={e => setNickName(e.target.value)} />
+  </div>
+
+  <div className="info row">
+    <PhoneInput
+        country={"kr"}
+        preferredCountries={['us', 'cn', 'jp', 'kr']} // 많이 사용하는 국가 위로 올리기
+        enableSearch={true}
+        value={phone}
+        onChange={handlePhoneChange}
+        
+        inputClass={phoneCheck ? "input error" : "input success"}
+        placeholder="연락처를 입력해주세요."
+    />
+        <button 
+            className={`sideBtn ${phoneCheck ? "errorBtn" : "successBtn"}`} 
+            onClick={CheckPhone}
+        >
+            중복 확인
+        </button>
+    </div>
+  <br/>
+
+    <div className="info recaptchaWrapper">
+    <ReCAPTCHA sitekey={API_KEY} onChange={handleCaptchaChange} />
+    </div>
+
+
+  <div className="homePage__actions">
+    <button className="pillBtn" onClick={onSignup}>회원가입</button>
+  </div>
+</div>
     </>)
 }

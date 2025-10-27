@@ -79,7 +79,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession(true);
         session.setAttribute("userNo", userDto.getUserNo());
 
-        // 로그인 성공시 어딛로 이동할지 (프론트엔드 루트)
+        // 로그인 성공시 어디로 이동할지 (프론트엔드 루트)
         response.sendRedirect("http://localhost:5173/home");
 
 
