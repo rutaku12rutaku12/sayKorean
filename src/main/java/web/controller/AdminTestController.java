@@ -8,8 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.TestDto;
 import web.model.dto.TestItemDto;
+import web.model.dto.TestTranslationRequestDto;
+import web.model.dto.TranslatedTestDataDto;
 import web.service.AdminTestService;
+import web.service.RomanizerService;
+import web.service.TranslationService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -36,6 +41,7 @@ class AdminTestExceptionHandler {
     }
 }
 
+@Log4j2
 @RestController
 @RequestMapping("/saykorean/admin/test")
 @RequiredArgsConstructor
@@ -43,6 +49,8 @@ public class AdminTestController {
 
     // [*] DI
     private final AdminTestService adminTestService;
+    private final TranslationService translationService;
+    private final RomanizerService romanizerService;
 
     // [ATE-01] 시험 생성 createTest()
     // 시험 테이블 레코드를 추가한다
@@ -62,11 +70,33 @@ public class AdminTestController {
     // [ATE-01-AUTO] 시험 생성 - 자동 문항 생성 포함
     // URL : http://localhost:8080/saykorean/admin/test/withitems
     @PostMapping("/withitems")
-    public ResponseEntity<Map<String , Object>> createTestWithItems(
+    public ResponseEntity<Map<String, Object>> createTestWithItems(
             @RequestBody TestDto testDto,
             @RequestParam(defaultValue = "true") boolean autoGenerate) {
-        Map<String , Object> result = adminTestService.createTestWithItems(testDto, autoGenerate);
+        Map<String, Object> result = adminTestService.createTestWithItems(testDto, autoGenerate);
         return ResponseEntity.ok(result);
+    }
+
+    // [AUTO-Translate] 시험 자동 번역 컨트롤러
+    // URL : http://localhost:8080/saykorean/admin/test/translate
+    // BODY : { "testTitle" : "인사 표현 익히기", "question" : "그림: 올바른 표현을 고르세요." }
+    @PostMapping("/translate")
+    public ResponseEntity<TranslatedTestDataDto> translateTestData(@RequestBody TestTranslationRequestDto requestDto) {
+        try {
+            TranslatedTestDataDto response = translationService.translateTestData(requestDto);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            log.error("시험 번역에 실패했습니다.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    // [*] 한국어 - 발음기호 변환 컨트롤러
+    // URL : http://localhost:8080/saykorean/admin/test/romanize?text=안녕하세요
+    @GetMapping("/romanize")
+    public Map<String , String> romanize(@RequestParam String text) {
+        String romanized = romanizerService.romanize(text);
+        return Map.of("original" , text , "romanized" , romanized);
     }
 
     // [ATE-02] 시험 수정 updateTest()
@@ -136,13 +166,13 @@ public class AdminTestController {
         int result = adminTestService.createTestItem(testItemDto);
         return ResponseEntity.ok(result);
     }
-    
+
     // [ATI-01-BATCH] 시험문항 일괄생성 (커스텀 시 사용)
     @PostMapping("/{testNo}/items/custom")
     public ResponseEntity<List<Integer>> createCustomTestItems(
             @PathVariable int testNo,
             @RequestBody List<TestItemDto> items) {
-        List<Integer> result = adminTestService.createCustomTestItems(testNo , items);
+        List<Integer> result = adminTestService.createCustomTestItems(testNo, items);
         return ResponseEntity.ok(result);
     }
 

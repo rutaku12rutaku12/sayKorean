@@ -17,7 +17,8 @@ public interface AdminTestMapper {
     // 2) 시험제목(testTitle)을 입력받는다
     // 3) 해당하는 Study 테이블의 studyNo를 FK로 받는다."
     // 4) * 난수화해서 다른 문제에 생성될 수 있도록 하기 *
-    @Insert("insert into test (testTitle, studyNo) values (#{testTitle}, #{studyNo})")
+    @Insert("insert into test (testTitle, testTitleRoman, testTitleJp, testTitleCn, testTitleEn, testTitleEs, studyNo) " +
+            "values (#{testTitle}, #{testTitleRoman}, #{testTitleJp}, #{testTitleCn}, #{testTitleEn}, #{testTitleEs}, #{studyNo})")
     @Options(useGeneratedKeys = true, keyProperty = "testNo")
     int createTest(TestDto testDto);
 
@@ -27,7 +28,15 @@ public interface AdminTestMapper {
     // 반환 int
     // 1) ATE-01 로직에서 연결한 studyNo가 같은 study 테이블의 주제를 불러온다.
     // 2) 시험제목(testTitle)을 수정한다
-    @Update("update test set testTitle = #{testTitle} , studyNo = #{studyNo} where testNo = #{testNo} ")
+    @Update("update test set " +
+            "testTitle = #{testTitle}, " +
+            "testTitleRoman = #{testTitleRoman}, " +
+            "testTitleJp = #{testTitleJp}, " +
+            "testTitleCn = #{testTitleCn}, " +
+            "testTitleEn = #{testTitleEn}, " +
+            "testTitleEs = #{testTitleEs}, " +
+            "studyNo = #{studyNo} " +
+            "where testNo = #{testNo}")
     int updateTest(TestDto testDto);
 
     // [ATE-03] 시험 삭제 deleteTest()
@@ -57,15 +66,25 @@ public interface AdminTestMapper {
     // 1) ATE-01 로직 실행 후 examNo와 testNo를 이어받는다.
     // 2) 셀렉트박스로 질문유형(그림/음성/주관식)을 제공한다.
     // 3) 정기시험 형식으로 주제 당 그림, 음성, 주관식 총 3항목씩만 만들기 (예문 하나씩 가져와서)
-    @Insert("insert into testItem(question , examNo , testNo) values (#{question} , #{examNo} , #{testNo})")
-    @Options(useGeneratedKeys = true , keyProperty = "testItemNo")
+    @Insert("insert into testItem(question, questionRoman, questionJp, questionCn, questionEn, questionEs, examNo, testNo) " +
+            "values (#{question}, #{questionRoman}, #{questionJp}, #{questionCn}, #{questionEn}, #{questionEs}, #{examNo}, #{testNo})")
+    @Options(useGeneratedKeys = true, keyProperty = "testItemNo")
     int createTestItem(TestItemDto testItemDto);
 
     // [ATI-02]	시험문항 수정	updateTestItem()
     // 시험문항 테이블 레코드를 변경한다
     // 매개변수 TestItemDto
     // 반환 int
-    @Update("update testItem set question = #{question} , examNo = #{examNo} , testNo = #{testNo} where testItemNo = #{testItemNo} ")
+    @Update("update testItem set " +
+            "question = #{question}, " +
+            "questionRoman = #{questionRoman}, " +
+            "questionJp = #{questionJp}, " +
+            "questionCn = #{questionCn}, " +
+            "questionEn = #{questionEn}, " +
+            "questionEs = #{questionEs}, " +
+            "examNo = #{examNo}, " +
+            "testNo = #{testNo} " +
+            "where testItemNo = #{testItemNo}")
     int updateTestItem(TestItemDto testItemDto);
 
     // [ATI-03]	시험문항 삭제	deleteTestItem()
