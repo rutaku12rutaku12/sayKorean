@@ -5,6 +5,7 @@ import { logIn, logOut } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import "../styles/MyInfoUpdate.css"
 
 export default function MyInfoUpdatePage(props){
     console.log("MyInfoUpdate.jsx open")
@@ -146,31 +147,47 @@ export default function MyInfoUpdatePage(props){
     };
 
     return(<>
-        <h3>사용자 정보 수정</h3>
-        <br/>
-        이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value={name} onChange={(e)=> setName(e.target.value)}/><br/>
-        닉네임 <input type="text" value={nickName} onChange={(e)=> setNickName(e.target.value)}/><br/>
-        연락처
-        <PhoneInput
-            country={'kr'} // initial country
-            preferredCountries={['us', 'cn', 'jp', 'kr']} // country codes to be at the top
-            enableSearch={true}
-            value={phone}
-            onChange={handlePhoneChange}
-                inputProps={{ name: 'phone', required: true }}
-                inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
-        />
-        <button onClick={CheckPhone}>중복 확인</button><br/> 
-        <button onClick={onUpdate}>수정</button>
-        <h3>비밀번호 수정</h3>
-        기존 비밀번호 <input type="password" value={currentPassword} onChange={(e)=> setCurrentPassword(e.target.value)}/> <br/><br/>
-        새로운 비밀번호 <input type="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} /> <br/>
-        새로운 비밀번호 확인 <input type="password" value={checkPassword} onChange={(e)=>setCheckPassword(e.target.value)} /> <br/>
-        <button onClick={()=>onUpdatePwrd(currentPassword,newPassword,checkPassword)}>수정</button>
+      <div className="updateWrapper">
+  <h3>사용자 정보 수정</h3>
 
-        <br/>
-        <h3></h3>
-        <button onClick={onDelete}>탈퇴</button>
+  <div className="info">
+    <input className="input" type="text" value={name} onChange={e=>setName(e.target.value)} placeholder="이름"/>
+    <input className="input" type="text" value={nickName} onChange={e=>setNickName(e.target.value)} placeholder="닉네임"/>
+  </div>
+
+  <div className="info row">
+    <PhoneInput
+      country={'kr'}
+      preferredCountries={['us','cn','jp','kr']}
+      enableSearch={true}
+      value={phone}
+      onChange={handlePhoneChange}
+      inputClass={phoneCheck ? "input error" : "input success"}
+      placeholder="연락처"
+    />
+    <button className={`sideBtn ${phoneCheck ? "errorBtn":"successBtn"}`} onClick={CheckPhone}>중복 확인</button>
+  </div>
+
+  <div className="homePage__actions">
+    <button className="pillBtn" onClick={onUpdate}>수정</button>
+  </div>
+
+  <h3>비밀번호 수정</h3>
+  <div className="info">
+    <input className="input" type="password" value={currentPassword} onChange={e=>setCurrentPassword(e.target.value)} placeholder="기존 비밀번호"/>
+    <input className="input" type="password" value={newPassword} onChange={e=>setNewPassword(e.target.value)} placeholder="새 비밀번호"/>
+    <input className="input" type="password" value={checkPassword} onChange={e=>setCheckPassword(e.target.value)} placeholder="새 비밀번호 확인"/>
+  </div>
+  <div className="homePage__actions">
+    <button className="pillBtn" onClick={()=>onUpdatePwrd(currentPassword,newPassword,checkPassword)}>수정</button>
+  </div>
+
+  <h3>회원 탈퇴</h3>
+  <div className="homePage__actions">
+    <button className="pillBtn" onClick={onDelete}>탈퇴</button>
+  </div>
+</div>
+
 
     </>)
 }
