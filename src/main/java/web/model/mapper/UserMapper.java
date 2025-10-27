@@ -1,7 +1,5 @@
 package web.model.mapper;
 
-import org.apache.catalina.User;
-import org.apache.commons.compress.harmony.pack200.CPUTF8;
 import org.apache.ibatis.annotations.*;
 import web.model.dto.*;
 
@@ -14,8 +12,12 @@ public interface UserMapper {
     public int signUp(UserDto userDto);
 
     // [US-02] 로그인 logIn()
-    @Select("select * from users where email = #{email} and password = #{password} and userState != -1")
-    public int logIn(LoginDto loginDto);
+    @Select("select * from users where email = #{email} and userState != -1")
+    public LoginDto logIn(LoginDto loginDto);
+
+    // [US-02-1] 아이디 존재 여부 확인 , 소셜 회원가입용
+    @Select("select * from users where email = #{uid} and userState != -1")
+    UserDto checkUid(String uid);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
     @Select("select userNo,name,email,nickName,phone,userState,userDate from users where UserNo = #{userNo}")
@@ -34,19 +36,23 @@ public interface UserMapper {
     public String findEmail(String name , String phone);
 
     // [US-08] 비밀번호 찾기 findPwrd()
-        @Select("select password from users where name=#{name} and phone = #{phone} and email=#{email}")
-        public String findPwrd(String name, String phone, String email);
+    @Select("select password from users where name=#{name} and phone = #{phone} and email=#{email}")
+    public String findPwrd(String name, String phone, String email);
 
-        // [US-09] 회원정보 수정 updateUserInfo()
-        @Update("update users set name=#{name}, nickName=#{nickName}, phone=#{phone} where userNo = #{userNo}")
-        public int updateUserInfo(UpdateUserInfoDto updateUserInfoDto);
+    // [US-09] 회원정보 수정 updateUserInfo()
+    @Update("update users set name=#{name}, nickName=#{nickName}, phone=#{phone} where userNo = #{userNo}")
+    public int updateUserInfo(UpdateUserInfoDto updateUserInfoDto);
 
 
-        // [US-10] 비밀번호 수정 updatePwrd()
-        @Update("update users set password=#{password} where userNo=#{userNo}")
-        public int updatePwrd(UpdatePwrdDto updatePwrdDto);
+    // [US-10] 비밀번호 수정 updatePwrd()
+    @Update("update users set password=#{password} where userNo=#{userNo}")
+    public int updatePwrd(UpdatePwrdDto updatePwrdDto);
 
-        // [US-11] 회원상태 수정(삭제) deleteUserStatus()
+    // [US-10-1] DB존재하는 비밀번호조회
+    @Select("select password from users where userNo = #{userNo}")
+    public String findPass(int userNo);
+
+    // [US-11] 회원상태 수정(삭제) deleteUserStatus()
     @Update("update users set userState = -1 where userNo=#{userNo} and password=#{password}")
     public int deleteUserStatus(DeleteUserStatusDto deleteUserStatusDto);
 

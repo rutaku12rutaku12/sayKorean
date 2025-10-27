@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";    
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 axios.defaults.withCredentials = true;
 
@@ -11,6 +12,7 @@ export default function SuccessExamList( props ){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [studies, setStudies] = useState([]);
+    const { t } = useTranslation();
 
 
     function getStudiesFromLocal() {
@@ -66,30 +68,31 @@ export default function SuccessExamList( props ){
     }, []); // 한 번만 실행
 
 
-    return (<>
-        <h3> 내가 완수한 주제 목록 조회 </h3>
+return (
+  <>
+    <h3>{t("successList.title")}</h3>
 
-        {loading && <div className="toast loading">불러오는 중…</div>}
-        {error && <div className="toast error">{error}</div>}
+    {loading && <div className="toast loading">{t("common.loading")}</div>}
+    {error && <div className="toast error">{error}</div>}
 
-        <ul className="successExamListWrap">
-            {(Array.isArray(studies) ? studies : []).map((s) =>
-            (
-                <li key={s.studyNo} className="successExamList">
-                    <div className="study">
-                        {s.themeKo ?? `주제 #${s.studyNo}`}
-                        <button onClick={() => navigate(`/exampleList/${s.studyNo}`)}>
-                            이동
-                        </button>
-                    </div>
-                </li>
-            ))}
-        </ul>
-        <div>
-            {/* 비어 있을 때 안내 */}
-            {!loading && !error && studies.length === 0 && (
-                <div className="empty">완수한 주제가 아직 없습니다.</div>
-            )}
-        </div>
-    </>)
+    <ul className="successExamListWrap">
+      {(Array.isArray(studies) ? studies : []).map((s) => (
+        <li key={s.studyNo} className="successExamList">
+          <div className="study">
+            {s.themeKo ?? t("successList.fallbackTitle", { num: s.studyNo })}
+            <button onClick={() => navigate(`/exampleList/${s.studyNo}`)}>
+              {t("successList.go")}
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div>
+      {!loading && !error && studies.length === 0 && (
+        <div className="empty">{t("successList.empty")}</div>
+      )}
+    </div>
+  </>
+);
 }

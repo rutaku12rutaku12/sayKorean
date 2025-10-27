@@ -67,6 +67,17 @@ dependencies {
     // [18] 리캡차 사용을 위한 json
     implementation 'javax.json:javax.json-api:1.1.2'
     implementation 'org.glassfish:javax.json:1.1'
+    // [19] Bcrypt
+    implementation 'org.springframework.security:spring-security-crypto:6.4.4'
+    // [20] 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // [21] oauth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // [22] Apache POI (Excel 생성)
+    implementation 'org.apache.poi:poi:5.2.5' // 최신 안정 버전 권장
+    implementation 'org.apache.poi:poi-ooxml:5.2.5' // 최신 안정 버전 권장
+
+
 
 }
 

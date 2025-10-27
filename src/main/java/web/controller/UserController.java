@@ -54,13 +54,13 @@ public class UserController {
 
     // [US-02] 로그인 logIn()
     @PostMapping("/login")
-    public ResponseEntity<Integer> logIn(@Valid @RequestBody LoginDto loginDto, HttpServletRequest request ){
+    public ResponseEntity<?> logIn(@Valid @RequestBody LoginDto loginDto, HttpServletRequest request ){
         // 세션 정보 가져오기
         HttpSession session = request.getSession();
         // 로그인 성공한 회원번호 확인
-        int result = userService.logIn(loginDto);
-        if( result>0){
-            session.setAttribute("userNo",result);
+        LoginDto result = userService.logIn(loginDto);
+        if( result!=null){
+            session.setAttribute("userNo",result.getUserNo());
             return ResponseEntity.status(200).body(result);
         }else {return ResponseEntity.status(400).body(result);}
     } // func end
@@ -161,23 +161,23 @@ public class UserController {
 
     // [US-10] 비밀번호 수정 updatePwrd()
     @PutMapping("/updatepwrd")
-    public ResponseEntity<Integer> updatePwrd(@Valid @RequestBody UpdatePwrdDto updatePwrdDto , HttpServletRequest request){
+    public ResponseEntity<?> updatePwrd(@Valid @RequestBody UpdatePwrdDto updatePwrdDto , HttpServletRequest request){
         // 세션 객체 꺼내기
         HttpSession session = request.getSession();
         // 만약 세션이 없거나 로그인이 안되어 있으면 null
         if( session == null || session.getAttribute("userNo") ==null ){
-            return ResponseEntity.status(400).body(0);
+            return ResponseEntity.status(400).body("로그인 정보 세션 존재x, 로그인 필요");
         }
         // 로그인된 사용자번호 꺼내기 = 수정하는 사용자의 번호
         Object obj = session.getAttribute("userNo");
-        if ( obj == null ){
-            return ResponseEntity.status(400).body(0);
-        }
         int userNo = (int)obj;
         // dto 담아주기
         updatePwrdDto.setUserNo(userNo);
-        int result = userService.updatePwrd(updatePwrdDto);
-        return ResponseEntity.status(200).body(result);
+        UpdatePwrdDto result = userService.updatePwrd(updatePwrdDto);
+        if( result == null){
+            return ResponseEntity.status(400).body("기존 비밀번호 불일치");
+        }
+        return ResponseEntity.status(200).body(result+"비밀번호 변경 성공");
     } // func end
 
     // [US-11] 회원상태 수정(삭제) deleteUserStatus()

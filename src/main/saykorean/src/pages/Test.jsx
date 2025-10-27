@@ -1,17 +1,22 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 axios.defaults.withCredentials = true;
 
 export default function Test() {
   const { testNo } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
 
   const [items, setItems] = useState([]);
   const [idx, setIdx] = useState(0);              // 현재 문제 인덱스
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+  const location = useLocation();
 
 
   const [submitting, setSubmitting] = useState(false);
@@ -46,35 +51,47 @@ export default function Test() {
   const isMultiple =
     cur?.question?.startsWith("그림:") || cur?.question?.startsWith("음성:");
 
-  /* 정답 제출 (객관식/주관식 공통) */
   async function submitAnswer(selectedExamNo = null) {
-    if (!cur) return;
-    try {
-      setSubmitting(true);
-      const body = {
-        testRound: 1,
-        selectedExamNo: selectedExamNo ?? 0,                  // 객관식이면 examNo
-        userAnswer: selectedExamNo ? "" : subjective, // 주관식이면 입력값
-        langHint: "ko",
-      };
+  if (!cur) return;
 
-      const res = await axios.post(
-        `/saykorean/test/${testNo}/items/${cur.testItemNo}/answer`,
-        body
-      );
+  const body = {
+    testRound: 1,
+    selectedExamNo: selectedExamNo ?? 0,
+    userAnswer: selectedExamNo ? "" : subjective,
+    langHint: "ko",
+  };
 
-      const { score, isCorrect } = res.data || {};
-      setFeedback({ correct: isCorrect == 1, score: Number(score) || 0 });
+  const url = `/saykorean/test/${testNo}/items/${cur.testItemNo}/answer`;
 
-      // 피드백 보여주고 “다음 문제” 버튼 활성화
-    } catch (e) {
-      console.error(e);
-      alert("제출 실패");
-    } finally {
-      setSubmitting(false);
-    }
+  // 주관식이면 로딩페이지로 이동
+  if (!selectedExamNo) {
+    const backTo = location.pathname + location.search;
+    navigate("/loading", {
+      state: {
+        action: "submitAnswer",
+        payload: {
+          testNo,    // 추가
+          url,
+          body
+        }
+      }
+    });
+      return;
   }
 
+  // 객관식이면 바로 채점 요청 수행
+  try {
+    setSubmitting(true);
+    const res = await axios.post(url, body);
+    const { score, isCorrect } = res.data || {};
+    setFeedback({ correct: isCorrect == 1, score: Number(score) || 0 });
+  } catch (e) {
+    console.error(e);
+    alert("제출 실패");
+  } finally {
+    setSubmitting(false);
+  }
+}
   function goNext() {
     // 다음 문제로 이동. 마지막이면 결과 페이지로 이동
     if (idx < items.length - 1) {
@@ -86,144 +103,147 @@ export default function Test() {
     }
   }
 
-  return (
-    <div className="test-page">
-      <h3>시험 문항</h3>
-      {loading && <p>불러오는 중...</p>}
-      {msg && <p className="error">{msg}</p>}
-      {items.length === 0 && !loading && <p>문항이 없습니다.</p>}
+return (
+  <div className="test-page">
+    <h3>{t("test.title")}</h3>
 
-      {cur && (
-        <div className="question-card">
-          <div className="q-head">
-            <span className="q-number">{idx + 1} / {items.length}</span>
-            <p className="q-text">{cur.question}</p>
+    {loading && <p>{t("common.loading")}</p>}
+    {msg && <p className="error">{msg}</p>}
+    {items.length === 0 && !loading && <p>{t("test.empty")}</p>}
+
+    {cur && (
+      <div className="question-card">
+        <div className="q-head">
+          <span className="q-number">
+            {idx + 1} / {items.length}
+          </span>
+          <p className="q-text">{cur.question}</p>
+        </div>
+
+        {/* 이미지 */}
+        {safeSrc(cur?.imagePath) && (
+          <div className="q-media">
+            <img
+              src={safeSrc(cur.imagePath)}
+              alt={cur.imageName || "question"}
+              style={{ maxWidth: 320 }}
+            />
           </div>
+        )}
 
-
-          {/* 이미지는 src가 유효할 때만 렌더 */}
-          {safeSrc(cur?.imagePath) && (
-            <div className="q-media">
-              <img
-                src={safeSrc(cur.imagePath)}
-                alt={cur.imageName || "question"}
-                style={{ maxWidth: 320 }}
-              />
+        {/* 오디오 */}
+        {Array.isArray(cur?.audios) &&
+          cur.audios.filter(a => safeSrc(a?.audioPath)).length > 0 && (
+            <div className="q-audios">
+              {cur.audios
+                .filter(a => safeSrc(a?.audioPath))
+                .map(a => (
+                  <audio key={a.audioNo} controls src={safeSrc(a.audioPath)} />
+                ))}
             </div>
           )}
 
-          {/* 오디오는 유효한 src만 필터링해서 렌더 */}
-          {Array.isArray(cur?.audios) &&
-            cur.audios.filter(a => safeSrc(a?.audioPath)).length > 0 && (
-              <div className="q-audios">
-                {cur.audios
-                  .filter(a => safeSrc(a?.audioPath))
-                  .map(a => (
-                    <audio key={a.audioNo} controls src={safeSrc(a.audioPath)} />
-                  ))}
-              </div>
+        {/* 객관식 */}
+        {isMultiple ? (
+          <div className="q-actions">
+            {cur.options && cur.options.length > 0 ? (
+              cur.options.map((option, optIdx) => (
+                <button
+                  key={optIdx}
+                  className="btn option-btn"
+                  disabled={submitting || !!feedback}
+                  onClick={() => submitAnswer(option.examNo)}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    maxWidth: "480px",
+                    margin: "10px auto",
+                    padding: "15px",
+                    fontSize: "16px",
+                    textAlign: "left",
+                    border: "2px solid #ddd",
+                    borderRadius: "8px",
+                    backgroundColor: feedback
+                      ? option.isCorrect
+                        ? "#d4edda"
+                        : "#f8d7da"
+                      : "#fff",
+                    cursor: submitting || feedback ? "not-allowed" : "pointer",
+                  }}
+                >
+                  {option.examKo}
+                </button>
+              ))
+            ) : (
+              <p style={{ color: "#999" }}>
+                {t("test.options.loadError")}
+              </p>
             )}
+          </div>
+        ) : (
+          // 주관식
+          <div className="q-actions">
+            <textarea
+              value={subjective}
+              onChange={(e) => setSubjective(e.target.value)}
+              placeholder={t("test.subjective.placeholder")}
+              disabled={submitting || !!feedback}
+              rows={4}
+              style={{ width: "100%", maxWidth: 480 }}
+            />
+            <button
+              className="btn primary"
+              disabled={submitting || !!feedback || subjective.trim() === ""}
+              onClick={() => submitAnswer(null)}
+            >
+              {t("test.submit")}
+            </button>
+          </div>
+        )}
 
-          { /* 여기부터 수정 */}
-          {/* 객관식: 선택지 3개 (정답 1개 + 오답 2개) 
-          examKo 한 보기(또는 옵션 테이블 쓰면 options.map으로 변경) */}
-          {isMultiple ? (
-            <div className="q-actions">
-              {cur.options && cur.options.length > 0 ? (
-                cur.options.map((option, optIdx) => (
-                  <button
-                    key={optIdx}
-                    className="btn option-btn"
-                    disabled={submitting || !!feedback}
-                    onClick={() => submitAnswer(option.examNo)}
-                    style={{
-                      display: "block",
-                      width: "100%",
-                      maxWidth: "480px",
-                      margin: "10px auto",
-                      padding: "15px",
-                      fontSize: "16px",
-                      textAlign: "left",
-                      border: "2px solid #ddd",
-                      borderRadius: "8px",
-                      backgroundColor: feedback
-                        ? option.isCorrect
-                          ? "#d4edda"
-                          : "#f8d7da"
-                        : "#fff",
-                      cursor: submitting || feedback ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    {option.examKo}
-                  </button>
-                ))
-              ) : (
-                <p style={{ color: "#999" }}>선택지를 불러올 수 없습니다.</p>
+        {/* 피드백 */}
+        {feedback && (
+          <div className="feedback" style={{ marginTop: "20px" }}>
+            <div
+              className={`toast ${feedback.correct ? "ok" : "no"}`}
+              style={{
+                padding: "15px",
+                borderRadius: "8px",
+                marginBottom: "15px",
+                backgroundColor: feedback.correct ? "#d4edda" : "#f8d7da",
+                color: feedback.correct ? "#155724" : "#721c24",
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              {feedback.correct
+                ? t("test.feedback.correct")
+                : t("test.feedback.wrong")}
+              {typeof feedback.score === "number" && !isMultiple && (
+                <span style={{ marginLeft: 8 }}>{feedback.score}{t("test.score.unit")}</span>
               )}
             </div>
-          ) : (
-            // 여기까지 수정 
-            // 주관식
-            <div className="q-actions">
-              <textarea
-                value={subjective}
-                onChange={(e) => setSubjective(e.target.value)}
-                placeholder="답을 입력하세요"
-                disabled={submitting || !!feedback}
-                rows={4}
-                style={{ width: "100%", maxWidth: 480 }}
-              />
-              <button
-                className="btn primary"
-                disabled={submitting || !!feedback || subjective.trim() === ""}
-                onClick={() => submitAnswer(null)}
-              >
-                제출
-              </button>
-            </div>
-          )}
-
-          { /* 여기부터 수정 */}
-          {/* 피드백 배지 + 다음 문제 버튼 */}
-          {feedback && (
-            <div className="feedback" style={{ marginTop: "20px" }}>
-              <div
-                className={`toast ${feedback.correct ? "ok" : "no"}`}
-                style={{
-                  padding: "15px",
-                  borderRadius: "8px",
-                  marginBottom: "15px",
-                  backgroundColor: feedback.correct ? "#d4edda" : "#f8d7da",
-                  color: feedback.correct ? "#155724" : "#721c24",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                }}
-              >
-                {feedback.correct ? "✅ 정답!" : "❌ 오답!"}
-                {typeof feedback.score === "number" && !isMultiple && (
-                  <span style={{ marginLeft: 8 }}>{feedback.score}점</span>
-                )}
-              </div>
-              <button
-                className="btn next"
-                onClick={goNext}
-                style={{
-                  padding: "12px 30px",
-                  backgroundColor: "#4CAF50",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                }}
-              >
-                {idx < items.length - 1 ? "다음 문제" : "결과 보기"}
-              </button>
-              { /* 여기까지 수정 */}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
+            <button
+              className="btn next"
+              onClick={goNext}
+              style={{
+                padding: "12px 30px",
+                backgroundColor: "#4CAF50",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+            >
+              {idx < items.length - 1
+                ? t("test.next")
+                : t("test.result.view")}
+            </button>
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+);
 }

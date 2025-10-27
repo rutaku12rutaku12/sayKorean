@@ -30,4 +30,8 @@ public class UserDto {
     private int genreNo; // FK: 장르번호
 
     private String recaptcha; // 가입 시 리캡차 토큰
+
+    private String uid; // 소셜 로그인 고유 ID
+
+    private String urole; // 시큐리티 권한
 }

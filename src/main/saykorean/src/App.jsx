@@ -1,8 +1,9 @@
-
 import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import i18n from "./i18n.js";
 import axios from "axios";
 import { useEffect } from "react";
+import { I18nextProvider } from "react-i18next";
+
 // 사용자단(모바일)
 import HomePage from "./pages/HomePage";
 import MyPage from "./pages/MyPage";
@@ -20,15 +21,10 @@ import SuccessExamList from "./pages/SuccessExamList";
 import TestList from "./pages/TestList";
 import Language from "./pages/Language";
 import TestResult from "./pages/TestResult";
-// import Setting from "./pages/Setting";
-
-// 로딩페이지 
 import LoadingPage from "./pages/LoadingPage";
-// 404페이지
 import Page404 from "./pages/Page404";
 
-
-// 관리자단(PC)
+// 관리자단
 import AdminStudyList from "./adminPages/AdminStudyList";
 import AdminHome from "./adminPages/AdminHome";
 import AdminStudyCreate from "./adminPages/AdminStudyCreate";
@@ -37,38 +33,37 @@ import AdminNav from "./components/AdminNav";
 import AdminTestList from "./adminPages/AdminTestList";
 import AdminTestCreate from "./adminPages/AdminTestCreate";
 import AdminTestEdit from "./adminPages/AdminTestEdit";
+import AdminUserList from "./adminPages/AdminUserList.jsx";
+import AdminUserIndi from "./adminPages/AdminUserIndi.jsx";
 
 // 랭킹
 import Ranking from "./pages/Ranking.jsx";
 
+// CSS
 import "./styles/App.css";
 
-// 언어 변환 - 정유진
 
+// 언어 변환 매핑
 const LANG_MAP = {
   1: "ko",
   2: "ja",
-  3: "zh",
+  3: "zh-CN",
   4: "en",
   5: "es"
 };
 
 axios.defaults.baseURL = "http://localhost:8080";
 
-// 여기서 useEffect 제거 (컴포넌트 밖에서는 사용 불가)
-
-// 사용자단 레이아웃
+// 사용자 레이아웃
 const UserLayout = () => (
   <div id="user-frame">
     <Outlet />
     <Footer className="footer" />
-    <Link to="/rank" className="admin-btn" aria-label="관리자">
-      <img src="/img/rank.svg" alt="관리자" />
-    </Link>
+    <Link to="/rank" className="admin-btn" aria-label="관리자"></Link>
   </div>
 );
 
-// 관리자단 레이아웃
+// 관리자 레이아웃
 const AdminLayout = () => (
   <div style={{ width: '1280px', margin: '0 auto' }}>
     <AdminNav />
@@ -76,8 +71,9 @@ const AdminLayout = () => (
   </div>
 );
 
-// App 함수 내부에 useEffect 옮기기
+
 function App() {
+  // 초기 언어 설정
   useEffect(() => {
     const langNo = Number(localStorage.getItem("selectedLangNo"));
     const lang = LANG_MAP[langNo] || "ko";
@@ -85,47 +81,53 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* 관리자단 */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminHome />} />
-          <Route path="study" element={<AdminStudyList />} />
-          <Route path="study/create" element={<AdminStudyCreate />} />
-          <Route path="study/edit/:studyNo" element={<AdminStudyEdit />} />
-          <Route path="test" element={<AdminTestList />} />
-          <Route path="test/create" element={<AdminTestCreate />} />
-          <Route path="test/edit/:testNo" element={<AdminTestEdit />} />
-        </Route>
+    <I18nextProvider i18n={i18n}>
+      <BrowserRouter>
+        <Routes>
 
-        {/* 로딩페이지 */}
-        <Route path="/" element={<LoadingPage />} />
-        {/* 404페이지 */}
-        <Route path="*" element={<Page404 />} />
+          {/* 관리자단 */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminHome />} />
+            <Route path="study" element={<AdminStudyList />} />
+            <Route path="study/create" element={<AdminStudyCreate />} />
+            <Route path="study/edit/:studyNo" element={<AdminStudyEdit />} />
+            <Route path="test" element={<AdminTestList />} />
+            <Route path="test/create" element={<AdminTestCreate />} />
+            <Route path="test/edit/:testNo" element={<AdminTestEdit />} />
+            <Route path="user" element={<AdminUserList />} />
+            <Route path="user/:userNo" element={<AdminUserIndi />} />
+          </Route>
 
-        {/* 사용자단 */}
-        <Route element={<UserLayout />}>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/update" element={<MyInfoUpdate />} />
-          <Route path="/beforestudy" element={<BeforeStudy />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LogInPage />} />
-          <Route path="/find" element={<FindPage />} />
-          <Route path="/genre" element={<Genre />} />
-          <Route path="/study" element={<Study />} />
-          <Route path="/study/:studyNo" element={<Study />} />
-          <Route path="/exampleList/:studyNo" element={<ExampleList />} />
-          <Route path="/successexamlist" element={<SuccessExamList />} />
-          <Route path="/testlist" element={<TestList />} />
-          <Route path="/test/:testNo" element={<Test />} />
-          <Route path="/language" element={<Language />} />
-          <Route path="/testresult/:testNo" element={<TestResult />} />
-          <Route path="/rank" element={<Ranking />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          {/* 사용자단 */}
+          <Route element={<UserLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/update" element={<MyInfoUpdate />} />
+            <Route path="/beforestudy" element={<BeforeStudy />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LogInPage />} />
+            <Route path="/find" element={<FindPage />} />
+            <Route path="/genre" element={<Genre />} />
+            <Route path="/study" element={<Study />} />
+            <Route path="/study/:studyNo" element={<Study />} />
+            <Route path="/exampleList/:studyNo" element={<ExampleList />} />
+            <Route path="/successexamlist" element={<SuccessExamList />} />
+            <Route path="/testlist" element={<TestList />} />
+            <Route path="/test/:testNo" element={<Test />} />
+            <Route path="/language" element={<Language />} />
+            <Route path="/testresult/:testNo" element={<TestResult />} />
+            <Route path="/rank" element={<Ranking />} />
+            <Route path="/loading" element={<LoadingPage />} />
+          </Route>
+
+          {/* 404 */}
+          <Route path="*" element={<Page404 />} />
+
+        </Routes>
+      </BrowserRouter>
+    </I18nextProvider>
   );
 }
 

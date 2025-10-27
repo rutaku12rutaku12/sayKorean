@@ -105,9 +105,9 @@ export default function AdminTestList() {
         return "❓ 기타";
     };
 
-    // [6] 로딩 메시지 (이미지 추가예정)
+    // [*] 로딩 중 출력페이지
     if (loading) {
-        return <div style={{ padding: '40px', textAlign: 'center' }}> <img src="/img/adminPage.png" style={{ maxWidth: '400px', borderRadius: '12px' }} /> </div>;
+        return <div style={{ padding: '40px', textAlign: 'center' }}> <img src="/img/loading.png" style={{ maxWidth: '400px', borderRadius: '12px' }} /> </div>;
     }
 
     return (<>

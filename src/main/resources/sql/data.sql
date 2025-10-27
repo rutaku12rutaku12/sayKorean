@@ -13,38 +13,38 @@ INSERT IGNORE INTO genre (genreName) VALUES
 INSERT IGNORE INTO users
   (name, email, password, nickName, phone, signupMethod, userState)
 VALUES
-('홍길동', 'user01@example.com', 'pass#01!', '토돌이', '+8201012340001', 1, 1),
-('김영희', 'user02@example.com', 'pass#02!', '영희', '+8201012340002', 2, 1),
-('John Smith', 'user03@example.com', 'pass#03!', 'john', '+8201012340003', 3, 1),
-('田中太郎', 'user04@example.com', 'pass#04!', 'たなか', '+8201012340004', 1, 1),
-('王伟', 'user05@example.com', 'pass#05!', 'wang', '+8201012340005', 4, 1),
-('María López', 'user06@example.com', 'pass#06!', 'maria', '+8201012340006', 2, 1),
-('Alice Kim', 'user07@example.com', 'pass#07!', 'alice', '+8201012340007', 3, 1),
-('이수민', 'user08@example.com', 'pass#08!', '수민', '+8201012340008', 1, 1),
-('박준호', 'user09@example.com', 'pass#09!', '준호', '+8201012340009', 2, 1),
-('김민지', 'user10@example.com', 'pass#10!', '민지', '+8201012340010', 3, 1),
+('홍길동', 'user01@example.com', '$2a$10$WyIedMbtbmj1g3pcIow2P.3eUMXuvlO369jRsgMFjhX/1xFvY82lK', '토돌이', '+8201012340001', 1, 1),
+('김영희', 'user02@example.com', '$2a$10$Xab1Pwsg5HX7HU9QZUWCd.YP0l1JcBXtlpXoJJ7V3wbIuylZGzqKe', '영희', '+8201012340002', 2, 1),
+('John Smith', 'user03@example.com', '$2a$10$KNCxUz6FFOh3ne6GqAKhxOgOkcqB1B79cgilLNUzNcDFiCCuP/F2O', 'john', '+8201012340003', 3, 1),
+('田中太郎', 'user04@example.com', '$2a$10$7LIFBITvEwwKwIAl3wk8QuEJtxnBDaP6sykiKuZm49EKww9BmxPNe', 'たなか', '+8201012340004', 1, 1),
+('王伟', 'user05@example.com', '$2a$10$jY5QH2vgy1lXFGSBiM9lMuqziraitPxDcpM4QRBFCdPvaRZIkH1kO', 'wang', '+8201012340005', 4, 1),
+('María López', 'user06@example.com', '$2a$10$hqYj85STxJsjCzNuBYAR3ecB7iDmKa8gH0KJwtxydDp3pJXRntQ3e', 'maria', '+8201012340006', 2, 1),
+('Alice Kim', 'user07@example.com', '$2a$10$s/VtYMXC9H/SyUxnGsPbw.lTyYzRyamcTKNL2PbHXXH2F3FzdB1Ta', 'alice', '+8201012340007', 3, 1),
+('이수민', 'user08@example.com', '$2a$10$bCw43vqoAyq7I0McrFQAlOlAgNCUokmDPOzDBbcJwmkS8dVKMfkcq', '수민', '+8201012340008', 1, 1),
+('박준호', 'user09@example.com', '$2a$10$cNS3RMa1ZNg3IPi.9YIrxeacfPLM1RcaVQ4oV173pWuaeJly7GeyS', '준호', '+8201012340009', 2, 1),
+('김민지', 'user10@example.com', '$2a$10$3xup3IgM2CLvQ6Kkb3xz3u.U7roLlBgBP/NUkmbPI59qxTxH/0HI.', '민지', '+8201012340010', 3, 1),
 
-('Sara Park', 'user11@example.com', 'pass#11!', 'sara', '+8201012340011', 4, 1),
-('佐藤花子', 'user12@example.com', 'pass#12!', 'はなこ', '+8201012340012', 1, 1),
-('Li Wei', 'user13@example.com', 'pass#13!', 'liwei', '+8201012340013', 2, 1),
-('Carlos Ruiz', 'user14@example.com', 'pass#14!', 'carlos', '+8201012340014', 3, 1),
-('최유진', 'user15@example.com', 'pass#15!', '유진', '+8201012340015', 1, 1),
-('정하늘', 'user16@example.com', 'pass#16!', '하늘', '+8201012340016', 2, 1),
-('김도윤', 'user17@example.com', 'pass#17!', '도윤', '+8201012340017', 3, 1),
-('Olivia Lee', 'user18@example.com', 'pass#18!', 'olivia', '+8201012340018', 4, 1),
-('Daniel Choi', 'user19@example.com', 'pass#19!', 'daniel', '+8201012340019', 1, 1),
-('박서연', 'user20@example.com', 'pass#20!', '서연', '+8201012340020', 2, 1),
+('Sara Park', 'user11@example.com', '$2a$10$GFLe//HCLD2KabnISFqjseT076jvPGQqLlIhmjP3ja0WG3dhl.JD.', 'sara', '+8201012340011', 4, 1),
+('佐藤花子', 'user12@example.com', '$2a$10$LVSHX/wdQoiafl9OCkcWP.DN.wbLsByDBQkUL4HdzJ4eQjLjoqB0G', 'はなこ', '+8201012340012', 1, 1),
+('Li Wei', 'user13@example.com', '$2a$10$y2aV.ndokJsuAKAl6pOt9.xQM9Pqh.TZm.X3CrFA6HdHK8DjmvFcS', 'liwei', '+8201012340013', 2, 1),
+('Carlos Ruiz', 'user14@example.com', '$2a$10$EYjMg7Lzfz0JyOXG3NL6uOe9GYb5JWaPfrlppRRnLL4sSNYFBqKz6', 'carlos', '+8201012340014', 3, 1),
+('최유진', 'user15@example.com', '$2a$10$At9EO7NgGs9i5nMXGmv.1Ooq0Psi6HXtit/fo9Y76oASD1ql12vVq', '유진', '+8201012340015', 1, 1),
+('정하늘', 'user16@example.com', '$2a$10$../gNFU/H5Z.kVBhn5yIZuRSTKRLHEV6IkdBxlBbrEi49tNLKJTcG', '하늘', '+8201012340016', 2, 1),
+('김도윤', 'user17@example.com', '$2a$10$JfQMBg/tWjAvrOtIwEK4HusVHwTznCOXSal.oRT2Z236ZD5SwQuee', '도윤', '+8201012340017', 3, 1),
+('Olivia Lee', 'user18@example.com', '$2a$10$UkmCNyhX0nJ8zxY6MBKpL.4AMfGday7tjaLjJvJ8vf8omyX2W6d0u', 'olivia', '+8201012340018', 4, 1),
+('Daniel Choi', 'user19@example.com', '$2a$10$xCnfm.J/3rhvli6dDFcEb.9iz9D3FZ4Bz5QW7xao.JkWED7Zj2xu', 'daniel', '+8201012340019', 1, 1),
+('박서연', 'user20@example.com', '$2a$10$JSNaUDP2AbEoRZnS6VrDjui.yncliYvvXPv6iKiGdMEibtZtn5yve', '서연', '+8201012340020', 2, 1),
 
-('김하준', 'user21@example.com', 'pass#21!', '하준', '+8201012340021', 3, 1),
-('이아린', 'user22@example.com', 'pass#22!', '아린', '+8201012340022', 4, 1),
-('Noah Kim', 'user23@example.com', 'pass#23!', 'noah', '+8201012340023', 1, 1),
-('Emma Park', 'user24@example.com', 'pass#24!', 'emma', '+8201012340024', 2, 1),
-('Sophia Cho', 'user25@example.com', 'pass#25!', 'sophia', '+8201012340025', 3, 1),
-('Mason Han', 'user26@example.com', 'pass#26!', 'mason', '+8201012340026', 4, 1),
-('김지후', 'user27@example.com', 'pass#27!', '지후', '+8201012340027', 1, 1),
-('이서윤', 'user28@example.com', 'pass#28!', '서윤', '+8201012340028', 2, 1),
-('박민서', 'user29@example.com', 'pass#29!', '민서', '+8201012340029', 3, 1),
-('한예린', 'user30@example.com', 'pass#30!', '예린', '+8201012340030', 4, 1);
+('김하준', 'user21@example.com', '$2a$10$bpqxLX.kRZJivJr2tXojMO.nxSWaLJxn8ZNkQPQeIeCLKGcAP96yS', '하준', '+8201012340021', 3, 1),
+('이아린', 'user22@example.com', '$2a$10$oAC0FOUw.D7mDi96m4Rkd.WhQa7s9XF20anRQUTIUO9RWK2DMWwMe', '아린', '+8201012340022', 4, 1),
+('Noah Kim', 'user23@example.com', '$2a$10$DGlXpqSbcYSzo/ohLe3n3OToA/eTvUi3ACKnuVe0dxVL/MqgHZysW', 'noah', '+8201012340023', 1, 1),
+('Emma Park', 'user24@example.com', '$2a$10$GeNPK0GIFFKmP3GKGsIWbu36d3U5EdJ1LrhFSI89XZLSi3PDxcBWG', 'emma', '+8201012340024', 2, 1),
+('Sophia Cho', 'user25@example.com', '$2a$10$wHEZTfgPhgrRycXtheCoCeTnZQ5Uijw7aZyw.GtVjnw0JGAn8LkaC', 'sophia', '+8201012340025', 3, 1),
+('Mason Han', 'user26@example.com', '$2a$10$lYxTtzja8AR5TpL4SMtC9./OvMseYJjZTsEt9ZzbnSpk/yj0OPCnm', 'mason', '+8201012340026', 4, 1),
+('김지후', 'user27@example.com', '$2a$10$fXWQcPxDWvx5Ro871YXcFu3UaeNx5Qu3IuXw.vZbt58B1hSPRw.iu', '지후', '+8201012340027', 1, 1),
+('이서윤', 'user28@example.com', '$2a$10$jh1nHIZTQ43LKXZVnXhSOuKJZYcU1x3j5KBq3ew6nUyuL.geiV.Uy', '서윤', '+8201012340028', 2, 1),
+('박민서', 'user29@example.com', '$2a$10$wqtvN/lodMCdWksFRQklruhNA2bziX3grLbqLWjhVpC/t6YtEqwjO', '민서', '+8201012340029', 3, 1),
+('한예린', 'user30@example.com', '$2a$10$OGD6ydGTbijjh4NRdl3HQO56kweGTqjR2DvIR9lK1QRY.JBfa7P1C', '예린', '+8201012340030', 4, 1);
 
 
 INSERT IGNORE INTO study
@@ -193,10 +193,10 @@ VALUES
  INSERT IGNORE INTO exam
   (examKo, examRoman, examJp, examCn, examEn, examEs, imageName, imagePath, studyNo)
 VALUES
-('배고파 죽겠다.','baegopa jukgetda.','お腹すいて死にそう。','饿死了。','I’m starving.','Me muero de hambre.','1_img','',4),
-('괜찮아?','gwaenchanha?','大丈夫？','你没事吧？','Are you okay?','¿Estás bien?','2_img','',1),
-('지금 바빠?','jigeum bappa?','今忙しい？','你现在忙吗？','Are you busy now?','¿Estás ocupado ahora?','3_img','',1),
-('잠깐만요.','jamkkanmanyo.','ちょっと待ってください。','请稍等。','Just a moment, please.','Un momento, por favor.','4_img','',4),
+('배고파 죽겠다.','baegopa jukgetda.','お腹すいて死にそう。','饿死了。','I’m starving.','Me muero de hambre.','1_img','/img/1_img.png',4),
+('괜찮아?','gwaenchanha?','大丈夫？','你没事吧？','Are you okay?','¿Estás bien?','2_img','/img/2_img.png',1),
+('지금 바빠?','jigeum bappa?','今忙しい？','你现在忙吗？','Are you busy now?','¿Estás ocupado ahora?','3_img','/img/3_img.png',1),
+('잠깐만요.','jamkkanmanyo.','ちょっと待ってください。','请稍等。','Just a moment, please.','Un momento, por favor.','4_img','/img/4_img.png',4),
 ('잠깐 쉬자.','jamkkan swija.','ちょっと休もう。','休息一下吧。','Let’s take a short break.','Tomemos un descanso.','5_img','',4),
 ('자리 있나요?','jari itnayo?','席は空いてますか？','有座位吗？','Do you have any seats available?','¿Hay sitio?','6_img','',3),
 ('영수증 필요해요.','yeongsujeung piryohaeyo.','領収書が必要です。','我需要收据。','I need a receipt, please.','Necesito el recibo.','7_img','',3),
@@ -272,11 +272,11 @@ VALUES
 
 
 INSERT IGNORE INTO audio (audioName, audioPath, lang, examNo) VALUES
-('1_kor_voice','',1,1),
-('2_kor_voice','',1,2),
-('3_kor_voice','',1,3),
-('4_kor_voice','',1,4),
-('5_kor_voice','',1,5),
+('1_kor_voice','/음성파일/1_kor_voice.mp3',1,1),
+('2_kor_voice','/음성파일/2_kor_voice.mp3',1,2),
+('3_kor_voice','/음성파일/3_kor_voice.mp3',1,3),
+('4_kor_voice','/음성파일/4_kor_voice.mp3',1,4),
+('5_kor_voice','/음성파일/5_kor_voice.mp3',1,5),
 ('6_kor_voice','',1,6),
 ('7_kor_voice','',1,7),
 ('8_kor_voice','',1,8),
@@ -339,11 +339,11 @@ INSERT IGNORE INTO audio (audioName, audioPath, lang, examNo) VALUES
 ('65_kor_voice','',1,65);
 
 INSERT IGNORE INTO audio (audioName, audioPath, lang, examNo) VALUES
-('1_eng_voice','',2,1),
-('2_eng_voice','',2,2),
-('3_eng_voice','',2,3),
-('4_eng_voice','',2,4),
-('5_eng_voice','',2,5),
+('1_eng_voice','/음성파일/1_eng_voice.mp3',2,1),
+('2_eng_voice','/음성파일/2_eng_voice.mp3',2,2),
+('3_eng_voice','/음성파일/3_eng_voice.mp3',2,3),
+('4_eng_voice','/음성파일/4_eng_voice.mp3',2,4),
+('5_eng_voice','/음성파일/5_eng_voice.mp3',2,5),
 ('6_eng_voice','',2,6),
 ('7_eng_voice','',2,7),
 ('8_eng_voice','',2,8),
@@ -536,3 +536,5 @@ INSERT IGNORE INTO languages (langName) VALUES
 ('중국어'),
 ('영어'),
 ('스페인어');
+
+select * from users;

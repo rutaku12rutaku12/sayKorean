@@ -26,4 +26,11 @@ public class ExamDto {
 
     private MultipartFile imageFile;    // 이미지파일 등록용 멤버변수 
     private MultipartFile newImageFile; // 이미지파일 수정용 멤버변수
+
+
+    private String examSelected; // 프론트가 사용할 언어별 예문 필드
+
+    private String koAudioPath;
+    private String enAudioPath;
+
 }
