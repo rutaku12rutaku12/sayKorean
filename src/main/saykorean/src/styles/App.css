@@ -1,28 +1,39 @@
-#App{
-  width: 410px;
+/* 기본 반응형 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+#App {
   margin: 0 auto;
 }
 
-/* 레이아웃 프레임: 자식 absolute의 기준 */
+/* 레이아웃 프레임 */
 #user-frame {
   position: relative;
-  width: 410px;
   margin: 0 auto;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
-/* 관리자 버튼: 우측 최상단 고정 */
-/* #user-frame .admin-btn {
-  position: absolute;
-  top: 8px;     /* ⬅︎ 기존 bottom을 top으로 변경 */
-  /* right: 8px;
-  width: 50px;
-  height: 50px;
-  z-index: 10;
-} */
+/* ========================================= */
+/*  PC 특정 해상도에서 가로 720 고정 설정 */
+/* ========================================= */
 
-#user-frame .admin-btn img {
-  width: 100%;
-  height: 100%;
-  display: block;
+/* 예: 화면 너비가 720 이상 PC에서만 */
+@media screen and (min-width: 720px)  {
+  #user-frame {
+    width: 410px;
+    margin: 0 auto;
+  }
+}
+
+/* ✅ 그 외의 모바일/대형 화면에서는 자동 반응형 유지 */
+@media screen and (max-width: 719px) {
+  #user-frame {
+    width: 100%;
+  }
 }
 

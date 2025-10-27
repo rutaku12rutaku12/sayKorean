@@ -3,11 +3,47 @@
     background-color: #FFF9F0;
     border: 1px solid #FFF9F0;
     box-shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
 }
 
 #footer .list{
     list-style: none;
     display: flex;
-    justify-content: space-between;
-    margin-right: 25px;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 0px;
+    padding: 10px;
 }
+
+#footer img{
+    width: 35px;
+}
+#footer .list > li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    color: red;
+}
+
+/* ========================================= */
+/*  PC 특정 해상도에서 가로 720 고정 설정 */
+/* ========================================= */
+
+/* 예: 화면 너비가 720 이상 PC에서만 */
+@media screen and (min-width: 720px)  {
+  #footer {
+    width: 410px;
+    margin: 0 auto;
+  }
+}
+
+/* ✅ 그 외의 모바일/대형 화면에서는 자동 반응형 유지 */
+@media screen and (max-width: 719px) {
+  #footer {
+    width: 100%;
+  }
+}
+
