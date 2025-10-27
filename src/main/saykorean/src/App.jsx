@@ -3,6 +3,7 @@ import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import i18n from "./i18n.js";
 import axios from "axios";
 import { useEffect } from "react";
+import { I18nextProvider } from "react-i18next";
 // 사용자단(모바일)
 import HomePage from "./pages/HomePage";
 import MyPage from "./pages/MyPage";
@@ -67,7 +68,7 @@ const UserLayout = () => (
     <Outlet />
     <Footer className="footer" />
     <Link to="/rank" className="admin-btn" aria-label="관리자">
-      <img src="/img/rank.svg" alt="관리자" />
+      {/* <img src="/img/rank.svg" alt="관리자" /> */}
     </Link>
   </div>
 );
@@ -82,6 +83,7 @@ const AdminLayout = () => (
 
 // App 함수 내부에 useEffect 옮기기
 function App() {
+  // 초기 설정
   useEffect(() => {
     const langNo = Number(localStorage.getItem("selectedLangNo"));
     const lang = LANG_MAP[langNo] || "ko";
@@ -103,35 +105,50 @@ function App() {
           <Route path="user" element={<AdminUserList />} />
           <Route path="user/:userNo" element={<AdminUserIndi />} />
         </Route>
+    <I18nextProvider i18n={i18n}>
+      <BrowserRouter>
+        <Routes>
+          {/* 관리자단 */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminHome />} />
+            <Route path="study" element={<AdminStudyList />} />
+            <Route path="study/create" element={<AdminStudyCreate />} />
+            <Route path="study/edit/:studyNo" element={<AdminStudyEdit />} />
+            <Route path="test" element={<AdminTestList />} />
+            <Route path="test/create" element={<AdminTestCreate />} />
+            <Route path="test/edit/:testNo" element={<AdminTestEdit />} />
+          </Route>
 
-        {/* 로딩페이지 */}
-        <Route path="/" element={<LoadingPage />} />
-        {/* 404페이지 */}
-        <Route path="*" element={<Page404 />} />
+          {/* 로딩페이지 */}
+          <Route path="/" element={<HomePage />} />
+          {/* 404페이지 */}
+          <Route path="*" element={<Page404 />} />
 
-        {/* 사용자단 */}
-        <Route element={<UserLayout />}>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/update" element={<MyInfoUpdate />} />
-          <Route path="/beforestudy" element={<BeforeStudy />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LogInPage />} />
-          <Route path="/find" element={<FindPage />} />
-          <Route path="/genre" element={<Genre />} />
-          <Route path="/study" element={<Study />} />
-          <Route path="/study/:studyNo" element={<Study />} />
-          <Route path="/exampleList/:studyNo" element={<ExampleList />} />
-          <Route path="/successexamlist" element={<SuccessExamList />} />
-          <Route path="/testlist" element={<TestList />} />
-          <Route path="/test/:testNo" element={<Test />} />
-          <Route path="/language" element={<Language />} />
-          <Route path="/testresult/:testNo" element={<TestResult />} />
-          <Route path="/rank" element={<Ranking />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          {/* 사용자단 */}
+          <Route element={<UserLayout />}>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/update" element={<MyInfoUpdate />} />
+            <Route path="/beforestudy" element={<BeforeStudy />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LogInPage />} />
+            <Route path="/find" element={<FindPage />} />
+            <Route path="/genre" element={<Genre />} />
+            <Route path="/study" element={<Study />} />
+            <Route path="/study/:studyNo" element={<Study />} />
+            <Route path="/exampleList/:studyNo" element={<ExampleList />} />
+            <Route path="/successexamlist" element={<SuccessExamList />} />
+            <Route path="/testlist" element={<TestList />} />
+            <Route path="/test/:testNo" element={<Test />} />
+            <Route path="/language" element={<Language />} />
+            <Route path="/testresult/:testNo" element={<TestResult />} />
+            <Route path="/rank" element={<Ranking />} />
+            <Route path="/loading" element={<LoadingPage/>}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </I18nextProvider>
   );
 }
 

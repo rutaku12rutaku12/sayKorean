@@ -59,11 +59,30 @@ public class StudyController {
 
 
     // [5] 주제에 맞는 예문 조회
-    @GetMapping("/getDailyStudy2")
-    public ResponseEntity<List<ExamDto>> getDailyStudy2(
+    @GetMapping("/exam/first")
+    public ResponseEntity<ExamDto> getFirstExam(
             @RequestParam @Positive int studyNo,
             @RequestParam(defaultValue = "1") int langNo
     ) {
-        return ResponseEntity.ok(studyService.getDailyStudy2(studyNo, langNo));
+        return ResponseEntity.ok(studyService.getFirstExam(studyNo, langNo));
+    }
+
+
+    @GetMapping("/exam/next")
+    public ResponseEntity<ExamDto> getNextExam(
+            @RequestParam @Positive int studyNo,
+            @RequestParam @Positive int currentExamNo,
+            @RequestParam(defaultValue = "1") int langNo
+    ) {
+        return ResponseEntity.ok(studyService.getNextExam(studyNo, currentExamNo , langNo));
+    }
+
+    @GetMapping("/exam/prev")
+    public ResponseEntity<ExamDto> getPrevExam(
+            @RequestParam @Positive int studyNo,
+            @RequestParam @Positive int currentExamNo,
+            @RequestParam(defaultValue = "1") int langNo
+    ) {
+        return ResponseEntity.ok(studyService.getPrevExam(studyNo, currentExamNo , langNo));
     }
 }

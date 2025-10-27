@@ -46,9 +46,19 @@ public class StudyService { // class start
     }
 
     // 주제에 맞는 예문 조회
-    // 일단은 DB저장 없이 조회만 가능
-    public List<ExamDto> getDailyStudy2( int studyNo , int langNo ){
-        List<ExamDto> result = studyMapper.getDailyStudy2( studyNo , langNo );
+    public ExamDto getFirstExam( int studyNo , int langNo ){
+        ExamDto result = studyMapper.getFirstExam( studyNo , langNo );
+        return result;
+    }
+
+
+    public ExamDto getNextExam( int studyNo , int currentExamNo , int langNo ){
+        ExamDto result = studyMapper.getNextExam( studyNo , currentExamNo , langNo );
+        return result;
+    }
+
+    public ExamDto getPrevExam( int studyNo , int currentExamNo , int langNo ){
+        ExamDto result = studyMapper.getPrevExam( studyNo , currentExamNo , langNo );
         return result;
     }
 
