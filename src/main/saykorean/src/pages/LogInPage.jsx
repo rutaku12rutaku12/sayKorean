@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { logIn } from "../store/userSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/LogIn.css";
 
 export default function LogInPage(props){
@@ -80,8 +80,24 @@ export default function LogInPage(props){
             console.log("입력 이메일:", email, "입력 비번:", password);
             alert("로그인 정보가 잘못되거나 없는 계정입니다.")
         }
-
     }
+
+useEffect(() => {
+  const checkLogin = async () => {
+    try {
+      const option = { withCredentials: true };
+      const response = await axios.get("http://localhost:8080/saykorean/info", option);
+      if(response.data) {
+        dispatch(logIn(response.data));
+      }
+    } catch (e) {
+      console.log("로그인 안됨:", e);
+    }
+  }
+  checkLogin();
+}, []);
+
+    
          return(<><h3>로그인 페이지 </h3>
     <div className="label">이메일 (email)</div>
         <div className="row">
@@ -102,6 +118,11 @@ export default function LogInPage(props){
         <button onClick={onFind}>이메일찾기/비밀번호찾기</button>     
         <br/>
         <button onClick={() => navigate("/signup")}>회원가입</button>
+        
+    </div>
+    <div style={{display:"flex" , justifyContent: "space-evenly"}}>
+        <a href="http://localhost:8080/oauth2/authorization/google"> <img src="/img\loginLogo_img\web_light_sq_SI@1x.png" /></a>   
+        <a href="http://localhost:8080/oauth2/authorization/kakao"> <img src="/img\loginLogo_img\kakao_login_medium_narrow.png" style={{height:40}} /></a>
     </div>
     </>)
 }

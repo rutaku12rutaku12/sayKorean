@@ -40,10 +40,11 @@ public class UserService {
         UserDto userDto = userMapper.checkUid(uid);
         if( userDto == null ){
             UserDto oauthUser = new UserDto();
-            oauthUser.setUid(uid);
-            oauthUser.setSignupMethod(2);
-            oauthUser.setPassword("oauth");
+            oauthUser.setEmail(uid);
             oauthUser.setName(name);
+            oauthUser.setNickName("토돌이");
+            oauthUser.setPassword("oauth");
+            oauthUser.setSignupMethod(2);
             oauthUser.setUrole("USER");
             userMapper.signUp(oauthUser);
             return oauthUser;

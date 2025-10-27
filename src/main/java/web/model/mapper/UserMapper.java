@@ -1,7 +1,5 @@
 package web.model.mapper;
 
-import org.apache.catalina.User;
-import org.apache.commons.compress.harmony.pack200.CPUTF8;
 import org.apache.ibatis.annotations.*;
 import web.model.dto.*;
 

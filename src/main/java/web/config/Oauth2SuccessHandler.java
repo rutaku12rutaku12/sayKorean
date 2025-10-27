@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -11,6 +12,7 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import web.model.dto.UserDto;
 import web.service.UserService;
 
 import java.io.IOException;
@@ -45,14 +47,21 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         }
         else if( provider.equals("kakao")){
             Map<String, Object> kakaoAccount = oAuth2User.getAttribute("kakao_account");
+            // 카카오 계정이 없거나 카카오계정에 이메일이 없을 경우
+            if(kakaoAccount == null || kakaoAccount.get("email") == null){
+                response.sendRedirect("http://localhost:5173/login");
+            }
+            uid = (String)kakaoAccount.get("email");
+            System.out.println("uid = " + uid);
             Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-            uid = (String)profile.get("nickname"); // 계정 id는 동의항목의 권한이 없으므로 임의
             name = (String)profile.get("nickname");
         }
         // oauth2 정보를 데이터베이스 저장
-        userService.oauth2UserSignup( uid, name);
+        UserDto userDto = userService.oauth2UserSignup( uid, name);
 
-        // 자사 로그인 방식 통합 , 권한은 USER
+
+        HttpSession session = request.getSession(true);
+        session.setAttribute("userNo", userDto.getUserNo());
 
         // 로그인 성공시 어딛로 이동할지 (프론트엔드 루트)
         response.sendRedirect("http://localhost:5173/home");
