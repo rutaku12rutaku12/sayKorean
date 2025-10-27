@@ -66,11 +66,14 @@ export default function Test() {
     navigate("/loading", {
       state: {
         action: "submitAnswer",
-        backTo,
-        payload: { url, body }
-      },
+        payload: {
+          testNo,    // 추가
+          url,
+          body
+        }
+      }
     });
-    return;
+      return;
   }
 
   // 객관식이면 바로 채점 요청 수행
