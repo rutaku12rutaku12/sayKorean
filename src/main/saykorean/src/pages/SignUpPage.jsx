@@ -6,11 +6,8 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import "../styles/SignUpPage.css"
 import ReCAPTCHA from "react-google-recaptcha";
-import { useTranslation } from "react-i18next";
 
 export default function SignUpPage (props){
-
-    const { t } = useTranslation();
     console.log("SignUpPage.jsx open")
     
     // disptach , navigate 함수 가져오기
@@ -129,42 +126,32 @@ export default function SignUpPage (props){
     
     
 
-return (
-  <>
-    <h3>{t("login.title")}</h3>
-    <div className="label">{t("account.email")} (email)</div>
-    <div className="row">
-      <input
-        className="input"
-        type="email"
-        placeholder={t("account.emailPlaceholder")}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        autoComplete="username"
-      />
-    </div>
-    <input
-      type="password"
-      placeholder={t("account.passwordPlaceholder")}
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
-    <br />
-    <div className="homePage__actions">
-      <button onClick={onLogin}>{t("login.button")}</button>
-      <br />
-      <button onClick={onFind}>{t("login.find")}</button>
-      <br />
-      <button onClick={() => navigate("/signup")}>{t("signup.button")}</button>
-    </div>
-    <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-      <a href="http://localhost:8080/oauth2/authorization/google">
-        <img src="/img\loginLogo_img\web_light_sq_SI@1x.png" />
-      </a>
-      <a href="http://localhost:8080/oauth2/authorization/kakao">
-        <img src="/img\loginLogo_img\kakao_login_medium_narrow.png" style={{ height: 40 }} />
-      </a>
-    </div>
-  </>
-);
+    return(<> <h3>회원가입</h3><br/>
+        <div>
+            이름 (name) <br/>
+            <input type="text" placeholder="이름을 입력해주세요." value={name} onChange={(e)=> setName(e.target.value)} /> <br/>
+            이메일 (email) <br/>
+            <input type="email" placeholder="이메일을 입력해주세요." value={email} onChange={(e)=> setEmail(e.target.value)} /> <button onClick={CheckEmail}> 중복 확인</button> <br/>
+            비밀번호 (password) <br/>
+            <input type="password" placeholder="비밀번호를 입력해주세요." value={password} onChange={(e)=> setPassword(e.target.value)} /> <br/>
+            닉네임 (nickName) <br/>
+            <input type="text" placeholder="닉네임을 입력해주세요." value={nickName} onChange={(e)=> setNickName(e.target.value)} /> <br/>
+            연락처 (phone) <br/>
+            <PhoneInput
+            country={'kr'} // initial country
+            preferredCountries={['us', 'cn', 'jp', 'kr']} // country codes to be at the top
+            enableSearch={true}
+            value={phone}
+            onChange={handlePhoneChange}
+                inputProps={{ name: 'phone', required: true }}
+                inputStyle={{ width: '200px', height: '20px', fontSize: '15px' }}
+            /> <button type="button" onClick={CheckPhone}> 중복 확인</button> <br/>   
+            <br/>
+            <ReCAPTCHA
+                sitekey={API_KEY}
+                onChange={handleCaptchaChange}
+            />
+            <button onClick={onSignup}>회원가입 (SignUp) </button>
+        </div>
+    </>)
 }
