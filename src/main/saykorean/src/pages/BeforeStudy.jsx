@@ -5,12 +5,14 @@ import "../styles/BeforeStudy.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../store/userSlice";
+import { useTranslation } from "react-i18next";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
 export default function BeforeStudy() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   // 근데 왜 초기에 한 번 실행되어야 하는데 한꺼번에 두 번 실행되는걸까?
   // React 18 개발모드 + StrictMode 때문
@@ -64,13 +66,17 @@ export default function BeforeStudy() {
   // 이동 전에 화면 깜빡임 방지
   if (!isAuthenticated) return null;
 
-  return (<>
-    <div id="BeforeStudy">
-      <img className="startGenreImg" src="/img/BeforeStudy.png" />
-      <div className="startBox">
-        <h3>한국어를 배워보아요</h3>
-        <button className="startStudy" onClick={startStudy}> 학습 시작 </button>
+return (
+    <>
+      <div id="BeforeStudy">
+        <img className="startGenreImg" src="/img/BeforeStudy.png" />
+        <div className="startBox">
+          <h3>{t("beforeStudy.title")}</h3>
+          <button className="startStudy" onClick={startStudy}>
+            {t("beforeStudy.start")}
+          </button>
+        </div>
       </div>
-    </div>
-  </>)
+    </>
+  );
 }

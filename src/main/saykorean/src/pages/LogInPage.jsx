@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { logIn } from "../store/userSlice";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "../styles/LogIn.css";
 
 export default function LogInPage(props){
@@ -11,6 +12,7 @@ export default function LogInPage(props){
     const dispatch = useDispatch();
     // 가상 URL 로 페이지 전환 navigate 함수 가져오기
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     // 이메일,패스워드 상태관리
     const [email, setEmail] = useState("");
@@ -102,31 +104,42 @@ useEffect(() => {
 }, []);
 
     
-         return(<><h3>로그인 페이지 </h3>
-    <div className="label">이메일 (email)</div>
-        <div className="row">
-          <input
-            className="input"
-            type="email"
-            placeholder="이메일을 입력해주세요."
-            value={email}
-            onChange={(e)=> setEmail(e.target.value)}
-            autoComplete="username"
-          />
-        </div>
-        <input type="password" placeholder="비밀번호" value={password} onChange={(e)=>setPassword(e.target.value)} />
-    <br/>
+         return (
+  <>
+    <h3>{t("login.title")}</h3>
+    <div className="label">{t("account.email")} (email)</div>
+    <div className="row">
+      <input
+        className="input"
+        type="email"
+        placeholder={t("account.emailPlaceholder")}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        autoComplete="username"
+      />
+    </div>
+    <input
+      type="password"
+      placeholder={t("account.passwordPlaceholder")}
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    <br />
     <div className="homePage__actions">
-        <button onClick={onLogin}>로그인</button>
-        <br/>
-        <button onClick={onFind}>이메일찾기/비밀번호찾기</button>     
-        <br/>
-        <button onClick={() => navigate("/signup")}>회원가입</button>
-        
+      <button onClick={onLogin}>{t("login.button")}</button>
+      <br />
+      <button onClick={onFind}>{t("login.find")}</button>
+      <br />
+      <button onClick={() => navigate("/signup")}>{t("signup.button")}</button>
     </div>
-    <div style={{display:"flex" , justifyContent: "space-evenly"}}>
-        <a href="http://localhost:8080/oauth2/authorization/google"> <img src="/img\loginLogo_img\web_light_sq_SI@1x.png" /></a>   
-        <a href="http://localhost:8080/oauth2/authorization/kakao"> <img src="/img\loginLogo_img\kakao_login_medium_narrow.png" style={{height:40}} /></a>
+    <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+      <a href="http://localhost:8080/oauth2/authorization/google">
+        <img src="/img\loginLogo_img\web_light_sq_SI@1x.png" />
+      </a>
+      <a href="http://localhost:8080/oauth2/authorization/kakao">
+        <img src="/img\loginLogo_img\kakao_login_medium_narrow.png" style={{ height: 40 }} />
+      </a>
     </div>
-    </>)
+  </>
+);
 }

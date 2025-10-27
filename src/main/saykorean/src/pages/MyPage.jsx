@@ -7,8 +7,7 @@ import "../styles/MyPage.css"
 import { getAttend } from "../store/attendSlice";
 axios.defaults.withCredentials = true;
 import { useTranslation } from "react-i18next";
-import Ranking from "./Ranking";
-import i18n from "../i18n";
+import SuccessExamList from "./SuccessExamList";
 
 export default function MyPage(props) {
   console.log("MyPage.jsx open")
@@ -71,6 +70,10 @@ export default function MyPage(props) {
 
   const onRanking = async () => {
     navigate("/rank")
+  }
+
+  const successExamListBtn = async() => {
+    navigate("/successexamlist")
   }
 
   const getGenre = async () => {
@@ -199,6 +202,7 @@ export default function MyPage(props) {
         <button className="pillBtn" onClick={onUpdate}>{t("mypage.updateInfo")}</button>
          <button className="pillBtn" onClick={onGenre}>{t("mypage.selectGenre")}</button>
         <button className="pillBtn" onClick={onLanguage}>{t("mypage.selectLanguage")}</button>
+        <button className="pillBtn" onClick={ successExamListBtn }>{t("mypage.mySuccessedStudy")}</button>
       </div>
     </section>
   </div>
