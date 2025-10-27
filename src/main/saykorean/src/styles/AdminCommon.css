@@ -1,11 +1,16 @@
 /* ===== 관리자 공통 스타일 ===== */
 
+html {
+    overflow-y: scroll; 
+}
+
 /* 레이아웃 */
 .admin-layout {
   width: 1280px;
   margin: 0 auto;
   min-height: 100vh;
   background-color: #f8f9fa;
+  
 }
 
 .admin-container {
