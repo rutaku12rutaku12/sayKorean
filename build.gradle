@@ -73,6 +73,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // [21] oauth2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // [22] Apache POI (Excel 생성)
+    implementation 'org.apache.poi:poi:5.2.5' // 최신 안정 버전 권장
+    implementation 'org.apache.poi:poi-ooxml:5.2.5' // 최신 안정 버전 권장
 
 
 

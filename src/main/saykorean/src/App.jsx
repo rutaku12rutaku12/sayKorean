@@ -37,11 +37,15 @@ import AdminNav from "./components/AdminNav";
 import AdminTestList from "./adminPages/AdminTestList";
 import AdminTestCreate from "./adminPages/AdminTestCreate";
 import AdminTestEdit from "./adminPages/AdminTestEdit";
+import AdminUserList from "./adminPages/AdminUserList.jsx";
+import AdminUserIndi from "./adminPages/AdminUserIndi.jsx";
 
 // 랭킹
 import Ranking from "./pages/Ranking.jsx";
 
+// CSS
 import "./styles/App.css";
+
 
 // 언어 변환 - 정유진
 
@@ -96,6 +100,8 @@ function App() {
           <Route path="test" element={<AdminTestList />} />
           <Route path="test/create" element={<AdminTestCreate />} />
           <Route path="test/edit/:testNo" element={<AdminTestEdit />} />
+          <Route path="user" element={<AdminUserList />} />
+          <Route path="user/:userNo" element={<AdminUserIndi />} />
         </Route>
 
         {/* 로딩페이지 */}
