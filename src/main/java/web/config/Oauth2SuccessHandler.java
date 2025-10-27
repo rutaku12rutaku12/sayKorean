@@ -6,16 +6,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import web.model.dto.UserDto;
 import web.service.UserService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -50,6 +56,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
             // 카카오 계정이 없거나 카카오계정에 이메일이 없을 경우
             if(kakaoAccount == null || kakaoAccount.get("email") == null){
                 response.sendRedirect("http://localhost:5173/login");
+                return;
             }
             uid = (String)kakaoAccount.get("email");
             System.out.println("uid = " + uid);
@@ -59,11 +66,22 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         // oauth2 정보를 데이터베이스 저장
         UserDto userDto = userService.oauth2UserSignup( uid, name);
 
+        // UserDto 기반으로 Authentication 생성
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(
+                        userDto,
+                        null,
+                        List.of(new SimpleGrantedAuthority("USER"))
+                );
+        // SecurityContextHolder에 인증정보 세팅
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         HttpSession session = request.getSession(true);
         session.setAttribute("userNo", userDto.getUserNo());
 
         // 로그인 성공시 어딛로 이동할지 (프론트엔드 루트)
         response.sendRedirect("http://localhost:5173/home");
+
+
     }
 }

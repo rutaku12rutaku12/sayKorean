@@ -38,18 +38,21 @@ public class UserService {
     public UserDto oauth2UserSignup( String uid , String name ){
         // 기존 회원인지 검사
         UserDto userDto = userMapper.checkUid(uid);
-        if( userDto == null ){
-            UserDto oauthUser = new UserDto();
-            oauthUser.setEmail(uid);
-            oauthUser.setName(name);
-            oauthUser.setNickName("토돌이");
-            oauthUser.setPassword("oauth");
-            oauthUser.setSignupMethod(2);
-            oauthUser.setUrole("USER");
-            userMapper.signUp(oauthUser);
-            return oauthUser;
+        // 이미 존재하면 신규 가입 건너 뛰고 기존 회원 반환
+        if( userDto != null){
+            return userDto;
         }
-        return null;
+        // 존재하지 않으면 신규 유저 생성
+        UserDto oauthUser = new UserDto();
+        oauthUser.setEmail(uid);
+        oauthUser.setName(name);
+        oauthUser.setNickName("토돌이");
+        oauthUser.setPassword("oauth");
+        oauthUser.setSignupMethod(2);
+        oauthUser.setUrole("USER");
+
+        userMapper.signUp(oauthUser);
+        return oauthUser;
     }
 
     // [US-02] 로그인 logIn()

@@ -34,7 +34,7 @@ public class SecurityConfig {
 
         // Oauth2 로그인 필터 사용 설정
         http.oauth2Login(o->o
-                .loginPage("/oauth2/authorization/google") // 현재 서버의 로그인 페이지가 아닌 구글 로그인페이지 사용
+                .loginPage("/login")
                 .successHandler(oauth2SuccessHandler) // 타 로그인 페이지에서 로그인 성공시 반환되는 클래스
         );
 

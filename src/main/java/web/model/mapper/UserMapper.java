@@ -16,7 +16,7 @@ public interface UserMapper {
     public LoginDto logIn(LoginDto loginDto);
 
     // [US-02-1] 아이디 존재 여부 확인 , 소셜 회원가입용
-    @Select("select * from users where uid = #{uid} and userState != -1")
+    @Select("select * from users where email = #{uid} and userState != -1")
     UserDto checkUid(String uid);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
