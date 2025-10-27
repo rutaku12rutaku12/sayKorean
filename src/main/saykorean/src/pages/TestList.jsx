@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { logIn } from "../store/userSlice";
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
+import { useTranslation } from "react-i18next";
 
 export default function TestList( props ){
 
     const navigate = useNavigate();
+      const { t } = useTranslation();
 
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState("");
@@ -59,30 +61,29 @@ export default function TestList( props ){
     if (!isAuthenticated) return null;
 
 
-    return (<>
-        <div id="TestList">
-            <div className="panel">
-                <h3 className="panelTitle">테스트 선택</h3>
+    return (
+    <>
+      <div id="TestList">
+        <div className="panel">
+          <h3 className="panelTitle">{t("testList.title")}</h3>
 
-                {loading && <div className="toast loading">불러오는 중...</div>}
-                {error && <div className="toast error">{error}</div>}
+          {loading && <div className="toast loading">{t("common.loading")}</div>}
+          {error && <div className="toast error">{error}</div>}
 
-
-                <ul className="testListWrap">
-                    {testList.map((t) => (
-                        <li key={t.testNo} className="testList">
-                            <div className="test">
-                                {t.testTitle ?? `테스트 #${t.testNo}`}
-                                <button onClick={() => navigate(`/test/${t.testNo}`)}> 이동 </button>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-
-            </div>
+          <ul className="testListWrap">
+            {testList.map((tItem) => (
+              <li key={tItem.testNo} className="testList">
+                <div className="test">
+                  {tItem.testTitle ?? t("testList.fallbackTitle", { num: tItem.testNo })}
+                  <button onClick={() => navigate(`/test/${tItem.testNo}`)}>
+                    {t("testList.go")}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
-     
-
-     
-     </>)
+      </div>
+    </>
+  );
 }

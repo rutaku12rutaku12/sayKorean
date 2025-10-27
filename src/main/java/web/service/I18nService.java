@@ -64,7 +64,53 @@ public class I18nService {
                     Map.entry("ranking.info.title", "📊 랭킹 기준 설명"),
                     Map.entry("ranking.info.accuracy", "정답률이 높은 순서로 순위를 매깁니다. (최소 5문제 이상 풀이 필요)"),
                     Map.entry("ranking.info.challenge", "가장 많은 문제를 푼 사용자 순서로 순위를 매깁니다."),
-                    Map.entry("ranking.info.persistence", "같은 문제를 여러 번 재도전한 평균 횟수가 높은 순서로 순위를 매깁니다.")
+                    Map.entry("ranking.info.persistence", "같은 문제를 여러 번 재도전한 평균 횟수가 높은 순서로 순위를 매깁니다."),
+                    // ko
+                    Map.entry("genre.title", "장르 선택"),
+                    Map.entry("genre.name.daily", "일상회화"),
+                    Map.entry("genre.name.society", "현대사회"),
+                    Map.entry("genre.name.media", "미디어"),
+                    Map.entry("genre.name.kpop", "K-POP"),
+                    Map.entry("genre.name.tradition", "전통"),
+                    Map.entry("genre.name.digital", "디지털"),
+                    Map.entry("genre.name.dialect", "방언"),
+                    Map.entry("beforeStudy.title", "한국어를 배워보아요"),
+                    Map.entry("beforeStudy.start", "학습 시작"),
+                    Map.entry("test.title", "시험 문항"),
+                    Map.entry("test.empty", "문항이 없습니다."),
+                    Map.entry("test.options.loadError", "선택지를 불러올 수 없습니다."),
+                    Map.entry("test.subjective.placeholder", "답을 입력하세요"),
+                    Map.entry("test.submit", "제출"),
+                    Map.entry("test.feedback.correct", "✅ 정답!"),
+                    Map.entry("test.feedback.wrong", "❌ 오답!"),
+                    Map.entry("test.score.unit", "점"),
+                    Map.entry("test.next", "다음 문제"),
+                    Map.entry("test.result.view", "결과 보기"),
+                    // ko
+                    Map.entry("testList.title", "테스트 선택"),
+                    Map.entry("testList.fallbackTitle", "테스트 #{{num}}"),
+                    Map.entry("testList.go", "이동"),
+                    Map.entry("signup.title", "회원가입"),
+                    Map.entry("signup.button", "회원가입"),
+                    Map.entry("account.check", "중복 확인"),
+
+                    Map.entry("account.password", "비밀번호"),
+                    Map.entry("account.passwordPlaceholder", "비밀번호를 입력해주세요."),
+                    Map.entry("account.nickname", "닉네임"),
+                    Map.entry("account.nicknamePlaceholder", "닉네임을 입력해주세요."),
+                    // ko
+                    Map.entry("successList.title", "내가 완수한 주제 목록 조회"),
+                    Map.entry("successList.fallbackTitle", "주제 #{{num}}"),
+                    Map.entry("successList.go", "이동"),
+                    Map.entry("successList.empty", "완수한 주제가 아직 없습니다."),
+                    // ko
+                    Map.entry("login.title", "로그인 페이지"),
+                    Map.entry("login.button", "로그인"),
+                    Map.entry("login.find", "이메일 찾기/비밀번호 찾기"),
+                    Map.entry("mypage.mySuccessedStudy", "완수한 주제 목록")
+
+
+
 
 
 
@@ -125,7 +171,54 @@ public class I18nService {
                     Map.entry("ranking.info.title", "📊 ランキング基準の説明"),
                     Map.entry("ranking.info.accuracy", "正答率が高い順に順位を付けます。（少なくとも5問以上の解答が必要）"),
                     Map.entry("ranking.info.challenge", "最も多くの問題を解いたユーザー順に順位を付けます。"),
-                    Map.entry("ranking.info.persistence", "同じ設問への平均再挑戦回数が高い順に順位を付けます。")
+                    Map.entry("ranking.info.persistence", "同じ設問への平均再挑戦回数が高い順に順位を付けます。"),
+                    // ja
+                    Map.entry("genre.title", "ジャンルを選択"),
+                    Map.entry("genre.name.daily", "日常会話"),
+                    Map.entry("genre.name.society", "現代社会"),
+                    Map.entry("genre.name.media", "メディア"),
+                    Map.entry("genre.name.kpop", "K-POP"),
+                    Map.entry("genre.name.tradition", "伝統"),
+                    Map.entry("genre.name.digital", "デジタル"),
+                    Map.entry("genre.name.dialect", "方言"),
+                    Map.entry("beforeStudy.title", "韓国語を学びましょう"),
+                    Map.entry("beforeStudy.start", "学習を始める"),
+                    Map.entry("test.title", "テスト問題"),
+                    Map.entry("test.empty", "問題がありません。"),
+                    Map.entry("test.options.loadError", "選択肢を読み込めませんでした。"),
+                    Map.entry("test.subjective.placeholder", "答えを入力してください"),
+                    Map.entry("test.submit", "提出"),
+                    Map.entry("test.feedback.correct", "✅ 正解！"),
+                    Map.entry("test.feedback.wrong", "❌ 不正解！"),
+                    Map.entry("test.score.unit", "点"),
+                    Map.entry("test.next", "次の問題"),
+                    Map.entry("test.result.view", "結果を見る"),
+                    // ja
+                    Map.entry("testList.title", "テストを選択"),
+                    Map.entry("testList.fallbackTitle", "テスト #{{num}}"),
+                    Map.entry("testList.go", "移動"),
+                    Map.entry("signup.title", "新規登録"),
+                    Map.entry("signup.button", "新規登録"),
+                    Map.entry("account.check", "重複確認"),
+
+                    Map.entry("account.password", "パスワード"),
+                    Map.entry("account.passwordPlaceholder", "パスワードを入力してください。"),
+                    Map.entry("account.nickname", "ニックネーム"),
+                    Map.entry("account.nicknamePlaceholder", "ニックネームを入力してください。"),
+                    // ja
+                    Map.entry("successList.title", "達成したテーマ一覧"),
+                    Map.entry("successList.fallbackTitle", "テーマ #{{num}}"),
+                    Map.entry("successList.go", "移動"),
+                    Map.entry("successList.empty", "まだ達成したテーマがありません。"),
+                    // ja
+                    Map.entry("login.title", "ログインページ"),
+                    Map.entry("login.button", "ログイン"),
+                    Map.entry("login.find", "メールアドレス/パスワードを探す"),
+                    // ja
+                    Map.entry("mypage.mySuccessedStudy", "達成したテーマ一覧")
+
+
+
 
 
                     ),
@@ -185,7 +278,54 @@ public class I18nService {
                     Map.entry("ranking.info.title", "📊 排行规则说明"),
                     Map.entry("ranking.info.accuracy", "按正确率从高到低排名。（至少答 5 题）"),
                     Map.entry("ranking.info.challenge", "按解题数量从多到少排名。"),
-                    Map.entry("ranking.info.persistence", "按同一题目的平均重试次数从高到低排名。")
+                    Map.entry("ranking.info.persistence", "按同一题目的平均重试次数从高到低排名。"),
+                    // zh-CN
+                    Map.entry("genre.title", "选择类别"),
+                    Map.entry("genre.name.daily", "日常会话"),
+                    Map.entry("genre.name.society", "现代社会"),
+                    Map.entry("genre.name.media", "媒体"),
+                    Map.entry("genre.name.kpop", "K-POP"),
+                    Map.entry("genre.name.tradition", "传统"),
+                    Map.entry("genre.name.digital", "数字化"),
+                    Map.entry("genre.name.dialect", "方言"),
+                    // zh-CN
+                    Map.entry("beforeStudy.title", "一起学习韩语吧"),
+                    Map.entry("beforeStudy.start", "开始学习"),
+                    Map.entry("test.title", "考试题目"),
+                    Map.entry("test.empty", "没有题目。"),
+                    Map.entry("test.options.loadError", "无法加载选项。"),
+                    Map.entry("test.subjective.placeholder", "请输入答案"),
+                    Map.entry("test.submit", "提交"),
+                    Map.entry("test.feedback.correct", "✅ 正确！"),
+                    Map.entry("test.feedback.wrong", "❌ 错误！"),
+                    Map.entry("test.score.unit", "分"),
+                    Map.entry("test.next", "下一题"),
+                    Map.entry("test.result.view", "查看结果"),
+                    // zh-CN
+                    Map.entry("testList.title", "选择测试"),
+                    Map.entry("testList.fallbackTitle", "测试 #{{num}}"),
+                    Map.entry("testList.go", "前往"),
+                    Map.entry("signup.title", "注册账号"),
+                    Map.entry("signup.button", "注册"),
+                    Map.entry("account.check", "重复检查"),
+
+                    Map.entry("account.password", "密码"),
+                    Map.entry("account.passwordPlaceholder", "请输入密码。"),
+                    Map.entry("account.nickname", "昵称"),
+                    Map.entry("account.nicknamePlaceholder", "请输入昵称。"),
+                    // zh-CN
+                    Map.entry("successList.title", "我完成的主题列表"),
+                    Map.entry("successList.fallbackTitle", "主题 #{{num}}"),
+                    Map.entry("successList.go", "前往"),
+                    Map.entry("successList.empty", "尚无已完成的主题。"),
+                    // zh-CN
+                    Map.entry("login.title", "登录页面"),
+                    Map.entry("login.button", "登录"),
+                    Map.entry("login.find", "找回邮箱/找回密码"),
+                    // zh-CN
+                    Map.entry("mypage.mySuccessedStudy", "已完成的主题列表")
+
+
 
 
                     ),
@@ -245,7 +385,54 @@ public class I18nService {
                     Map.entry("ranking.info.title", "📊 Ranking Criteria"),
                     Map.entry("ranking.info.accuracy", "Ranked by highest accuracy. (Requires solving at least 5 questions)"),
                     Map.entry("ranking.info.challenge", "Ranked by the number of questions solved."),
-                    Map.entry("ranking.info.persistence", "Ranked by higher average retries on the same item.")
+                    Map.entry("ranking.info.persistence", "Ranked by higher average retries on the same item."),
+                    // en
+                    Map.entry("genre.title", "Select Genre"),
+                    Map.entry("genre.name.daily", "Daily Conversation"),
+                    Map.entry("genre.name.society", "Modern Society"),
+                    Map.entry("genre.name.media", "Media"),
+                    Map.entry("genre.name.kpop", "K-POP"),
+                    Map.entry("genre.name.tradition", "Tradition"),
+                    Map.entry("genre.name.digital", "Digital"),
+                    Map.entry("genre.name.dialect", "Dialect"),
+                    Map.entry("beforeStudy.title", "Let's learn Korean"),
+                    Map.entry("beforeStudy.start", "Start Study"),
+                    Map.entry("test.title", "Test Questions"),
+                    Map.entry("test.empty", "No questions available."),
+                    Map.entry("test.options.loadError", "Failed to load options."),
+                    Map.entry("test.subjective.placeholder", "Enter your answer"),
+                    Map.entry("test.submit", "Submit"),
+                    Map.entry("test.feedback.correct", "✅ Correct!"),
+                    Map.entry("test.feedback.wrong", "❌ Incorrect!"),
+                    Map.entry("test.score.unit", "pts"),
+                    Map.entry("test.next", "Next"),
+                    Map.entry("test.result.view", "View Results"),
+                    // en
+                    Map.entry("testList.title", "Select Test"),
+                    Map.entry("testList.fallbackTitle", "Test #{{num}}"),
+                    Map.entry("testList.go", "Go"),
+                    Map.entry("signup.title", "Sign Up"),
+                    Map.entry("signup.button", "Sign Up"),
+                    Map.entry("account.check", "Check"),
+
+                    Map.entry("account.password", "Password"),
+                    Map.entry("account.passwordPlaceholder", "Please enter your password."),
+                    Map.entry("account.nickname", "Nickname"),
+                    Map.entry("account.nicknamePlaceholder", "Please enter your nickname."),
+                    // en
+                    Map.entry("successList.title", "Completed Topics"),
+                    Map.entry("successList.fallbackTitle", "Topic #{{num}}"),
+                    Map.entry("successList.go", "Go"),
+                    Map.entry("successList.empty", "No completed topics yet."),
+                    // en
+                    Map.entry("login.title", "Log In Page"),
+                    Map.entry("login.button", "Log In"),
+                    Map.entry("login.find", "Find Email / Password"),
+                    // en
+                    Map.entry("mypage.mySuccessedStudy", "Completed Topics")
+
+
+
 
 
                     ),
@@ -305,7 +492,53 @@ public class I18nService {
                     Map.entry("ranking.info.title", "📊 Criterios del ranking"),
                     Map.entry("ranking.info.accuracy", "Se ordena por mayor precisión. (Se requieren al menos 5 preguntas)"),
                     Map.entry("ranking.info.challenge", "Se ordena por la mayor cantidad de preguntas resueltas."),
-                    Map.entry("ranking.info.persistence", "Se ordena por mayor promedio de reintentos en la misma pregunta.")
+                    Map.entry("ranking.info.persistence", "Se ordena por mayor promedio de reintentos en la misma pregunta."),
+                    // en
+                    Map.entry("genre.title", "Select Genre"),
+                    Map.entry("genre.name.daily", "Conversación diaria"),
+                    Map.entry("genre.name.society", "Sociedad moderna"),
+                    Map.entry("genre.name.media", "Medios"),
+                    Map.entry("genre.name.kpop", "K-POP"),
+                    Map.entry("genre.name.tradition", "Tradición"),
+                    Map.entry("genre.name.digital", "Digital"),
+                    Map.entry("genre.name.dialect", "Dialectos"),
+                    // es
+                    Map.entry("beforeStudy.title", "Aprendamos coreano"),
+                    Map.entry("beforeStudy.start", "Iniciar estudio"),
+                    Map.entry("test.title", "Preguntas de examen"),
+                    Map.entry("test.empty", "No hay preguntas."),
+                    Map.entry("test.options.loadError", "No se pudieron cargar las opciones."),
+                    Map.entry("test.subjective.placeholder", "Introduce tu respuesta"),
+                    Map.entry("test.submit", "Enviar"),
+                    Map.entry("test.feedback.correct", "✅ ¡Correcto!"),
+                    Map.entry("test.feedback.wrong", "❌ ¡Incorrecto!"),
+                    Map.entry("test.score.unit", "pts"),
+                    Map.entry("test.next", "Siguiente pregunta"),
+                    Map.entry("test.result.view", "Ver resultados"),
+                    // es
+                    Map.entry("testList.title", "Seleccionar prueba"),
+                    Map.entry("testList.fallbackTitle", "Prueba #{{num}}"),
+                    Map.entry("testList.go", "Ir"),
+                    Map.entry("signup.title", "Registrarse"),
+                    Map.entry("signup.button", "Registrar"),
+                    Map.entry("account.check", "Verificar"),
+
+                    Map.entry("account.password", "Contraseña"),
+                    Map.entry("account.passwordPlaceholder", "Introduce tu contraseña."),
+                    Map.entry("account.nickname", "Apodo"),
+                    Map.entry("account.nicknamePlaceholder", "Introduce tu apodo."),
+                    // es
+                    Map.entry("successList.title", "Lista de temas completados"),
+                    Map.entry("successList.fallbackTitle", "Tema #{{num}}"),
+                    Map.entry("successList.go", "Ir"),
+                    Map.entry("successList.empty", "Aún no hay temas completados."),
+                    // es
+                    Map.entry("login.title", "Página de inicio de sesión"),
+                    Map.entry("login.button", "Iniciar sesión"),
+                    Map.entry("login.find", "Recuperar correo/contraseña"),
+                    // es
+                    Map.entry("mypage.mySuccessedStudy", "Temas completados")
+
 
 
 
