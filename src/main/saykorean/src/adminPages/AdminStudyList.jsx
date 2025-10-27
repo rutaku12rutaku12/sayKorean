@@ -18,11 +18,17 @@ export default function AdminStudyList(props) {
     // [*] 상세보기 상태 관리
     const [selectedGenreNo, setSelectedGenreNo] = useState(null);
     const [selectedStudyNo, setSelectedStudyNo] = useState(null);
+    const [loading , setLoading] = useState(false);
 
     // [*] 마운트 시 교육 전체 출력 로직
     useEffect(() => {
         fetchAllData();
     }, []);
+
+    // [*] 로딩 중 출력페이지
+    if (loading) {
+        return <div style={{ padding: '40px', textAlign: 'center' }}> <img src="/img/loading.png" style={{ maxWidth: '400px', borderRadius: '12px' }} /> </div>;
+    }
 
     // [1] 전체 데이터 조회
     const fetchAllData = async () => {

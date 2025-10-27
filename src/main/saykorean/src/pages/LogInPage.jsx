@@ -71,6 +71,10 @@ export default function LogInPage(props){
             const option = { withCredentials : true }
             const response = await axios.post("http://localhost:8080/saykorean/login",obj,option)
             const data = response.data;
+            if (data.userState == -2) {
+              alert("제재된 계정입니다.")
+              return;
+            }
             console.log("현재 로그인한 userNo:",data);
             dispatch(logIn(obj));
             navigate("/home");

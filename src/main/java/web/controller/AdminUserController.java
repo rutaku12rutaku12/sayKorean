@@ -81,7 +81,7 @@ public class AdminUserController {
     // 매개변수 userNo , int restrictDay
     // 반환 int(성공 1)
     // URL : http://localhost:8080/saykorean/admin/user/restrict
-    @GetMapping("/restrict")
+    @PutMapping("/restrict")
     public ResponseEntity<Integer> updateRestrictUser(
             @RequestParam int userNo,
             @RequestParam int restrictDay) {
