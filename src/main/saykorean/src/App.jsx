@@ -99,7 +99,7 @@ function App() {
         </Route>
 
         {/* 로딩페이지 */}
-        <Route path="/" element={<LoadingPage />} />
+        <Route path="/" element={<HomePage />} />
         {/* 404페이지 */}
         <Route path="*" element={<Page404 />} />
 
@@ -123,6 +123,7 @@ function App() {
           <Route path="/language" element={<Language />} />
           <Route path="/testresult/:testNo" element={<TestResult />} />
           <Route path="/rank" element={<Ranking />} />
+          <Route path="/loading" element={<LoadingPage/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
