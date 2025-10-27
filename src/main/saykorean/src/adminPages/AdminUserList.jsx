@@ -27,6 +27,8 @@ export default function AdminUserList() {
         fetchData();
     }, []);
 
+
+
     // [1] 전체 데이터 조회
     const fetchData = async () => {
         try {
@@ -150,15 +152,16 @@ export default function AdminUserList() {
     const getUserStateText = (state) => {
         switch (state) {
             case 1: return { text: "정상", color: "#4CAF50" };
-            case 0: return { text: "휴면", color: "#d9d9d9" }
-            case -1: return { text: "탈퇴예정", color: "#FF9800" }
-            case -2: return { text: "알 수 없음", color: "#999" };
+            case 0: return { text: "휴면", color: "#d9d9d9" };
+            case -1: return { text: "탈퇴예정", color: "#FF9800" };
+            case -2: return { text: "제재", color: "#f44336" };
+            default: return { text: "알 수 없음", color: "#999" };
         }
     }
 
-    // [9] 로딩 중
+    // [*] 로딩 중 출력페이지
     if (loading) {
-        return <div className="admin-loading"> 로딩 중... </div>;
+        return <div className="admin-loading"> <img src="/img/loading.png" /> </div>;
     }
 
     return (<>

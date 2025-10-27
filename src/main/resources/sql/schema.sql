@@ -147,7 +147,12 @@ CREATE TABLE IF NOT EXISTS exam (
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS test (
   testNo    INT         NOT NULL AUTO_INCREMENT,
-  testTitle VARCHAR(50) NOT NULL,
+  testTitle TEXT NOT NULL,
+  testTitleRoman TEXT ,
+  testTitleJp TEXT ,
+  testTitleCn TEXT ,
+  testTitleEn TEXT ,
+  testTitleEs TEXT ,
   studyNo   INT         NOT NULL,
   PRIMARY KEY (testNo),
   CONSTRAINT fk_test_study
@@ -179,9 +184,15 @@ CREATE TABLE IF NOT EXISTS audio (
 -- =====================================================================
 -- 9) 시험문항 테이블 (3단계 - FK: examNo, testNo)
 -- =====================================================================
+-- question 외국어로 번역 해야됨
 CREATE TABLE IF NOT EXISTS testItem (
   testItemNo INT      NOT NULL AUTO_INCREMENT,
   question   LONGTEXT NOT NULL,
+  questionRoman   LONGTEXT ,
+  questionJp   LONGTEXT ,
+  questionCn   LONGTEXT ,
+  questionEn   LONGTEXT ,
+  questionEs   LONGTEXT ,
   examNo     INT      NOT NULL,
   testNo     INT      NOT NULL,
   PRIMARY KEY (testItemNo),
