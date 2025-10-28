@@ -10,27 +10,39 @@ axios.defaults.withCredentials = true;
 export default function Test() {
   const { testNo } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
 
   const [items, setItems] = useState([]);
-  const [idx, setIdx] = useState(0);              // 현재 문제 인덱스
+  const [idx, setIdx] = useState(0);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
-  const location = useLocation();
-
   const [submitting, setSubmitting] = useState(false);
-  const [subjective, setSubjective] = useState(""); // 주관식 입력값
-  const [feedback, setFeedback] = useState(null);   // {correct:boolean, score:number}
+  const [subjective, setSubjective] = useState("");
+  const [feedback, setFeedback] = useState(null);
+  const [langNo, setLangNo] = useState(1);
+
+  function getLang() {
+    const stored = localStorage.getItem("selectedLangNo");
+    const n = Number(stored);
+    setLangNo(Number.isFinite(n) ? n : 1);
+  }
 
   const safeSrc = (s) => (typeof s === "string" && s.trim() !== "" ? s : null);
 
   useEffect(() => {
+    getLang();
+  }, []);
+
+  useEffect(() => {
+    if (!langNo) return;
+
     (async () => {
       try {
         setLoading(true);
         setMsg("");
         const res = await axios.get("/saykorean/test/findtestitem", {
-          params: { testNo },
+          params: { testNo, langNo },
         });
         const list = Array.isArray(res.data) ? res.data : [];
         setItems(list);
@@ -39,60 +51,57 @@ export default function Test() {
         setFeedback(null);
       } catch (e) {
         console.error(e);
-        setMsg("불러오는 중 오류가 발생했습니다.");
+        setMsg(t("test.options.loadError"));
       } finally {
         setLoading(false);
       }
     })();
-  }, [testNo]);
+  }, [testNo, langNo, t]);
 
   const cur = items[idx];
-  const isMultiple =
-    cur?.question?.startsWith("그림:") || cur?.question?.startsWith("음성:");
+  const norm = (cur?.questionSelected || "").trim().replace(/\s+/g, "");
+  const isImageMC = norm.startsWith("그림:");
+  const isAudioMC = norm.startsWith("음성:");
+  const isSubjective = norm.startsWith("주관식:");
+  const isMultiple = isImageMC || isAudioMC;
+
 
   async function submitAnswer(selectedExamNo = null) {
-  if (!cur) return;
+    if (!cur) return;
 
-  const body = {
-    testRound: 1,
-    selectedExamNo: selectedExamNo ?? 0,
-    userAnswer: selectedExamNo ? "" : subjective,
-    langHint: "ko",
-  };
+    const body = {
+      testRound: 1,
+      selectedExamNo: selectedExamNo ?? 0,
+      userAnswer: selectedExamNo ? "" : subjective,
+      langNo
+    };
 
-  const url = `/saykorean/test/${testNo}/items/${cur.testItemNo}/answer`;
+    const url = `/saykorean/test/${testNo}/items/${cur.testItemNo}/answer`;
 
-  // 주관식이면 로딩페이지로 이동
-  if (!selectedExamNo) {
-    const backTo = location.pathname + location.search;
-    navigate("/loading", {
-      state: {
-        action: "submitAnswer",
-        payload: {
-          testNo,    // 추가
-          url,
-          body
-        }
-      }
-    });
+    if (isSubjective && !selectedExamNo) {
+      navigate("/loading", {
+        state: {
+          action: "submitAnswer",
+          payload: { testNo, url, body },
+        },
+      });
       return;
+    }
+
+    try {
+      setSubmitting(true);
+      const res = await axios.post(url, body);
+      const { score, isCorrect } = res.data || {};
+      setFeedback({ correct: isCorrect == 1, score: Number(score) || 0 });
+    } catch (e) {
+      console.error(e);
+      alert(t("test.options.loadError"));
+    } finally {
+      setSubmitting(false);
+    }
   }
 
-  // 객관식이면 바로 채점 요청 수행
-  try {
-    setSubmitting(true);
-    const res = await axios.post(url, body);
-    const { score, isCorrect } = res.data || {};
-    setFeedback({ correct: isCorrect == 1, score: Number(score) || 0 });
-  } catch (e) {
-    console.error(e);
-    alert("제출 실패");
-  } finally {
-    setSubmitting(false);
-  }
-}
   function goNext() {
-    // 다음 문제로 이동. 마지막이면 결과 페이지로 이동
     if (idx < items.length - 1) {
       setIdx(idx + 1);
       setSubjective("");
@@ -102,37 +111,35 @@ export default function Test() {
     }
   }
 
-return (
-  <div id="test-page" className="homePage">
-    <h3>{t("test.title")}</h3>
 
-    {loading && <p>{t("common.loading")}</p>}
-    {msg && <p className="error">{msg}</p>}
-    {items.length === 0 && !loading && <p>{t("test.empty")}</p>}
+  return (
+    <div id="test-page" className="homePage">
+      <h3>{t("test.title")}</h3>
 
-    {cur && (
-      <div className="question-card">
-        <div className="q-head">
-          <span className="q-number">
-            {idx + 1} / {items.length}
-          </span>
-          <p className="q-text">{cur.question}</p>
-        </div>
+      {loading && <p>{t("common.loading")}</p>}
+      {msg && <p className="error">{msg}</p>}
+      {items.length === 0 && !loading && <p>{t("test.empty")}</p>}
 
-        {/* 이미지 */}
-        {safeSrc(cur?.imagePath) && (
-          <div className="q-media">
-            <img
-              src={safeSrc(cur.imagePath)}
-              alt={cur.imageName || "question"}
-              style={{ maxWidth: 320 }}
-            />
+      {cur && (
+        <div className="question-card">
+          <div className="q-head">
+            <span className="q-number">
+              {idx + 1} / {items.length}
+            </span>
+            <p className="q-text">{cur.questionSelected}</p>
           </div>
-        )}
 
-        {/* 오디오 */}
-        {Array.isArray(cur?.audios) &&
-          cur.audios.filter(a => safeSrc(a?.audioPath)).length > 0 && (
+          {isImageMC && safeSrc(cur?.imagePath) && (
+            <div className="q-media">
+              <img
+                src={safeSrc(cur.imagePath)}
+                alt={cur.imageName || "question"}
+                style={{ maxWidth: 320 }}
+              />
+            </div>
+          )}
+
+          {isAudioMC && Array.isArray(cur?.audios) && (
             <div className="q-audios">
               {cur.audios
                 .filter(a => safeSrc(a?.audioPath))
@@ -142,90 +149,78 @@ return (
             </div>
           )}
 
-        {/* 객관식 */}
-        {isMultiple ? (
-          <div className="q-actions">
-            {cur.options && cur.options.length > 0 ? (
-              cur.options.map((option, optIdx) => (
-                <button
-                  key={optIdx}
-                  className="btn option-btn"
-                  disabled={submitting || !!feedback}
-                  onClick={() => submitAnswer(option.examNo)}
-                >
-                  {option.examKo}
-                </button>
-              ))
-            ) : (
-              <p style={{ color: "#999" }}>
-                {t("test.options.loadError")}
-              </p>
-            )}
-          </div>
-        ) : (
-          // 주관식
-          <div className="q-actions">
-            <textarea
-              value={subjective}
-              onChange={(e) => setSubjective(e.target.value)}
-              placeholder={t("test.subjective.placeholder")}
-              disabled={submitting || !!feedback}
-              rows={4}
-              style={{ width: "100%", maxWidth: 480 }}
-            />
-            <button
-              className="btn primary"
-              disabled={submitting || !!feedback || subjective.trim() === ""}
-              onClick={() => submitAnswer(null)}
-            >
-              {t("test.submit")}
-            </button>
-          </div>
-        )}
-
-        {/* 피드백 */}
-        {feedback && (
-          <div className="feedback" style={{ marginTop: "20px" }}>
-            <div
-              className={`toast ${feedback.correct ? "ok" : "no"}`}
-              style={{
-                padding: "15px",
-                borderRadius: "8px",
-                marginBottom: "15px",
-                backgroundColor: feedback.correct ? "#d4edda" : "#f8d7da",
-                color: feedback.correct ? "#155724" : "#721c24",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              {feedback.correct
-                ? t("test.feedback.correct")
-                : t("test.feedback.wrong")}
-              {typeof feedback.score === "number" && !isMultiple && (
-                <span style={{ marginLeft: 8 }}>{feedback.score}{t("test.score.unit")}</span>
+          {isMultiple ? (
+            <div className="q-actions">
+              {cur.options?.length > 0 ? (
+                cur.options.map((option, i) => (
+                  <button
+                    key={i}
+                    className="btn option-btn"
+                    disabled={!!feedback}
+                    onClick={() => submitAnswer(option.examNo)}
+                  >
+                    {option.examSelected || option.examKo || t("test.options.loadError")}
+                  </button>
+                ))
+              ) : (
+                <p style={{ color: "#999" }}>
+                  {t("test.options.loadError")}
+                </p>
               )}
             </div>
-            <button
-              className="btn next"
-              onClick={goNext}
-              style={{
-                padding: "12px 30px",
-                backgroundColor: "#4CAF50",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-            >
-              {idx < items.length - 1
-                ? t("test.next")
-                : t("test.result.view")}
-            </button>
-          </div>
-        )}
-      </div>
-    )}
-  </div>
-);
+          ) : (
+            <div className="q-actions">
+              <textarea
+                value={subjective}
+                onChange={(e) => setSubjective(e.target.value)}
+                placeholder={t("test.subjective.placeholder")}
+                disabled={!!feedback}
+                rows={4}
+                style={{ width: "100%", maxWidth: 480 }}
+              />
+              <button
+                className="btn primary"
+                disabled={subjective.trim() === ""}
+                onClick={() => submitAnswer(null)}
+              >
+                {t("test.submit")}
+              </button>
+            </div>
+          )}
+
+          {feedback && (
+            <div className="feedback" style={{ marginTop: "20px" }}>
+              <div
+                className={`toast ${feedback.correct ? "ok" : "no"}`}
+                style={{
+                  padding: "15px",
+                  borderRadius: "8px",
+                  marginBottom: "15px",
+                  backgroundColor: feedback.correct ? "#d4edda" : "#f8d7da",
+                  color: feedback.correct ? "#155724" : "#721c24",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                {feedback.correct
+                  ? t("test.feedback.correct")
+                  : t("test.feedback.wrong")}
+                {typeof feedback.score === "number" && isSubjective && (
+                  <span style={{ marginLeft: 8 }}>
+                    {feedback.score}{t("test.score.unit")}
+                  </span>
+                )}
+              </div>
+              <button className="btn next" onClick={goNext}>
+                {idx < items.length - 1
+                  ? t("test.next")
+                  : t("test.result.view")}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
+

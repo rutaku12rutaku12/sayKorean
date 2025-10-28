@@ -11,7 +11,6 @@ public interface TestMapper { // mapper start
 
 
     // 내가 배운 주제에 맞는 시험 목록 출력
-    // 1) 시험 목록 (특정 studyNo)
     @Select("""
     SELECT
         testNo,
@@ -85,6 +84,13 @@ public interface TestMapper { // mapper start
                     "ORDER BY audioNo"
     )
     List<AudioDto> findAudiosByExamNo(int examNo);
+
+
+    @Select("select examNo, examKo from exam where examNo != #{excludedExamNo} order by rand() limit #{limit}")
+    List<ExamDto> findRandomExamsExcluding(@Param("excludedExamNo") int excludedExamNo,
+                                           @Param("limit") int limit);
+
+
 
     // 3) 정답(예문) 조회: Gemini 채점용 ground truth 확보
     @Select("""
