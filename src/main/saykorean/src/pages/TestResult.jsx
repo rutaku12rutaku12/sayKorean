@@ -33,10 +33,10 @@ export default function TestResult() {
   }
 
   return (
-    <div id="TestResult">
+    <div id="TestResult" className="homePage">
       <h3 className="panelTitle">시험 결과</h3>
       <div className="panel">
-        <img className="testResultImg" src="/img/testResultImg.png" alt="시험 채점" />
+        {score.score} = {score.total} ? <img className="testResultImg" src="/img/test100" /> : <img className="testResultImg" src="/img/testResultImg.png" />
         {score && (
           <p className="scoreText">
             정답 {score.score} / 총 {score.total}

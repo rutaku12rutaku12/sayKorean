@@ -59,7 +59,7 @@ export default function FindPage() {
   };
 
   return (
-    <div className="findWrapper">
+    <div id="findWrapper" className="homePage">
       <h3>{t("account.findEmailTitle")}</h3>
 
       <div className="info">

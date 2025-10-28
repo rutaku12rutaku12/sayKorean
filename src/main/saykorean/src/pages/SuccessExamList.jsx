@@ -70,6 +70,7 @@ export default function SuccessExamList( props ){
 
 return (
   <>
+  <div className="homePage">
     <h3>{t("successList.title")}</h3>
 
     {loading && <div className="toast loading">{t("common.loading")}</div>}
@@ -93,6 +94,7 @@ return (
         <div className="empty">{t("successList.empty")}</div>
       )}
     </div>
+  </div>
   </>
 );
 }

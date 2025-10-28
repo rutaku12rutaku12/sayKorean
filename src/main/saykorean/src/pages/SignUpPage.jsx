@@ -126,7 +126,7 @@ export default function SignUpPage (props){
     
     
 
-    return(<> <div className="signUpWrapper">
+    return(<> <div id="signUpWrapper" className="homePage">
   <h3>회원가입</h3>
 
   <div className="info">

@@ -233,7 +233,7 @@ export default function Study() {
   }, [studyNo, langNo]);
 
   return (
-    <div id="Study">
+    <div id="Study" className="homePage">
       {loading && <div className="toast loading">불러오는 중…</div>}
       {error && <div className="toast error">{error}</div>}
 

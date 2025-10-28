@@ -55,7 +55,7 @@ export default function LoadingPage(props) {
   }, [state, navigate]);
 
   return (
-    <div id="loading-frame">
+    <div id="loading-frame" className="homePage">
       <div className="image-container">
         <div className="title">{randomSlide.title}</div>
         <div

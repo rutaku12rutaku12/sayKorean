@@ -5,6 +5,7 @@
   width: 410px;
   height: 97.87vh;
   margin: 0 auto;
+  overflow-y: scroll;
 }
 
 

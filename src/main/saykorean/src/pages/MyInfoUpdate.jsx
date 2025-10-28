@@ -147,7 +147,7 @@ export default function MyInfoUpdatePage(props){
     };
 
     return(<>
-      <div className="updateWrapper">
+      <div id="updateWrapper" className="homePage">
   <h3>사용자 정보 수정</h3>
 
   <div className="info">

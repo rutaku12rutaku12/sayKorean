@@ -1,12 +1,12 @@
 /* 페이지 전체 */
-.test-page {
+#test-page {
   max-width: 768px;
   margin: 0 auto;
   padding: 20px 16px;
   text-align: center;
 }
 
-.test-page h3 {
+#test-page h3 {
   margin-top: 20px;
   margin-bottom: 24px;
   font-size: 28px;
@@ -14,7 +14,7 @@
 }
 
 /* 로딩, 에러 텍스트 */
-.test-page .error {
+#test-page .error {
   color: #b91c1c;
   margin-bottom: 14px;
 }

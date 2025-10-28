@@ -125,7 +125,7 @@ const loadStudiesFromLocal = () => {
 
   // [4] 렌더링
   return (
-    <div id="ExampleList">
+    <div id="ExampleList" className="homePage">
 
       {subject && (
         <div className="subjectInfo">

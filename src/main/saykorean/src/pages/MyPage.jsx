@@ -162,7 +162,7 @@ export default function MyPage(props) {
 
   return (<>
 
-  <div id="MyPage">
+  <div id="MyPage" className="homePage">
     <section className="panel">
       <h3 className="panelTitle">{t("mypage.title")}</h3>
 

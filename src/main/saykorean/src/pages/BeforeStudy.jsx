@@ -68,7 +68,7 @@ export default function BeforeStudy() {
 
 return (
     <>
-      <div id="BeforeStudy">
+      <div id="BeforeStudy" className="homePage">
         <img className="startGenreImg" src="/img/BeforeStudy.png" />
         <div className="startBox">
           <h3>{t("beforeStudy.title")}</h3>

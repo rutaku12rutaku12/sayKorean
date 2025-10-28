@@ -68,7 +68,7 @@ export default function Language(props) {
   }, []);
 
   return (
-    <div id="Language">
+    <div id="Language" className="homePage">
       <div className="panel">
         <h3 className="panelTitle">{t("language.title")}</h3>
         {loading && <div className="toast loading">불러오는 중...</div>}

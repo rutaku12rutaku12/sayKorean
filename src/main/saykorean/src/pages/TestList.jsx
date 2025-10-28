@@ -64,7 +64,7 @@ export default function TestList( props ){
 
     return (
     <>
-      <div id="TestList">
+      <div id="TestList" className="homePage">
         <div className="panel">
           <h3 className="panelTitle">{t("testList.title")}</h3>
 

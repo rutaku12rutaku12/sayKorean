@@ -74,6 +74,7 @@ export default function Ranking() {
 
 
     return (<>
+    <div className="homePage">
         {/* <div style={{ padding: "20px" }}>
             <h3>🔍 랭킹 검색</h3>
 
@@ -281,7 +282,7 @@ export default function Ranking() {
                 </ul>
             </div>
         </div>
-
+    </div>
 
     </>)
 

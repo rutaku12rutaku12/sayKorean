@@ -63,7 +63,7 @@ export default function Genre(props) {
 
   return (
     <>
-      <div id="Genre">
+      <div id="Genre" className="homePage">
         <div className="panel">
           <h3 className="panelTitle">{t("genre.title")}</h3>
 
