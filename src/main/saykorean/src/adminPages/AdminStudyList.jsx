@@ -5,6 +5,13 @@ import { setGenres, setStudies, setExams, setAudios } from "../store/adminSlice"
 import { audioApi, examApi, genreApi, studyApi } from "../api/adminApi";
 import "../styles/AdminCommon.css";
 
+// 이미지/오디오 경로를 절대 URL로 변환하는 헬퍼 함수
+const getFullUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http')) return path;
+    return `http://localhost:8080${path}`;
+};
+
 export default function AdminStudyList(props) {
 
     // [*] 가상DOM, 리덕스
@@ -265,11 +272,19 @@ export default function AdminStudyList(props) {
                                                                 {/* 이미지 */}
                                                                 {exam.imagePath && (
                                                                     <div className="admin-mb-md">
+                                                                        <p className="admin-text-muted" style={{ fontSize: '11px', marginBottom: '5px' }}>
+                                                                            DB 경로: {exam.imagePath}
+                                                                        </p>
                                                                         <img
-                                                                            src={exam.imagePath}
+                                                                            src={getFullUrl(exam.imagePath)}
                                                                             alt="예문 이미지"
                                                                             className="admin-image-preview"
-                                                                            onError={(e) => { e.target.style.display = 'none'; }}
+                                                                            onLoad={() => console.log('✅ 이미지 로드 성공:', exam.imagePath)}
+                                                                            onError={(e) => { 
+                                                                                console.error("❌ 이미지 로드 실패:", exam.imagePath);
+                                                                                console.error("시도한 URL:", e.target.src);
+                                                                                e.target.style.display = 'none'; 
+                                                                            }}
                                                                         />
                                                                     </div>
                                                                 )}
@@ -280,9 +295,20 @@ export default function AdminStudyList(props) {
                                                                         <strong className="admin-mb-sm" style={{ display: 'block' }}>음성 파일:</strong>
                                                                         {getAudiosByExam(exam.examNo).map(audio => (
                                                                             <div key={audio.audioNo} className="admin-flex-between admin-mb-sm" style={{ padding: '5px', backgroundColor: '#f5f5f5', borderRadius: '3px' }}>
-                                                                                <span style={{ fontSize: '13px' }}>
-                                                                                    {getLangText(audio.lang)} - {audio.audioName}
-                                                                                </span>
+                                                                                <div style={{ flex: 1 }}>
+                                                                                    <span style={{ fontSize: '13px' }}>
+                                                                                        {getLangText(audio.lang)} - {audio.audioName}
+                                                                                    </span>
+                                                                                    {audio.audioPath && (
+                                                                                        <audio 
+                                                                                            controls 
+                                                                                            style={{ display: 'block', marginTop: '5px', maxWidth: '300px' }}
+                                                                                            onError={(e) => console.error('❌ 오디오 로드 실패:', audio.audioPath)}
+                                                                                        >
+                                                                                            <source src={getFullUrl(audio.audioPath)} type="audio/mpeg" />
+                                                                                        </audio>
+                                                                                    )}
+                                                                                </div>
                                                                                 <button
                                                                                     onClick={() => handleDeleteAudio(audio.audioNo)}
                                                                                     className="admin-btn admin-btn-sm admin-btn-danger"
