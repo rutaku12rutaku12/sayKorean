@@ -20,20 +20,9 @@ function asArray(payload) {
   return [];
 }
 
-// 소리 겹치지 않게 하려고
-function playAudio(src) {
-  try {
-    if (!audioRef.current) {
-      audioRef.current = new Audio();
-    }
-    audioRef.current.pause();
-    audioRef.current.src = src;
-    audioRef.current.currentTime = 0;
-    audioRef.current.play();
-  } catch (e) {
-    console.error(e);
-  }
-}
+
+
+
 
 // 재사용 컴포넌트
 function PickerSection({ title, items, activeId }) {
@@ -59,7 +48,7 @@ function PickerSection({ title, items, activeId }) {
 export default function Study() {
   const navigate = useNavigate();
   const { studyNo } = useParams();
-  const audioRef = useRef(null);
+
 
   const [subjects, setSubjects] = useState([]);
   const [subject, setSubject] = useState(null);
@@ -67,6 +56,47 @@ export default function Study() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [langNo, setLangNo] = useState(0);
+  // Study 컴포넌트 내부
+  const audioRef = useRef(null);
+
+  // 오디오 재생 함수
+  const playAudio = (path) => {
+    try {
+      if (!path) return;
+
+      // 기존 재생 중이면 정지
+      if (audioRef.current) {
+        // 같은 파일을 다시 누르면 처음부터
+        if (audioRef.current.src.endsWith(path)) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+        } else {
+          audioRef.current.pause();
+        }
+      }
+
+      const audio = new Audio(path);
+      audioRef.current = audio;
+      console.log("koAudioPath:", exam.koAudioPath);
+      // iOS/Safari 대비: 사용자 클릭 이벤트 안에서 play 호출
+      audio.play().catch((e) => {
+        console.warn("오디오 자동재생 차단 또는 재생 실패:", e);
+      });
+    } catch (e) {
+      console.error("오디오 재생 오류:", e);
+    }
+  };
+
+  // 언마운트 시 정리
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+    }
+  };
+}, []);
+
 
   // 언어 설정 가져오기 (selectedLangNo 사용)
   function getLang() {

@@ -137,9 +137,8 @@ public interface StudyMapper {
         e.examNo,
         e.studyNo,
 
-        e.examKo AS examKo,
-        e.examEn AS examEn,
-
+        e.examKo,
+        e.examEn,
         CASE 
             WHEN #{langNo} = 2 THEN e.examJp
             WHEN #{langNo} = 3 THEN e.examCn
@@ -149,17 +148,22 @@ public interface StudyMapper {
         END AS examSelected,
 
         e.imagePath,
-        a.audioPath
+
+        -- Korean audio
+        (SELECT audioPath FROM audio 
+         WHERE examNo = e.examNo 
+         AND audioPath LIKE '%_kor_%'
+         LIMIT 1
+        ) AS koAudioPath,
+
+        -- English audio
+        (SELECT audioPath FROM audio 
+         WHERE examNo = e.examNo 
+         AND audioPath LIKE '%_en_%'
+         LIMIT 1
+        ) AS enAudioPath
+
     FROM exam e
-    LEFT JOIN audio a 
-      ON e.examNo = a.examNo
-     AND a.lang = CASE
-            WHEN #{langNo} = 2 THEN 1
-            WHEN #{langNo} = 3 THEN 2
-            WHEN #{langNo} = 4 THEN 3
-            WHEN #{langNo} = 5 THEN 4
-            ELSE 0
-        END
     WHERE e.studyNo = #{studyNo}
       AND e.examNo > #{currentExamNo}
     ORDER BY e.examNo ASC
@@ -173,9 +177,8 @@ public interface StudyMapper {
         e.examNo,
         e.studyNo,
 
-        e.examKo AS examKo,
-        e.examEn AS examEn,
-
+        e.examKo,
+        e.examEn,
         CASE 
             WHEN #{langNo} = 2 THEN e.examJp
             WHEN #{langNo} = 3 THEN e.examCn
@@ -185,17 +188,22 @@ public interface StudyMapper {
         END AS examSelected,
 
         e.imagePath,
-        a.audioPath
+
+        -- Korean audio
+        (SELECT audioPath FROM audio 
+         WHERE examNo = e.examNo 
+         AND audioPath LIKE '%_kor_%'
+         LIMIT 1
+        ) AS koAudioPath,
+
+        -- English audio
+        (SELECT audioPath FROM audio 
+         WHERE examNo = e.examNo 
+         AND audioPath LIKE '%_en_%'
+         LIMIT 1
+        ) AS enAudioPath
+
     FROM exam e
-    LEFT JOIN audio a 
-      ON e.examNo = a.examNo
-     AND a.lang = CASE
-            WHEN #{langNo} = 2 THEN 1
-            WHEN #{langNo} = 3 THEN 2
-            WHEN #{langNo} = 4 THEN 3
-            WHEN #{langNo} = 5 THEN 4
-            ELSE 0
-        END
     WHERE e.studyNo = #{studyNo}
       AND e.examNo < #{currentExamNo}
     ORDER BY e.examNo DESC

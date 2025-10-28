@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import "../styles/Test.css";
 
 axios.defaults.withCredentials = true;
 
@@ -153,23 +154,6 @@ return (
                   className="btn option-btn"
                   disabled={submitting || !!feedback}
                   onClick={() => submitAnswer(option.examNo)}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    maxWidth: "480px",
-                    margin: "10px auto",
-                    padding: "15px",
-                    fontSize: "16px",
-                    textAlign: "left",
-                    border: "2px solid #ddd",
-                    borderRadius: "8px",
-                    backgroundColor: feedback
-                      ? option.isCorrect
-                        ? "#d4edda"
-                        : "#f8d7da"
-                      : "#fff",
-                    cursor: submitting || feedback ? "not-allowed" : "pointer",
-                  }}
                 >
                   {option.examKo}
                 </button>

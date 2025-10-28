@@ -7,7 +7,6 @@ import "../styles/MyPage.css"
 import { getAttend } from "../store/attendSlice";
 axios.defaults.withCredentials = true;
 import { useTranslation } from "react-i18next";
-import SuccessExamList from "./SuccessExamList";
 
 export default function MyPage(props) {
   console.log("MyPage.jsx open")

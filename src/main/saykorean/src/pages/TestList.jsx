@@ -6,6 +6,7 @@ import { logIn } from "../store/userSlice";
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 import { useTranslation } from "react-i18next";
+import "../styles/TestList.css";
 
 export default function TestList( props ){
 

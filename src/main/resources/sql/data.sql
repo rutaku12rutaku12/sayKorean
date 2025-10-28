@@ -272,11 +272,11 @@ VALUES
 
 
 INSERT IGNORE INTO audio (audioName, audioPath, lang, examNo) VALUES
-('1_kor_voice','/음성파일/1_kor_voice.mp3',1,1),
-('2_kor_voice','/음성파일/2_kor_voice.mp3',1,2),
-('3_kor_voice','/음성파일/3_kor_voice.mp3',1,3),
-('4_kor_voice','/음성파일/4_kor_voice.mp3',1,4),
-('5_kor_voice','/음성파일/5_kor_voice.mp3',1,5),
+('1_kor_voice','/audio/kor/1_kor_voice.mp3',1,1),
+('2_kor_voice','/audio/kor/2_kor_voice.mp3',1,2),
+('3_kor_voice','/audio/kor/3_kor_voice.mp3',1,3),
+('4_kor_voice','/audio/kor/4_kor_voice.mp3',1,4),
+('5_kor_voice','/audio/kor/5_kor_voice.mp3',1,5),
 ('6_kor_voice','',1,6),
 ('7_kor_voice','',1,7),
 ('8_kor_voice','',1,8),
