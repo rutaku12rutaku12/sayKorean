@@ -9,8 +9,7 @@ import web.model.dto.TestDto;
 import web.model.dto.TestItemWithMediaDto;
 import web.model.mapper.TestMapper;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,75 +20,26 @@ public class TestService {
     private static final int PASS_THRESHOLD = 60;
 
     // [1] 시험 목록
-    public List<TestDto> getListTest() { return testMapper.getListTest(); }
-
-    // [2] 문항 목록 (이미지/오디오 포함) - 난수화된 오답 추가 <수정>
-    public List<Map<String , Object>> findTestItemWithOptions(int testNo) {
-        // 1. 문항 목록 조회
-        List<TestItemWithMediaDto> items = testMapper.findTestItemsWithMedia(testNo);
-        List<Map<String , Object>> result = new ArrayList<>();
-
-        for (TestItemWithMediaDto item : items){
-            Map<String , Object> itemMap = new HashMap<>();
-            itemMap.put("testItemNo" , item.getTestItemNo());
-            itemMap.put("question" , item.getQuestion());
-            itemMap.put("testNo" , item.getTestNo());
-            itemMap.put("imageName" , item.getImageName());
-            itemMap.put("imagePath" , item.getImagePath());
-            itemMap.put("audios", item.getAudios());
-
-            // 객관식 문항인 경우 (그림 , 음성)
-            if (isMultipleChoice(item.getQuestion())) {
-                // 정답 examNo
-                int correctExamNo = item.getExamNo();
-                ExamDto correctExam = testMapper.findExamByNo(correctExamNo);
-
-                if (correctExam != null) {
-                    // 랜덤한 오답 예문 2개 DB에서 가져오기
-                    List<ExamDto> selectedWrong = testMapper.findRandomExamsExcluding(correctExamNo, 2);
-
-                    // 선택지 목록 생성 (정답 1개 + 오답 2개)
-                    List<Map<String, Object>> options = new ArrayList<>();
-
-                    // 정답 추가
-                    Map<String, Object> correctOption = new HashMap<>();
-                    correctOption.put("examNo", correctExam.getExamNo());
-                    correctOption.put("examKo", correctExam.getExamKo());
-                    correctOption.put("isCorrect", true);
-                    options.add(correctOption);
-
-                    // 오답 추가
-                    for (ExamDto wrong : selectedWrong) {
-                        Map<String, Object> wrongOption = new HashMap<>();
-                        wrongOption.put("examNo", wrong.getExamNo());
-                        wrongOption.put("examKo", wrong.getExamKo());
-                        wrongOption.put("isCorrect", false);
-                        options.add(wrongOption);
-                    }
-
-                    // 선택지 섞기
-                    Collections.shuffle(options);
-                    itemMap.put("options", options);
-                }
-            } else {
-                // 주관식일 경우 정답 저장
-                itemMap.put("correctExamNo" , item.getExamNo());
-                itemMap.put("correctExamKo" , item.getExamKo());
-            }
-
-            result.add(itemMap);
-
-        }
-
-        return result;
-
+    public List<TestDto> getListTest(int langNo) {
+        return testMapper.getListTest(langNo);
     }
 
+    // [2] 문항 목록 (이미지/오디오 포함)
+    public List<TestItemWithMediaDto> findTestItem(int testNo, int langNo) {
+        return testMapper.findTestItemsWithMedia(testNo, langNo);
+    }
+
+
     // [3] 정답 예문 조회
-    public ExamDto findExamByNo(int examNo) { return testMapper.findExamByNo(examNo); }
+    public ExamDto findExamByNo(int examNo, int langNo) {
+        return testMapper.findExamByNo(examNo, langNo);
+    }
+
 
     // [4] 랭킹 저장
-    public int upsertRanking(RankingDto dto) { return testMapper.upsertRanking(dto); }
+    public int upsertRanking(RankingDto dto) {
+        return testMapper.upsertRanking(dto);
+    }
 
     // [5] 점수 집계
     public RankingDto getScore(int userNo, int testNo, int testRound) {
@@ -97,64 +47,57 @@ public class TestService {
     }
 
     // [6] 제출 처리 (prefix 강제 분기)
-    @Transactional // 응답 저장까지 하나의 트랜잭션으로 보장
+    @Transactional
     public int submitFreeAnswer(
             int userNo,
             int testNo,
             int testItemNo,
             int testRound,
-            Integer selectedExamNo, // 객관식이면 필수
-            String userAnswer,      // 주관식이면 필수
-            String langHint
+            Integer selectedExamNo,
+            String userAnswer,
+            int langNo
     ) {
-        // 1) 문항 로드
-        TestItemWithMediaDto item = testMapper.findTestItemsWithMedia(testNo).stream()
+        // 1) 문항 로드 (언어 반영)
+        TestItemWithMediaDto item = testMapper.findTestItemsWithMedia(testNo, langNo).stream()
                 .filter(t -> t.getTestItemNo() == testItemNo)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 testItemNo 입니다."));
 
-        final String q = (item.getQuestion() == null) ? "" : item.getQuestion().trim();
+        final String q = nullToEmpty(item.getQuestionSelected()).trim();
         System.out.printf("[DEBUG] testItemNo=%d, question='%s'%n", testItemNo, q);
 
-        // 2) 정답 예문 로드
-        ExamDto exam = testMapper.findExamByNo(item.getExamNo());
+        // ===== 여기서 직접 유형 판별 =====
+        // 공백/콜론 제거 후 접두어로 판별
+        final String norm = q.replaceAll("\\s+", "");
+        final boolean isMC = norm.startsWith("그림:") || norm.startsWith("음성:");
+        final boolean isSub = norm.startsWith("주관식:");
+
+        // 2) 정답 예문 로드 (언어 반영)
+        ExamDto exam = testMapper.findExamByNo(item.getExamNo(), langNo);
         if (exam == null) throw new IllegalArgumentException("예문(exam)을 찾을 수 없습니다.");
 
-        int score = 0;
-        int isCorrect = 0;
+        int score;
+        int isCorrect;
 
-        // 3) 규칙: "그림:" / "음성:" → 객관식 , "주관식:" → 서술형
-        if (isMultipleChoice(q)) {
-            if (selectedExamNo == null) {
-                // selectedExamNo가 null일 경우 방어
-                System.err.println("[WARN] 객관식 문제인데 selectedExamNo가 null입니다 → 오답 처리");
-                isCorrect = 0;
-                score = 0;
-            } else {
-                //  null-safe 비교
-                isCorrect = selectedExamNo.equals(item.getExamNo()) ? 1 : 0;
-                score = (isCorrect == 1) ? 100 : 0;
-            }
-        }
-        else if (isSubjective(q)) {
-            // 주관식: Gemini로 채점
-            String groundTruth = pickGroundTruthByLang(exam, langHint);
+        if (isMC) {
+            isCorrect = (selectedExamNo != null && selectedExamNo.equals(item.getExamNo())) ? 1 : 0;
+            score = (isCorrect == 1) ? 100 : 0;
+        } else if (isSub) {
             try {
                 score = gemini.score(
-                        q.replaceFirst("^주관식\\s*:?\\s*", ""), // "주관식:" prefix 제거
-                        groundTruth,
+                        // "주관식:" 접두어 제거
+                        q.replaceFirst("^주관식\\s*:?\\s*", ""),
+                        nullToEmpty(exam.getExamSelected()),
                         nullToEmpty(userAnswer),
-                        langHint
+                        convertToLangHint(langNo)
                 ).score();
             } catch (Exception ex) {
                 ex.printStackTrace();
-                score = 0; // 장애 시 0점
+                score = 0;
             }
             isCorrect = (score >= PASS_THRESHOLD) ? 1 : 0;
-        }
-        else {
-            // 규칙에 맞지 않는 경우 방어
-            throw new IllegalArgumentException("문항 유형을 판별할 수 없습니다. (그림:/음성:/주관식: 중 하나로 시작해야 합니다)");
+        } else {
+            throw new IllegalArgumentException("문항 유형을 판별할 수 없습니다. (그림:/음성:/주관식: 중 하나로 시작)");
         }
 
         // 4) 랭킹 저장
@@ -173,32 +116,23 @@ public class TestService {
         return score;
     }
 
-    // --- helpers ---
-    private boolean isMultipleChoice(String q) {
-        if (q == null) return false;
-        String s = q.strip().replaceAll("\\s+", ""); // 공백·콜론 제거
-        return s.startsWith("그림:") || s.startsWith("음성:");
+    // 필요하면 그대로 사용
+    private String nullToEmpty(String s) {
+        return s == null ? "" : s;
     }
 
-    private boolean isSubjective(String q) {
-        if (q == null) return false;
-        String s = q.strip().replaceAll("\\s+", "");
-        return s.startsWith("주관식:");
-    }
-
-    private String pickGroundTruthByLang(ExamDto exam, String langHint) {
-        if (langHint == null) return safe(exam.getExamKo());
-        switch (langHint.toLowerCase()) {
-            case "en": return safe(exam.getExamEn());
-            case "jp":
-            case "ja": return safe(exam.getExamJp());
-            case "cn":
-            case "zh": return safe(exam.getExamCn());
-            case "es": return safe(exam.getExamEs());
-            default:   return safe(exam.getExamKo());
+    private String convertToLangHint(int langNo) {
+        switch (langNo) {
+            case 2:
+                return "en";
+            case 3:
+                return "jp";
+            case 4:
+                return "cn";
+            case 5:
+                return "es";
+            default:
+                return "ko";
         }
     }
-
-    private String safe(String s) { return (s == null) ? "" : s; }
-    private String nullToEmpty(String s) { return s == null ? "" : s; }
-}
+} // class end

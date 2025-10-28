@@ -12,8 +12,28 @@ public interface TestMapper { // mapper start
 
     // 내가 배운 주제에 맞는 시험 목록 출력
     // 1) 시험 목록 (특정 studyNo)
-    @Select("SELECT * FROM test")
-    List<TestDto> getListTest();
+    @Select("""
+    SELECT
+        testNo,
+        studyNo,
+        CASE #{langNo}
+            WHEN 1 THEN testTitle
+            WHEN 2 THEN testTitleEn
+            WHEN 3 THEN testTitleJp
+            WHEN 4 THEN testTitleCn
+            WHEN 5 THEN testTitleEs
+            ELSE testTitle
+        END AS testTitleSelected
+    FROM test
+    ORDER BY testNo DESC
+""")
+    @Results(id = "TestMap", value = {
+            @Result(column = "testNo", property = "testNo", id = true),
+            @Result(column = "studyNo", property = "studyNo"),
+            @Result(column = "testTitleSelected", property = "testTitleSelected")
+    })
+    List<TestDto> getListTest(int langNo);
+
 
 
     // 2) 특정 시험의 문항 목록
@@ -22,34 +42,39 @@ public interface TestMapper { // mapper start
 
 
     // 문항 + 정답(exam) 이미지까지 한 번에 로드 (INNER JOIN)
-    @Select(
-            "SELECT " +
-                    "ti.testItemNo, " +
-                    "ti.question, " +
-                    "ti.testNo, " +
-                    "ti.examNo, " +
-                    "e.examKo, " +
-                    "e.imageName, " +
-                    "e.imagePath " +
-                    "FROM testItem ti " +
-                    "INNER JOIN exam e ON e.examNo = ti.examNo " +
-                    "WHERE ti.testNo = #{testNo} " +
-                    "ORDER BY ti.testItemNo"
-    )
+    @Select("""
+    SELECT 
+        ti.testItemNo,
+        ti.testNo,
+        ti.examNo,
+        CASE #{langNo}
+            WHEN 1 THEN ti.question
+            WHEN 2 THEN ti.questionEn
+            WHEN 3 THEN ti.questionJp
+            WHEN 4 THEN ti.questionCn
+            WHEN 5 THEN ti.questionEs
+            ELSE ti.question
+        END AS questionSelected,
+        e.imageName,
+        e.imagePath
+    FROM testItem ti
+    JOIN exam e ON e.examNo = ti.examNo
+    WHERE ti.testNo = #{testNo}
+    ORDER BY ti.testItemNo
+""")
     @Results(id = "TestItemWithMediaMap", value = {
             @Result(column = "testItemNo", property = "testItemNo", id = true),
-            @Result(column = "question",   property = "question"),
             @Result(column = "testNo",     property = "testNo"),
             @Result(column = "examNo",     property = "examNo"),
-            @Result(column = "examKo",     property = "examKo"),
-            @Result(column = "imageName",  property = "imageName"),
-            @Result(column = "imagePath",  property = "imagePath"),
+            @Result(column = "questionSelected", property = "questionSelected"),
+            @Result(column = "imageName", property = "imageName"),
+            @Result(column = "imagePath", property = "imagePath"),
 
-            // 오디오는 1:N 이므로 별도 쿼리로 매핑 (@Many)
             @Result(property = "audios", column = "examNo",
-                    many = @Many(select = "web.model.mapper.TestMapper.findAudiosByExamNo"))
+                    many = @Many(select = "findAudiosByExamNo"))
     })
-    List<TestItemWithMediaDto> findTestItemsWithMedia(int testNo);
+    List<TestItemWithMediaDto> findTestItemsWithMedia( int testNo, int langNo );
+
 
 
     // exam별 오디오 목록
@@ -61,13 +86,32 @@ public interface TestMapper { // mapper start
     )
     List<AudioDto> findAudiosByExamNo(int examNo);
 
-    // 3-1) 정답(예문) 조회: Gemini 채점용 ground truth 확보
-    @Select("SELECT examNo, examKo, examEn, examJp, examCn, examEs FROM exam WHERE examNo = #{examNo}")
-    ExamDto findExamByNo( int examNo );
+    // 3) 정답(예문) 조회: Gemini 채점용 ground truth 확보
+    @Select("""
+    SELECT 
+        examNo,
+        CASE #{langNo}
+            WHEN 1 THEN examKo
+            WHEN 2 THEN examEn
+            WHEN 3 THEN examJp
+            WHEN 4 THEN examCn
+            WHEN 5 THEN examEs
+            ELSE examKo
+        END AS examSelected
+    FROM exam
+    WHERE examNo = #{examNo}
+""")
+    @Results(id = "ExamMap", value = {
+            @Result(column = "examNo", property = "examNo", id = true),
+            @Result(column = "examSelected", property = "examSelected")
+    })
+    ExamDto findExamByNo(@Param("examNo") int examNo,
+                         @Param("langNo") int langNo);
 
-    // [동진추가] 3-2 N개의 랜덤 오답 예문 조회 (정답 제외)
-    @Select("select examNo, examKo from exam where examNo != #{excludedExamNo} order by rand() limit #{limit}")
-    List<ExamDto> findRandomExamsExcluding(@Param("excludedExamNo") int excludedExamNo, @Param("limit") int limit);
+
+
+
+
 
     // 전체 점수 출력 - 로직 : 랭킹테이블에 저장 -> 점수 집계
 
