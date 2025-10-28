@@ -65,16 +65,35 @@ export default function Test() {
   const cur = items[idx];
 
   // 🎯 미디어 기반 타입 판별
+  // const hasImage = cur?.imagePath && safeSrc(cur.imagePath);
+  // const hasAudio = cur?.audios && Array.isArray(cur.audios) && cur.audios.length > 0;
+  // const isMultiple = hasImage || hasAudio;
+  // const isSubjective = !isMultiple;
+
+  // 🎯 핵심 수정: 문항 순서로 타입 판별
+  // 1번째(idx=0) = 그림 + 객관식
+  // 2번째(idx=1) = 음성 + 객관식
+  // 3번째(idx=2) = 주관식
+  // 이후 반복: 3n+1 = 그림, 3n+2 = 음성, 3n = 주관식
+  const questionType = idx % 3; // 0=그림, 1=음성, 2=주관식
+  const isImageQuestion = questionType === 0;
+  const isAudioQuestion = questionType === 1;
+  const isSubjective = questionType === 2;
+  const isMultiple = !isSubjective;
+
+  // 실제 미디어 존재 여부 (표시용)
   const hasImage = cur?.imagePath && safeSrc(cur.imagePath);
   const hasAudio = cur?.audios && Array.isArray(cur.audios) && cur.audios.length > 0;
-  const isMultiple = hasImage || hasAudio;
-  const isSubjective = !isMultiple;
 
   console.log("🔍 문항 타입:", {
     testItemNo: cur?.testItemNo,
+    idx,            // 추가
+    questionType,   // 추가
+    isImageQuestion,  // 추가
+    isAudioQuestion,  // 추가
     hasImage,
     hasAudio,
-    isMultiple,
+    // isMultiple,
     isSubjective,
     optionsCount: cur?.options?.length
   });
@@ -108,9 +127,9 @@ export default function Test() {
       setSubmitting(true);
       const res = await axios.post(url, body);
       const { score, isCorrect } = res.data || {};
-      setFeedback({ 
-        correct: isCorrect == 1, 
-        score: Number(score) || 0 
+      setFeedback({
+        correct: isCorrect == 1,
+        score: Number(score) || 0
       });
     } catch (e) {
       console.error("❌ 답안 제출 실패:", e);
@@ -150,7 +169,18 @@ export default function Test() {
           </div>
 
           {/* 🖼️ 이미지 */}
-          {hasImage && (
+          {/* {hasImage && (
+            <div className="q-media">
+              <img
+                src={safeSrc(cur.imagePath)}
+                alt={cur.imageName || "question"}
+                style={{ maxWidth: 320, borderRadius: '8px' }}
+              />
+            </div>
+          )} */}
+
+          {/* 🖼️ 이미지 (1번째 문항에서만 표시) */}
+          {isImageQuestion && hasImage && (
             <div className="q-media">
               <img
                 src={safeSrc(cur.imagePath)}
@@ -161,14 +191,33 @@ export default function Test() {
           )}
 
           {/* 🎵 오디오 (개선된 UI) */}
-          {hasAudio && (
+          {/* {hasAudio && (
             <div className="q-audios">
               {cur.audios
                 .filter(a => safeSrc(a?.audioPath))
                 .map(a => (
                   <div key={a.audioNo} className="audio-item">
-                    <audio 
-                      controls 
+                    <audio
+                      controls
+                      src={safeSrc(a.audioPath)}
+                      style={{ width: '100%', maxWidth: '480px' }}
+                    >
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                ))}
+            </div>
+          )} */}
+
+          {/* 🎵 오디오 (2번째 문항에서만 표시) */}
+          {isAudioQuestion && hasAudio && (
+            <div className="q-audios">
+              {cur.audios
+                .filter(a => safeSrc(a?.audioPath))
+                .map(a => (
+                  <div key={a.audioNo} className="audio-item">
+                    <audio
+                      controls
                       src={safeSrc(a.audioPath)}
                       style={{ width: '100%', maxWidth: '480px' }}
                     >

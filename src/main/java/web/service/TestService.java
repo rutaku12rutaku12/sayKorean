@@ -35,7 +35,9 @@ public class TestService {
         List<TestItemWithMediaDto> items = testMapper.findTestItemsWithMedia(testNo, langNo);
         List<Map<String, Object>> out = new ArrayList<>();
 
-        for (TestItemWithMediaDto item : items) {
+//        for (TestItemWithMediaDto item : items) {
+        for (int itemIndex = 0; itemIndex < items.size(); itemIndex++) {
+            TestItemWithMediaDto item = items.get(itemIndex);
             Map<String, Object> m = new HashMap<>();
             m.put("testItemNo", item.getTestItemNo());
             m.put("testNo", item.getTestNo());
@@ -45,11 +47,20 @@ public class TestService {
             m.put("audios", item.getAudios()); // 그대로 내려줌
 
             // 2) 객관식 여부 판단: 이미지 또는 오디오가 있으면 객관식
-            boolean isMultiple =
-                    (item.getImagePath() != null && !item.getImagePath().isBlank())
-                            || (item.getAudios() != null && !item.getAudios().isEmpty());
+//            boolean isMultiple =
+//                    (item.getImagePath() != null && !item.getImagePath().isBlank())
+//                            || (item.getAudios() != null && !item.getAudios().isEmpty());
+//
+//            if (isMultiple) {
 
-            if (isMultiple) {
+            // ===== 🎯 핵심 수정: 문항 순서로 타입 판단 =====
+            // 1번째 문항(index 0) = 그림 + 객관식
+            // 2번째 문항(index 1) = 음성 + 객관식
+            // 3번째 문항(index 2) = 주관식
+            // 이후 반복: 3n+1 = 그림, 3n+2 = 음성, 3n = 주관식
+            int questionType = itemIndex % 3; // 0=그림, 1=음성, 2=주관식
+
+            if (questionType == 0 || questionType == 1) {
                 // ===== 🎯 핵심 수정: 언어별 예문 조회 =====
                 // 정답 예문을 언어에 맞게 조회
                 ExamDto correct = testMapper.findExamByNo(item.getExamNo(), langNo);
@@ -86,7 +97,7 @@ public class TestService {
                     m.put("options", options);
                 }
             }
-
+            // questionType == 2인 경우 (주관식)는 options를 추가하지 않음
             out.add(m);
         }
 
@@ -120,20 +131,46 @@ public class TestService {
             int langNo
     ) {
         // 1) 문항 로드 (언어 반영)
-        TestItemWithMediaDto item = testMapper.findTestItemsWithMedia(testNo, langNo).stream()
-                .filter(t -> t.getTestItemNo() == testItemNo)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 testItemNo 입니다."));
+//        TestItemWithMediaDto item = testMapper.findTestItemsWithMedia(testNo, langNo).stream()
+//                .filter(t -> t.getTestItemNo() == testItemNo)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("잘못된 testItemNo 입니다."));
+
+        List<TestItemWithMediaDto> allItems = testMapper.findTestItemsWithMedia(testNo, langNo);
+
+        // 해당 문항 찾기 및 순서 확인
+        int itemIndex = -1;
+        TestItemWithMediaDto item = null;
+        for (int i = 0; i < allItems.size(); i++) {
+            if (allItems.get(i).getTestItemNo() == testItemNo) {
+                item = allItems.get(i);
+                itemIndex = i;
+                break;
+            }
+        }
+
+        if (item == null) {
+            throw new IllegalArgumentException("잘못된 testItemNo 입니다.");
+        }
+
 
         final String q = nullToEmpty(item.getQuestionSelected()).trim();
         System.out.printf("[DEBUG] testItemNo=%d, question='%s'%n", testItemNo, q);
 
-        // ===== 유형 판별 (미디어 존재 기반) =====
-        final boolean hasImage = item.getImagePath() != null && !item.getImagePath().isBlank();
-        final boolean hasAudio = item.getAudios() != null && !item.getAudios().isEmpty();
+//        // ===== 유형 판별 (미디어 존재 기반) =====
+//        final boolean hasImage = item.getImagePath() != null && !item.getImagePath().isBlank();
+//        final boolean hasAudio = item.getAudios() != null && !item.getAudios().isEmpty();
+//
+//        final boolean isMC = hasImage || hasAudio;
+//        final boolean isSub = !isMC;
 
-        final boolean isMC = hasImage || hasAudio;
-        final boolean isSub = !isMC;
+        // ===== 유형 판별 (문항 순서 기반) =====
+        int questionType = itemIndex % 3; // 0=그림, 1=음성, 2=주관식
+        final boolean isMC = (questionType == 0 || questionType == 1);
+        final boolean isSub = (questionType == 2);
+
+        System.out.printf("[DEBUG] questionType=%d, isMC=%b, isSub=%b%n",
+                questionType, isMC, isSub);
 
         // 2) 정답 예문 로드
         ExamDto exam = testMapper.findExamByNo(item.getExamNo(), langNo);
@@ -183,7 +220,7 @@ public class TestService {
         return s == null ? "" : s;
     }
 
-    // 🎯 언어 번호 -> Gemini 힌트 변환 (수정됨)
+    // 🎯 언어 번호 -> Gemini 힌트 변환
     private String convertToLangHint(int langNo) {
         switch (langNo) {
             case 2:
