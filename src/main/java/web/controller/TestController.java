@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.RankingDto;
 import web.model.dto.TestDto;
-import web.model.dto.TestItemWithMediaDto;
 import web.service.TestService;
 
 import java.util.List;
@@ -28,10 +27,11 @@ public class TestController {
 
     // [2] 특정 시험 문항 + 보기 조회
     @GetMapping("/findtestitem")
-    public ResponseEntity<List<TestItemWithMediaDto>> findTestItem(
-            @RequestParam int testNo, @RequestParam int langNo
-    ) {
-        return ResponseEntity.ok(testService.findTestItem(testNo, langNo));
+    public ResponseEntity<List<Map<String , Object>>> findTestItem(
+            @RequestParam int testNo,
+            @RequestParam int langNo
+    ){
+        return ResponseEntity.ok(testService.findTestItemWithOptions(testNo, langNo));
     }
 
     // [3] 점수 조회

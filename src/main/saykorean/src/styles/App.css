@@ -18,6 +18,13 @@
   /* overflow-y: hidden; */
 }
 
+#user-frame .homePage{
+  overflow-y: auto;
+  text-align: center;
+  align-items: center;
+  padding-bottom: 73px;
+}
+
 /* ========================================= */
 /*  PC 특정 해상도에서 가로 720 고정 설정 */
 /* ========================================= */

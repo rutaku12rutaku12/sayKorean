@@ -1,4 +1,4 @@
-.findWrapper {
+#findWrapper {
   width: 100%;
   max-width: 380px;
   margin: 0 auto;
@@ -117,4 +117,5 @@
   width: 100% !important;
   height: 48px !important;
   border: 1px solid #e5e7eb !important;
-  border-radius: 0 12px 12px 0 !i
+  border-radius: 0 12px 12px 0 !
+}

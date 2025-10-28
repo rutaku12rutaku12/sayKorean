@@ -97,7 +97,7 @@ export default function TestList( props ){
             {testList.map((tItem) => (
               <li key={tItem.testNo} className="testList">
                 <div className="test">
-                  {tItem.testTitle ?? t("testList.fallbackTitle", { num: tItem.testNo })}
+                  {tItem.testTitleSelected ?? t("testList.fallbackTitle", { num: tItem.testNo })}
                   <button onClick={() => navigate(`/test/${tItem.testNo}`)}>
                     {t("testList.go")}
                   </button>
