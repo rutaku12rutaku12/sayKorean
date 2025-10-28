@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "../styles/Test.css";
 
@@ -10,7 +9,6 @@ axios.defaults.withCredentials = true;
 export default function Test() {
   const { testNo } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const { t } = useTranslation();
 
   const [items, setItems] = useState([]);
@@ -22,18 +20,22 @@ export default function Test() {
   const [feedback, setFeedback] = useState(null);
   const [langNo, setLangNo] = useState(1);
 
+  // 로컬스토리지에서 언어 번호 가져오기
   function getLang() {
     const stored = localStorage.getItem("selectedLangNo");
     const n = Number(stored);
-    setLangNo(Number.isFinite(n) ? n : 1);
+    setLangNo(Number.isFinite(n) && n > 0 ? n : 1);
   }
 
+  // 안전한 문자열 체크
   const safeSrc = (s) => (typeof s === "string" && s.trim() !== "" ? s : null);
 
+  // 컴포넌트 마운트 시 언어 설정
   useEffect(() => {
     getLang();
   }, []);
 
+  // 시험 문항 로드
   useEffect(() => {
     if (!langNo) return;
 
@@ -45,12 +47,13 @@ export default function Test() {
           params: { testNo, langNo },
         });
         const list = Array.isArray(res.data) ? res.data : [];
+        console.log("📥 받은 문항 데이터:", list);
         setItems(list);
         setIdx(0);
         setSubjective("");
         setFeedback(null);
       } catch (e) {
-        console.error(e);
+        console.error("❌ 문항 로드 실패:", e);
         setMsg(t("test.options.loadError"));
       } finally {
         setLoading(false);
@@ -58,14 +61,25 @@ export default function Test() {
     })();
   }, [testNo, langNo, t]);
 
+  // 현재 문항
   const cur = items[idx];
-  const norm = (cur?.questionSelected || "").trim().replace(/\s+/g, "");
-  const isImageMC = norm.startsWith("그림:");
-  const isAudioMC = norm.startsWith("음성:");
-  const isSubjective = norm.startsWith("주관식:");
-  const isMultiple = isImageMC || isAudioMC;
 
+  // 🎯 미디어 기반 타입 판별
+  const hasImage = cur?.imagePath && safeSrc(cur.imagePath);
+  const hasAudio = cur?.audios && Array.isArray(cur.audios) && cur.audios.length > 0;
+  const isMultiple = hasImage || hasAudio;
+  const isSubjective = !isMultiple;
 
+  console.log("🔍 문항 타입:", {
+    testItemNo: cur?.testItemNo,
+    hasImage,
+    hasAudio,
+    isMultiple,
+    isSubjective,
+    optionsCount: cur?.options?.length
+  });
+
+  // 답안 제출
   async function submitAnswer(selectedExamNo = null) {
     if (!cur) return;
 
@@ -78,6 +92,7 @@ export default function Test() {
 
     const url = `/saykorean/test/${testNo}/items/${cur.testItemNo}/answer`;
 
+    // 주관식이면 로딩 페이지로
     if (isSubjective && !selectedExamNo) {
       navigate("/loading", {
         state: {
@@ -88,19 +103,24 @@ export default function Test() {
       return;
     }
 
+    // 객관식 바로 제출
     try {
       setSubmitting(true);
       const res = await axios.post(url, body);
       const { score, isCorrect } = res.data || {};
-      setFeedback({ correct: isCorrect == 1, score: Number(score) || 0 });
+      setFeedback({ 
+        correct: isCorrect == 1, 
+        score: Number(score) || 0 
+      });
     } catch (e) {
-      console.error(e);
+      console.error("❌ 답안 제출 실패:", e);
       alert(t("test.options.loadError"));
     } finally {
       setSubmitting(false);
     }
   }
 
+  // 다음 문항 또는 결과 페이지로
   function goNext() {
     if (idx < items.length - 1) {
       setIdx(idx + 1);
@@ -110,7 +130,6 @@ export default function Test() {
       navigate(`/testresult/${testNo}`);
     }
   }
-
 
   return (
     <div id="test-page" className="homePage">
@@ -122,6 +141,7 @@ export default function Test() {
 
       {cur && (
         <div className="question-card">
+          {/* 문항 번호 및 질문 */}
           <div className="q-head">
             <span className="q-number">
               {idx + 1} / {items.length}
@@ -129,26 +149,37 @@ export default function Test() {
             <p className="q-text">{cur.questionSelected}</p>
           </div>
 
-          {isImageMC && safeSrc(cur?.imagePath) && (
+          {/* 🖼️ 이미지 */}
+          {hasImage && (
             <div className="q-media">
               <img
                 src={safeSrc(cur.imagePath)}
                 alt={cur.imageName || "question"}
-                style={{ maxWidth: 320 }}
+                style={{ maxWidth: 320, borderRadius: '8px' }}
               />
             </div>
           )}
 
-          {isAudioMC && Array.isArray(cur?.audios) && (
+          {/* 🎵 오디오 (개선된 UI) */}
+          {hasAudio && (
             <div className="q-audios">
               {cur.audios
                 .filter(a => safeSrc(a?.audioPath))
                 .map(a => (
-                  <audio key={a.audioNo} controls src={safeSrc(a.audioPath)} />
+                  <div key={a.audioNo} className="audio-item">
+                    <audio 
+                      controls 
+                      src={safeSrc(a.audioPath)}
+                      style={{ width: '100%', maxWidth: '480px' }}
+                    >
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
                 ))}
             </div>
           )}
 
+          {/* 객관식 보기 */}
           {isMultiple ? (
             <div className="q-actions">
               {cur.options?.length > 0 ? (
@@ -159,6 +190,7 @@ export default function Test() {
                     disabled={!!feedback}
                     onClick={() => submitAnswer(option.examNo)}
                   >
+                    {/* 🎯 언어별 예문 표시 */}
                     {option.examSelected || option.examKo || t("test.options.loadError")}
                   </button>
                 ))
@@ -169,6 +201,7 @@ export default function Test() {
               )}
             </div>
           ) : (
+            /* 주관식 입력 */
             <div className="q-actions">
               <textarea
                 value={subjective}
@@ -180,14 +213,15 @@ export default function Test() {
               />
               <button
                 className="btn primary"
-                disabled={subjective.trim() === ""}
+                disabled={subjective.trim() === "" || submitting}
                 onClick={() => submitAnswer(null)}
               >
-                {t("test.submit")}
+                {submitting ? t("common.loading") : t("test.submit")}
               </button>
             </div>
           )}
 
+          {/* 피드백 */}
           {feedback && (
             <div className="feedback" style={{ marginTop: "20px" }}>
               <div
@@ -223,4 +257,3 @@ export default function Test() {
     </div>
   );
 }
-

@@ -8,11 +8,11 @@ import web.model.dto.RankingDto;
 import web.model.dto.TestDto;
 import web.model.dto.TestItemWithMediaDto;
 import web.model.mapper.TestMapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Collections;
-
 import java.util.*;
 
 @Service
@@ -50,32 +50,38 @@ public class TestService {
                             || (item.getAudios() != null && !item.getAudios().isEmpty());
 
             if (isMultiple) {
-                // 정답
+                // ===== 🎯 핵심 수정: 언어별 예문 조회 =====
+                // 정답 예문을 언어에 맞게 조회
                 ExamDto correct = testMapper.findExamByNo(item.getExamNo(), langNo);
                 if (correct != null) {
                     List<Map<String, Object>> options = new ArrayList<>();
 
+                    // 정답 옵션
                     Map<String, Object> c = new HashMap<>();
                     c.put("examNo", correct.getExamNo());
-                    // 언어 반영된 텍스트
-                    c.put("examSelected", correct.getExamSelected());
-                    // 혹시 프론트에서 examKo fallback 쓰면 대비
-                    c.put("examKo", correct.getExamKo());
+                    c.put("examSelected", correct.getExamSelected()); // 언어별 예문
+                    c.put("examKo", correct.getExamKo()); // 한국어 원본 (fallback)
                     c.put("isCorrect", true);
                     options.add(c);
 
-                    // 오답 2개. 기존 mapper 시그니처 유지(언어 미반영이면 examKo만 옴)
-                    List<ExamDto> wrongs = testMapper.findRandomExamsExcluding(item.getExamNo(), 2);
+                    // ===== 🎯 오답도 언어별로 조회 =====
+                    // 오답 2개를 언어에 맞게 조회
+                    List<ExamDto> wrongs = testMapper.findRandomExamsExcludingWithLang(
+                            item.getExamNo(),
+                            2,
+                            langNo  // 언어 번호 전달
+                    );
+
                     for (ExamDto w : wrongs) {
                         Map<String, Object> wmap = new HashMap<>();
                         wmap.put("examNo", w.getExamNo());
-                        // 언어 반영값이 없을 수 있으니 둘 다 채움
-                        wmap.put("examSelected", w.getExamSelected()); // null일 수 있음
-                        wmap.put("examKo", w.getExamKo());
+                        wmap.put("examSelected", w.getExamSelected()); // 언어별 예문
+                        wmap.put("examKo", w.getExamKo()); // fallback
                         wmap.put("isCorrect", false);
                         options.add(wmap);
                     }
 
+                    // 보기 섞기
                     Collections.shuffle(options);
                     m.put("options", options);
                 }
@@ -87,12 +93,10 @@ public class TestService {
         return out;
     }
 
-
     // [3] 정답 예문 조회
     public ExamDto findExamByNo(int examNo, int langNo) {
         return testMapper.findExamByNo(examNo, langNo);
     }
-
 
     // [4] 랭킹 저장
     public int upsertRanking(RankingDto dto) {
@@ -104,7 +108,7 @@ public class TestService {
         return testMapper.getScore(userNo, testNo, testRound);
     }
 
-    // [6] 제출 처리 (prefix 강제 분기)
+    // [6] 제출 처리 (미디어 기반 타입 판별)
     @Transactional
     public int submitFreeAnswer(
             int userNo,
@@ -124,7 +128,7 @@ public class TestService {
         final String q = nullToEmpty(item.getQuestionSelected()).trim();
         System.out.printf("[DEBUG] testItemNo=%d, question='%s'%n", testItemNo, q);
 
-        // ===== 유형 판별 (prefix 제거 방식 대신 미디어 존재기반) =====
+        // ===== 유형 판별 (미디어 존재 기반) =====
         final boolean hasImage = item.getImagePath() != null && !item.getImagePath().isBlank();
         final boolean hasAudio = item.getAudios() != null && !item.getAudios().isEmpty();
 
@@ -139,9 +143,11 @@ public class TestService {
         int isCorrect;
 
         if (isMC) {
+            // 객관식: 선택한 examNo가 정답인지 확인
             isCorrect = (selectedExamNo != null && selectedExamNo.equals(item.getExamNo())) ? 1 : 0;
             score = (isCorrect == 1) ? 100 : 0;
         } else {
+            // 주관식: Gemini 채점
             try {
                 score = gemini.score(
                         q,
@@ -172,23 +178,24 @@ public class TestService {
         return score;
     }
 
-    // 필요하면 그대로 사용
+    // 헬퍼 메서드
     private String nullToEmpty(String s) {
         return s == null ? "" : s;
     }
 
+    // 🎯 언어 번호 -> Gemini 힌트 변환 (수정됨)
     private String convertToLangHint(int langNo) {
         switch (langNo) {
             case 2:
-                return "en";
+                return "jp";  // 일본어
             case 3:
-                return "jp";
+                return "cn";  // 중국어
             case 4:
-                return "cn";
+                return "en";  // 영어
             case 5:
-                return "es";
+                return "es";  // 스페인어
             default:
-                return "ko";
+                return "ko";  // 한국어
         }
     }
-} // class end
+}
