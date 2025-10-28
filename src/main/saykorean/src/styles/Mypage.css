@@ -4,92 +4,111 @@
   text-align: center;
   padding: 16px 0 24px;
 }
+/* MyPage 전체 정렬 */
+#MyPage {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  text-align: center;
+}
 
 /* 타이틀 */
 #MyPage .panelTitle {
   margin-top: 40px;
   margin-bottom: 30px;
-  text-align: center;
   font-size: 30px;
-  color: rgb(107, 78, 66);
+  font-weight: 700;
+  color: #3a2a24;
 }
 
 /* 정보 리스트 */
 #MyPage .infoList {
   list-style: none;
   padding: 0;
-  margin: 0 0 18px;
-  display: grid;
-  gap: 10px;
-  justify-items: center;
-}
-
-#MyPage .infoRow {
-  width: 360px;               /* Genre와 동일 폭 */
-  min-height: 48px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  color: rgb(107, 78, 66);
-}
-
-#MyPage .infoKey {
-  font-weight: 700;
-}
-
-#MyPage .infoValue {
-  opacity: 0.9;
-}
-
-/* 버튼 그룹 */
-#MyPage .btnGroup {
+  margin: 0 auto 24px;
   display: grid;
   gap: 12px;
   justify-items: center;
 }
 
-/* Genre와 같은 pill 버튼 */
-#MyPage .pillBtn {
-  width: 360px;               /* 고정 */
-  height: 70px;               /* 고정 */
-  margin-bottom: 2px;
+/* 정보 행 (카드 스타일) */
+#MyPage .infoRow {
+  width: 360px;
+  min-height: 54px;
 
-  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 18px;
+  border-radius: 16px;
   border: 1px solid #e5e7eb;
   background: linear-gradient(180deg, #fff, #fafafa);
-  color: rgb(107, 78, 66);
+  color: #6b4e42;
+  font-size: 16px;
+}
+
+/* 텍스트 */
+#MyPage .infoKey {
+  font-weight: 700;
+  color: #3a2a24;
+}
+
+#MyPage .infoValue {
+  opacity: .9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 버튼 그룹 정렬 */
+#MyPage .btnGroup {
+  width: 100%;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  margin-top: 10px;
+}
+
+/* 공통 Pill Button (Genre와 완전 동일 설정) */
+#MyPage .pillBtn {
+  width: 360px;
+  height: 70px;
+  border-radius: 100px;
+
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
   font-weight: bold;
+  font-size: 16px;
+  color: #6b4e42;
   cursor: pointer;
 
-  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
 #MyPage .pillBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(107,78,66,.08);
 }
 
 #MyPage .pillBtn:active {
   transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+  box-shadow: 0 4px 12px rgba(107,78,66,.06);
 }
 
-/* 빈 상태 안내 */
+/* 데이터 없을 때 안내 카드 */
 #MyPage .emptyNotice {
   width: 360px;
-  margin: 0 auto 16px;
-  padding: 18px 14px;
+  margin: 0 auto;
+  padding: 18px 20px;
   border: 1px dashed #e5e7eb;
-  border-radius: 14px;
-  color: rgb(107, 78, 66);
+  border-radius: 16px;
   background: #fff;
+  color: #6b4e42;
+  font-size: 15px;
 }
 
-/* 모바일 폭 대응 */
+/* 모바일 대응 */
 @media (max-width: 430px) {
   #MyPage .infoRow,
   #MyPage .pillBtn,

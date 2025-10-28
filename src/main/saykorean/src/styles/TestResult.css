@@ -1,94 +1,79 @@
-/* 컨테이너: Genre.css 패턴과 동일하게 id 스코프 */
+/* 전체 컨테이너 */
 #TestResult {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px;
-  box-sizing: border-box;
-  gap: 12px;
-  /* 배경 톤: 프로젝트 공통 파스텔 */
-  background: var(--bg-main, #FFF9F0);
-}
-
-/* 패널 카드 */
-#TestResult .panel {
-  width: 100%;
-  max-width: 720px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  padding: 24px;
-  box-sizing: border-box;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  text-align: center;
 }
 
 /* 제목 */
 #TestResult .panelTitle {
-  width: 100%;
-  max-width: 720px;
-  margin: 0;
-  padding: 4px 8px;
-  font-size: 20px;
-  font-weight: 700;
-  color: #333;
-  text-align: left;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #3a2a24;
+}
+
+/* 패널 카드 */
+#TestResult .panel {
+  background-color: rgba(255, 249, 240, 0.3);
+  border-radius: 16px;
+  padding: 30px 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 결과 이미지 */
 #TestResult .testResultImg {
-  display: block;
   width: 100%;
-  max-width: 380px;   /* 카드 안에서 너무 커지지 않도록 */
-  height: auto;
-  margin: 8px auto 16px;
-  object-fit: contain;
-  border-radius: 12px;
-  /* 필요 시 테두리 주고 싶다면 주석 해제
-  border: 1px solid rgba(0,0,0,0.08);
-  */
+  max-width: 280px;
+  margin-bottom: 24px;
 }
 
 /* 점수 텍스트 */
 #TestResult .scoreText {
-  margin: 0;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  color: #2f2f2f;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #6b4e42;
 }
 
-/* 토스트(Genre.css와 톤 맞춤) — 필요 시 재사용 */
-#TestResult .toast {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  line-height: 1.3;
-  margin: 8px 0;
-}
-#TestResult .toast.loading {
-  background: rgba(168, 230, 207, 0.2); /* #A8E6CF */
-  border: 1px solid #A8E6CF;
-  color: #1b5e57;
-}
-#TestResult .toast.error {
-  background: rgba(255, 170, 165, 0.2); /* #FFAAA5 */
-  border: 1px solid #FFAAA5;
-  color: #9b1c14;
+/* 결과 -> 테스트 화면 이동 버튼 */
+#TestResult .returnBtn {
+  width: 260px;
+  height: 54px;
+
+  border-radius: 100px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  font-weight: bold;
+  font-size: 16px;
+  color: #6b4e42;
+  cursor: pointer;
+
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-/* 모바일에서만 100%로 */
+#TestResult .returnBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(107,78,66,.08);
+}
+
+#TestResult .returnBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107,78,66,.06);
+}
+
+/* 모바일 대응 */
 @media (max-width: 430px) {
-    #Genre .list {
-        grid-template-columns: 1fr;
-    }
-
-    #Genre .pillBtn {
-        width: 100%;
-    }
-}
-
-/* 색상 토큰(있으면 자동 사용) */
-:root {
-  --bg-main: #FFF9F0;  /* 전체 배경 */
-  --accent:  #FFAAA5;  /* 포인트(테두리/버튼 등) */
+  #TestResult .panelTitle {
+    font-size: 26px;
+  }
+  #TestResult .returnBtn {
+    width: 100%;
+  }
 }
