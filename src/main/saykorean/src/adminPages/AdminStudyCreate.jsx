@@ -682,7 +682,7 @@ export default function AdminStudyCreate(props) {
                                         <option value={1}>한국어</option>
                                         <option value={2}>영어</option>
                                     </select>
-                                    <input 
+                                    <input
                                         type="text"
                                         id={`ttsText-${examIndex}`}
                                         placeholder="음성으로 변환할 텍스트 입력"
