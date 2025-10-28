@@ -88,6 +88,41 @@ export default function AdminStudyEdit(props) {
         }));
     };
 
+    // [2-1-1] 주제/해설 자동 번역 핸들러
+    const handleTranslateStudy = async () => {
+        if (!studyData.themeKo.trim() && !studyData.commenKo.trim()) {
+            alert("번역할 한국어 주제 또는 해설을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const r = await studyApi.translate({
+                themeKo: studyData.themeKo,
+                commenKo: studyData.commenKo
+            });
+            const { themeJp, themeCn, themeEn, themeEs, commenJp, commenCn, commenEn, commenEs } = r.data;
+
+            setStudyData(e => ({
+                ...e,
+                themeJp: themeJp || e.themeJp,
+                themeCn: themeCn || e.themeCn,
+                themeEn: themeEn || e.themeEn,
+                themeEs: themeEs || e.themeEs,
+                commenJp: commenJp || e.commenJp,
+                commenCn: commenCn || e.commenCn,
+                commenEn: commenEn || e.commenEn,
+                commenEs: commenEs || e.commenEs,
+            }));
+            alert("주제 및 해설 자동 번역이 완료되었습니다.");
+        } catch (e) {
+            console.error("주제/해설 자동 번역 실패: ", e);
+            alert("번역 중 오류가 발생했습니다.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // [2-2] 예문 입력 핸들러
     const handleExamChange = async (index, field, value) => {
         setExamList(e => {
@@ -99,6 +134,66 @@ export default function AdminStudyEdit(props) {
             return newList;
         })
     }
+
+    // [2-2-1] 예문 자동 번역 핸들러
+    const handleTranslateExam = async (index) => {
+        const exam = examList[index];
+        if (!exam.examKo.trim()) {
+            alert("번역할 한국어 예문을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const r = await examApi.translate({ examKo: exam.examKo });
+            const { examJp, examCn, examEn, examEs } = r.data;
+            setExamList(e => {
+                const newList = [...e];
+                newList[index] = {
+                    ...newList[index],
+                    examJp: examJp || newList[index].examJp,
+                    examCn: examCn || newList[index].examCn,
+                    examEn: examEn || newList[index].examEn,
+                    examEs: examEs || newList[index].examEs,
+                };
+                return newList;
+            });
+            alert(`${index + 1}번째 예문 자동 번역이 완료되었습니다.`);
+        } catch (e) {
+            console.error("예문 자동 번역 실패: ", e);
+            alert("예문 번역 중 오류가 발생했습니다.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    // [2-2-2] 예문 발음기호 자동 생성 핸들러
+    const handleRomanizeExam = async (index) => {
+        const exam = examList[index];
+        if (!exam.examKo.trim()) {
+            alert("발음 기호로 변환할 한국어 예문을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const r = await examApi.romanize(exam.examKo);
+            const { romanized } = r.data;
+
+            if (romanized) {
+                handleExamChange(index, 'examRoman', romanized);
+                alert(`${index + 1}번째 예문 발음기호 생성이 완료되었습니다.`);
+            } else {
+                alert("API 응답 형식에 문제가 있습니다.");
+            }
+
+        } catch (e) {
+            console.error("예문 발음기호 생성 중 오류 발생: ", e);
+            alert("예문 발음기호 생성 중 오류가 발생했습니다.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // [2-3] 새 이미지 파일 선택 핸들러
     const handleNewImageFile = async (index, file) => {
@@ -373,7 +468,12 @@ export default function AdminStudyEdit(props) {
 
             {/* 주제 섹션 */}
             <div className="admin-section">
-                <h3>2. 주제 수정</h3>
+                <div className="admin-flex-between admin-mb-lg">
+                    <h3>2. 주제 수정</h3>
+                    <button onClick={handleTranslateStudy} className="admin-btn admin-btn-warning">
+                        주제/해설 자동번역
+                    </button>
+                </div>
 
                 <div className="admin-grid">
                     <div className="admin-form-group">
@@ -486,14 +586,29 @@ export default function AdminStudyEdit(props) {
 
                 {examList.map((exam, examIndex) => (
                     <div key={examIndex} className="admin-exam-item">
-                        <div className="admin-flex-between admin-mb-md">
+                        <div className="admin-exam-header">
                             <h4>예문 {examIndex + 1} {exam.examNo ? `(ID: ${exam.examNo})` : '(새로 추가)'}</h4>
-                            <button
-                                onClick={() => handleDeleteExam(examIndex, exam.examNo)}
-                                className="admin-btn admin-btn-sm admin-btn-danger"
-                            >
-                                삭제
-                            </button>
+                            
+                            <div className="admin-flex admin-flex-gap-md">
+                                <button
+                                    onClick={() => handleRomanizeExam(examIndex)}
+                                    className="admin-btn admin-btn-sm admin-btn-purple"
+                                >
+                                    자동 발음 생성
+                                </button>
+                                <button
+                                    onClick={() => handleTranslateExam(examIndex)}
+                                    className="admin-btn admin-btn-sm admin-btn-warning"
+                                >
+                                    자동번역
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteExam(examIndex, exam.examNo)}
+                                    className="admin-btn admin-btn-sm admin-btn-danger"
+                                >
+                                    삭제
+                                </button>
+                            </div>
                         </div>
 
                         {/* 예문 텍스트 입력 */}
@@ -556,7 +671,10 @@ export default function AdminStudyEdit(props) {
                                         src={exam.imagePath}
                                         alt="현재 이미지"
                                         className="admin-image-preview"
-                                        onError={(e) => { e.target.style.display = 'none'; }}
+                                        onError={(e) => { 
+                                            console.error("이미지 로드 실패:", exam.imagePath);
+                                            e.target.style.display = 'none'; 
+                                        }}
                                     />
                                 </div>
                             )}
@@ -630,7 +748,21 @@ export default function AdminStudyEdit(props) {
                             <div className="admin-audio-method admin-audio-method-tts">
                                 <label className="admin-form-label" style={{ color: '#388E3C' }}>🤖 방법 2: TTS로 음성 생성 (Google AI)</label>
                                 <div className="admin-file-inline">
-                                    <select id={`newTTSLang-${examIndex}`} className="admin-select">
+                                    <select 
+                                        id={`newTTSLang-${examIndex}`} 
+                                        className="admin-select"
+                                        onChange={(e) => {
+                                            const lang = parseInt(e.target.value);
+                                            const inputBox = document.getElementById(`newTTSText-${examIndex}`);
+                                            let newText = "";
+                                            if (lang === 1) {
+                                                newText = exam.examKo || '';
+                                            } else if (lang === 2) {
+                                                newText = exam.examEn || '';
+                                            }
+                                            inputBox.value = newText;
+                                        }}
+                                    >
                                         <option value={1}>한국어</option>
                                         <option value={2}>영어</option>
                                     </select>
@@ -638,6 +770,7 @@ export default function AdminStudyEdit(props) {
                                         type="text"
                                         id={`newTTSText-${examIndex}`}
                                         placeholder="음성으로 변환할 텍스트 입력"
+                                        defaultValue={exam.examKo}
                                         className="admin-input"
                                     />
                                     <button
@@ -656,7 +789,7 @@ export default function AdminStudyEdit(props) {
                                         TTS 생성
                                     </button>
                                 </div>
-                                <p className="admin-hint">💡 팁: 예문 텍스트를 그대로 입력하면 자동으로 음성이 생성됩니다</p>
+                                <p className="admin-hint">💡 팁: 언어 선택 시 해당 예문이 자동으로 입력됩니다</p>
                             </div>
 
                             {/* 추가된 새 음성 파일 목록 */}
