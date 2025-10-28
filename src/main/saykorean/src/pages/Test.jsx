@@ -12,13 +12,11 @@ export default function Test() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-
   const [items, setItems] = useState([]);
   const [idx, setIdx] = useState(0);              // 현재 문제 인덱스
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
   const location = useLocation();
-
 
   const [submitting, setSubmitting] = useState(false);
   const [subjective, setSubjective] = useState(""); // 주관식 입력값

@@ -1,5 +1,6 @@
 package web.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -15,140 +17,122 @@ import java.util.Locale;
 @Transactional
 public class FileService {
 
-    // [*] 기본 경로 설정
-    private String baseDir = System.getProperty("user.dir");
-
-    // 업로드 경로 정의
-    private String audioPath = baseDir + "/build/resources/main/static/upload/audio/";
-    private String imagePath = baseDir + "/build/resources/main/static/upload/image/";
+    // 1. application.properties에서 설정한 외부 경로를 주입받습니다.
+    @Value("${upload.path}")
+    private String uploadRootPath;
 
     // [1] 이미지 업로드
-    public String uploadImage(MultipartFile file , int examNo) throws IOException {
-        return uploadFile(file, imagePath, examNo, "img");
+    public String uploadImage(MultipartFile file, int examNo) throws IOException {
+        // 'image/' 서브디렉토리에 저장
+        return uploadFile(file, "image/", examNo, "img");
     }
 
     // [2-1] 오디오 파일 업로드
-    public String uploadAudio(MultipartFile file , int examNo , int lang) throws IOException {
+    public String uploadAudio(MultipartFile file, int examNo, int lang) throws IOException {
         String langCode;
-
-        // [*] 언어 코드 변환
         switch (lang) {
             case 1 -> langCode = "kor";
             case 2 -> langCode = "eng";
             default -> throw new IllegalArgumentException("지원하지 않는 언어 코드입니다. (1=kor, 2=eng)");
         }
-
-        // [*] type 에 {langCode}_voice 형태로 전달 → 파일명 {examNo}_{langCode}_voice.{확장자}
-        return uploadFile(file, audioPath, examNo, langCode + "_voice");
+        // 'audio/' 서브디렉토리에 저장
+        return uploadFile(file, "audio/", examNo, langCode + "_voice");
     }
 
     // [2-2] TTS로 생성된 오디오 바이트 배열 저장
     public String uploadAudioFromBytes(byte[] audioData, int examNo, int lang) throws IOException {
         String langCode;
-
-        // 언어 코드 변환
         switch (lang) {
             case 1 -> langCode = "kor";
             case 2 -> langCode = "eng";
             default -> throw new IllegalArgumentException("지원하지 않는 언어 코드입니다.");
         }
 
-        // 월 계산
         LocalDate now = LocalDate.now();
-        String month = now.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toLowerCase();
-        String year = String.valueOf(now.getYear()).substring(2);
-        String monthDir = month + "_" + year; // ex) mar_25
+        String monthDir = now.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toLowerCase() + "_" + String.valueOf(now.getYear()).substring(2);
 
-        // 경로 폴더 없으면 생성
-        String targetPath = audioPath + monthDir + "/";
-        File dir = new File(targetPath);
+        // 2. 저장 경로를 외부 경로 기준으로 재구성
+        String relativePath = "audio/" + monthDir + "/";
+        String fullPath = Paths.get(uploadRootPath, relativePath).toString();
+
+        File dir = new File(fullPath);
         if (!dir.exists()) dir.mkdirs();
 
-        // 파일명 규칙 : {examNo}_{langCode}_voice.mp3 (TTS는 mp3만 지원)
         String newFileName = examNo + "_" + langCode + "_voice.mp3";
+        File targetFile = new File(fullPath, newFileName);
 
-        // 실제 저장 경로
-        File targetFile = new File(targetPath + newFileName);
-        
-        // 기존 파일 덮어쓰기
         if (targetFile.exists()) targetFile.delete();
-        
-        // 바이트 배열을 파일로 저장
+
         try (FileOutputStream fos = new FileOutputStream(targetFile)) {
             fos.write(audioData);
         }
-        
-        // DB에 저장할 상대경로 반환
+
+        // 3. DB에 저장할 URL 경로는 그대로 유지
         return "/upload/audio/" + monthDir + "/" + newFileName;
     }
 
-    // [3] 공통 파일 업로드 로직 ㄹㄹㄹ
-    private String uploadFile(MultipartFile file, String baseTargetPath, int examNo , String type) throws IOException {
-        // [*] 파일 존재여부 확인
-        if( file == null || file.isEmpty()){
+    // [3] 공통 파일 업로드 로직
+    private String uploadFile(MultipartFile file, String subDir, int examNo, String type) throws IOException {
+        if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("파일이 비어있습니다.");
-        } // if end
+        }
 
-        // 3-1 월계산
         LocalDate now = LocalDate.now();
-        String month = now.getMonth().getDisplayName(TextStyle.SHORT , Locale.ENGLISH).toLowerCase(); // mar, apr 식으로 출력
-        String year = String.valueOf(now.getYear()).substring(2); // 23 , 24 , 25(년)
-        String monthDir = month + "_" + year; // mar_25
+        String monthDir = now.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toLowerCase() + "_" + String.valueOf(now.getYear()).substring(2);
 
-        // 3-2 경로 폴더 없으면 생성
-        String targetPath = baseTargetPath + monthDir + "/";
-        File dir = new File(targetPath);
+        // 4. 저장 경로를 외부 경로 기준으로 재구성
+        // 예: C:/dev/saykorean_uploads/image/oct_25/
+        String relativePath = subDir + monthDir + "/";
+        String fullPath = Paths.get(uploadRootPath, relativePath).toString();
+
+        File dir = new File(fullPath);
         if (!dir.exists()) dir.mkdirs();
 
-        // 3-3 파일명 규칙 :{examNo}_{type}.{확장자}
         String originalName = file.getOriginalFilename();
-        if(originalName == null || !originalName.contains(".")){
+        if (originalName == null || !originalName.contains(".")) {
             throw new IllegalArgumentException("유효하지 않은 파일명 입니다.");
         }
-        String ext = originalName.substring(originalName.lastIndexOf(".")); // 확장자(ex : jpg)
+        String ext = originalName.substring(originalName.lastIndexOf("."));
         String newFileName = examNo + "_" + type + ext;
 
-        // 3-4 실제 저장 경로
-        File targetFile = new File(targetPath + newFileName);
+        // 5. 최종 저장 경로
+        File targetFile = new File(fullPath, newFileName);
 
-        // 3-5 기존 파일 덮어쓰기 or 교체
         if (targetFile.exists()) targetFile.delete();
         file.transferTo(targetFile);
 
-        // 3-6 DB에 저장할 상대경로 반환 (월 폴더 포함)
-        if(targetPath.contains("/image/")){
-            return "/upload/image/" + monthDir + "/" + newFileName;
-        } else if (targetPath.contains("/audio/")) {
-            return "/upload/audio/" + monthDir + "/" + newFileName;
-        }
-
-        // 3-7 예외처리 반환
-        throw new IllegalStateException("지원하지 않는 업로드 경로입니다.");
+        // 6. DB에 저장할 URL 경로는 그대로 유지 (WebConfig에서 이 URL을 실제 파일 경로와 매핑)
+        // 예: /upload/image/oct_25/1_img.jpg
+        return "/upload/" + relativePath + newFileName;
     }
 
     // [4] 파일 삭제
-    public boolean deleteFile(String relativePath) {
-        // 4-1 경로 위치 확인
-        String fullPath = baseDir + "/build/resources/main/static" + relativePath;
+    public boolean deleteFile(String relativeUrlPath) {
+        if (relativeUrlPath == null || relativeUrlPath.isBlank()) {
+            return false;
+        }
+        // 7. URL 경로에서 '/upload/' 부분을 제거하여 실제 파일 시스템의 상대 경로를 얻음
+        // 예: /upload/image/oct_25/1.jpg -> image/oct_25/1.jpg
+        String relativeFilePath = relativeUrlPath.startsWith("/upload/") ? relativeUrlPath.substring("/upload/".length()) : relativeUrlPath;
+
+        // 8. 외부 저장소 루트와 조합하여 전체 파일 경로를 만듦
+        String fullPath = Paths.get(uploadRootPath, relativeFilePath).toString();
         File file = new File(fullPath);
-        // 4-2 파일 존재 시 삭제
+
         return file.exists() && file.delete();
     }
 
-    // [5] 파일 수정
-    public String updateFile(MultipartFile newFile , String oldRelativePath , int examNo , String type, int lang) throws IOException {
-        // 5-1 기존 파일이 있을 경우 삭제
-        if (oldRelativePath != null && !oldRelativePath.isBlank()){
+    // [5] 파일 수정 (로직 수정 불필요)
+    // deleteFile과 upload... 메소드가 수정되었으므로 이 메소드는 자동으로 새 로직을 따릅니다.
+    public String updateFile(MultipartFile newFile, String oldRelativePath, int examNo, String type, int lang) throws IOException {
+        if (oldRelativePath != null && !oldRelativePath.isBlank()) {
             deleteFile(oldRelativePath);
         }
-        // 5-2 파일 형식에 따라 업로드
         if (type.equals("img")) {
             return uploadImage(newFile, examNo);
         } else if (type.equals("_voice")) {
-            return uploadAudio(newFile , examNo, lang);
+            return uploadAudio(newFile, examNo, lang);
         }
-        // 5-3 예외처리
         throw new IllegalStateException("수정 경로가 올바르지 않습니다.");
     }
-
 }
