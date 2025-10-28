@@ -36,13 +36,16 @@ public interface UserMapper {
     public String findEmail(String name , String phone);
 
     // [US-08] 비밀번호 찾기 findPwrd()
-    @Select("select password from users where name=#{name} and phone = #{phone} and email=#{email}")
-    public String findPwrd(String name, String phone, String email);
+    @Select("select userNo, password from users where name=#{name} and phone = #{phone} and email=#{email}")
+    public TemporaryPwrdDto findPwrd(String name, String phone, String email);
+
+    // [US-08-1] 비밀번호 수정 (찾기 후 비밀번호 수정 ,트랜잭션)
+    @Update("update users set password=#{password} where userNo=#{userNo}")
+    public int tranPassUpdate(TemporaryPwrdDto temporaryPwrdDto);
 
     // [US-09] 회원정보 수정 updateUserInfo()
     @Update("update users set name=#{name}, nickName=#{nickName}, phone=#{phone} where userNo = #{userNo}")
     public int updateUserInfo(UpdateUserInfoDto updateUserInfoDto);
-
 
     // [US-10] 비밀번호 수정 updatePwrd()
     @Update("update users set password=#{password} where userNo=#{userNo}")
