@@ -561,6 +561,75 @@ html {
   color: #f44336;
 }
 
+
+/* 이미지 생성 관련 스타일 */
+.admin-radio-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.admin-radio-label:hover {
+    border-color: #2196F3;
+    background: #f5f5f5;
+}
+
+.admin-radio-label input[type="radio"] {
+    cursor: pointer;
+}
+
+.admin-radio-label input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: #2196F3;
+}
+
+.admin-upload-section {
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+}
+
+.admin-generate-section {
+    padding: 16px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    border: 2px solid #2196F3;
+}
+
+.admin-hint {
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+}
+
+.admin-text-success {
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+/* 미리보기 이미지 컨테이너 */
+.admin-image-preview {
+    margin-top: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.admin-image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
 /* 홈 페이지 전용 스타일 */
 .admin-center {
   text-align: center;

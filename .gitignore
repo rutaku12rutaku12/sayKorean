@@ -6,6 +6,8 @@ build/
 application.properties
 handy-boulevard-475706-q2-004880c33563.json
 env.app.json
+src/main/python/
+**/src/main/python/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -49,3 +51,4 @@ src/main/resources/application.properties
 src/main/resources/handy-boulevard-475706-q2-004880c33563.json
 src/main/resources/env.app.json
 /src/main/resources/
+/src/pythonsrc/main/python/

@@ -532,9 +532,9 @@ INSERT IGNORE INTO ranking (testRound, userAnswer, isCorrect, resultDate, testIt
 
 INSERT IGNORE INTO languages (langName) VALUES
 ('한국어'),
-('일본어'),
-('중국어'),
-('영어'),
-('스페인어');
+('日本語'),
+('中文'),
+('English'),
+('español');
 
 select * from users;

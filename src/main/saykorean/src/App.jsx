@@ -35,6 +35,7 @@ import AdminTestCreate from "./adminPages/AdminTestCreate";
 import AdminTestEdit from "./adminPages/AdminTestEdit";
 import AdminUserList from "./adminPages/AdminUserList.jsx";
 import AdminUserIndi from "./adminPages/AdminUserIndi.jsx";
+import CharacterTraining from "./adminPages/CharacterTraining.jsx";
 
 // 랭킹
 import Ranking from "./pages/Ranking.jsx";
@@ -96,6 +97,7 @@ function App() {
             <Route path="test/edit/:testNo" element={<AdminTestEdit />} />
             <Route path="user" element={<AdminUserList />} />
             <Route path="user/:userNo" element={<AdminUserIndi />} />
+            <Route path="character-training" element={<CharacterTraining />} />
           </Route>
 
           {/* 사용자단 */}

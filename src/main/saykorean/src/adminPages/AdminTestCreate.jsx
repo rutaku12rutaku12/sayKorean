@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { testApi, testItemApi } from "../api/adminTestApi";
 import { useEffect, useState } from "react";
 import { examApi, genreApi, studyApi } from "../api/adminApi";
-import { setGenres } from "../store/adminSlice";
+import { setGenres, setError } from "../store/adminSlice";
 import "../styles/AdminCommon.css";
 
 export default function AdminTestCreate() {
@@ -15,7 +15,16 @@ export default function AdminTestCreate() {
     // [*] 기본 정보
     const [selectedGenreNo, setSelectedGenreNo] = useState('');
     const [selectedStudyNo, setSelectedStudyNo] = useState('');
-    const [testTitle, setTestTitle] = useState('');
+
+    // [*] 시험 제목 (다국어)
+    const [testData, setTestData] = useState({
+        testTitle: "",
+        testTitleRoman: "",
+        testTitleJp: "",
+        testTitleCn: "",
+        testTitleEn: "",
+        testTitleEs: "",
+    });
 
     // [*] 주제 목록 및 예문 목록
     const [studies, setStudies] = useState([]);
@@ -76,7 +85,6 @@ export default function AdminTestCreate() {
             const filtered = res.data.filter(exam => exam.studyNo == selectedStudyNo);
             setExams(filtered);
 
-            // 자동 생성 모드일 시, 초기 문항 세팅
             if (createMode === "auto" && filtered.length >= 3) {
                 const shuffled = [...filtered].sort(() => Math.random() - 0.5);
                 const selected = shuffled.slice(0, 3);
@@ -84,16 +92,31 @@ export default function AdminTestCreate() {
                 setCustomItems([
                     {
                         question: "그림: 올바른 표현을 고르세요.",
+                        questionRoman: "",
+                        questionJp: "",
+                        questionCn: "",
+                        questionEn: "",
+                        questionEs: "",
                         examNo: selected[0]?.examNo || null,
                         examKo: selected[0]?.examKo || ""
                     },
                     {
                         question: "음성: 올바른 표현을 고르세요.",
+                        questionRoman: "",
+                        questionJp: "",
+                        questionCn: "",
+                        questionEn: "",
+                        questionEs: "",
                         examNo: selected[1]?.examNo || null,
                         examKo: selected[1]?.examKo || ""
                     },
                     {
                         question: "주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.",
+                        questionRoman: "",
+                        questionJp: "",
+                        questionCn: "",
+                        questionEn: "",
+                        questionEs: "",
                         examNo: selected[2]?.examNo || null,
                         examKo: selected[2]?.examKo || ""
                     }
@@ -104,12 +127,87 @@ export default function AdminTestCreate() {
         }
     }
 
-    // [3-1] 커스텀 모드 : 문항 추가
+    // [*] 시험 제목 입력 핸들러
+    const handleTestDataChange = (field, value) => {
+        setTestData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    // [*] 시험 제목 자동 번역
+    const handleTranslateTestTitle = async () => {
+        if (!testData.testTitle.trim()) {
+            alert("번역할 한국어 시험 제목을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const res = await testApi.translate({
+                testTitle: testData.testTitle
+            });
+            const { testTitleJp, testTitleCn, testTitleEn, testTitleEs } = res.data;
+
+            setTestData(prev => ({
+                ...prev,
+                testTitleJp: testTitleJp || prev.testTitleJp,
+                testTitleCn: testTitleCn || prev.testTitleCn,
+                testTitleEn: testTitleEn || prev.testTitleEn,
+                testTitleEs: testTitleEs || prev.testTitleEs,
+            }));
+            alert("시험 제목 자동 번역이 완료되었습니다.");
+        } catch (e) {
+            console.error("시험 제목 번역 실패:", e);
+            alert("번역 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // [*] 시험 제목 발음기호 자동 생성 (추가)
+    const handleRomanizeTestTitle = async () => {
+        if (!testData.testTitle.trim()) {
+            alert("발음 기호로 변환할 한국어 시험 제목을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            // AdminTestController의 /romanize 엔드포인트 호출 (testApi에 romanize 함수가 정의되어 있다고 가정)
+            const res = await testApi.romanize(testData.testTitle);
+            const { romanized } = res.data; // 서버 응답 형식: { original: "...", romanized: "..." }
+
+            if (romanized) {
+                setTestData(prev => ({
+                    ...prev,
+                    testTitleRoman: romanized,
+                }));
+                alert("시험 제목 발음기호 생성이 완료되었습니다.");
+            } else {
+                alert("API 응답 형식에 문제가 있습니다.");
+            }
+        } catch (e) {
+            console.error("시험 제목 발음기호 생성 실패:", e);
+            alert("시험 제목 발음기호 생성 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // [3-1] 커스텀 모드: 문항 추가
     const handleAddCustomItem = () => {
         setCustomItems([
             ...customItems,
             {
                 question: "",
+                questionRoman: "",
+                questionJp: "",
+                questionCn: "",
+                questionEn: "",
+                questionEs: "",
                 examNo: null,
                 examKo: ""
             }
@@ -141,6 +239,72 @@ export default function AdminTestCreate() {
         })
     };
 
+    // [3-4] 문항 질문 자동 번역
+    const handleTranslateQuestion = async (index) => {
+        const item = customItems[index];
+        if (!item.question.trim()) {
+            alert("번역할 한국어 질문을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const res = await testApi.translate({
+                question: item.question
+            });
+            const { questionJp, questionCn, questionEn, questionEs } = res.data;
+
+            setCustomItems(prev => {
+                const newItems = [...prev];
+                newItems[index] = {
+                    ...newItems[index],
+                    questionJp: questionJp || newItems[index].questionJp,
+                    questionCn: questionCn || newItems[index].questionCn,
+                    questionEn: questionEn || newItems[index].questionEn,
+                    questionEs: questionEs || newItems[index].questionEs,
+                };
+                return newItems;
+            });
+            alert(`${index + 1}번째 문항 질문 자동 번역이 완료되었습니다.`);
+        } catch (e) {
+            console.error("문항 질문 번역 실패:", e);
+            alert("번역 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // [3-5] 문항 질문 발음기호 자동 생성 (추가)
+    const handleRomanizeQuestion = async (index) => {
+        const item = customItems[index];
+        if (!item.question.trim()) {
+            alert("발음 기호로 변환할 한국어 질문을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            // AdminTestController의 /romanize 엔드포인트 호출
+            const res = await testApi.romanize(item.question);
+            const { romanized } = res.data;
+
+            if (romanized) {
+                handleCustomItemChange(index, 'questionRoman', romanized);
+                alert(`${index + 1}번째 문항 질문 발음기호 생성이 완료되었습니다.`);
+            } else {
+                alert("API 응답 형식에 문제가 있습니다.");
+            }
+
+        } catch (e) {
+            console.error("문항 질문 발음기호 생성 실패:", e);
+            alert("문항 질문 발음기호 생성 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // [4] 난수 재생성
     const handleShuffle = () => {
         if (exams.length < 3) {
@@ -154,16 +318,31 @@ export default function AdminTestCreate() {
         setCustomItems([
             {
                 question: "그림: 올바른 표현을 고르세요.",
+                questionRoman: "",
+                questionJp: "",
+                questionCn: "",
+                questionEn: "",
+                questionEs: "",
                 examNo: selected[0].examNo,
                 examKo: selected[0].examKo
             },
             {
                 question: "음성: 올바른 표현을 고르세요.",
+                questionRoman: "",
+                questionJp: "",
+                questionCn: "",
+                questionEn: "",
+                questionEs: "",
                 examNo: selected[1].examNo,
                 examKo: selected[1].examKo
             },
             {
                 question: "주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.",
+                questionRoman: "",
+                questionJp: "",
+                questionCn: "",
+                questionEn: "",
+                questionEs: "",
                 examNo: selected[2].examNo,
                 examKo: selected[2].examKo
             }
@@ -181,7 +360,7 @@ export default function AdminTestCreate() {
             alert('주제를 선택해주세요.');
             return false;
         }
-        if (!testTitle.trim()) {
+        if (!testData.testTitle.trim()) {
             alert('시험 제목을 입력해주세요.');
             return false;
         }
@@ -216,26 +395,30 @@ export default function AdminTestCreate() {
     }
 
     // [6] 시험 생성 실행
-    const handleSumbit = async () => {
-        // 1) 유효성 검사
+    const handleSubmit = async () => {
         if (!validate()) return;
 
         try {
             setLoading(true);
 
-            // 2) 시험 생성
+            // 1) 시험 생성
             const res = await testApi.create({
-                testTitle,
+                ...testData,
                 studyNo: parseInt(selectedStudyNo)
-            })
+            });
             const testNo = res.data;
-            console.log('시험 생성 완료, testNo : ', testNo);
+            console.log('시험 생성 완료, testNo:', testNo);
 
-            // 3) 문항 생성
+            // 2) 문항 생성
             for (let item of customItems) {
                 await testItemApi.create({
                     testNo,
                     question: item.question,
+                    questionRoman: item.questionRoman,
+                    questionJp: item.questionJp,
+                    questionCn: item.questionCn,
+                    questionEn: item.questionEn,
+                    questionEs: item.questionEs,
                     examNo: item.examNo
                 });
             }
@@ -249,21 +432,22 @@ export default function AdminTestCreate() {
         } finally {
             setLoading(false);
         }
-
     };
 
 
+
     return (<>
-        <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div className="admin-container">
             <h2>시험 등록</h2>
 
             {/* 1. 장르 선택 */}
-            <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+            <div className="admin-section">
                 <h3>1. 장르 선택</h3>
                 <select
                     value={selectedGenreNo}
                     onChange={(e) => setSelectedGenreNo(e.target.value)}
-                    style={{ padding: '8px', width: '320px' }}
+                    className="admin-select"
+                    style={{ width: '320px' }}
                 >
                     <option value="">장르를 선택하세요</option>
                     {genres.map(genre => (
@@ -276,12 +460,13 @@ export default function AdminTestCreate() {
 
             {/* 2. 주제 선택 */}
             {selectedGenreNo && (
-                <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                <div className="admin-section">
                     <h3>2. 주제 선택</h3>
                     <select
                         value={selectedStudyNo}
                         onChange={(e) => setSelectedStudyNo(e.target.value)}
-                        style={{ padding: '8px', width: '320px' }}
+                        className="admin-select"
+                        style={{ width: '320px' }}
                     >
                         <option value="">주제를 선택하세요</option>
                         {studies.map(study => (
@@ -295,23 +480,98 @@ export default function AdminTestCreate() {
 
             {/* 3. 시험 제목 */}
             {selectedStudyNo && (
-                <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                <div className="admin-section">
                     <h3>3. 시험 제목</h3>
-                    <input
-                        type="text"
-                        value={testTitle}
-                        onChange={(e) => setTestTitle(e.target.value)}
-                        placeholder="예: 인사 표현 익히기"
-                        style={{ width: '100%', padding: '10px', fontSize: '16px' }}
-                    />
+                    <div className="admin-grid-col-2">
+                        <div>
+                            <p>한국어 시험 제목</p>
+                            <input
+                                type="text"
+                                value={testData.testTitle}
+                                onChange={(e) => handleTestDataChange('testTitle', e.target.value)}
+                                className="admin-input"
+                                placeholder="한국어 시험 제목을 입력하세요"
+                            />
+                            <div className="admin-mb-sm admin-mt-sm">
+                                <button
+                                    onClick={handleTranslateTestTitle}
+                                    disabled={loading}
+                                    className="admin-btn admin-btn-sm admin-btn-info admin-mr-sm"
+                                >
+                                    자동 번역
+                                </button>
+                                {/* 발음기호 생성 버튼 추가 */}
+                                <button
+                                    onClick={handleRomanizeTestTitle}
+                                    disabled={loading}
+                                    className="admin-btn admin-btn-sm admin-btn-secondary"
+                                >
+                                    발음기호 생성
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p>발음 기호 (Romanized)</p>
+                            <input
+                                type="text"
+                                value={testData.testTitleRoman}
+                                onChange={(e) => handleTestDataChange('testTitleRoman', e.target.value)}
+                                className="admin-input"
+                                placeholder="자동 생성된 발음 기호"
+                            />
+                        </div>
+
+                        <div className="admin-grid-2">
+                            <div className="admin-form-group">
+                                <label className="admin-form-label">일본어 시험 제목</label>
+                                <input
+                                    type="text"
+                                    value={testData.testTitleJp}
+                                    onChange={(e) => handleTestDataChange('testTitleJp', e.target.value)}
+                                    placeholder={testData.testTitleJp || "자동번역 결과"}
+                                    className="admin-input"
+                                />
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-form-label">중국어 시험 제목</label>
+                                <input
+                                    type="text"
+                                    value={testData.testTitleCn}
+                                    onChange={(e) => handleTestDataChange('testTitleCn', e.target.value)}
+                                    placeholder={testData.testTitleCn || "자동번역 결과"}
+                                    className="admin-input"
+                                />
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-form-label">영어 시험 제목</label>
+                                <input
+                                    type="text"
+                                    value={testData.testTitleEn}
+                                    onChange={(e) => handleTestDataChange('testTitleEn', e.target.value)}
+                                    placeholder={testData.testTitleEn || "자동번역 결과"}
+                                    className="admin-input"
+                                />
+                            </div>
+                            <div className="admin-form-group">
+                                <label className="admin-form-label">스페인어 시험 제목</label>
+                                <input
+                                    type="text"
+                                    value={testData.testTitleEs}
+                                    onChange={(e) => handleTestDataChange('testTitleEs', e.target.value)}
+                                    placeholder={testData.testTitleEs || "자동번역 결과"}
+                                    className="admin-input"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
 
             {/* 4. 문항 생성 방식 */}
             {selectedStudyNo && exams.length > 0 && (
-                <div style={{ marginBottom: '30px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
+                <div className="admin-section">
                     <h3>4. 문항 생성 방식</h3>
-                    <div style={{ marginBottom: '20px' }}>
+                    <div className="admin-mb-md">
                         <label style={{ marginRight: '20px' }}>
                             <input
                                 type="radio"
@@ -333,14 +593,14 @@ export default function AdminTestCreate() {
                     </div>
 
                     {createMode === "auto" && (
-                        <div style={{ marginBottom: '20px' }}>
+                        <div className="admin-mb-md">
                             <button
                                 onClick={handleShuffle}
-                                style={{ padding: '10px 20px', backgroundColor: '#FFC107', color: 'black', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                                className="admin-btn admin-btn-warning"
                             >
                                 🎲 문항 다시 뽑기
                             </button>
-                            <p style={{ fontSize: '14px', color: '#666', marginTop: '10px' }}>
+                            <p className="admin-hint" style={{ marginTop: '10px' }}>
                                 * 예문 중 3개를 무작위로 선택하여 그림, 음성, 주관식 문항을 생성합니다.
                             </p>
                         </div>
@@ -348,12 +608,12 @@ export default function AdminTestCreate() {
 
                     {/* 문항 목록 */}
                     <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                        <div className="admin-flex-between admin-mb-md">
                             <h4>시험 문항 ({customItems.length}개)</h4>
                             {createMode === "custom" && (
                                 <button
                                     onClick={handleAddCustomItem}
-                                    style={{ padding: '8px 20px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}
+                                    className="admin-btn admin-btn-success"
                                 >
                                     문항 추가
                                 </button>
@@ -361,65 +621,138 @@ export default function AdminTestCreate() {
                         </div>
 
                         {customItems.map((item, index) => (
-                            <div key={index} style={{ marginBottom: '20px', padding: '15px', border: '2px solid #eee', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                                    <h5>문항 {index + 1}</h5>
-                                    {createMode === "custom" && customItems.length > 3 && (
+                            <div key={index} className="admin-card admin-mb-md">
+                                <h4>{index + 1}번째 문항</h4>
+                                <div className="admin-form-group">
+                                    <label>질문 (한국어)</label>
+                                    <input
+                                        type="text"
+                                        value={item.question}
+                                        onChange={(e) => handleCustomItemChange(index, 'question', e.target.value)}
+                                        className="admin-input admin-mb-sm"
+                                        placeholder="한국어 질문을 입력하세요"
+                                    />
+                                    <div className="admin-mb-sm">
                                         <button
-                                            onClick={() => handleRemoveCustomItem(index)}
-                                            style={{ padding: '5px 15px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px' }}
+                                            onClick={() => handleTranslateQuestion(index)}
+                                            disabled={loading}
+                                            className="admin-btn admin-btn-sm admin-btn-info admin-mr-sm"
                                         >
-                                            삭제
+                                            자동 번역
                                         </button>
-                                    )}
+                                        {/* 발음기호 생성 버튼 추가 */}
+                                        <button
+                                            onClick={() => handleRomanizeQuestion(index)}
+                                            disabled={loading}
+                                            className="admin-btn admin-btn-sm admin-btn-secondary"
+                                        >
+                                            발음기호 생성
+                                        </button>
+                                    </div>
                                 </div>
 
-                                {/* 질문 전체 내용 */}
-                                <div style={{ marginBottom: '10px' }}>
-                                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                                        질문 (전체)
-                                    </label>
-                                    {createMode === "custom" ? (
-                                        <textarea
-                                            value={item.question}
-                                            onChange={(e) => handleCustomItemChange(index, 'question', e.target.value)}
-                                            placeholder="예: 그림: 올바른 인사 표현을 고르세요."
-                                            style={{ width: '100%', padding: '8px', minHeight: '60px', resize: 'vertical' }}
-                                        />
-                                    ) : (
-                                        <div style={{ padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '4px', minHeight: '60px' }}>
-                                            {item.question}
+                                <div className="admin-form-group">
+                                    <label>질문 발음 기호 (Romanized)</label>
+                                    <input
+                                        type="text"
+                                        value={item.questionRoman}
+                                        onChange={(e) => handleCustomItemChange(index, 'questionRoman', e.target.value)}
+                                        className="admin-input"
+                                        placeholder="자동 생성된 발음 기호"
+                                    />
+                                </div>
+
+                                <div className="admin-exam-content">
+                                    {/* 한국어 질문 */}
+                                    <div className="admin-form-group">
+                                        <label className="admin-form-label">한국어 질문 *</label>
+                                        {createMode === "custom" ? (
+                                            <textarea
+                                                value={item.question}
+                                                onChange={(e) => handleCustomItemChange(index, 'question', e.target.value)}
+                                                placeholder="예: 그림: 올바른 인사 표현을 고르세요."
+                                                className="admin-textarea"
+                                                style={{ minHeight: '60px' }}
+                                            />
+                                        ) : (
+                                            <div className="admin-input" style={{ backgroundColor: '#f5f5f5', minHeight: '60px', padding: '10px' }}>
+                                                {item.question}
+                                            </div>
+                                        )}
+                                        <p className="admin-hint">
+                                            * 형식: "그림: 질문내용" 또는 "음성: 질문내용" 또는 "주관식: 질문내용"
+                                        </p>
+                                    </div>
+
+                                    {/* 다국어 질문 */}
+                                    <div className="admin-grid-2">
+                                        <div className="admin-form-group">
+                                            <label className="admin-form-label">일본어 질문</label>
+                                            <input
+                                                type="text"
+                                                value={item.questionJp}
+                                                onChange={(e) => handleCustomItemChange(index, 'questionJp', e.target.value)}
+                                                placeholder={item.questionJp || "자동번역 결과"}
+                                                className="admin-input"
+                                            />
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label className="admin-form-label">중국어 질문</label>
+                                            <input
+                                                type="text"
+                                                value={item.questionCn}
+                                                onChange={(e) => handleCustomItemChange(index, 'questionCn', e.target.value)}
+                                                placeholder={item.questionCn || "자동번역 결과"}
+                                                className="admin-input"
+                                            />
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label className="admin-form-label">영어 질문</label>
+                                            <input
+                                                type="text"
+                                                value={item.questionEn}
+                                                onChange={(e) => handleCustomItemChange(index, 'questionEn', e.target.value)}
+                                                placeholder={item.questionEn || "자동번역 결과"}
+                                                className="admin-input"
+                                            />
+                                        </div>
+                                        <div className="admin-form-group">
+                                            <label className="admin-form-label">스페인어 질문</label>
+                                            <input
+                                                type="text"
+                                                value={item.questionEs}
+                                                onChange={(e) => handleCustomItemChange(index, 'questionEs', e.target.value)}
+                                                placeholder={item.questionEs || "자동번역 결과"}
+                                                className="admin-input"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* 예문 선택 */}
+                                    <div className="admin-form-group">
+                                        <label className="admin-form-label">정답 예문</label>
+                                        <select
+                                            value={item.examNo || ""}
+                                            onChange={(e) => handleCustomItemChange(index, 'examNo', parseInt(e.target.value))}
+                                            className="admin-select"
+                                            disabled={createMode === "auto"}
+                                        >
+                                            <option value="">예문을 선택하세요</option>
+                                            {exams.map(exam => (
+                                                <option key={exam.examNo} value={exam.examNo}>
+                                                    {exam.examKo}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    {/* 선택된 예문 표시 */}
+                                    {item.examKo && (
+                                        <div style={{ padding: '10px', backgroundColor: '#e8f5e9', borderRadius: '4px' }}>
+                                            <strong>선택된 정답:</strong> {item.examKo}
                                         </div>
                                     )}
-                                    <p style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
-                                        * 형식: "그림: 질문내용" 또는 "음성: 질문내용" 또는 "주관식: 질문내용"
-                                    </p>
                                 </div>
-
-                                {/* 예문 선택 */}
-                                <div style={{ marginBottom: '10px' }}>
-                                    <label style={{ display: 'block', marginBottom: '5px' }}>정답 예문</label>
-                                    <select
-                                        value={item.examNo || ""}
-                                        onChange={(e) => handleCustomItemChange(index, 'examNo', parseInt(e.target.value))}
-                                        style={{ padding: '8px', width: '100%' }}
-                                        disabled={createMode === "auto"}
-                                    >
-                                        <option value="">예문을 선택하세요</option>
-                                        {exams.map(exam => (
-                                            <option key={exam.examNo} value={exam.examNo}>
-                                                {exam.examKo}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-
-                                {/* 선택된 예문 표시 */}
-                                {item.examKo && (
-                                    <div style={{ padding: '10px', backgroundColor: '#e8f5e9', borderRadius: '4px' }}>
-                                        <strong>선택된 정답:</strong> {item.examKo}
-                                    </div>
-                                )}
                             </div>
                         ))}
                     </div>
@@ -436,23 +769,19 @@ export default function AdminTestCreate() {
 
             {/* 하단 버튼 */}
             {customItems.length >= 3 && (
-                <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '40px' }}>
+                <div className="admin-action-buttons">
                     <button
                         onClick={() => navigate('/admin/test')}
-                        style={{ padding: '15px 40px', fontSize: '16px', backgroundColor: '#9E9E9E', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+                        className="admin-btn admin-btn-lg admin-btn-secondary"
                     >
                         취소
                     </button>
                     <button
-                        onClick={handleSumbit}
+                        onClick={handleSubmit}
                         disabled={loading}
+                        className="admin-btn admin-btn-lg admin-btn-success"
                         style={{
-                            padding: '15px 40px',
-                            fontSize: '16px',
-                            backgroundColor: loading ? '#ccc' : '#4CAF50',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '8px',
+                            opacity: loading ? 0.6 : 1,
                             cursor: loading ? 'not-allowed' : 'pointer'
                         }}
                     >
@@ -460,7 +789,7 @@ export default function AdminTestCreate() {
                     </button>
                 </div>
             )}
-        </div>
+        </div >
 
     </>)
 }

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.model.dto.TestTranslationRequestDto;
 import web.model.dto.TranslatedDataDto;
+import web.model.dto.TranslatedTestDataDto;
 import web.model.dto.TranslationRequestDto;
 
 import java.io.IOException;
@@ -127,6 +129,33 @@ public class TranslationService {
         return response;
 
         // 로마자 변환은 없음 ㅜㅜ 파이썬에서 찾아서 하기
+    }
+
+    // [*] 시험 제목/문항 자동 번역
+    public TranslatedTestDataDto translateTestData(TestTranslationRequestDto requestDto) throws IOException {
+        log.info("🌐 시험 자동번역 시작 - testTitle: {}, question: {}",
+                requestDto.getTestTitle(),
+                requestDto.getQuestion() != null ? requestDto.getQuestion().substring(0, Math.min(20, requestDto.getQuestion().length())) : "null");
+
+        TranslatedTestDataDto response = new TranslatedTestDataDto();
+
+        // 1) 시험 제목 번역
+        if (requestDto.getTestTitle() != null && !requestDto.getTestTitle().isEmpty()) {
+            response.setTestTitleJp(translateText("ja", requestDto.getTestTitle()));
+            response.setTestTitleCn(translateText("zh", requestDto.getTestTitle()));
+            response.setTestTitleEn(translateText("en", requestDto.getTestTitle()));
+            response.setTestTitleEs(translateText("es", requestDto.getTestTitle()));
+        }
+
+        // 2) 문항 질문 번역
+        if (requestDto.getQuestion() != null && !requestDto.getQuestion().isEmpty()) {
+            response.setQuestionJp(translateText("ja", requestDto.getQuestion()));
+            response.setQuestionCn(translateText("zh", requestDto.getQuestion()));
+            response.setQuestionEn(translateText("en", requestDto.getQuestion()));
+            response.setQuestionEs(translateText("es", requestDto.getQuestion()));
+        }
+
+        return response;
     }
 
     // [2] 구글 TTS API
