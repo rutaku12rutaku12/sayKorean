@@ -544,7 +544,7 @@ export default function AdminStudyCreate(props) {
                                     onClick={() => handleRomanizeExam(examIndex)}
                                     className="admin-btn admin-btn-sm admin-btn-purple"
                                 >
-                                    자동 발음 생성
+                                    자동 발음 생성 
                                 </button>
                                 <button
                                     onClick={() => handleTranslateExam(examIndex)}

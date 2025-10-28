@@ -116,7 +116,7 @@ public class FileService {
         String relativeFilePath = relativeUrlPath.startsWith("/upload/") ? relativeUrlPath.substring("/upload/".length()) : relativeUrlPath;
 
         // 8. 외부 저장소 루트와 조합하여 전체 파일 경로를 만듦
-        String fullPath = Paths.get(uploadRootPath, relativeFilePath).toString();
+        String fullPath = Paths.get(uploadRootPath, relativeFilePath).toString(); // 실제 파일 저장 경로
         File file = new File(fullPath);
 
         return file.exists() && file.delete();
