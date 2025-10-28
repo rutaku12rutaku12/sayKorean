@@ -21,7 +21,7 @@ public class TestController {
     private final TestService testService;
 
     // [1] 시험 목록 조회
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<List<TestDto>> getListTest(@RequestParam int langNo) {
         return ResponseEntity.ok(testService.getListTest(langNo));
     }
