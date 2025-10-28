@@ -1,5 +1,6 @@
 package web.service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Insert;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.dto.*;
 import web.model.mapper.UserMapper;
+
+import java.util.Random;
 
 @Service
 @Transactional
@@ -22,24 +25,24 @@ public class UserService {
     private final BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
     // [US-01] 회원가입 signUp()
-    public int signUp(UserDto userDto){
+    public int signUp(UserDto userDto) {
         // 비밀번호를 해쉬화
-        userDto.setPassword(bcrypt.encode(userDto.getPassword() ) );
+        userDto.setPassword(bcrypt.encode(userDto.getPassword()));
 
         int result = userMapper.signUp(userDto);
         // insert 성공 시 userNo 반환
-        if(result>=1){
+        if (result >= 1) {
             return userDto.getUserNo();
         } // 실패 시 0 반환
         return 0;
     } // func end
 
     // [US-01-1] 소셜 회원가입
-    public UserDto oauth2UserSignup( String uid , String name ){
+    public UserDto oauth2UserSignup(String uid, String name) {
         // 기존 회원인지 검사
         UserDto userDto = userMapper.checkUid(uid);
         // 이미 존재하면 신규 가입 건너 뛰고 기존 회원 반환
-        if( userDto != null){
+        if (userDto != null) {
             return userDto;
         }
         // 존재하지 않으면 신규 유저 생성
@@ -56,50 +59,81 @@ public class UserService {
     }
 
     // [US-02] 로그인 logIn()
-    public LoginDto logIn(LoginDto loginDto){
+    public LoginDto logIn(LoginDto loginDto) {
         LoginDto result = userMapper.logIn(loginDto);
         // 평문과 암호문 비교
-        boolean result2 = bcrypt.matches( loginDto.getPassword(), result.getPassword());
-        if( result2 ){
+        boolean result2 = bcrypt.matches(loginDto.getPassword(), result.getPassword());
+        if (result2) {
             result.setPassword(null);
             return result;
-        }else {return null;}
+        } else {
+            return null;
+        }
     } // func end
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
-    public UserDto info( int userNo ){
+    public UserDto info(int userNo) {
         UserDto result = userMapper.info(userNo);
         return result;
     } // func end
 
     // [US-05] 이메일 중복검사 checkEmail()
-    public int checkEmail(String email){
+    public int checkEmail(String email) {
         int result = userMapper.checkEmail(email);
         // 중복이면 쿼리 수가 1이므로 0보다 크다.
-        if(result>0){return result;}
+        if (result > 0) {
+            return result;
+        }
         // 중복이 아니면 쿼리 수가 0개
         else return 0;
     } // func end
 
     // [US-06] 연락처 중복검사 checkPhone()
-    public int checkPhone(String phone){
+    public int checkPhone(String phone) {
         int result = userMapper.checkPhone(phone);
         // 중복이면 쿼리 수가 1이므로 0보다 크다.
-        if(result>0){return result;}
+        if (result > 0) {
+            return result;
+        }
         // 중복이 아니면 쿼리 수가 0개
         else return 0;
     } // func end
 
     // [US-07] 이메일 찾기 findEmail()
-    public String findEmail(String name , String phone){
-        String result = userMapper.findEmail(name,phone);
+    public String findEmail(String name, String phone) {
+        String result = userMapper.findEmail(name, phone);
         return result;
     } // func end
 
     // [US-08] 비밀번호 찾기 findPwrd()
-    public String findPwrd(String name, String phone, String email){
-        String result = userMapper.findPwrd(name,phone,email);
-        return result;
+    @Transactional
+    public String findPwrd(String name, String phone, String email) {
+
+        TemporaryPwrdDto dto = userMapper.findPwrd(name, phone, email);
+        if (dto==null){
+            throw new RuntimeException("존재하지 않는 사용자");
+        }
+        // 난수 생성
+        Random random = new Random();
+        // 임시비밀번호로 사용할 빈 문자열 생성
+        String tamPwrd = "";
+        for (int i = 1; i <= 6; i++) { // 6자리 만들기 위한 6회전반복문
+            int val = random.nextInt(26) + 97;
+            char str = (char) val;
+            System.out.println("임시 비밀번호 추출 중.."+str);
+            tamPwrd += str;
+        } // for end
+        System.out.println("임시 비밀번호 생성 완료 : "+tamPwrd);
+        // 비밀번호 해시화
+        String result = bcrypt.encode(tamPwrd);
+        System.out.println("임시 비밀번호를 해시화 완료 : "+result);
+        // 해시화한 비밀번호를 DB에 저장
+        userMapper.tranPassUpdate(TemporaryPwrdDto.builder()
+                .userNo(dto.getUserNo())
+                .password(result)
+                .build());
+
+        return tamPwrd;
     } // func end
 
     // [US-09] 회원정보 수정 updateUserInfo()
