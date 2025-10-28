@@ -25,6 +25,8 @@ export default function HomePage ( props ){
             const data = response.data;
             console.log("로그아웃 성공",data)
             dispatch(logOut());
+            // 400 (Bad Request)이면 강제 로그아웃
+            if(response.status == 400){ dispatch(logOut()); }
         }catch(e){console.log("로그아웃 실패 : ", e)}
     }
     // 비로그인시 error 페이지로 이동

@@ -15,7 +15,6 @@ export default function LoadingPage(props) {
     { img: "/img/loading_img/2_loading_img.png", title: "“북촌”", description: "북촌은 서울 북쪽에 위치한 한옥마을이며, 조선왕조 때 왕족, 양반, 관료 등이 살았던 고급가옥이 많아 양반촌이라고도 불렸습니다."},
     { img: "/img/loading_img/3_loading_img.png", title: "“중앙박물관”", description: "국립중앙박물관은 역사와 문화가 살아 숨쉬고, 과거와 현재, 미래가 공존하는 감동의 공간입니다."},
     { img: "/img/loading_img/4_loading_img.png", title: "“무령왕릉”", description: "공주에 위치한 무령왕릉은 백제의 무령왕과 그 왕비가 묻힌 고분입니다. 아치형 구조가 눈에 띄는 벽돌무덤입니다."},
-    { img: "/img/loading_img/5_loading_img.png", title: "“프로방스”", description: "경기도 파주 프로방스 마을은 남프랑스 콘셉트의 테마 휴양지입니다."},
     { img: "/img/loading_img/6_loading_img.png", title: "“광한루”", description: "전북 남원의 광한루원에는 견우와 직녀의 슬픈 이야기가 깃든 오작교가 있습니다."},
     { img: "/img/loading_img/7_loading_img.png", title: "“한라산”", description: "남한의 최고봉인 제주도 중앙에 있는 한라산 정상에는 화산호수 백록담이 있습니다. 금강산, 지리산과 함께 삼신산이라 불렸습니다." }
   ];

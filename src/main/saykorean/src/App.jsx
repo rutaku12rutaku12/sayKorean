@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import { I18nextProvider } from "react-i18next";
 
+// 시작페이지
+import StartPage from "./pages/StartPage.jsx";
 // 사용자단(모바일)
 import HomePage from "./pages/HomePage";
 import MyPage from "./pages/MyPage";
@@ -55,6 +57,7 @@ const LANG_MAP = {
 
 axios.defaults.baseURL = "http://localhost:8080";
 
+
 // 사용자 레이아웃
 const UserLayout = () => (
   <div id="user-frame">
@@ -85,7 +88,10 @@ function App() {
     <I18nextProvider i18n={i18n}>
       <BrowserRouter>
         <Routes>
-
+          {/* 시작 페이지 */}
+          <Route path="/" element={<StartPage/>}>
+            
+          </Route>
           {/* 관리자단 */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminHome />} />
@@ -102,7 +108,6 @@ function App() {
 
           {/* 사용자단 */}
           <Route className="scroll" element={<UserLayout />}>
-            <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/update" element={<MyInfoUpdate />} />

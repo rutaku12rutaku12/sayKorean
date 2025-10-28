@@ -1,8 +1,37 @@
+import { useEffect } from "react";
 import "../styles/Footer.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn, logOut } from "../store/userSlice";
 
 export default function Footer(props) {
 
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
+    const dispatch =useDispatch();
+    const navigate =useNavigate();
+
+         // 이미 로그인 되있으면 호출x
+    const checkLogin = async () => {
+      try {
+        const option = { withCredentials: true };
+        const response = await axios.get("http://localhost:8080/saykorean/info", option);
+        console.log(response.data);
+        if(response.data) {
+          dispatch(logIn(response.data));
+          navigate("/home");
+        }else{
+            dispatch(logOut());
+        }
+      } catch (e) {
+        console.log("로그인 안됨:", e);
+        dispatch(logOut());
+    }
+    }
+  useEffect(() => {
+    checkLogin();
+  }, []);
     return (<>
         {/* <h3> 푸터 </h3> */}
         <ul id="footer">
