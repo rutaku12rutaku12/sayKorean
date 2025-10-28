@@ -1,0 +1,126 @@
+/* TestList 전용 레이아웃 */
+#TestList .panel {
+  background-color: rgba(255, 249, 240, 0.3);
+  text-align: center;
+  padding: 20px 16px;
+  border-radius: 16px;
+}
+
+#TestList .panelTitle {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* 토스트 */
+#TestList .toast {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+#TestList .toast.loading {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+#TestList .toast.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* 리스트 컨테이너 */
+#TestList .testListWrap {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 420px; /* 가운데 정렬 폭 */
+}
+
+/* 각 항목 li */
+#TestList .testList {
+  display: flex;
+  justify-content: center;
+}
+
+/* 항목 카드 */
+#TestList .test {
+  width: 360px;           /* 고정 폭 (장르/스터디 버튼과 동일 톤) */
+  height: 70px;           /* 고정 높이 */
+  padding: 0 16px;
+  border-radius: 100px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+#TestList .test:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+}
+
+#TestList .test:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+/* 이동 버튼 */
+#TestList .test button {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background-color 120ms ease, box-shadow 120ms ease, transform 120ms ease, border-color 120ms ease;
+}
+
+#TestList .test button:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(107, 78, 66, .07);
+}
+
+#TestList .test button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(107, 78, 66, .05);
+}
+
+/* 텍스트 길 때 줄바꿈 방지 + 말줄임 */
+#TestList .test {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#TestList .test button {
+  white-space: nowrap;
+}
+
+/* 모바일 430px 이하: 100% 너비 */
+@media (max-width: 430px) {
+  #TestList .testListWrap {
+    max-width: 100%;
+    padding: 0 8px;
+  }
+  #TestList .test {
+    width: 100%;
+  }
+}
