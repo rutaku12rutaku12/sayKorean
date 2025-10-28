@@ -17,9 +17,9 @@ public interface TestMapper { // mapper start
         studyNo,
         CASE #{langNo}
             WHEN 1 THEN testTitle
-            WHEN 2 THEN testTitleEn
-            WHEN 3 THEN testTitleJp
-            WHEN 4 THEN testTitleCn
+            WHEN 2 THEN testTitleJp
+            WHEN 3 THEN testTitleCn
+            WHEN 4 THEN testTitleEn
             WHEN 5 THEN testTitleEs
             ELSE testTitle
         END AS testTitleSelected
@@ -48,9 +48,9 @@ public interface TestMapper { // mapper start
         ti.examNo,
         CASE #{langNo}
             WHEN 1 THEN ti.question
-            WHEN 2 THEN ti.questionEn
-            WHEN 3 THEN ti.questionJp
-            WHEN 4 THEN ti.questionCn
+            WHEN 2 THEN ti.questionJp
+            WHEN 3 THEN ti.questionCn
+            WHEN 4 THEN ti.questionEn
             WHEN 5 THEN ti.questionEs
             ELSE ti.question
         END AS questionSelected,
@@ -98,9 +98,9 @@ public interface TestMapper { // mapper start
         examNo,
         CASE #{langNo}
             WHEN 1 THEN examKo
-            WHEN 2 THEN examEn
-            WHEN 3 THEN examJp
-            WHEN 4 THEN examCn
+            WHEN 2 THEN examJp
+            WHEN 3 THEN examCn
+            WHEN 4 THEN examEn
             WHEN 5 THEN examEs
             ELSE examKo
         END AS examSelected
