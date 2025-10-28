@@ -101,7 +101,7 @@ function App() {
           </Route>
 
           {/* 사용자단 */}
-          <Route element={<UserLayout />}>
+          <Route className="scroll" element={<UserLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/mypage" element={<MyPage />} />

@@ -30,7 +30,7 @@
   }
 }
 
-/* ✅ 그 외의 모바일/대형 화면에서는 자동 반응형 유지 */
+/* 그 외의 모바일/대형 화면에서는 자동 반응형 유지 */
 @media screen and (max-width: 719px) {
   #user-frame {
     width: 100%;
