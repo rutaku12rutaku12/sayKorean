@@ -439,9 +439,9 @@ export default function AdminStudyEdit(props) {
         }
     };
 
-    // [*] 페이지 로딩 로직
+    // [*] 로딩 중 출력페이지
     if (loading) {
-        return <div className="admin-loading">로딩 중...</div>;
+        return <div style={{ padding: '40px', textAlign: 'center' }}> <img src="/img/loading.png" style={{ maxWidth: '400px', borderRadius: '12px' }} /> </div>;
     }
 
     return (
@@ -588,19 +588,13 @@ export default function AdminStudyEdit(props) {
                     <div key={examIndex} className="admin-exam-item">
                         <div className="admin-exam-header">
                             <h4>예문 {examIndex + 1} {exam.examNo ? `(ID: ${exam.examNo})` : '(새로 추가)'}</h4>
-                            
+
                             <div className="admin-flex admin-flex-gap-md">
                                 <button
-                                    onClick={() => handleRomanizeExam(examIndex)}
-                                    className="admin-btn admin-btn-sm admin-btn-purple"
-                                >
-                                    자동 발음 생성
-                                </button>
-                                <button
-                                    onClick={() => handleTranslateExam(examIndex)}
+                                    onClick={() => (handleRomanizeExam(examIndex), handleTranslateExam(examIndex))}
                                     className="admin-btn admin-btn-sm admin-btn-warning"
                                 >
-                                    자동번역
+                                    자동번역 및 발음 생성
                                 </button>
                                 <button
                                     onClick={() => handleDeleteExam(examIndex, exam.examNo)}
@@ -671,9 +665,9 @@ export default function AdminStudyEdit(props) {
                                         src={exam.imagePath}
                                         alt="현재 이미지"
                                         className="admin-image-preview"
-                                        onError={(e) => { 
+                                        onError={(e) => {
                                             console.error("이미지 로드 실패:", exam.imagePath);
-                                            e.target.style.display = 'none'; 
+                                            e.target.style.display = 'none';
                                         }}
                                     />
                                 </div>
@@ -748,8 +742,8 @@ export default function AdminStudyEdit(props) {
                             <div className="admin-audio-method admin-audio-method-tts">
                                 <label className="admin-form-label" style={{ color: '#388E3C' }}>🤖 방법 2: TTS로 음성 생성 (Google AI)</label>
                                 <div className="admin-file-inline">
-                                    <select 
-                                        id={`newTTSLang-${examIndex}`} 
+                                    <select
+                                        id={`newTTSLang-${examIndex}`}
                                         className="admin-select"
                                         onChange={(e) => {
                                             const lang = parseInt(e.target.value);

@@ -541,16 +541,10 @@ export default function AdminStudyCreate(props) {
 
                             <div className="admin-flex admin-flex-gap-md">
                                 <button
-                                    onClick={() => handleRomanizeExam(examIndex)}
-                                    className="admin-btn admin-btn-sm admin-btn-purple"
-                                >
-                                    자동 발음 생성
-                                </button>
-                                <button
-                                    onClick={() => handleTranslateExam(examIndex)}
+                                    onClick={() => (handleRomanizeExam(examIndex), handleTranslateExam(examIndex))}
                                     className="admin-btn admin-btn-sm admin-btn-warning"
                                 >
-                                    자동번역
+                                    자동번역 및 발음 생성
                                 </button>
                                 {examList.length > 1 && (
                                     <button
