@@ -11,28 +11,50 @@ import "../styles/TestList.css";
 export default function TestList( props ){
 
     const navigate = useNavigate();
-      const { t } = useTranslation();
+    const { t } = useTranslation();
 
     const [loading,setLoading] = useState(false);
     const [error,setError] = useState("");
     const [testList,setTestList] = useState([]);
+    const [langNo, setLangNo] = useState(0);
+
+    // 언어 설정 가져오기 (selectedLangNo 사용)
+  function getLang() {
+    const stored = localStorage.getItem("selectedLangNo");
+    console.log( stored );
+    const n = Number(stored);
+    if (!Number.isFinite(n)) {
+      setLangNo(0); // ko
+      return;
+    }
+    setLangNo(n);
+  }
+
+  useEffect(() => {
+    getLang();
+  }, []);
 
     useEffect(() => {
-        ( async() => {
-            try{
-                setLoading( true );
-                setError("");
-                const res = await axios.get("/saykorean/test");
-                const list = Array.isArray( res.data ) ? res.data : [];
-                setTestList(list);
-            }catch(e){
-                console.error(e);
-                setError("테스트 목록을 불러오지 못했어요.");
-            }finally{
-                setLoading(false);
-            }
-        })();
-     }, []);
+  if (langNo == 0) return; // 0이면 실행 안 함
+
+  (async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const res = await axios.get("/saykorean/test", {
+        params: { langNo }
+      });
+      const list = Array.isArray(res.data) ? res.data : [];
+      console.log(list);
+      setTestList(list);
+    } catch (e) {
+      console.error(e);
+      setError("테스트 목록을 불러오지 못했어요.");
+    } finally {
+      setLoading(false);
+    }
+  })();
+}, [langNo]); // langNo가 바뀔 때마다 재요청
 
     // store 저장된 상태 가져오기
     const {isAuthenticated, userInfo } = useSelector((state)=>state.user);
