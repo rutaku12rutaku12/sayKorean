@@ -32,6 +32,68 @@ export default function AdminTestEdit() {
         fetchData();
     }, []);
 
+    // [*] 시험 제목 자동 번역
+    const handleTranslateTestTitle = async () => {
+        if (!testData.testTitle.trim()) {
+            alert("번역할 한국어 시험 제목을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const res = await testApi.translate({
+                testTitle: testData.testTitle
+            });
+            const { testTitleJp, testTitleCn, testTitleEn, testTitleEs } = res.data;
+
+            setTestData(prev => ({
+                ...prev,
+                testTitleJp: testTitleJp || prev.testTitleJp,
+                testTitleCn: testTitleCn || prev.testTitleCn,
+                testTitleEn: testTitleEn || prev.testTitleEn,
+                testTitleEs: testTitleEs || prev.testTitleEs,
+            }));
+            alert("시험 제목 자동 번역이 완료되었습니다.");
+        } catch (e) {
+            console.error("시험 제목 번역 실패:", e);
+            alert("번역 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // [*] 시험 제목 발음기호 자동 생성 (추가)
+    const handleRomanizeTestTitle = async () => {
+        if (!testData.testTitle.trim()) {
+            alert("발음 기호로 변환할 한국어 시험 제목을 입력해주세요.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+            // AdminTestController의 /romanize 엔드포인트 호출 (testApi에 romanize 함수가 정의되어 있다고 가정)
+            const res = await testApi.romanize(testData.testTitle);
+            const { romanized } = res.data; // 서버 응답 형식: { original: "...", romanized: "..." }
+
+            if (romanized) {
+                setTestData(prev => ({
+                    ...prev,
+                    testTitleRoman: romanized,
+                }));
+                alert("시험 제목 발음기호 생성이 완료되었습니다.");
+            } else {
+                alert("API 응답 형식에 문제가 있습니다.");
+            }
+        } catch (e) {
+            console.error("시험 제목 발음기호 생성 실패:", e);
+            alert("시험 제목 발음기호 생성 중 오류가 발생했습니다.");
+            dispatch(setError(e.message));
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // [1] 데이터 조회
     const fetchData = async () => {
         try {
@@ -300,6 +362,23 @@ export default function AdminTestEdit() {
                         }}
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                            <div className="admin-mb-sm admin-mt-sm">
+                                <button
+                                    onClick={handleTranslateTestTitle}
+                                    disabled={loading}
+                                    className="admin-btn admin-btn-sm admin-btn-info admin-mr-sm"
+                                >
+                                    자동 번역
+                                </button>
+                                {/* 발음기호 생성 버튼 추가 */}
+                                <button
+                                    onClick={handleRomanizeTestTitle}
+                                    disabled={loading}
+                                    className="admin-btn admin-btn-sm admin-btn-secondary"
+                                >
+                                    발음기호 생성
+                                </button>
+                            </div>
                             <h4>
                                 문항 {index + 1}
                                 {item.testItemNo ? ` (ID: ${item.testItemNo})` : ' (새로 추가)'}

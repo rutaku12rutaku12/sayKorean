@@ -13,6 +13,7 @@ export default function AdminNav(props) {
                 <li><Link to="/admin/study">교육 관리</Link></li>
                 <li><Link to="/admin/test">시험 관리</Link></li>
                 <li><Link to="/admin/user">회원 관리</Link> </li>
+                <li><Link to="/login"> 사용자 홈으로 </Link> </li>
             </ul>
         </div >
     )
