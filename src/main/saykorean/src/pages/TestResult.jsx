@@ -101,10 +101,10 @@ export default function TestResult() {
             marginTop: '20px'
           }}>
             {isPerfect 
-              ? t("test.result.perfect") || "🎉 완벽합니다!"
+              ? "🎉" + t("test.result.perfect") || "🎉 완벽합니다!"
               : score.score >= score.total * 0.6
-              ? t("test.result.pass") || "✅ 합격!"
-              : t("test.result.fail") || "❌ 불합격"}
+              ? "✅" + t( + "test.result.pass") || "✅ 합격!"
+              : "❌" + t( + "test.result.fail") || "❌ 불합격"}
           </p>
           
           <button className="returnBtn" onClick={returnTest}>

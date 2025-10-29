@@ -182,7 +182,18 @@ public class I18nService {
                     Map.entry("footer.myPage" , "내정보"),
                     Map.entry("footer.study" , "학습"),
                     Map.entry("footer.test" , "시험"),
-                    Map.entry("footer.ranking" , "순위")
+                    Map.entry("footer.ranking" , "순위"),
+
+                    // ================= TestResult.jsx =================
+                    Map.entry("test.result.loadError", "점수를 불러올 수 없습니다."),
+                    Map.entry("test.result.title", "시험 결과"),
+                    Map.entry("test.result.return", "테스트 화면으로 돌아가기"),
+                    Map.entry("test.result.score", "정답"),
+                    Map.entry("test.result.total", "총"),
+                    Map.entry("test.result.perfect", "완벽합니다!"),
+                    Map.entry("test.result.pass", "합격!"),
+                    Map.entry("test.result.fail", "불합격")
+
             ),
 
             // ===================== 일본어 =====================
@@ -354,7 +365,17 @@ public class I18nService {
                     Map.entry("footer.myPage" , "マイページ"),
                     Map.entry("footer.study" , "学習"),
                     Map.entry("footer.test" , "試験"),
-                    Map.entry("footer.ranking" , "ランキング")
+                    Map.entry("footer.ranking" , "ランキング"),
+
+                    // TestResult.jsx
+                    Map.entry("test.result.loadError", "スコアを読み込めません。"),
+                    Map.entry("test.result.title", "試験結果"),
+                    Map.entry("test.result.return", "テスト画面に戻る"),
+                    Map.entry("test.result.score", "正解"),
+                    Map.entry("test.result.total", "全"),
+                    Map.entry("test.result.perfect", "完璧です！"),
+                    Map.entry("test.result.pass", "合格！"),
+                    Map.entry("test.result.fail", "不合格")
             ),
 
             // ===================== 중국어(간체) =====================
@@ -526,7 +547,17 @@ public class I18nService {
                     Map.entry("footer.myPage" , "我的信息"),
                     Map.entry("footer.study" , "学习"),
                     Map.entry("footer.test" , "考试"),
-                    Map.entry("footer.ranking" , "排名")
+                    Map.entry("footer.ranking" , "排名"),
+
+                    // TestResult.jsx
+                    Map.entry("test.result.loadError", "无法加载分数。"),
+                    Map.entry("test.result.title", "考试结果"),
+                    Map.entry("test.result.return", "返回测试页面"),
+                    Map.entry("test.result.score", "正确"),
+                    Map.entry("test.result.total", "总共"),
+                    Map.entry("test.result.perfect", "完美！"),
+                    Map.entry("test.result.pass", "通过！"),
+                    Map.entry("test.result.fail", "未通过")
 
                     ),
 
@@ -699,7 +730,17 @@ public class I18nService {
                     Map.entry("footer.myPage" , "My Info"),
                     Map.entry("footer.study" , "Study"),
                     Map.entry("footer.test" , "Test"),
-                    Map.entry("footer.ranking" , "Ranking")
+                    Map.entry("footer.ranking" , "Ranking"),
+
+                    // TestResult.jsx
+                    Map.entry("test.result.loadError", "Unable to load score."),
+                    Map.entry("test.result.title", "Test Result"),
+                    Map.entry("test.result.return", "Return to Test"),
+                    Map.entry("test.result.score", "Correct"),
+                    Map.entry("test.result.total", "Total"),
+                    Map.entry("test.result.perfect", "Perfect!"),
+                    Map.entry("test.result.pass", "Pass!"),
+                    Map.entry("test.result.fail", "Fail")
             ),
 
             // ===================== 스페인어 =====================
@@ -871,7 +912,17 @@ public class I18nService {
                     Map.entry("footer.myPage" , "Mi Información"),
                     Map.entry("footer.study" , "Estudio"),
                     Map.entry("footer.test" , "Examen"),
-                    Map.entry("footer.ranking" , "Clasificación")
+                    Map.entry("footer.ranking" , "Clasificación"),
+
+                    // TestResult.jsx
+                    Map.entry("test.result.loadError", "No se puede cargar la puntuación."),
+                    Map.entry("test.result.title", "Resultado del Examen"),
+                    Map.entry("test.result.return", "Volver a la Prueba"),
+                    Map.entry("test.result.score", "Correcto"),
+                    Map.entry("test.result.total", "Total"),
+                    Map.entry("test.result.perfect", "¡Perfecto!"),
+                    Map.entry("test.result.pass", "¡Aprobado!"),
+                    Map.entry("test.result.fail", "Reprobado")
             )
     );
 
