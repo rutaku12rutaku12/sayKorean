@@ -1,0 +1,172 @@
+/* =========================
+   Language.css (SuccessExamList 톤으로)
+   ========================= */
+
+/* 로컬 토큰: 이 파일 범위에서만 사용 */
+#Language {
+  --accent: #6B4E42;
+  --panel-bg: rgba(255, 249, 240, 0.3);  /* 요청한 배경색 */
+  --border: #e5e7eb;
+  --shadow: 0 0px 5px rgba(17, 24, 39, 0.15); /* 요청한 패널 그림자 */
+}
+
+/* 래퍼 자체를 패널처럼 (배경/라운드/그림자) */
+#Language {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 20px 16px 90px; /* 푸터 고려 여유 */
+  text-align: center;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial;
+  box-sizing: border-box;
+
+  background-color: var(--panel-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* (선택) 내부 .panel이 있다면 겹치지 않게 비활성화 */
+#Language .panel {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* 제목 */
+#Language .panelTitle {
+  margin-top: 8px;
+  margin-bottom: 22px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* 토스트 */
+#Language .toast {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 10px 4px 18px;
+  background: rgba(107, 78, 66, 0.05);
+  font-size: 14px;
+  color: #1f2937;
+}
+#Language .toast.loading { position: relative; padding-left: 42px; }
+#Language .toast.loading::before {
+  content: "";
+  position: absolute;
+  left: 14px; top: 50%;
+  width: 18px; height: 18px; margin-top: -9px;
+  border: 2px solid var(--accent);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: lang-spin .9s linear infinite;
+}
+@keyframes lang-spin { to { transform: rotate(360deg); } }
+#Language .toast.error {
+  border-left: 4px solid #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+}
+
+/* 리스트: 가운데 정렬 그리드 */
+#Language .list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
+  gap: 16px;
+  justify-content: center;
+  align-items: start;
+  padding: 4px 4px 12px;
+  margin: 0 auto;
+}
+
+/* 언어 선택 버튼(Pill) */
+#Language .pillBtn {
+  width: 360px;
+  height: 60px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #fff, #fafafa);
+  color: #1f2937;
+  font-weight: 700;
+
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+#Language .pillBtn .label { font-size: 18px; }
+
+#Language .pillBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  border-color: #d1d5db;
+}
+#Language .pillBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+#Language .pillBtn.active,
+#Language .pillBtn[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, #fff, #fff7f3);
+  box-shadow: 0 12px 26px rgba(107, 78, 66, 0.18);
+}
+
+/* 모바일 */
+@media (max-width: 430px) {
+  #Language .list { grid-template-columns: 1fr; }
+  #Language .pillBtn { width: 100%; }
+}
+
+/* 기본 pill 버튼 톤 */
+#Language .pillBtn {
+  appearance: none; -webkit-appearance: none;
+  color: #1f2937 !important;                 /* 텍스트 */
+  border-color: #e5e7eb !important;          /* 테두리 */
+  background: linear-gradient(180deg, #fff, #fafafa) !important; /* 기본 배경 */
+}
+
+/* hover 상태 */
+#Language .pillBtn:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(107, 78, 66, .07);
+}
+
+/* active(눌렀을 때) */
+#Language .pillBtn:active {
+  color: #1f2937 !important;
+  border-color: #e5e7eb !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06) !important;
+  transform: translateY(0);
+}
+
+/* 선택(활성) 상태 */
+#Language .pillBtn.active,
+#Language .pillBtn[aria-pressed="true"] {
+  color: #1f2937 !important;
+  border-color: #6B4E42 !important;  /* 포인트 */
+  background: linear-gradient(180deg, #fff, #fff7f3) !important;
+  box-shadow: 0 12px 26px rgba(107, 78, 66, 0.18) !important;
+}
+
+/* 접근성: 포커스 링 */
+#Language .pillBtn:focus-visible {
+  outline: 2px solid #6B4E42 !important;
+  outline-offset: 2px;
+}
+
+/* 비활성 */
+#Language .pillBtn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}

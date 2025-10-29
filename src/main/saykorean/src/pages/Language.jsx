@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
 import { useTranslation } from "react-i18next"; // 추가
+import "../styles/Language.css"
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;

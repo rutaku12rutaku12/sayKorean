@@ -38,16 +38,17 @@ export default function HomePage ( props ){
     
         // 이동 전에 화면 깜빡임 방지
         if (!isAuthenticated) return null;
-    
-    return (
-    <div id="homePage" className="homePage">
-      {/* 이 한 줄이 ‘이 페이지에서만’ 배경 역할을 함 */}
+
+
+  return (
+    <div className="homePage">
       <div className="homePage__bg" aria-hidden="true" />
 
       <img className="logoImg" src="/img/logo.png" />
 
       <div className="homePage__content">
         <img className="mainImg" src="/img/mainimage.svg" alt="메인" />
+
         <div className="homePage__actions">
           {isAuthenticated ? (
             <button onClick={onLogout}>{t("home.logout")}</button>
@@ -61,4 +62,5 @@ export default function HomePage ( props ){
       </div>
     </div>
   );
+
 }

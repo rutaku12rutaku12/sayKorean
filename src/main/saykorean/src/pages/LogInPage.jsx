@@ -108,44 +108,46 @@
   }}, []);
 
       
-          return (
-    <>
-      <h3>{t("login.title")}</h3>
-      <div className="info">
-        <input
-          className="input"
-          type="email"
-          placeholder={t("account.emailPlaceholder")}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          autoComplete="username"
-        />
-      </div>
-      <div className="info">
-        <input
-          type="password"
-          placeholder={t("account.passwordPlaceholder")}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <br />
-      <div className="homePage__actions">
-        <button onClick={onLogin}>{t("login.button")}</button>
-        <br />
-        <button onClick={onFind}>{t("login.find")}</button>
-        <br />
-        <button onClick={() => navigate("/signup")}>{t("signup.button")}</button>
-      </div>
-      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-        <a href="http://localhost:8080/oauth2/authorization/google">
-          <img src="/img\loginLogo_img\web_light_sq_SI@1x.png" />
-        </a>
-        <a href="http://localhost:8080/oauth2/authorization/kakao">
-          <img src="/img\loginLogo_img\kakao_login_medium_narrow.png" style={{ height: 40 }} />
-        </a>
-      </div>
-    </>
-    
-  );
+    return (
+        <>
+         <div id="login-page">
+          <h3>{t("login.title")}</h3>
+          <div className="info">
+            <input
+              className="input"
+              type="email"
+              placeholder={t("account.emailPlaceholder")}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
+            />
+          </div>
+          <div className="info">
+            <input
+              type="password"
+              placeholder={t("account.passwordPlaceholder")}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <br />
+          <div className="homePage__actions">
+            <button onClick={onLogin}>{t("login.button")}</button>
+            <br />
+            <button onClick={onFind}>{t("login.find")}</button>
+            <br />
+            <button onClick={() => navigate("/signup")}>{t("signup.button")}</button>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <a href="http://localhost:8080/oauth2/authorization/google">
+              <img src="/img\loginLogo_img\web_light_sq_SI@1x.png" />
+            </a>
+            <a href="http://localhost:8080/oauth2/authorization/kakao">
+              <img src="/img\loginLogo_img\kakao_login_medium_narrow.png" style={{ height: 40 }} />
+            </a>
+          </div>
+        </div>
+      </>
+
+    );
   }

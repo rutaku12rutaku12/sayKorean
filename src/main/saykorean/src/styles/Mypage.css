@@ -1,118 +1,104 @@
-/* 페이지 래퍼
-#MyPage .panel {
-  background-color: rgba(255, 249, 240, 0.3);
-  text-align: center;
-  padding: 16px 0 24px;
+/* =========================
+   MyPage.css (DROP-IN FIX)
+   ========================= */
+
+:root {
+  --accent: #6B4E42;
+  --text-dark: #3a2a24;
+  --text-medium: #6b4e42;
+  --border: #e5e7eb;
+  --panel-bg: rgba(255, 249, 240, 0.3);
+  --btn-bg: linear-gradient(180deg, #fff, #fafafa);
+  --shadow: 0 6px 18px rgba(17,24,39,0.10);
+  --radius-full: 100px;
 }
-/* MyPage 전체 정렬 */
+
+/* 페이지 래퍼 */
 #MyPage {
   max-width: 768px;
   margin: 0 auto;
-  padding: 130px 16px 20px 16px;
+  padding: 40px 16px 28px;
   text-align: center;
 }
 
-/* 타이틀 */
+/* 패널 박스 */
+#MyPage .panel {
+  background-color: var(--panel-bg);
+  border-radius: 16px;
+  /* box-shadow: var(--shadow); */
+  padding: 24px 16px;
+}
+
+/* 제목 */
 #MyPage .panelTitle {
-  margin-top: 40px;
-  margin-bottom: 30px;
+  margin: 40px 0 22px;
   font-size: 30px;
   font-weight: 700;
-  color: #3a2a24;
+  color: var(--accent);
 }
 
 /* 정보 리스트 */
 #MyPage .infoList {
-  list-style: none;
+  list-style: none;     /* ● 없애기 */
   padding: 0;
-  margin: 0 auto 24px;
+  margin: 40px 0 18px;
   display: grid;
-  gap: 12px;
+  gap: 10px;
   justify-items: center;
 }
 
-/* 정보 행 (카드 스타일) */
+/* 한 줄 정보 (카드형 X, 플랫 라인) */
 #MyPage .infoRow {
   width: 360px;
-  min-height: 54px;
-
+  min-height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 12px 18px;
-  border-radius: 16px;
-  border: 1px solid #e5e7eb;
-  background: linear-gradient(180deg, #fff, #fafafa);
-  color: #6b4e42;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;     /* 플랫한 라인 느낌 */
+  color: var(--text-medium);
   font-size: 16px;
 }
 
-/* 텍스트 */
-#MyPage .infoKey {
-  font-weight: 700;
-  color: #3a2a24;
-}
-
+#MyPage .infoKey   { font-weight: 700; color: var(--text-dark); }
 #MyPage .infoValue {
-  opacity: .9;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-}
+  text-overflow: ellipsis; 
+  }
 
-/* 버튼 그룹 정렬 */
+/* 버튼 그룹 */
 #MyPage .btnGroup {
   width: 100%;
   display: grid;
-  gap: 14px;
+  gap: 12px;
   justify-items: center;
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
-/* 공통 Pill Button (Genre와 완전 동일 설정) */
+/* pill 버튼 */
 #MyPage .pillBtn {
   width: 360px;
-  height: 70px;
-  border-radius: 100px;
-
-  border: 1px solid #e5e7eb;
-  background: linear-gradient(180deg, #fff, #fafafa);
-  font-weight: bold;
+  height: 60px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  color: var(--text-medium);
+  font-weight: 700;
   font-size: 16px;
-  color: #6b4e42;
   cursor: pointer;
-
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
-
 #MyPage .pillBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(107,78,66,.08);
+  box-shadow: var(--shadow);
 }
 
-#MyPage .pillBtn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(107,78,66,.06);
-}
-
-/* 데이터 없을 때 안내 카드 */
-#MyPage .emptyNotice {
-  width: 360px;
-  margin: 0 auto;
-  padding: 18px 20px;
-  border: 1px dashed #e5e7eb;
-  border-radius: 16px;
-  background: #fff;
-  color: #6b4e42;
-  font-size: 15px;
-}
-
-/* 모바일 대응 */
+/* 모바일 */
 @media (max-width: 430px) {
   #MyPage .infoRow,
-  #MyPage .pillBtn,
-  #MyPage .emptyNotice {
-    width: 100%;
-  }
+  #MyPage .pillBtn { width: 100%; }
 }

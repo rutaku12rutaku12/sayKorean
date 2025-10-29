@@ -15,6 +15,7 @@
   position: relative;
   margin: 0 auto;
   height: 100vh;
+  width: 410px;
   /* overflow-y: hidden; */
 }
 
@@ -22,8 +23,14 @@
   overflow-y: auto;
   text-align: center;
   align-items: center;
-  padding-bottom: 73px;
+  position: relative;     
+  display: flex;
+  flex-direction: column;
+  height: 95vh;
+  justify-content: center;
+  /* padding-bottom: 73px; */
 }
+
 
 /* ========================================= */
 /*  PC 특정 해상도에서 가로 720 고정 설정 */

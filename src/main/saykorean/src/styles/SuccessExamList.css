@@ -1,0 +1,140 @@
+/* =========================
+   SuccessExamList.css (scoped to current markup)
+   ========================= */
+
+/* 로컬 토큰 (이 파일에서만 사용한다고 가정) */
+.homePage {
+  --accent: #6B4E42;
+  --panel-bg: rgba(255, 249, 240, 0.3);  /* 요청한 배경색 */
+  --border: #e5e7eb;
+  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23); /* 요청한 패널 그림자 */
+}
+
+/* 페이지 래퍼 = 패널처럼 보이게 */
+.homePage {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 20px 16px 90px; /* 하단 여유는 푸터 대비 */
+  text-align: center;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial;
+  box-sizing: border-box;
+
+  /* 패널 톤 적용 */
+  background-color: var(--panel-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* 제목 */
+.homePage > h3 {
+  margin-top: 8px;
+  margin-bottom: 22px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* 토스트 */
+.toast {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 10px 4px 18px;
+  background: rgba(107, 78, 66, 0.05);
+  font-size: 14px;
+  color: #1f2937;
+}
+.toast.loading { position: relative; padding-left: 42px; }
+.toast.loading::before {
+  content: "";
+  position: absolute;
+  left: 14px; top: 50%;
+  width: 18px; height: 18px; margin-top: -9px;
+  border: 2px solid var(--accent);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: sel-spin .9s linear infinite;
+}
+@keyframes sel-spin { to { transform: rotate(360deg); } }
+.toast.error {
+  border-left: 4px solid #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+}
+
+/* 리스트 컨테이너: 가운데 정렬 그리드 */
+.successExamListWrap {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 420px; /* 가운데 폭 제한 */
+}
+
+/* 각 항목 li */
+.successExamList {
+  display: flex;
+  justify-content: center;
+}
+
+/* 항목 카드(pill) */
+.study {
+  width: 360px;           /* MyPage/Study와 동일한 체감 폭 */
+  height: 70px;           /* 일관된 높이 */
+  padding: 0 16px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #fff, #fafafa); /* pill 느낌 */
+  color: #6b4e42;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+
+  /* 길어질 때 말줄임 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.study:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  border-color: #d1d5db;
+}
+.study:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+/* 이동 버튼(우측 작은 pill) */
+.study > button {
+  border: 1px solid var(--border);
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background-color 120ms ease, box-shadow 120ms ease, transform 120ms ease, border-color 120ms ease;
+}
+
+.study > button:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(107, 78, 66, .07);
+}
+
+.study > button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(107, 78, 66, .05);
+}
