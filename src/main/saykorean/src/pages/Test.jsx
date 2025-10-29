@@ -244,9 +244,8 @@ export default function Test() {
           {/* 📝 주관식 예문 표시 (3번째 문항) */}
 {isSubjective && cur.examSelected && (
   <div className="q-example">
-    <p className="title">
-      {t("test.subjective.example") || "예문:"}
-    </p>
+    {/* <p className="title">
+    </p> */}
     <p className="content">
       {cur.examSelected}
     </p>

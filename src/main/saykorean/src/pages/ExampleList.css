@@ -1,0 +1,86 @@
+/* ===========================
+   ExampleList.css
+   ExampleList 페이지 전용 스타일
+=========================== */
+
+/* 전체 래퍼 */
+#ExampleList {
+  width: 410px;
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 24px 0 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* 제목 영역 */
+#ExampleList .subjectInfo {
+  margin-bottom: 20px;
+}
+#ExampleList .subjectInfo h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #6B4E42;
+  text-align: center;
+}
+
+/* 리스트 전체 */
+#ExampleList .examListWrap {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+/* 각 예문 박스 */
+#ExampleList .examList {
+  width: 360px;
+  min-height: 70px;
+  background-color: rgba(255, 249, 240, 0.8);
+  border-radius: 14px;
+  display: grid;
+  gap: 6px;
+  padding: 14px 18px;
+  color: #1f2937;
+  font-size: 18px;
+  line-height: 1.4;
+  box-sizing: border-box;
+  box-shadow: 0 0px 5px rgba(17, 24, 39, 0.10);
+  font-weight: 500;
+}
+
+/* 한국어 문장 */
+#ExampleList .examList .ko {
+  font-size: 19px;
+  font-weight: 600;
+  color: #2F2F2F;
+}
+
+/* 영어 문장 */
+#ExampleList .examList .e {
+  font-size: 15px;
+  color: #555;
+}
+
+/* 완료 버튼 */
+#ExampleList .successBtn {
+  width: 360px;
+  height: 52px;
+  margin-top: 35px;
+  background-color: #A8DCC4;
+  border-radius: 50px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+#ExampleList .successBtn:hover {
+  background-color: #6BBF9B;
+  transform: translateY(-2px);
+}

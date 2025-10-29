@@ -25,4 +25,8 @@ public class StudyDto {
 
     private int genreNo;            // FK: 장르번호 (INT UNSIGNED → Integer 사용)
 
+    // MyBatis CASE로 전달받는 필드 추가
+    private String themeSelected;
+    private String commenSelected;
+
 }

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { I18nextProvider } from "react-i18next";
 
+
 // 시작페이지
 import StartPage from "./pages/StartPage.jsx";
 // 사용자단(모바일)
@@ -37,6 +38,7 @@ import AdminTestEdit from "./adminPages/AdminTestEdit";
 import AdminUserList from "./adminPages/AdminUserList.jsx";
 import AdminUserIndi from "./adminPages/AdminUserIndi.jsx";
 import CharacterTraining from "./adminPages/CharacterTraining.jsx";
+import ExampleList from "./pages/ExampleList.jsx";
 
 // 랭킹
 import Ranking from "./pages/Ranking.jsx";
@@ -103,6 +105,7 @@ function App() {
             <Route path="user" element={<AdminUserList />} />
             <Route path="user/:userNo" element={<AdminUserIndi />} />
             <Route path="character-training" element={<CharacterTraining />} />
+
           </Route>
 
           {/* 사용자단 */}
@@ -125,6 +128,7 @@ function App() {
             <Route path="/testresult/:testNo" element={<TestResult />} />
             <Route path="/rank" element={<Ranking />} />
             <Route path="/loading" element={<LoadingPage />} />
+            <Route path="/examplelist" element={<ExampleList/>}></Route>
           </Route>
 
           {/* 404 */}
