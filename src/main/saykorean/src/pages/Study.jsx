@@ -14,7 +14,7 @@ function asArray(payload) {
     try {
       const parsed = JSON.parse(payload);
       return Array.isArray(parsed) ? parsed : [];
-    } catch {}
+    } catch { }
   }
   if (typeof payload === "object") {
     for (const key of ["data", "list", "items", "content", "result"]) {
@@ -55,8 +55,22 @@ export default function Study() {
   const [exam, setExam] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [langNo, setLangNo] = useState(0);
   const audioRef = useRef(null);
+
+  // [*] UI 언어 번역
+  const { t } = useTranslation();
+
+  // langNo 초기값을 localStorage에서 바로 읽어오기
+  const [langNo, setLangNo] = useState(() => {
+    const stored = Number(localStorage.getItem("selectedLangNo"));
+    return Number.isFinite(stored) && stored > 0 ? stored : 1;
+  });
+
+  // getLang 대체
+  // function getLang() {
+  //   const stored = Number(localStorage.getItem("selectedLangNo"));
+  //   setLangNo(Number.isFinite(stored) && stored > 0 ? stored : 1);
+  // }
 
   // 오디오
   const playAudio = (path) => {
@@ -64,37 +78,32 @@ export default function Study() {
     if (audioRef.current) audioRef.current.pause();
     const audio = new Audio(path);
     audioRef.current = audio;
-    audio.play().catch(() => {});
+    audio.play().catch(() => { });
   };
-
-  function getLang() {
-    const stored = Number(localStorage.getItem("selectedLangNo"));
-    setLangNo(Number.isFinite(stored) && stored > 0 ? stored : 1);
-  }
 
   function getGenreNo() {
     const n = Number(localStorage.getItem("selectedGenreNo"));
     return Number.isFinite(n) && n > 0 ? n : null;
   }
 
-  // API 호출
+  // [*] API 호출 :  langNo ?? 1을 langNo로 통일
   async function getSubject(genreNo) {
     const res = await axios.get("/saykorean/study/getSubject", {
-      params: { genreNo, langNo: langNo ?? 1 }
+      params: { genreNo, langNo } // ?? 1 제거
     });
     return asArray(res.data);
   }
 
   async function getDailyStudy(studyNo) {
     const res = await axios.get("/saykorean/study/getDailyStudy", {
-      params: { studyNo, langNo: langNo ?? 1 }
+      params: { studyNo, langNo } // ?? 1 제거
     });
     return res.data;
   }
 
   async function getFirstExam(studyNo) {
     const res = await axios.get("/saykorean/study/exam/first", {
-      params: { studyNo, langNo: langNo ?? 1 }
+      params: { studyNo, langNo } // ?? 1 제거
     });
     return res.data;
   }
@@ -126,14 +135,10 @@ export default function Study() {
     navigate("/successexamlist");
   };
 
-  // 언어 로드
+  // [*] 언어 로드 : 조건 수정
   useEffect(() => {
-    getLang();
-  }, []);
-
-  // 언어 확정되면 주제 목록 로드
-  useEffect(() => {
-    if (langNo === null) return;
+    // getLang();
+    if (!langNo) return; // null 대신 falsy 체크
 
     (async () => {
       const genreNo = getGenreNo();
@@ -150,9 +155,33 @@ export default function Study() {
     })();
   }, [langNo]);
 
+  // 언어 확정되면 주제 목록 로드
+  useEffect(() => {
+    // 1️⃣ 가드 조건: langNo가 null이면 실행하지 않음
+    if (langNo === null) return;
+
+    // 2️⃣ 즉시 실행 비동기 함수 (IIFE 패턴)
+    (async () => {
+      // 3️⃣ localStorage에서 장르 번호 가져오기
+      const genreNo = getGenreNo();
+      if (!genreNo) return;// 장르가 없으면 중단
+      // 4️⃣ 백엔드 API 호출 (장르와 언어에 맞는 주제 목록 조회)
+      const list = await getSubject(genreNo);
+
+      // 5️⃣ 받아온 데이터를 UI용 형태로 변환
+      setSubjects(
+        list.map((s) => ({
+          id: Number(s.studyNo),                      // 주제 번호
+          label: s.themeSelected ?? s.themeKo,        // 선택된 언어의 주제명 (없으면 한국어)
+          subLabel: s.themeEn ? `(${s.themeEn})` : "" // 영어 부제목 (있으면 괄호 안에)
+        }))
+      );
+    })();
+  }, [langNo]);   // langNo가 변경될 때마다 실행
+
   // 상세 + 예문 로드
   useEffect(() => {
-    if (!studyNo || langNo === null) return;
+    if (!studyNo || !langNo) return;  // null 대신 !langNo 체크
 
     (async () => {
       setLoading(true);
@@ -164,10 +193,10 @@ export default function Study() {
 
   return (
     <div id="Study" className="homePage">
-      {loading && <div className="toast loading">불러오는 중…</div>}
+      {loading && <div className="toast loading">{t("common.loading")}</div>}
 
       {!studyNo && (
-        <PickerSection title="주제 선택" items={subjects} activeId={null} />
+        <PickerSection title={t("study.theme")} items={subjects} activeId={null} />
       )}
 
       {studyNo && subject && (
@@ -196,24 +225,24 @@ export default function Study() {
 
               {exam.koAudioPath && (
                 <button className="audio-btn" onClick={() => playAudio(exam.koAudioPath)}>
-                  🔊 한국어 듣기
+                  🔊 {t("study.korAudio")}
                 </button>
               )}
               {exam.enAudioPath && (
                 <button className="audio-btn" onClick={() => playAudio(exam.enAudioPath)}>
-                  🔊 영어 듣기
+                  🔊 {t("study.engAudio")}
                 </button>
               )}
 
               <div className="exam-btns">
-                <button className="btn-prev" onClick={getPrevExam}>이전</button>
-                <button className="btn-next" onClick={getNextExam}>다음</button>
+                <button className="btn-prev" onClick={getPrevExam}>{t("study.prev")}</button>
+                <button className="btn-next" onClick={getNextExam}>{t("study.next")}</button>
               </div>
             </div>
           )}
 
           <button className="goExampleBtn" onClick={successBtn}>
-            교육 종료
+            {t("study.eduEnd")}
           </button>
         </section>
       )}
