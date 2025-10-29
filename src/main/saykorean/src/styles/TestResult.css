@@ -1,26 +1,37 @@
-/* 전체 컨테이너 */
+/* =========================
+   TestResult.css (Unified Style)
+   ========================= */
+
+/* 페이지 기본 */
 #TestResult {
-  max-width: 768px;
+  --accent: #6B4E42;
+  --panel-bg: rgba(255, 249, 240, 0.3);
+  --border: #e5e7eb;
+  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+
+  max-width: 410px;
   margin: 0 auto;
   padding: 20px 16px;
   text-align: center;
+  font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial;
+  box-sizing: border-box;
 }
 
 /* 제목 */
 #TestResult .panelTitle {
-  margin-top: 40px;
-  margin-bottom: 30px;
-  font-size: 30px;
-  font-weight: bold;
-  color: #3a2a24;
+  margin-top: 12px;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
 }
 
-/* 패널 카드 */
+/* 결과 패널 */
 #TestResult .panel {
-  background-color: rgba(255, 249, 240, 0.3);
+  background: var(--panel-bg);
   border-radius: 16px;
-  padding: 30px 16px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  padding: 28px 16px;
+  box-shadow: var(--shadow);
 
   display: flex;
   flex-direction: column;
@@ -34,33 +45,33 @@
   margin-bottom: 24px;
 }
 
-/* 점수 텍스트 */
+/* 점수 */
 #TestResult .scoreText {
   font-size: 22px;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 24px;
-  color: #6b4e42;
+  color: var(--accent);
 }
 
-/* 결과 -> 테스트 화면 이동 버튼 */
+/* 버튼(pill) */
 #TestResult .returnBtn {
   width: 260px;
   height: 54px;
-
-  border-radius: 100px;
-  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  border: 1px solid var(--border);
   background: linear-gradient(180deg, #fff, #fafafa);
-  font-weight: bold;
+  font-weight: 700;
   font-size: 16px;
-  color: #6b4e42;
-  cursor: pointer;
+  color: var(--accent);
 
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
 
 #TestResult .returnBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(107,78,66,.08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  border-color: #d1d5db;
 }
 
 #TestResult .returnBtn:active {
@@ -70,10 +81,17 @@
 
 /* 모바일 대응 */
 @media (max-width: 430px) {
-  #TestResult .panelTitle {
-    font-size: 26px;
+  #TestResult {
+    padding: 16px 12px;
   }
+
+  #TestResult .panelTitle {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
   #TestResult .returnBtn {
+    margin-top: 20px;
     width: 100%;
   }
 }

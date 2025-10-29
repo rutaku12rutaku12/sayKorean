@@ -49,7 +49,7 @@ export default function HomePage ( props ){
       <div className="homePage__content">
         <img className="mainImg" src="/img/mainimage.svg" alt="메인" />
 
-        <div className="homePage__actions">
+        <div className="homePage__actions2">
           {isAuthenticated ? (
             <button onClick={onLogout}>{t("home.logout")}</button>
           ) : (

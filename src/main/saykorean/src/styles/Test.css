@@ -33,7 +33,7 @@
   border-radius: 16px;
   padding: 40px 16px;
   /* margin-top: 30px; */
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); */
   text-align: center;
   /* justify-content: center; */
   display: flex;
@@ -61,7 +61,7 @@
 }
 
 /* 오디오 버튼 */
-.audio-btn {
+/* .audio-item {
   border-radius: var(--radius-full);
   border: 1px solid var(--border);
   background: var(--btn-bg);
@@ -71,10 +71,44 @@
   cursor: pointer;
   transition: transform .12s ease, box-shadow .12s ease;
 }
-.audio-btn:hover {
+.audio-item:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow);
+} */
+ /* 오디오 */
+.q-audios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 18px auto 24px;
+  width: 100%;
+  max-width: 480px;
 }
+
+.q-audios .audio-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.q-audios audio {
+  width: 100%;
+  height: 40px;
+  outline: none;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.q-audios audio::-webkit-media-controls-panel {
+  background: #f5f5f5;
+}
+
+.q-audios audio::-webkit-media-controls-play-button {
+  filter: hue-rotate(20deg) brightness(0.8);
+}
+
 
 /* 객관식 버튼 */
 .q-actions {
@@ -112,6 +146,42 @@ textarea {
 textarea:focus {
   border-color: var(--accent);
 }
+ /* =============================
+   Subjective Example Block
+   ============================= */
+
+.q-example {
+  width: 100%;
+  margin: 20px auto;
+  padding: 18px 20px;
+
+  background: rgb(255, 170, 165, 0.2);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  text-align: left;
+  box-sizing: border-box;
+  word-break: keep-all;
+  line-height: 1.6;
+  color: #3a2a24;
+}
+
+/* 제목 (예문:) */
+.q-example .title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #6B4E42;
+}
+
+/* 문장 */
+.q-example .content {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+
 
 /* 정답 제출 버튼 */
 .btn.primary {
@@ -164,4 +234,19 @@ textarea:focus {
 @media (max-width: 430px) {
   .option-btn { height: 50px; font-size: 15px; }
   .q-text { font-size: 20px; }
+}
+
+/* 모바일 대응 */
+@media (max-width: 430px) {
+  .q-audios { max-width: 94%; }
+}
+
+/* 모바일 */
+@media (max-width: 430px) {
+  .q-example {
+    padding: 16px;
+  }
+  .q-example .content {
+    font-size: 17px;
+  }
 }

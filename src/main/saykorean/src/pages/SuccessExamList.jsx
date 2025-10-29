@@ -82,7 +82,7 @@ return (
         <li key={s.studyNo} className="successExamList">
           <div className="study">
             {s.themeKo ?? t("successList.fallbackTitle", { num: s.studyNo })}
-            <button onClick={() => navigate(`/exampleList/${s.studyNo}`)}>
+            <button onClick={() => navigate(`/study/${s.studyNo}`)}>
               {t("successList.go")}
             </button>
           </div>

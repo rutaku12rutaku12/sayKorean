@@ -1,23 +1,45 @@
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../store/userSlice";
+import { useNavigate } from "react-router-dom";
 import "../styles/StartPage.css";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
-export default function StartPage(props) {
-  console.log("StartPage.jsx open");
+export default function HomePage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.user);
+  const { t } = useTranslation();
 
-  return(<>
-    <div id="StartRay">
-        <div id="homePage" className="homePage">
-            {/* 이 한 줄이 ‘이 페이지에서만’ 배경 역할을 함 */}
-            <div className="homePage__bg" aria-hidden="true" />
+  const onLogout = async () => {
+    try {
+      const res = await axios.get("/saykorean/logout", { withCredentials: true });
+      dispatch(logOut());
+    } catch {}
+  };
 
-            <img className="logoImg" src="/img/logo.png" />
+  useEffect(() => {
+    if (!isAuthenticated) navigate("/login");
+  }, [isAuthenticated, navigate]);
 
-            <div className="homePage__content">
-                <img className="mainImg" src="/img/mainimage.svg" alt="메인" />
-                <div className="homePage__actions">
-                
-                </div>
-            </div>
-        </div>
+  return (
+    <div id="StartPage">
+      <div className="startWaveBg" />
+      <div className="startWaveWrapper">
+        <div className="startWave startWaveTop" />
+        <div className="startWave startWaveBottom" />
+      </div>
+
+      <img className="startCharacters" src="/img/startCharacters.svg" alt="characters" />
+
+      <img className="startLogoImg" src="/img/logo.png" alt="logo" />
+
+      <div className="startBtnBox">
+        <button onClick={() => navigate("/mypage")}>
+          {t("home.start") ?? "시작하기"}
+        </button>
+      </div>
     </div>
-    </>)
+  );
 }

@@ -1,39 +1,116 @@
-#StartRay{
-    display: flex;
-    justify-content: center;
-    width: 100%;
+:root {
+  --accent: #6B4E42;
+  --wave-top: #A8DCC4;
+  --wave-bottom: #FFCCC2;
 }
 
-.mainImg {
-  width: 240px;
-  transform-origin: bottom center;
-  animation: wave 2.5s ease-in-out infinite;
+#StartPage {
+  position: relative;
+  width: 100%;
+  max-width: 410px;
+  height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(4deg); }
-}
-
-.homePage__bg {
+/* 배경 */
+.startWaveBg {
   position: absolute;
   inset: 0;
-  background-image: url("/img/background.png");
+  background: url("/img/background.png") no-repeat center;
   background-size: cover;
+  z-index: -3;
+}
+
+/* 파도 */
+.startWaveWrapper {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.startWave {
+  position: absolute;
+  width: 200%;
+  height: 120px;
   background-repeat: repeat-x;
-  animation: moveBg 30s linear infinite;
-}
-@keyframes moveBackground {
-  from { background-position: 0 0; }
-  to { background-position: -410px 0; }
+  background-size: 1440px 120px;
 }
 
-.homePage__bg {
-  animation: moveBackground 3s linear infinite;
+.startWaveTop {
+  bottom: 60px;
+  opacity: .42;
+  background-image: url("/img/wave_top.svg");
+  animation: waveMove 7s ease-in-out infinite alternate;
 }
 
-@keyframes moveBg {
-  0% { background-position: 0 0; }
-  100% { background-position: -1000px 0; }
+.startWaveBottom {
+  bottom: 0;
+  opacity: .9;
+  background-image: url("/img/wave_bottom.svg");
+  animation: waveMove 10s ease-in-out infinite alternate-reverse;
 }
 
+@keyframes waveMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50px); }
+}
+
+/* 캐릭터 (애니메이션 들어가는 영역 유지) */
+.startCharacters {
+  width: 95%;
+  max-width: 410px;
+  position: absolute;
+  bottom: 50px;
+  animation: charFloat 2.4s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes charFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* 로고 */
+.startLogoImg {
+  width: 240px;
+  margin-top: 40px;
+  z-index: 1;
+}
+
+/* 버튼 */
+.startBtnBox {
+  position: absolute;
+  bottom: 18px;
+  z-index: 2;
+}
+
+.startBtnBox button {
+  width: 260px;
+  height: 52px;
+  border-radius: 100px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg,#fff,#fafafa);
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--accent);
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.startBtnBox button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(107,78,66,.08);
+}
+.startBtnBox button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107,78,66,.06);
+}

@@ -17,7 +17,6 @@ import SignUpPage from "./pages/SignUpPage";
 import LogInPage from "./pages/LogInPage";
 import FindPage from "./pages/FindPage";
 import Footer from "./components/Footer";
-import ExampleList from "./pages/ExampleList";
 import Genre from "./pages/Genre";
 import SuccessExamList from "./pages/SuccessExamList";
 import TestList from "./pages/TestList";
@@ -119,7 +118,6 @@ function App() {
             <Route path="/genre" element={<Genre />} />
             <Route path="/study" element={<Study />} />
             <Route path="/study/:studyNo" element={<Study />} />
-            <Route path="/exampleList/:studyNo" element={<ExampleList />} />
             <Route path="/successexamlist" element={<SuccessExamList />} />
             <Route path="/testlist" element={<TestList />} />
             <Route path="/test/:testNo" element={<Test />} />
