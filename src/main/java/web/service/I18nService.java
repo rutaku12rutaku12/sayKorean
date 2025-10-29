@@ -167,34 +167,17 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "새 비밀번호"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "새 비밀번호 확인"),
                     Map.entry("myInfoUpdate.deleteUser" , "회원탈퇴"),
-                    Map.entry("myInfoUpdate.delete" , "탈퇴"),
-
-                    // ================= Study.jsx =================
-                    Map.entry("study.korAudio" , "한국어 듣기"),
-                    Map.entry("study.engAudio" , "영어 듣기"),
-                    Map.entry("study.prev" , "이전"),
-                    Map.entry("study.next" , "다음"),
-                    Map.entry("study.eduEnd" , "교육 종료"),
-
-
-                    // ================= Footer.jsx =================
-                    Map.entry("footer.home" , "홈"),
-                    Map.entry("footer.myPage" , "내정보"),
-                    Map.entry("footer.study" , "학습"),
-                    Map.entry("footer.test" , "시험"),
-                    Map.entry("footer.ranking" , "순위"),
-
-                    // ================= TestResult.jsx =================
+                    Map.entry("myInfoUpdate.delete" , "탈퇴"),Map.entry("test.result.title", "시험 결과"),
                     Map.entry("test.result.loadError", "점수를 불러올 수 없습니다."),
-                    Map.entry("test.result.title", "시험 결과"),
                     Map.entry("test.result.return", "테스트 화면으로 돌아가기"),
                     Map.entry("test.result.score", "정답"),
                     Map.entry("test.result.total", "총"),
-                    Map.entry("test.result.perfect", "완벽합니다!"),
-                    Map.entry("test.result.pass", "합격!"),
-                    Map.entry("test.result.fail", "불합격")
+                    Map.entry("test.result.perfect", "🎉 완벽합니다!"),
+                    Map.entry("test.result.pass", "✅ 합격!"),
+                    Map.entry("test.result.fail", "❌ 불합격"),
+                    Map.entry("common.loading", "불러오는 중…")
 
-            ),
+                    ),
 
             // ===================== 일본어 =====================
             "ja", Map.ofEntries(
@@ -351,31 +334,7 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "新しいパスワード"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "新しいパスワード確認"),
                     Map.entry("myInfoUpdate.deleteUser" , "退会"),
-                    Map.entry("myInfoUpdate.delete" , "退会"),
-
-                    // Study.jsx
-                    Map.entry("study.korAudio" , "韓国語音声"),
-                    Map.entry("study.engAudio" , "英語音声"),
-                    Map.entry("study.prev" , "前へ"),
-                    Map.entry("study.next" , "次へ"),
-                    Map.entry("study.eduEnd" , "学習終了"),
-
-                    // Footer.jsx
-                    Map.entry("footer.home" , "ホーム"),
-                    Map.entry("footer.myPage" , "マイページ"),
-                    Map.entry("footer.study" , "学習"),
-                    Map.entry("footer.test" , "試験"),
-                    Map.entry("footer.ranking" , "ランキング"),
-
-                    // TestResult.jsx
-                    Map.entry("test.result.loadError", "スコアを読み込めません。"),
-                    Map.entry("test.result.title", "試験結果"),
-                    Map.entry("test.result.return", "テスト画面に戻る"),
-                    Map.entry("test.result.score", "正解"),
-                    Map.entry("test.result.total", "全"),
-                    Map.entry("test.result.perfect", "完璧です！"),
-                    Map.entry("test.result.pass", "合格！"),
-                    Map.entry("test.result.fail", "不合格")
+                    Map.entry("myInfoUpdate.delete" , "退会")
             ),
 
             // ===================== 중국어(간체) =====================
@@ -533,33 +492,8 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "新密码"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "确认新密码"),
                     Map.entry("myInfoUpdate.deleteUser" , "注销账户"),
-                    Map.entry("myInfoUpdate.delete" , "注销"),
-
-                    // Study.jsx
-                    Map.entry("study.korAudio" , "韩语听力"),
-                    Map.entry("study.engAudio" , "英语听力"),
-                    Map.entry("study.prev" , "上一个"),
-                    Map.entry("study.next" , "下一个"),
-                    Map.entry("study.eduEnd" , "结束学习"),
-
-                    // Footer.jsx
-                    Map.entry("footer.home" , "首页"),
-                    Map.entry("footer.myPage" , "我的信息"),
-                    Map.entry("footer.study" , "学习"),
-                    Map.entry("footer.test" , "考试"),
-                    Map.entry("footer.ranking" , "排名"),
-
-                    // TestResult.jsx
-                    Map.entry("test.result.loadError", "无法加载分数。"),
-                    Map.entry("test.result.title", "考试结果"),
-                    Map.entry("test.result.return", "返回测试页面"),
-                    Map.entry("test.result.score", "正确"),
-                    Map.entry("test.result.total", "总共"),
-                    Map.entry("test.result.perfect", "完美！"),
-                    Map.entry("test.result.pass", "通过！"),
-                    Map.entry("test.result.fail", "未通过")
-
-                    ),
+                    Map.entry("myInfoUpdate.delete" , "注销")
+            ),
 
             // ===================== 영어 =====================
             "en", Map.ofEntries(
@@ -717,31 +651,15 @@ public class I18nService {
                     Map.entry("myInfoUpdate.checkNewPassword" , "Confirm New Password"),
                     Map.entry("myInfoUpdate.deleteUser" , "Delete Account"),
                     Map.entry("myInfoUpdate.delete" , "Delete"),
-
-                    // Study.jsx
-                    Map.entry("study.korAudio" , "Korean Audio"),
-                    Map.entry("study.engAudio" , "English Audio"),
-                    Map.entry("study.prev" , "Previous"),
-                    Map.entry("study.next" , "Next"),
-                    Map.entry("study.eduEnd" , "End Study"),
-
-                    // Footer.jsx
-                    Map.entry("footer.home" , "Home"),
-                    Map.entry("footer.myPage" , "My Info"),
-                    Map.entry("footer.study" , "Study"),
-                    Map.entry("footer.test" , "Test"),
-                    Map.entry("footer.ranking" , "Ranking"),
-
-                    // TestResult.jsx
-                    Map.entry("test.result.loadError", "Unable to load score."),
                     Map.entry("test.result.title", "Test Result"),
+                    Map.entry("test.result.loadError", "Failed to load score."),
                     Map.entry("test.result.return", "Return to Test"),
                     Map.entry("test.result.score", "Correct"),
                     Map.entry("test.result.total", "Total"),
-                    Map.entry("test.result.perfect", "Perfect!"),
-                    Map.entry("test.result.pass", "Pass!"),
-                    Map.entry("test.result.fail", "Fail")
-            ),
+                    Map.entry("test.result.perfect", "🎉 Perfect!"),
+                    Map.entry("test.result.pass", "✅ Passed!"),
+                    Map.entry("test.result.fail", "❌ Failed")
+                    ),
 
             // ===================== 스페인어 =====================
             "es", Map.ofEntries(
@@ -899,31 +817,15 @@ public class I18nService {
                     Map.entry("myInfoUpdate.checkNewPassword" , "Confirmar Nueva Contraseña"),
                     Map.entry("myInfoUpdate.deleteUser" , "Eliminar Cuenta"),
                     Map.entry("myInfoUpdate.delete" , "Eliminar"),
-
-                    // Study.jsx
-                    Map.entry("study.korAudio" , "Audio en Coreano"),
-                    Map.entry("study.engAudio" , "Audio en Inglés"),
-                    Map.entry("study.prev" , "Anterior"),
-                    Map.entry("study.next" , "Siguiente"),
-                    Map.entry("study.eduEnd" , "Finalizar Estudio"),
-
-                    // Footer.jsx
-                    Map.entry("footer.home" , "Inicio"),
-                    Map.entry("footer.myPage" , "Mi Información"),
-                    Map.entry("footer.study" , "Estudio"),
-                    Map.entry("footer.test" , "Examen"),
-                    Map.entry("footer.ranking" , "Clasificación"),
-
-                    // TestResult.jsx
-                    Map.entry("test.result.loadError", "No se puede cargar la puntuación."),
-                    Map.entry("test.result.title", "Resultado del Examen"),
-                    Map.entry("test.result.return", "Volver a la Prueba"),
-                    Map.entry("test.result.score", "Correcto"),
+                    Map.entry("test.result.title", "Resultado del examen"),
+                    Map.entry("test.result.loadError", "No se pudo cargar la puntuación."),
+                    Map.entry("test.result.return", "Volver a la prueba"),
+                    Map.entry("test.result.score", "Correctas"),
                     Map.entry("test.result.total", "Total"),
-                    Map.entry("test.result.perfect", "¡Perfecto!"),
-                    Map.entry("test.result.pass", "¡Aprobado!"),
-                    Map.entry("test.result.fail", "Reprobado")
-            )
+                    Map.entry("test.result.perfect", "🎉 ¡Perfecto!"),
+                    Map.entry("test.result.pass", "✅ ¡Aprobado!"),
+                    Map.entry("test.result.fail", "❌ Reprobado")
+                    )
     );
 
     public Map<String, String> getTranslations(String lng) {

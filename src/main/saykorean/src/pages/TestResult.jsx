@@ -12,7 +12,7 @@ export default function TestResult() {
   const { testNo } = useParams();
   const { t } = useTranslation();
   
-  // 🎯 초기값을 null 대신 객체로 설정
+  // 초기값을 null 대신 객체로 설정
   const [score, setScore] = useState({ score: 0, total: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
