@@ -1,224 +1,167 @@
-/* 페이지 전체 */
+/* =========================
+   Test.css (MyPage 톤 반영)
+   ========================= */
+
+:root {
+  --accent: #6B4E42;
+  --text-dark: #3a2a24;
+  --text-medium: #6b4e42;
+  --border: #e5e7eb;
+  --panel-bg: rgba(255, 249, 240, 0.3);
+  --btn-bg: linear-gradient(180deg, #fff, #fafafa);
+  --shadow: 0 6px 18px rgba(17,24,39,0.10);
+  --radius-full: 100px;
+}
+
+/* 페이지 */
 #test-page {
   max-width: 768px;
   margin: 0 auto;
-  padding: 20px 16px;
+  /* padding: 50px 16px; */
   text-align: center;
 }
 
-#test-page h3 {
+#test-page h3{
   margin-top: 20px;
-  margin-bottom: 24px;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-/* 로딩, 에러 텍스트 */
-#test-page .error {
-  color: #b91c1c;
-  margin-bottom: 14px;
 }
 
 /* 문제 카드 */
 .question-card {
-  background-color: rgba(255, 249, 240, 0.3);
+  width: 410px;
+  height: 1000px;
+  background-color: var(--panel-bg);
   border-radius: 16px;
-  padding: 20px 16px;
-  margin-top: 10px;
-
+  padding: 40px 16px;
+  /* margin-top: 30px; */
+  box-shadow: var(--shadow);
+  text-align: center;
+  /* justify-content: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .05);
+  gap: 18px;
 }
 
-/* 문제 헤더 */
-.q-head {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
+/* 문제 번호/텍스트 */
 .q-number {
   font-size: 16px;
-  display: block;
-  margin-bottom: 10px;
-  color: #6b4e42;
+  color: var(--text-medium);
 }
-
 .q-text {
-  font-size: 20px;
-  font-weight: 600;
-  color: #3a2a24;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
 }
 
 /* 이미지 */
 .q-media img {
   width: 100%;
   max-width: 320px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  border-radius: 12px;
 }
 
-/* 오디오 */
-.q-audios {
-  margin: 12px 0 18px;
+/* 오디오 버튼 */
+.audio-btn {
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  padding: 8px 16px;
+  font-weight: 700;
+  color: var(--text-medium);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
-
-.q-audios audio {
-  margin: 0 5px;
+.audio-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 /* 객관식 버튼 */
 .q-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
   width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: 460px;
+  display: grid;
+  gap: 12px;
 }
-
 .option-btn {
   width: 100%;
-  height: 60px;
-
-  border-radius: 100px;
-  border: 1px solid #e5e7eb;
-  background: linear-gradient(180deg, #fff, #fafafa);
-  font-weight: bold;
+  height: 56px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
   font-size: 16px;
-
+  font-weight: 700;
+  color: var(--text-medium);
+  transition: transform .12s ease, box-shadow .12s ease;
   cursor: pointer;
-  transition: transform 120ms ease, box-shadow 120ms ease;
 }
-
-.option-btn:hover:enabled {
+.option-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  box-shadow: var(--shadow);
 }
 
-.option-btn:active:enabled {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
-}
-
-.option-btn:disabled {
-  opacity: .6;
-  cursor: not-allowed;
-}
-
-/* 주관식 입력 */
+/* 주관식 */
 textarea {
+  width: 100%;
+  max-width: 460px;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 16px;
-  outline: none;
 }
-
 textarea:focus {
-  border-color: #6b4e42;
+  border-color: var(--accent);
 }
 
-/* submit 버튼(주관식용) */
+/* 정답 제출 버튼 */
 .btn.primary {
-  padding: 12px 30px;
-  background-color: #6b4e42;
-  border-radius: 50px;
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 12px;
-
-  transition: transform 120ms ease, box-shadow 120ms ease;
-}
-
-.btn.primary:hover:enabled {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(107, 78, 66, .10);
-}
-
-/* 피드백 */
-.feedback {
   width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: 240px;
+  height: 48px;
+  border: none;
+  background: var(--accent);
+  border-radius: var(--radius-full);
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  margin-top: 10px;
+  margin-left: 65px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 /* 다음 버튼 */
 .btn.next {
-  padding: 14px 34px;
-  background-color: #4caf50;
-  border-radius: 50px;
-  border: none;
+  width: 100%;
+  max-width: 240px;
+  height: 48px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
   color: white;
-  font-size: 17px;
-  font-weight: bold;
+  font-weight: 700;
+  border-radius: var(--radius-full);
   cursor: pointer;
 
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  transition: transform .12s ease, box-shadow .12s ease;
+  margin-top: 14px;
 }
-
 .btn.next:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(76, 175, 80, .15);
+  box-shadow: var(--shadow);
 }
 
-/* 오디오 컨테이너 */
-.q-audios {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 20px 0;
-  width: 100%;
-  max-width: 480px;
+/* 오류 안내 */
+.error {
+  color: #FFAAA5;
+  font-size: 14px;
 }
 
-.audio-item {
-  width: 100%;
-}
-
-/* 브라우저 기본 오디오 컨트롤 스타일링 */
-audio {
-  width: 100%;
-  height: 40px;
-  outline: none;
-}
-
-audio::-webkit-media-controls-panel {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-}
-
-audio::-webkit-media-controls-play-button {
-  background-color: #007bff;
-  border-radius: 50%;
-}
-
-audio::-webkit-media-controls-current-time-display,
-audio::-webkit-media-controls-time-remaining-display {
-  color: #495057;
-}
-
-/* 모바일 최적화 */
+/* 모바일 */
 @media (max-width: 430px) {
-  .question-card {
-    padding: 16px 10px;
-  }
-
-  .q-text {
-    font-size: 18px;
-  }
-
-  .option-btn {
-    height: 54px;
-    font-size: 15px;
-  }
-
-  .btn.next {
-    width: 100%;
-  }
+  .option-btn { height: 50px; font-size: 15px; }
+  .q-text { font-size: 20px; }
 }

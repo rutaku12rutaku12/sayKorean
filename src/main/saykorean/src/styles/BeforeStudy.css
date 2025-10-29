@@ -1,6 +1,5 @@
 /* 전체 프레임: 410px 고정, 가운데 정렬 */
 #BeforeStudy {
-  border: 1px solid red;
   position: relative;
   padding: 16px 0 24px;
   box-sizing: border-box;
@@ -11,7 +10,7 @@
 #BeforeStudy .startGenreImg {
   margin: 20px auto;
   display: block;
-  width: 80%;
+  width: 60%;
   height: auto;
   border-radius: 16px;
 }

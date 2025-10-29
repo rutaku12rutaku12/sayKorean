@@ -1,59 +1,102 @@
-/* * {
-    border: 1px solid red;
-    color: rgb(107, 78, 66);
-    margin: 0 auto;
-    padding: 0 auto;
-} */
+/* =========================
+   Genre.css (scoped / 통일 스타일)
+   ========================= */
 
-/* .pillBtn{ width: 360px; height: 70px; margin-bottom: 30px; } */
+/* 로컬 변수: 이 파일 안에서만 사용 */
+#Genre {
+  --accent: #6B4E42;
+  --panel-bg: rgba(255, 249, 240, 0.3);
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+  --footer-height: 73px; /* 고정 푸터 높이면 조정, 아니면 0으로 */
+}
 
+/* 페이지 래퍼 */
+#Genre {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  box-sizing: border-box;
+  padding-top: 12px;
+  text-align: center;
+  align-items: center;
+}
+
+/* 공통 패널 */
 #Genre .panel {
-    background-color: rgb(255, 249, 240, 0.3);
-    text-align: center;
+  width: 410px;
+  /* background-color: var(--panel-bg); */
+  border-radius: 16px;
+  /* box-shadow: var(--shadow); */
+  padding: 20px 16px calc(24px + var(--footer-height)); /* 푸터 겹침 방지 */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* overflow: auto; */
 }
 
+/* 제목 */
 #Genre .panelTitle {
-    margin-top: 40px;
-    margin-bottom: 30px;
-    text-align: center;
-    font-size: 30px;
+  margin-top: 8px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
 }
 
-/* 장르 버튼(고정 폭/높이) */
+/* 리스트: 가운데 정렬 그리드 */
+#Genre .list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
+  gap: 16px;
+  justify-content: center;
+  align-items: start;
+  flex: 1;
+  padding: 4px 4px 12px;
+}
+
+/* 장르 버튼(Pill) */
 #Genre .pillBtn {
-    width: 360px; /* 고정 */
-    height: 70px; /* 필요하면 고정 */
-    margin-bottom: 10px;
-    
-    border-radius: 100px;
-    border: 1px solid #e5e7eb;
-    background: linear-gradient(180deg, #fff, #fafafa);
-    font-weight: bold;
-    transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
-    cursor: pointer;
+  width: 360px;          /* 고정 폭 (모바일은 100%) */
+  height: 60px;          /* Study/Language와 동일 높이 */
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #fff, #fafafa);
+  color: var(--text);
+  font-weight: 700;
+
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
 
-#Genre .label {
-    font-size: 18px;
-}
+#Genre .pillBtn .label,
+#Genre .label { font-size: 18px; }
 
+/* 상태 & 인터랙션 */
 #Genre .pillBtn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  border-color: #d1d5db;
 }
-
 #Genre .pillBtn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+#Genre .pillBtn.active,
+#Genre .pillBtn[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, #fff, #fff7f3);
+  box-shadow: 0 12px 26px rgba(107, 78, 66, 0.18);
 }
 
-/* 모바일에서만 100%로 */
+/* 모바일 */
 @media (max-width: 430px) {
-    #Genre .list {
-        grid-template-columns: 1fr;
-    }
-
-    #Genre .pillBtn {
-        width: 100%;
-    }
+  #Genre .list { grid-template-columns: 1fr; }
+  #Genre .pillBtn { width: 100%; }
 }

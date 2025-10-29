@@ -1,97 +1,84 @@
 /* =========================
-   Study.css
-   주제 목록 + 주제 상세 화면
+   Study.css (Fixed & Clean)
    ========================= */
 
 /* 색/그림자 공통 */
 :root {
-  --accent: #6B4E42;           /* 포인트 컬러 */
+  --accent: #6B4E42;
   --panel-bg: rgba(255, 249, 240, 0.3);
   --border: #e5e7eb;
   --text: #1f2937;
   --muted: #6b7280;
   --shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+  --footer-height: 73px; /* 푸터 높이 */
 }
 
+/* 전체 영역을 푸터까지 꽉 채움 */
 #Study {
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Apple SD Gothic Neo, Arial, "Apple Color Emoji";
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  box-sizing: border-box;
+  padding-top: 12px;
 }
 
-/* 공통 패널 */
+/* 공통 패널: 푸터와 공간 없이 딱 붙게 */
 #Study .panel {
   background-color: var(--panel-bg);
-  border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow);
-  padding: 20px 16px;
-  margin: 18px 0;
+
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  /* 패널이 아래로 붙도록 margin-bottom 제거 */
+  margin: 18px 0 0;
+
+  /* 푸터에 가리지 않도록 내부에만 여유 */
+  padding: 20px 16px calc(24px + var(--footer-height));
+
+  overflow: auto;
 }
 
 /* 제목 */
 #Study .panelTitle {
   margin-top: 8px;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   text-align: center;
   font-size: 28px;
   font-weight: 700;
   color: var(--accent);
 }
 
-/* 로딩/에러 토스트 */
-#Study .toast {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin: 10px 4px 18px;
-  background: rgba(107, 78, 66, 0.05);
-  font-size: 14px;
-}
-#Study .toast.loading { position: relative; padding-left: 42px; }
-#Study .toast.loading::before {
-  content: "";
-  position: absolute;
-  left: 14px; top: 50%;
-  width: 18px; height: 18px;
-  margin-top: -9px;
-  border: 2px solid var(--accent);
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: spin .9s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-#Study .toast.error {
-  border-left: 4px solid #ef4444;
-  background: rgba(239, 68, 68, 0.08);
-  color: #ef4444;
-}
-
-/* ===== 주제 목록 섹션 ===== */
-
-/* 그리드 컨테이너 */
+/* ===== 주제 목록 ===== */
 #Study .list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 360px); /* 고정 360px 카드 */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
   gap: 16px;
-  justify-content: center; /* 가운데 정렬 */
-  padding: 4px 4px 8px;
+  justify-content: center;
+  align-items: start;
+  flex: 1;
 }
 
-/* 목록 버튼(고정 폭/높이) */
+/* 목록 버튼 */
 #Study .pillBtn {
-  width: 360px;       /*  고정 */
-  height: 60px;       /*  고정 */
+  width: 360px;
+  height: 60px;
   border-radius: 100px;
   border: 1px solid var(--border);
   background: linear-gradient(180deg, #fff, #fafafa);
   color: var(--text);
   font-weight: bold;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   cursor: pointer;
+  text-decoration: none;
   transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
-  text-decoration: none; /* Link 기본 밑줄 제거 */
 }
-
 #Study .pillBtn .label { font-size: 18px; }
 
 #Study .pillBtn:hover {
@@ -103,26 +90,23 @@
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
 }
-
 #Study .pillBtn.active {
   border-color: var(--accent);
   background: linear-gradient(180deg, #fff, #fff7f3);
   box-shadow: 0 12px 26px rgba(107, 78, 66, 0.18);
 }
 
-/* 모바일에서 한 줄 */
+/* 모바일 */
 @media (max-width: 430px) {
   #Study .list { grid-template-columns: 1fr; }
   #Study .pillBtn { width: 100%; }
 }
 
-/* ===== 주제 상세 섹션 ===== */
-
+/* ===== 상세 예문 ===== */
 #Study .panel.detail {
-  padding: 22px 20px 26px;
+  padding: 22px 20px calc(26px + var(--footer-height));
 }
 
-/* 상단 썸네일 + 제목 */
 #Study .mainTheme {
   display: flex;
   flex-direction: column;
@@ -130,11 +114,7 @@
   gap: 12px;
   margin-bottom: 18px;
 }
-#Study .studyImg {
-  width: 120px; height: 120px;
-  object-fit: contain;
-  user-select: none;
-}
+
 #Study .panel.detail h3 {
   font-size: 35px;
   font-weight: 800;
@@ -142,7 +122,6 @@
   text-align: center;
 }
 
-/* 해설 박스 */
 #Study .commenKo {
   background: #fff;
   border: 1px solid var(--border);
@@ -153,9 +132,7 @@
   color: var(--text);
   margin: 6px 0 18px;
 }
-#Study .commenKo p { margin: 0; }
 
-/* 다음 버튼 */
 #Study .goExampleBtn {
   display: block;
   margin: 0 auto;
@@ -167,15 +144,10 @@
   background: var(--accent);
   color: #fff;
   font-weight: 700;
-  letter-spacing: .2px;
   cursor: pointer;
-  transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
 }
-#Study .goExampleBtn:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(107,78,66,.18); }
-#Study .goExampleBtn:active { transform: translateY(0);   box-shadow: 0 5px 12px rgba(107,78,66,.12); }
-#Study .goExampleBtn:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
 
-/* ====== Study 예문 레이아웃 안정화 ====== */
+/* ===== 예문 UI ===== */
 .exam-area {
   display: flex;
   flex-direction: column;
@@ -200,59 +172,21 @@
 
 .exam-text-box {
   width: min(720px, 92%);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
   text-align: center;
-  line-height: 1.5;
 }
 
-.exam-ko {
-  font-size: 30px;
-  font-weight: bold;
-  color: #6B4E42;
-}
-
-.exam-en {
-  font-size: 25px;
-  color: #6B4E42;
-}
-
-.exam-selected {
-  font-size: 25px;
-  color: #FF8C6B;
-  font-weight: 600;
-}
+.exam-ko { font-size: 30px; font-weight: bold; color: #6B4E42; }
+.exam-en { font-size: 25px; color: #6B4E42; }
+.exam-selected { font-size: 25px; color: #FF8C6B; font-weight: 600; }
 
 .exam-btns {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 12px;
 }
-
-.btn-prev,
-.btn-next {
+.btn-prev, .btn-next {
   padding: 8px 18px;
-  border: none;
   border-radius: 10px;
   background-color: #2f7a69;
   color: #fff;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-.btn-prev:hover,
-.btn-next:hover {
-  opacity: 0.9;
-}
-
-@media (max-width: 430px) {
-    #Genre .list {
-        grid-template-columns: 1fr;
-    }
-
-    #Genre .pillBtn {
-        width: 100%;
-    }
 }

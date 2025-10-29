@@ -153,7 +153,7 @@ export default function Test() {
 
   return (
     <div id="test-page" className="homePage">
-      <h3>{t("test.title")}</h3>
+      {/* <h3>{t("test.title")}</h3> */}
 
       {loading && <p>{t("common.loading")}</p>}
       {msg && <p className="error">{msg}</p>}
