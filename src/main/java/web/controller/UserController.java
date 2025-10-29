@@ -35,7 +35,7 @@ public class UserController {
             // reCaptcha 검증
             RecaptchaConfig.setSecretKey(secretKey);
             Boolean verify = RecaptchaConfig.verify(userDto.getRecaptcha());
-            System.out.println("verify = " + verify);
+            System.out.println("회원가입 Recaptcha verify = " + verify);
             // 검증 실패 시
             if(!verify){ System.out.println("reCaptcha 검증 실패!");
                 return ResponseEntity.status(400).body(0);

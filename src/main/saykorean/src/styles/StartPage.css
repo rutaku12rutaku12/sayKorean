@@ -1,39 +1,117 @@
-#StartRay{
-    display: flex;
-    justify-content: center;
-    width: 100%;
+/* 전체 프레임: flex로 중앙 아래 배치 */
+#start-frame {
+  position: relative;
+  width: 100%;
+  max-width: 410px;
+  height: 100svh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;  /* 상단부터 배치 후 offset으로 이동 */
+  align-items: center;
+  padding-top: 12%;             /* 화면 중앙보다 약간 아래 */
+  padding-bottom: 40px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  color: #6B4E42;
 }
 
+/* 배경: 항상 부모 전체 덮기 */
+.startPage__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/img/repeatBg.png");
+  background-size: auto;          /* cover -> auto로 변경 */
+  background-repeat: repeat-x;    /* x축 반복 */
+  animation: moveBg  linear infinite; 
+  z-index: -1;
+  pointer-events: none;
+}
+@keyframes moveBg {
+  0% { background-position: 0 0; }
+  100% { background-position: -810px 0; }
+}
+
+/* 로고 */
+.logoImg {
+  width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+/* 본문 래퍼 */
+.homePage__content {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 16px; /* 버튼과 이미지 간격 */
+}
+
+/* 메인 이미지 애니메이션 */
 .mainImg {
-  width: 240px;
+  width: 70%;
+  max-width: 360px;
+  height: auto;
   transform-origin: bottom center;
   animation: wave 2.5s ease-in-out infinite;
+  display: block;
 }
 
+/* 버튼 영역 */
+.homePage__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+/* 버튼 스타일 */
+.homePage__actions button {
+  color: #6B4E42;
+  width: 160px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.homePage__actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, 0.08);
+}
+
+.homePage__actions button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, 0.06);
+}
+
+/* 배경 및 이미지 애니메이션 */
 @keyframes wave {
   0%, 100% { transform: rotate(0deg); }
   50% { transform: rotate(4deg); }
 }
 
-.homePage__bg {
-  position: absolute;
-  inset: 0;
-  background-image: url("/img/background.png");
-  background-size: cover;
-  background-repeat: repeat-x;
-  animation: moveBg 30s linear infinite;
-}
-@keyframes moveBackground {
-  from { background-position: 0 0; }
-  to { background-position: -410px 0; }
-}
 
-.homePage__bg {
-  animation: moveBackground 3s linear infinite;
-}
 
-@keyframes moveBg {
-  0% { background-position: 0 0; }
-  100% { background-position: -1000px 0; }
+/* 모바일 대응 */
+@media (max-width: 430px) {
+  .logoImg {
+    width: 240px;
+    margin-top: 0;
+  }
+  .mainImg {
+    width: 84%;
+    max-width: 320px;
+  }
+  .homePage__actions button {
+    width: min(180px, 44%);
+  }
 }
 
