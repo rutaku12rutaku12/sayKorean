@@ -43,7 +43,7 @@
 }
 
 /* 본문 래퍼 */
-.homePage__content {
+.startPage__content {
   width: 100%;
   display: grid;
   justify-items: center;
@@ -61,7 +61,7 @@
 }
 
 /* 버튼 영역 */
-.homePage__actions {
+.startPage__actions {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -70,7 +70,7 @@
 }
 
 /* 버튼 스타일 */
-.homePage__actions button {
+.startPage__actions button {
   color: #6B4E42;
   width: 160px;
   height: 44px;
@@ -82,12 +82,12 @@
   transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-.homePage__actions button:hover {
+.startPage__actions button:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 22px rgba(107, 78, 66, 0.08);
 }
 
-.homePage__actions button:active {
+.startePage__actions button:active {
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(107, 78, 66, 0.06);
 }
@@ -110,7 +110,7 @@
     width: 84%;
     max-width: 320px;
   }
-  .homePage__actions button {
+  .startPage__actions button {
     width: min(180px, 44%);
   }
 }

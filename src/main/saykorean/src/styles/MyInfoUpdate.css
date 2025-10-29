@@ -14,7 +14,7 @@
   width: 100% !important;
   max-width: 420px !important;
   margin: 0 auto !important;
-  padding: 250px 18px 90px !important;
+  padding: 10px 18px 90px !important;
   box-sizing: border-box !important;
 
   background-color: var(--panel-bg) !important;
@@ -133,7 +133,7 @@
   z-index: 9999 !important;
 }
 
-.homePage__actions{
+.MyInfoUpdatePage__actions{
   padding-bottom: 30px;
   border-bottom: 1px solid rgb(107, 78, 66 , 0.2);
 }

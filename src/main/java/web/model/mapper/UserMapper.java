@@ -7,7 +7,7 @@ import web.model.dto.*;
 public interface UserMapper {
 
     // [US-01] 회원가입 signUp() 테스트
-    @Insert("insert into users (name,email,password,nickName,phone) values ( #{name},#{email},#{password},#{nickName},#{phone})")
+    @Insert("insert into users (name,email,password,nickName,phone,signupMethod) values ( #{name},#{email},#{password},#{nickName},#{phone},#{signupMethod})")
     @Options(useGeneratedKeys = true, keyProperty = "userNo") // 마이바티스 generatekey 사용 어노테이션 : insert 이후 pk값인 userNo를 반환하기 위해서 사용
     public int signUp(UserDto userDto);
 
@@ -16,7 +16,7 @@ public interface UserMapper {
     public LoginDto logIn(LoginDto loginDto);
 
     // [US-02-1] 아이디 존재 여부 확인 , 소셜 회원가입용
-    @Select("select * from users where email = #{uid} and userState != -1")
+    @Select("select * from users where email = #{uid}")
     UserDto checkUid(String uid);
 
     // [US-04] 내 정보 조회( 로그인 중인 사용자정보 조회 ) info()
@@ -55,9 +55,14 @@ public interface UserMapper {
     @Select("select password from users where userNo = #{userNo}")
     public String findPass(int userNo);
 
-    // [US-11] 회원상태 수정(삭제) deleteUserStatus()
+    // [US-11] 회원상태 탈퇴(유저상태만 -1로 수정) deleteUserStatus()
     @Update("update users set userState = -1 where userNo=#{userNo} and password=#{password}")
     public int deleteUserStatus(DeleteUserStatusDto deleteUserStatusDto);
+
+    // [US-12] 회원탈퇴 복구
+    @Update("update users set userState = 1 where userNo = #{userNo}")
+    public int recoverUser(UserDto userDto);
+
 
 //    // getGenre
 //    @Select("SELECT genreNo FROM users WHERE userNo=#{userNo}")

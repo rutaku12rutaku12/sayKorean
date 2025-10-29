@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,23 +40,44 @@ public class UserService {
 
     // [US-01-1] 소셜 회원가입
     public UserDto oauth2UserSignup(String uid, String name) {
-        // 기존 회원인지 검사
-        UserDto userDto = userMapper.checkUid(uid);
-        // 이미 존재하면 신규 가입 건너 뛰고 기존 회원 반환
-        if (userDto != null) {
-            return userDto;
-        }
-        // 존재하지 않으면 신규 유저 생성
-        UserDto oauthUser = new UserDto();
-        oauthUser.setEmail(uid);
-        oauthUser.setName(name);
-        oauthUser.setNickName("토돌이");
-        oauthUser.setPassword("oauth");
-        oauthUser.setSignupMethod(2);
-        oauthUser.setUrole("USER");
+            // 기존 회원인지 검사
+            UserDto userDto = userMapper.checkUid(uid);
 
-        userMapper.signUp(oauthUser);
-        return oauthUser;
+            // 이미 존재하면 신규 가입 건너 뛰고 기존 회원 반환
+            if (userDto != null) {
+                // 탈퇴한 회원이면 복구
+                if (userDto.getUserState()==-1){
+                    userDto.setUserState(1);
+                    userMapper.recoverUser(userDto);
+                }
+                return userDto;
+            }
+            try{
+                // 존재하지 않으면 신규 유저 생성
+                UserDto oauthUser = new UserDto();
+                oauthUser.setEmail(uid);
+                oauthUser.setName(name);
+                oauthUser.setNickName("토돌이");
+                oauthUser.setPassword("social");
+                oauthUser.setSignupMethod(2);
+                oauthUser.setUrole("USER");
+
+                userMapper.signUp(oauthUser);
+                return oauthUser;
+
+            }catch (DuplicateKeyException e){System.out.println("이미 가입된 이메일 입니다. "+ uid);
+                // 이미 가입되어 있는 경우, 다시 조회
+                userDto = userMapper.checkUid(uid);
+            // 가입이 되어있는데도 dto가 null이면
+            if (userDto != null) {
+                if (userDto.getUserState() == -1) {
+                    userDto.setUserState(1);
+                    userMapper.recoverUser(userDto);
+                }
+                return userDto;
+            }
+            throw new IllegalStateException("사용자 정보를 가져올 수 없습니다.");
+        }
     }
 
     // [US-02] 로그인 logIn()

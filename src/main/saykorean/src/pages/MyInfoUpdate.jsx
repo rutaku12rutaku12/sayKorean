@@ -147,7 +147,7 @@ export default function MyInfoUpdatePage(props){
     };
 
     return (<>
-        <div id="updateWrapper" className="homePage">
+        <div id="updateWrapper" className="MyInfoUpdatePage">
             <h3>사용자 정보 수정</h3>
 
             <div className="info">
@@ -168,7 +168,7 @@ export default function MyInfoUpdatePage(props){
                 <button className={`sideBtn ${phoneCheck ? "errorBtn" : "successBtn"}`} onClick={CheckPhone}>중복 확인</button>
             </div>
 
-            <div className="homePage__actions">
+            <div className="MyInfoUpdatePage__actions">
                 <button className="pillBtn" onClick={onUpdate}>수정</button>
             </div>
 
@@ -179,12 +179,12 @@ export default function MyInfoUpdatePage(props){
                 <input className="input" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="새 비밀번호" />
                 <input className="input" type="password" value={checkPassword} onChange={e => setCheckPassword(e.target.value)} placeholder="새 비밀번호 확인" />
             </div>
-            <div className="homePage__actions">
+            <div className="MyInfoUpdatePage__actions">
                 <button className="pillBtn" onClick={() => onUpdatePwrd(currentPassword, newPassword, checkPassword)}>수정</button>
             </div>
 
             <h3>회원 탈퇴</h3>
-            <div className="homePage__actions">
+            <div className="MyInfoUpdatePage__actions">
                 <button className="pillBtn" onClick={onDelete}>탈퇴</button>
             </div>
         </div>

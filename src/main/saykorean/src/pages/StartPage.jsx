@@ -21,13 +21,13 @@ export default function StartPage(props) {
         <div id="startPage" className="stargPage">
             {/* 배경 */}
             <div className="startPage__bg" aria-hidden="true" />
-            <div className="homePage__content">
+            <div className="startPage__content">
                 {/* 재미있는 한국어 글씨 */}
                 <img className="logoImg" src="/img/logo.png" />
                 {/* 토끼와호랑이 캐릭터*/}
                 <img className="mainImg" src="/img/mainimage.svg" alt="메인" />
                     {/* 버튼*/}
-                <div className="homePage__actions">
+                <div className="startPage__actions">
                     <button onClick={() => navigate("/login")}>로그인</button>
                     <button onClick={() => navigate("/signup")}>회원가입</button>
                 </div>

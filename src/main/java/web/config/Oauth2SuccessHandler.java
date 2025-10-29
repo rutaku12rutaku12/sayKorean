@@ -65,6 +65,15 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         }
         // oauth2 정보를 데이터베이스 저장
         UserDto userDto = userService.oauth2UserSignup( uid, name);
+        try {
+            userDto = userService.oauth2UserSignup(uid, name);
+        } catch (IllegalStateException e) {
+            // 이메일 중복 예외 발생 시 처리
+            System.out.println("OAuth2 signup error: " + e.getMessage());
+            // 프론트 로그인 페이지로 리다이렉트 + 쿼리 파라미터로 메시지 전달
+            response.sendRedirect("http://localhost:5173/login?error=email_exists");
+            return; // 더 이상 진행하지 않음
+        }
 
         // UserDto 기반으로 Authentication 생성
         UsernamePasswordAuthenticationToken auth =
