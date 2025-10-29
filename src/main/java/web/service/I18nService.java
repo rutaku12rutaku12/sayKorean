@@ -47,7 +47,6 @@ public class I18nService {
                     Map.entry("account.emailPlaceholder", "이메일을 입력해주세요."),
                     Map.entry("common.confirm", "확인"),
 
-                    Map.entry("common.loading", "로딩 중..."),
 
                     // ================= Ranking =================
                     Map.entry("ranking.title", "한국어 학습 랭킹"),
@@ -167,9 +166,17 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "새 비밀번호"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "새 비밀번호 확인"),
                     Map.entry("myInfoUpdate.deleteUser" , "회원탈퇴"),
-                    Map.entry("myInfoUpdate.delete" , "탈퇴")
+                    Map.entry("myInfoUpdate.delete" , "탈퇴"),Map.entry("test.result.title", "시험 결과"),
+                    Map.entry("test.result.loadError", "점수를 불러올 수 없습니다."),
+                    Map.entry("test.result.return", "테스트 화면으로 돌아가기"),
+                    Map.entry("test.result.score", "정답"),
+                    Map.entry("test.result.total", "총"),
+                    Map.entry("test.result.perfect", "🎉 완벽합니다!"),
+                    Map.entry("test.result.pass", "✅ 합격!"),
+                    Map.entry("test.result.fail", "❌ 불합격"),
+                    Map.entry("common.loading", "불러오는 중…")
 
-            ),
+                    ),
 
             // ===================== 일본어 =====================
             "ja", Map.ofEntries(
@@ -326,8 +333,16 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "新しいパスワード"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "新しいパスワード確認"),
                     Map.entry("myInfoUpdate.deleteUser" , "退会"),
-                    Map.entry("myInfoUpdate.delete" , "退会")
-            ),
+                    Map.entry("myInfoUpdate.delete" , "退会"),
+                    Map.entry("test.result.title", "試験結果"),
+                    Map.entry("test.result.loadError", "スコアを読み込めませんでした。"),
+                    Map.entry("test.result.return", "テスト画面に戻る"),
+                    Map.entry("test.result.score", "正解"),
+                    Map.entry("test.result.total", "合計"),
+                    Map.entry("test.result.perfect", "🎉 完璧です！"),
+                    Map.entry("test.result.pass", "✅ 合格！"),
+                    Map.entry("test.result.fail", "❌ 不合格")
+                    ),
 
             // ===================== 중국어(간체) =====================
             "zh-CN", Map.ofEntries(
@@ -484,8 +499,16 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "新密码"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "确认新密码"),
                     Map.entry("myInfoUpdate.deleteUser" , "注销账户"),
-                    Map.entry("myInfoUpdate.delete" , "注销")
-            ),
+                    Map.entry("myInfoUpdate.delete" , "注销"),
+                    Map.entry("test.result.title", "考试结果"),
+                    Map.entry("test.result.loadError", "无法获取分数。"),
+                    Map.entry("test.result.return", "返回测试"),
+                    Map.entry("test.result.score", "正确"),
+                    Map.entry("test.result.total", "总计"),
+                    Map.entry("test.result.perfect", "🎉 完美！"),
+                    Map.entry("test.result.pass", "✅ 通过！"),
+                    Map.entry("test.result.fail", "❌ 未通过")
+                    ),
 
             // ===================== 영어 =====================
             "en", Map.ofEntries(
@@ -642,8 +665,16 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "New Password"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "Confirm New Password"),
                     Map.entry("myInfoUpdate.deleteUser" , "Delete Account"),
-                    Map.entry("myInfoUpdate.delete" , "Delete")
-            ),
+                    Map.entry("myInfoUpdate.delete" , "Delete"),
+                    Map.entry("test.result.title", "Test Result"),
+                    Map.entry("test.result.loadError", "Failed to load score."),
+                    Map.entry("test.result.return", "Return to Test"),
+                    Map.entry("test.result.score", "Correct"),
+                    Map.entry("test.result.total", "Total"),
+                    Map.entry("test.result.perfect", "🎉 Perfect!"),
+                    Map.entry("test.result.pass", "✅ Passed!"),
+                    Map.entry("test.result.fail", "❌ Failed")
+                    ),
 
             // ===================== 스페인어 =====================
             "es", Map.ofEntries(
@@ -800,8 +831,16 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "Nueva Contraseña"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "Confirmar Nueva Contraseña"),
                     Map.entry("myInfoUpdate.deleteUser" , "Eliminar Cuenta"),
-                    Map.entry("myInfoUpdate.delete" , "Eliminar")
-            )
+                    Map.entry("myInfoUpdate.delete" , "Eliminar"),
+                    Map.entry("test.result.title", "Resultado del examen"),
+                    Map.entry("test.result.loadError", "No se pudo cargar la puntuación."),
+                    Map.entry("test.result.return", "Volver a la prueba"),
+                    Map.entry("test.result.score", "Correctas"),
+                    Map.entry("test.result.total", "Total"),
+                    Map.entry("test.result.perfect", "🎉 ¡Perfecto!"),
+                    Map.entry("test.result.pass", "✅ ¡Aprobado!"),
+                    Map.entry("test.result.fail", "❌ Reprobado")
+                    )
     );
 
     public Map<String, String> getTranslations(String lng) {

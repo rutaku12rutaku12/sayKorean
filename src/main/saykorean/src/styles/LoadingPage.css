@@ -27,8 +27,8 @@
 /* 이미지 컨테이너 */
 .image-container {
   position: relative;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 }
 
 .image-container img {
@@ -45,10 +45,10 @@
   font-weight: 900;
   padding: 8px 14px;
   color: var(--accent);
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 12px;
   display: inline-block;
-  margin-top: 10px;
+  /* margin: 5px 0px; */
 }
 
 /* 설명 말풍선 박스 */
@@ -57,7 +57,7 @@
   top: 90px;
   left: 50%;
   transform: translateX(-50%);
-  width: 260px;
+  width: 85%;
 
   background: var(--panel-bg);
   color: var(--accent);
@@ -82,7 +82,11 @@
   align-items: center;
   justify-content: center;
 
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); */
+}
+
+#loading-footer div{
+  padding-top: 8px;
 }
 
 /* 공통 버튼 */
