@@ -12,6 +12,7 @@ export default function Ranking() {
   const [userNo, setUserNo] = useState("");
   const [testItemNo, setTestItemNo] = useState("");
   const [results, setResults] = useState([]);
+  // [*] UI 번역
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -34,10 +35,10 @@ export default function Ranking() {
 
   const getRankTitle = () => {
     switch (rankType) {
-      case "accuracy": return "🏆 정답왕 (정답률 높은 순)";
-      case "challenge": return "🔥 도전왕 (문제 많이 푼 순)";
-      case "persistence": return "💪 끈기왕 (재도전 많이 한 순)";
-      default: return "랭킹";
+      case "accuracy": return `🏆 ${t("ranking.accyracyKing")}`;
+      case "challenge": return `🔥 ${t("ranking.challengeKing")}`;
+      case "persistence": return `💪 ${t("ranking.persistenceKing")}`;
+      default: return `${t("ranking.ranking")}`;
     }
   };
 
