@@ -34,6 +34,7 @@ export default function Language() {
     if (!Number.isFinite(n) || n <= 0) return;
 
     localStorage.setItem("selectedLangNo", String(n));
+    console.log( "설정 언어 : " + selectedLangNo );
 
     const langMap = { 1: "ko", 2: "ja", 3: "zh-CN", 4: "en", 5: "es" };
     const lng = langMap[n] || "ko";
