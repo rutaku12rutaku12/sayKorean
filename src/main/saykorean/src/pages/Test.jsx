@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import "../styles/Test.css";
 
@@ -10,7 +9,6 @@ axios.defaults.withCredentials = true;
 export default function Test() {
   const { testNo } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const { t } = useTranslation();
 
   const [items, setItems] = useState([]);
@@ -20,22 +18,26 @@ export default function Test() {
   const [submitting, setSubmitting] = useState(false);
   const [subjective, setSubjective] = useState("");
   const [feedback, setFeedback] = useState(null);
-  const [langNo, setLangNo] = useState(1);
+  const [langNo, setLangNo] = useState(null); // null로 초기화! 그래야 한국어 렌더링되는 사태 방지
 
+  // 로컬스토리지에서 언어 번호 가져오기
   function getLang() {
     const stored = localStorage.getItem("selectedLangNo");
     const n = Number(stored);
-    setLangNo(Number.isFinite(n) ? n : 1);
+    setLangNo(Number.isFinite(n) && n > 0 ? n : 1);
   }
 
+  // 안전한 문자열 체크
   const safeSrc = (s) => (typeof s === "string" && s.trim() !== "" ? s : null);
 
+  // 컴포넌트 마운트 시 언어 설정
   useEffect(() => {
     getLang();
   }, []);
 
+  // 시험 문항 로드 (langNo가 설정된 후에만 실행)
   useEffect(() => {
-    if (!langNo) return;
+    if (langNo == null) return; // null일때는 로드 안되게 체크
 
     (async () => {
       try {
@@ -45,12 +47,13 @@ export default function Test() {
           params: { testNo, langNo },
         });
         const list = Array.isArray(res.data) ? res.data : [];
+        console.log("📥 받은 문항 데이터:", list);
         setItems(list);
         setIdx(0);
         setSubjective("");
         setFeedback(null);
       } catch (e) {
-        console.error(e);
+        console.error("❌ 문항 로드 실패:", e);
         setMsg(t("test.options.loadError"));
       } finally {
         setLoading(false);
@@ -58,14 +61,45 @@ export default function Test() {
     })();
   }, [testNo, langNo, t]);
 
+  // 현재 문항
   const cur = items[idx];
-  const norm = (cur?.questionSelected || "").trim().replace(/\s+/g, "");
-  const isImageMC = norm.startsWith("그림:");
-  const isAudioMC = norm.startsWith("음성:");
-  const isSubjective = norm.startsWith("주관식:");
-  const isMultiple = isImageMC || isAudioMC;
 
+  // 🎯 미디어 기반 타입 판별
+  // const hasImage = cur?.imagePath && safeSrc(cur.imagePath);
+  // const hasAudio = cur?.audios && Array.isArray(cur.audios) && cur.audios.length > 0;
+  // const isMultiple = hasImage || hasAudio;
+  // const isSubjective = !isMultiple;
 
+  // 🎯 핵심 수정: 문항 순서로 타입 판별
+  // 1번째(idx=0) = 그림 + 객관식
+  // 2번째(idx=1) = 음성 + 객관식
+  // 3번째(idx=2) = 주관식
+  // 이후 반복: 3n+1 = 그림, 3n+2 = 음성, 3n = 주관식
+  const questionType = idx % 3; // 0=그림, 1=음성, 2=주관식
+  const isImageQuestion = questionType === 0;
+  const isAudioQuestion = questionType === 1;
+  const isSubjective = questionType === 2;
+  const isMultiple = !isSubjective;
+
+  // 실제 미디어 존재 여부 (표시용)
+  const hasImage = cur?.imagePath && safeSrc(cur.imagePath);
+  const hasAudio = cur?.audios && Array.isArray(cur.audios) && cur.audios.length > 0;
+
+  console.log("🔍 문항 타입:", {
+    testItemNo: cur?.testItemNo,
+    idx,            // 추가
+    questionType,   // 추가
+    isImageQuestion,  // 추가
+    isAudioQuestion,  // 추가
+    isSubjective,
+    hasImage,
+    hasAudio,
+    // isMultiple,
+    examSelected: cur?.examSelected,  // 추가 (예문 표시하는 로직 추가용)
+    optionsCount: cur?.options?.length
+  });
+
+  // 답안 제출
   async function submitAnswer(selectedExamNo = null) {
     if (!cur) return;
 
@@ -78,6 +112,7 @@ export default function Test() {
 
     const url = `/saykorean/test/${testNo}/items/${cur.testItemNo}/answer`;
 
+    // 주관식이면 로딩 페이지로
     if (isSubjective && !selectedExamNo) {
       navigate("/loading", {
         state: {
@@ -88,19 +123,24 @@ export default function Test() {
       return;
     }
 
+    // 객관식 바로 제출
     try {
       setSubmitting(true);
       const res = await axios.post(url, body);
       const { score, isCorrect } = res.data || {};
-      setFeedback({ correct: isCorrect == 1, score: Number(score) || 0 });
+      setFeedback({
+        correct: isCorrect == 1,
+        score: Number(score) || 0
+      });
     } catch (e) {
-      console.error(e);
+      console.error("❌ 답안 제출 실패:", e);
       alert(t("test.options.loadError"));
     } finally {
       setSubmitting(false);
     }
   }
 
+  // 다음 문항 또는 결과 페이지로
   function goNext() {
     if (idx < items.length - 1) {
       setIdx(idx + 1);
@@ -110,7 +150,6 @@ export default function Test() {
       navigate(`/testresult/${testNo}`);
     }
   }
-
 
   return (
     <div id="test-page" className="homePage">
@@ -122,6 +161,7 @@ export default function Test() {
 
       {cur && (
         <div className="question-card">
+          {/* 문항 번호 및 질문 */}
           <div className="q-head">
             <span className="q-number">
               {idx + 1} / {items.length}
@@ -129,26 +169,94 @@ export default function Test() {
             <p className="q-text">{cur.questionSelected}</p>
           </div>
 
-          {isImageMC && safeSrc(cur?.imagePath) && (
+          {/* 🖼️ 이미지 */}
+          {/* {hasImage && (
             <div className="q-media">
               <img
                 src={safeSrc(cur.imagePath)}
                 alt={cur.imageName || "question"}
-                style={{ maxWidth: 320 }}
+                style={{ maxWidth: 320, borderRadius: '8px' }}
+              />
+            </div>
+          )} */}
+
+          {/* 🖼️ 이미지 (1번째 문항에서만 표시) */}
+          {isImageQuestion && hasImage && (
+            <div className="q-media">
+              <img
+                src={safeSrc(cur.imagePath)}
+                alt={cur.imageName || "question"}
+                style={{ maxWidth: 320, borderRadius: '8px' }}
               />
             </div>
           )}
 
-          {isAudioMC && Array.isArray(cur?.audios) && (
+          {/* 🎵 오디오 (개선된 UI) */}
+          {/* {hasAudio && (
             <div className="q-audios">
               {cur.audios
                 .filter(a => safeSrc(a?.audioPath))
                 .map(a => (
-                  <audio key={a.audioNo} controls src={safeSrc(a.audioPath)} />
+                  <div key={a.audioNo} className="audio-item">
+                    <audio
+                      controls
+                      src={safeSrc(a.audioPath)}
+                      style={{ width: '100%', maxWidth: '480px' }}
+                    >
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                ))}
+            </div>
+          )} */}
+
+          {/* 🎵 오디오 (2번째 문항에서만 표시) */}
+          {isAudioQuestion && hasAudio && (
+            <div className="q-audios">
+              {cur.audios
+                .filter(a => safeSrc(a?.audioPath))
+                .map(a => (
+                  <div key={a.audioNo} className="audio-item">
+                    <audio
+                      controls
+                      src={safeSrc(a.audioPath)}
+                      style={{ width: '100%', maxWidth: '480px' }}
+                    >
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
                 ))}
             </div>
           )}
 
+          {/* 📝 주관식 예문 표시 (3번째 문항) */}
+          {isSubjective && cur.examSelected && (
+            <div className="q-example" style={{
+              padding: '20px',
+              margin: '20px 0',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '8px',
+              borderLeft: '4px solid #007bff'
+            }}>
+              <p style={{
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#495057',
+                marginBottom: '10px'
+              }}>
+                {t("test.subjective.example") || "예문:"}
+              </p>
+              <p style={{
+                fontSize: '18px',
+                color: '#212529',
+                lineHeight: '1.6'
+              }}>
+                {cur.examSelected}
+              </p>
+            </div>
+          )}
+
+          {/* 객관식 보기 (1, 2번째 문항) */}
           {isMultiple ? (
             <div className="q-actions">
               {cur.options?.length > 0 ? (
@@ -159,6 +267,7 @@ export default function Test() {
                     disabled={!!feedback}
                     onClick={() => submitAnswer(option.examNo)}
                   >
+                    {/* 🎯 언어별 예문 표시 */}
                     {option.examSelected || option.examKo || t("test.options.loadError")}
                   </button>
                 ))
@@ -169,25 +278,27 @@ export default function Test() {
               )}
             </div>
           ) : (
+            /* 주관식 입력 */
             <div className="q-actions">
               <textarea
                 value={subjective}
                 onChange={(e) => setSubjective(e.target.value)}
-                placeholder={t("test.subjective.placeholder")}
+                placeholder={t("test.subjective.placeholder") || "한국어로 답변을 작성하세요"}
                 disabled={!!feedback}
                 rows={4}
                 style={{ width: "100%", maxWidth: 480 }}
               />
               <button
                 className="btn primary"
-                disabled={subjective.trim() === ""}
+                disabled={subjective.trim() === "" || submitting}
                 onClick={() => submitAnswer(null)}
               >
-                {t("test.submit")}
+                {submitting ? t("common.loading") : t("test.submit")}
               </button>
             </div>
           )}
 
+          {/* 피드백 */}
           {feedback && (
             <div className="feedback" style={{ marginTop: "20px" }}>
               <div
@@ -223,4 +334,3 @@ export default function Test() {
     </div>
   );
 }
-

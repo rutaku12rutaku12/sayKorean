@@ -30,7 +30,7 @@
   flex-direction: column;
   align-items: center;
 
-  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .05);
 }
 
 /* 문제 헤더 */
@@ -167,18 +167,57 @@ textarea:focus {
   box-shadow: 0 8px 18px rgba(76, 175, 80, .15);
 }
 
+/* 오디오 컨테이너 */
+.q-audios {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 480px;
+}
+
+.audio-item {
+  width: 100%;
+}
+
+/* 브라우저 기본 오디오 컨트롤 스타일링 */
+audio {
+  width: 100%;
+  height: 40px;
+  outline: none;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+audio::-webkit-media-controls-play-button {
+  background-color: #007bff;
+  border-radius: 50%;
+}
+
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  color: #495057;
+}
+
 /* 모바일 최적화 */
 @media (max-width: 430px) {
   .question-card {
     padding: 16px 10px;
   }
+
   .q-text {
     font-size: 18px;
   }
+
   .option-btn {
     height: 54px;
     font-size: 15px;
   }
+
   .btn.next {
     width: 100%;
   }

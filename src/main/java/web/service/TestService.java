@@ -8,11 +8,11 @@ import web.model.dto.RankingDto;
 import web.model.dto.TestDto;
 import web.model.dto.TestItemWithMediaDto;
 import web.model.mapper.TestMapper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Collections;
-
 import java.util.*;
 
 @Service
@@ -35,7 +35,9 @@ public class TestService {
         List<TestItemWithMediaDto> items = testMapper.findTestItemsWithMedia(testNo, langNo);
         List<Map<String, Object>> out = new ArrayList<>();
 
-        for (TestItemWithMediaDto item : items) {
+//        for (TestItemWithMediaDto item : items) {
+        for (int itemIndex = 0; itemIndex < items.size(); itemIndex++) {
+            TestItemWithMediaDto item = items.get(itemIndex);
             Map<String, Object> m = new HashMap<>();
             m.put("testItemNo", item.getTestItemNo());
             m.put("testNo", item.getTestNo());
@@ -45,54 +47,72 @@ public class TestService {
             m.put("audios", item.getAudios()); // 그대로 내려줌
 
             // 2) 객관식 여부 판단: 이미지 또는 오디오가 있으면 객관식
-            boolean isMultiple =
-                    (item.getImagePath() != null && !item.getImagePath().isBlank())
-                            || (item.getAudios() != null && !item.getAudios().isEmpty());
+//            boolean isMultiple =
+//                    (item.getImagePath() != null && !item.getImagePath().isBlank())
+//                            || (item.getAudios() != null && !item.getAudios().isEmpty());
+//
+//            if (isMultiple) {
 
-            if (isMultiple) {
-                // 정답
+            // ===== 🎯 핵심 수정: 문항 순서로 타입 판단 =====
+            // 1번째 문항(index 0) = 그림 + 객관식
+            // 2번째 문항(index 1) = 음성 + 객관식
+            // 3번째 문항(index 2) = 주관식
+            // 이후 반복: 3n+1 = 그림, 3n+2 = 음성, 3n = 주관식
+            int questionType = itemIndex % 3; // 0=그림, 1=음성, 2=주관식
+                // ===== 🎯 핵심 수정: 언어별 예문 조회 =====
+                // 정답 예문을 언어에 맞게 조회
                 ExamDto correct = testMapper.findExamByNo(item.getExamNo(), langNo);
                 if (correct != null) {
-                    List<Map<String, Object>> options = new ArrayList<>();
+                    // 🎯 주관식을 위한 예문 정보 추가
+                    m.put("examSelected", correct.getExamSelected()); // 사용자 언어별 예문
+                    m.put("examKo", correct.getExamKo()); // 한국어 예문 (fallback)
 
-                    Map<String, Object> c = new HashMap<>();
-                    c.put("examNo", correct.getExamNo());
-                    // 언어 반영된 텍스트
-                    c.put("examSelected", correct.getExamSelected());
-                    // 혹시 프론트에서 examKo fallback 쓰면 대비
-                    c.put("examKo", correct.getExamKo());
-                    c.put("isCorrect", true);
-                    options.add(c);
 
-                    // 오답 2개. 기존 mapper 시그니처 유지(언어 미반영이면 examKo만 옴)
-                    List<ExamDto> wrongs = testMapper.findRandomExamsExcluding(item.getExamNo(), 2);
-                    for (ExamDto w : wrongs) {
-                        Map<String, Object> wmap = new HashMap<>();
-                        wmap.put("examNo", w.getExamNo());
-                        // 언어 반영값이 없을 수 있으니 둘 다 채움
-                        wmap.put("examSelected", w.getExamSelected()); // null일 수 있음
-                        wmap.put("examKo", w.getExamKo());
-                        wmap.put("isCorrect", false);
-                        options.add(wmap);
+                    if (questionType == 0 || questionType == 1) {
+                        // 객관식 문항은 List에서 끌어와 다른 예문을 문항으로 생성
+                        List<Map<String, Object>> options = new ArrayList<>();
+
+                        // 정답 옵션
+                        Map<String, Object> c = new HashMap<>();
+                        c.put("examNo", correct.getExamNo());
+                        c.put("examSelected", correct.getExamSelected()); // 언어별 예문
+                        c.put("examKo", correct.getExamKo()); // 한국어 원본 (fallback)
+                        c.put("isCorrect", true);
+                        options.add(c);
+
+                        // ===== 🎯 오답도 언어별로 조회 =====
+                        // 오답 2개를 언어에 맞게 조회
+                        List<ExamDto> wrongs = testMapper.findRandomExamsExcludingWithLang(
+                                item.getExamNo(),
+                                2,
+                                langNo  // 언어 번호 전달
+                        );
+
+                        for (ExamDto w : wrongs) {
+                            Map<String, Object> wmap = new HashMap<>();
+                            wmap.put("examNo", w.getExamNo());
+                            wmap.put("examSelected", w.getExamSelected()); // 언어별 예문
+                            wmap.put("examKo", w.getExamKo()); // fallback
+                            wmap.put("isCorrect", false);
+                            options.add(wmap);
+                        }
+
+                        // 보기 섞기
+                        Collections.shuffle(options);
+                        m.put("options", options);
                     }
-
-                    Collections.shuffle(options);
-                    m.put("options", options);
                 }
-            }
-
+            // questionType == 2인 경우 (주관식)는 options를 추가하지 않음
             out.add(m);
         }
 
         return out;
     }
 
-
     // [3] 정답 예문 조회
     public ExamDto findExamByNo(int examNo, int langNo) {
         return testMapper.findExamByNo(examNo, langNo);
     }
-
 
     // [4] 랭킹 저장
     public int upsertRanking(RankingDto dto) {
@@ -104,7 +124,7 @@ public class TestService {
         return testMapper.getScore(userNo, testNo, testRound);
     }
 
-    // [6] 제출 처리 (prefix 강제 분기)
+    // [6] 제출 처리 (미디어 기반 타입 판별)
     @Transactional
     public int submitFreeAnswer(
             int userNo,
@@ -116,20 +136,46 @@ public class TestService {
             int langNo
     ) {
         // 1) 문항 로드 (언어 반영)
-        TestItemWithMediaDto item = testMapper.findTestItemsWithMedia(testNo, langNo).stream()
-                .filter(t -> t.getTestItemNo() == testItemNo)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 testItemNo 입니다."));
+//        TestItemWithMediaDto item = testMapper.findTestItemsWithMedia(testNo, langNo).stream()
+//                .filter(t -> t.getTestItemNo() == testItemNo)
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("잘못된 testItemNo 입니다."));
+        // 1) 문항 로드 (언어 반영)
+        List<TestItemWithMediaDto> allItems = testMapper.findTestItemsWithMedia(testNo, langNo);
+
+        // 해당 문항 찾기 및 순서 확인
+        int itemIndex = -1;
+        TestItemWithMediaDto item = null;
+        for (int i = 0; i < allItems.size(); i++) {
+            if (allItems.get(i).getTestItemNo() == testItemNo) {
+                item = allItems.get(i);
+                itemIndex = i;
+                break;
+            }
+        }
+
+        if (item == null) {
+            throw new IllegalArgumentException("잘못된 testItemNo 입니다.");
+        }
+
 
         final String q = nullToEmpty(item.getQuestionSelected()).trim();
         System.out.printf("[DEBUG] testItemNo=%d, question='%s'%n", testItemNo, q);
 
-        // ===== 유형 판별 (prefix 제거 방식 대신 미디어 존재기반) =====
-        final boolean hasImage = item.getImagePath() != null && !item.getImagePath().isBlank();
-        final boolean hasAudio = item.getAudios() != null && !item.getAudios().isEmpty();
+//        // ===== 유형 판별 (미디어 존재 기반) =====
+//        final boolean hasImage = item.getImagePath() != null && !item.getImagePath().isBlank();
+//        final boolean hasAudio = item.getAudios() != null && !item.getAudios().isEmpty();
+//
+//        final boolean isMC = hasImage || hasAudio;
+//        final boolean isSub = !isMC;
 
-        final boolean isMC = hasImage || hasAudio;
-        final boolean isSub = !isMC;
+        // ===== 유형 판별 (문항 순서 기반) =====
+        int questionType = itemIndex % 3; // 0=그림, 1=음성, 2=주관식
+        final boolean isMC = (questionType == 0 || questionType == 1);
+        final boolean isSub = (questionType == 2);
+
+        System.out.printf("[DEBUG] questionType=%d, isMC=%b, isSub=%b%n",
+                questionType, isMC, isSub);
 
         // 2) 정답 예문 로드
         ExamDto exam = testMapper.findExamByNo(item.getExamNo(), langNo);
@@ -139,9 +185,11 @@ public class TestService {
         int isCorrect;
 
         if (isMC) {
+            // 객관식: 선택한 examNo가 정답인지 확인
             isCorrect = (selectedExamNo != null && selectedExamNo.equals(item.getExamNo())) ? 1 : 0;
             score = (isCorrect == 1) ? 100 : 0;
         } else {
+            // 주관식: Gemini 채점
             try {
                 score = gemini.score(
                         q,
@@ -172,23 +220,24 @@ public class TestService {
         return score;
     }
 
-    // 필요하면 그대로 사용
+    // 헬퍼 메서드
     private String nullToEmpty(String s) {
         return s == null ? "" : s;
     }
 
+    // 🎯 언어 번호 -> Gemini 힌트 변환
     private String convertToLangHint(int langNo) {
         switch (langNo) {
             case 2:
-                return "en";
+                return "jp";  // 일본어
             case 3:
-                return "jp";
+                return "cn";  // 중국어
             case 4:
-                return "cn";
+                return "en";  // 영어
             case 5:
-                return "es";
+                return "es";  // 스페인어
             default:
-                return "ko";
+                return "ko";  // 한국어
         }
     }
-} // class end
+}

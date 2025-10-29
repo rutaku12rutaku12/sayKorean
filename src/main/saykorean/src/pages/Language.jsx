@@ -8,7 +8,7 @@ axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
 export default function Language(props) {
-  
+
   const navigate = useNavigate();
   const { t } = useTranslation(); // 추가
 
@@ -19,6 +19,15 @@ export default function Language(props) {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Language.jsx - 언어 매핑 추가
+  const LANG_DISPLAY = {
+    1: "한국어",
+    2: "日本語",
+    3: "中文",
+    4: "English",
+    5: "Español"
+  };
 
   const pickLangNo = (langNo) => {
     const n = Number(langNo);
