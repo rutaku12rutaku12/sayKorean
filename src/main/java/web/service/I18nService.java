@@ -121,7 +121,54 @@ public class I18nService {
                     Map.entry("login.button", "로그인"),
                     Map.entry("login.find", "이메일 찾기/비밀번호 찾기"),
 
-                    Map.entry("mypage.mySuccessedStudy", "완수한 주제 목록")
+                    Map.entry("mypage.mySuccessedStudy", "완수한 주제 목록"),
+
+
+                    // ================= SignUpPage.jsx =================
+                    Map.entry("signup.signup" , "회원가입"),
+                    Map.entry("signup.inputName" , "이름을 입력해주세요." ),
+                    Map.entry("signup.inputEmail" , "이메일을 입력해주세요." ),
+                    Map.entry("signup.duplCheck" , "중복 확인"),
+                    Map.entry("signup.inputPassword" , "비밀번호를 입력해주세요."),
+                    Map.entry("signup.inputNick" , "닉네임을 입력해주세요."),
+                    Map.entry("signup.inputPhone" , "연락처를 입력해주세요."),
+
+
+                    // ================= Ranking.jsx =================
+                    Map.entry("ranking.accyracyKing" , "정답왕 (정답률 높은 순)"),
+                    Map.entry("ranking.challengeKing" , "도전왕 (문제 많이 푼 순)"),
+                    Map.entry("ranking.persistenceKing" , "끈기왕 (재도전 많이 한 순)"),
+                    Map.entry("ranking.ranking" , "랭킹"),
+
+                    // ================= LoadingPage.jsx =================
+                    Map.entry("loading.sungrye" , "숭례문"),
+                    Map.entry("loading.bookchon" , "북촌"),
+                    Map.entry("loading.guckjungback" , "국립중앙박물관"),
+                    Map.entry("loading.muryung" , "무령왕릉"),
+                    Map.entry("loading.gwanghan" , "광한루원"),
+                    Map.entry("loading.hanra" , "한라산"),
+                    Map.entry("loading.sungryeInfo" , "숭례문은 조선의 수도였던 서울(한양)의 사대문 중 하나로, 흔히 남대문이라고도 불립니다."),
+                    Map.entry("loading.bookchonInfo" ,  "북촌은 서울 북쪽에 위치한 한옥마을이며, 조선왕조 때 왕족, 양반, 관료 등이 살았던 고급가옥이 많아 양반촌이라고도 불렸습니다."),
+                    Map.entry("loading.guckjungbackInfo" , "국립중앙박물관은 역사와 문화가 살아 숨쉬고, 과거와 현재, 미래가 공존하는 감동의 공간입니다."),
+                    Map.entry("loading.muryungInfo" , "공주에 위치한 무령왕릉은 백제의 무령왕과 그 왕비가 묻힌 고분입니다. 아치형 구조가 눈에 띄는 벽돌무덤입니다."),
+                    Map.entry("loading.gwanghanInfo" , "전북 남원의 광한루원에는 견우와 직녀의 슬픈 이야기가 깃든 오작교가 있습니다."),
+                    Map.entry("loading.hanraInfo", "남한의 최고봉인 제주도 중앙에 있는 한라산 정상에는 화산호수 백록담이 있습니다. 금강산, 지리산과 함께 삼신산이라 불렸습니다."),
+                    Map.entry("loading.grading", "토돌이 시험 채점하는 중..."),
+
+                    // ================= Page404.jsx =================
+                    Map.entry("page404.toLogin" , "로그인으로"),
+
+                    // ================= MyInfoUpdate.jsx =================
+                    Map.entry("myInfoUpdate.updateUserInfo" , "사용자 정보 수정"),
+                    Map.entry("myInfoUpdate.duplCheck" , "중복 확인"),
+                    Map.entry("myInfoUpdate.update" , "수정"),
+                    Map.entry("myInfoUpdate.updatePassword" , "비밀번호 수정"),
+                    Map.entry("myInfoUpdate.oldPassword" , "기존 비밀번호"),
+                    Map.entry("myInfoUpdate.newPassword" , "새 비밀번호"),
+                    Map.entry("myInfoUpdate.checkNewPassword" , "새 비밀번호 확인"),
+                    Map.entry("myInfoUpdate.deleteUser" , "회원탈퇴"),
+                    Map.entry("myInfoUpdate.delete" , "탈퇴")
+
             ),
 
             // ===================== 일본어 =====================
@@ -235,7 +282,51 @@ public class I18nService {
                     Map.entry("login.button", "ログイン"),
                     Map.entry("login.find", "メールアドレス/パスワードを探す"),
 
-                    Map.entry("mypage.mySuccessedStudy", "達成したテーマ一覧")
+                    Map.entry("mypage.mySuccessedStudy", "達成したテーマ一覧"),
+
+                    // SignUpPage.jsx
+                    Map.entry("signup.signup" , "会員登録"),
+                    Map.entry("signup.inputName" , "お名前を入力してください。" ),
+                    Map.entry("signup.inputEmail" , "メールアドレスを入力してください。" ),
+                    Map.entry("signup.duplCheck" , "重複確認"),
+                    Map.entry("signup.inputPassword" , "パスワードを入力してください。"),
+                    Map.entry("signup.inputNick" , "ニックネームを入力してください。"),
+                    Map.entry("signup.inputPhone" , "連絡先を入力してください。"),
+
+                    // Ranking.jsx
+                    Map.entry("ranking.accyracyKing" , "正解王（正解率順）"),
+                    Map.entry("ranking.challengeKing" , "挑戦王（問題数順）"),
+                    Map.entry("ranking.persistenceKing" , "根気王（再挑戦数順）"),
+                    Map.entry("ranking.ranking" , "ランキング"),
+
+                    // LoadingPage.jsx
+                    Map.entry("loading.sungrye" , "崇礼門"),
+                    Map.entry("loading.bookchon" , "北村"),
+                    Map.entry("loading.guckjungback" , "国立中央博物館"),
+                    Map.entry("loading.muryung" , "武寧王陵"),
+                    Map.entry("loading.gwanghan" , "広寒楼苑"),
+                    Map.entry("loading.hanra" , "漢拏山"),
+                    Map.entry("loading.sungryeInfo" , "崇礼門は朝鮮の首都だったソウル（漢陽）の四大門の一つで、一般的に南大門とも呼ばれています。"),
+                    Map.entry("loading.bookchonInfo" ,  "北村はソウルの北側に位置する韓屋村で、朝鮮王朝時代に王族、両班、官僚などが住んでいた高級住宅が多く、両班村とも呼ばれていました。"),
+                    Map.entry("loading.guckjungbackInfo" , "国立中央博物館は歴史と文化が息づき、過去と現在、未来が共存する感動の空間です。"),
+                    Map.entry("loading.muryungInfo" , "公州に位置する武寧王陵は百済の武寧王とその王妃が埋葬された古墳です。アーチ型の構造が特徴的なレンガ墓です。"),
+                    Map.entry("loading.gwanghanInfo" , "全北南原の広寒楼苑には牽牛と織女の悲しい物語が込められた烏鵲橋があります。"),
+                    Map.entry("loading.hanraInfo", "南韓の最高峰である済州島中央にある漢拏山の頂上には火山湖の白鹿潭があります。金剛山、智異山とともに三神山と呼ばれていました。"),
+                    Map.entry("loading.grading", "トドリが試験を採点中..."),
+
+                    // Page404.jsx
+                    Map.entry("page404.toLogin" , "ログインへ"),
+
+                    // MyInfoUpdate.jsx
+                    Map.entry("myInfoUpdate.updateUserInfo" , "ユーザー情報修正"),
+                    Map.entry("myInfoUpdate.duplCheck" , "重複確認"),
+                    Map.entry("myInfoUpdate.update" , "修正"),
+                    Map.entry("myInfoUpdate.updatePassword" , "パスワード変更"),
+                    Map.entry("myInfoUpdate.oldPassword" , "現在のパスワード"),
+                    Map.entry("myInfoUpdate.newPassword" , "新しいパスワード"),
+                    Map.entry("myInfoUpdate.checkNewPassword" , "新しいパスワード確認"),
+                    Map.entry("myInfoUpdate.deleteUser" , "退会"),
+                    Map.entry("myInfoUpdate.delete" , "退会")
             ),
 
             // ===================== 중국어(간체) =====================
@@ -349,7 +440,51 @@ public class I18nService {
                     Map.entry("login.button", "登录"),
                     Map.entry("login.find", "找回邮箱/找回密码"),
 
-                    Map.entry("mypage.mySuccessedStudy", "已完成的主题列表")
+                    Map.entry("mypage.mySuccessedStudy", "已完成的主题列表"),
+
+                    // SignUpPage.jsx
+                    Map.entry("signup.signup" , "注册"),
+                    Map.entry("signup.inputName" , "请输入姓名。" ),
+                    Map.entry("signup.inputEmail" , "请输入邮箱。" ),
+                    Map.entry("signup.duplCheck" , "重复检查"),
+                    Map.entry("signup.inputPassword" , "请输入密码。"),
+                    Map.entry("signup.inputNick" , "请输入昵称。"),
+                    Map.entry("signup.inputPhone" , "请输入联系方式。"),
+
+                    // Ranking.jsx
+                    Map.entry("ranking.accyracyKing" , "正确王（正确率排序）"),
+                    Map.entry("ranking.challengeKing" , "挑战王（题目数排序）"),
+                    Map.entry("ranking.persistenceKing" , "坚持王（重试次数排序）"),
+                    Map.entry("ranking.ranking" , "排名"),
+
+                    // LoadingPage.jsx
+                    Map.entry("loading.sungrye" , "崇礼门"),
+                    Map.entry("loading.bookchon" , "北村"),
+                    Map.entry("loading.guckjungback" , "国立中央博物馆"),
+                    Map.entry("loading.muryung" , "武宁王陵"),
+                    Map.entry("loading.gwanghan" , "广寒楼苑"),
+                    Map.entry("loading.hanra" , "汉拿山"),
+                    Map.entry("loading.sungryeInfo" , "崇礼门是朝鲜首都首尔（汉阳）的四大门之一，通常也被称为南大门。"),
+                    Map.entry("loading.bookchonInfo" ,  "北村是位于首尔北部的韩屋村，朝鲜王朝时期王族、两班、官员等居住的高级住宅较多，也被称为两班村。"),
+                    Map.entry("loading.guckjungbackInfo" , "国立中央博物馆是历史与文化生生不息、过去与现在和未来共存的感动空间。"),
+                    Map.entry("loading.muryungInfo" , "位于公州的武宁王陵是百济武宁王及其王妃的陵墓。其显著特征是拱形结构的砖墓。"),
+                    Map.entry("loading.gwanghanInfo" , "全北南原的广寒楼苑有蕴含着牛郎织女悲伤故事的鹊桥。"),
+                    Map.entry("loading.hanraInfo", "韩国最高峰济州岛中央的汉拿山顶上有火山湖白鹿潭。与金刚山、智异山一起被称为三神山。"),
+                    Map.entry("loading.grading", "土豆正在批改试卷..."),
+
+                    // Page404.jsx
+                    Map.entry("page404.toLogin" , "前往登录"),
+
+                    // MyInfoUpdate.jsx
+                    Map.entry("myInfoUpdate.updateUserInfo" , "修改用户信息"),
+                    Map.entry("myInfoUpdate.duplCheck" , "重复检查"),
+                    Map.entry("myInfoUpdate.update" , "修改"),
+                    Map.entry("myInfoUpdate.updatePassword" , "修改密码"),
+                    Map.entry("myInfoUpdate.oldPassword" , "原密码"),
+                    Map.entry("myInfoUpdate.newPassword" , "新密码"),
+                    Map.entry("myInfoUpdate.checkNewPassword" , "确认新密码"),
+                    Map.entry("myInfoUpdate.deleteUser" , "注销账户"),
+                    Map.entry("myInfoUpdate.delete" , "注销")
             ),
 
             // ===================== 영어 =====================
@@ -463,7 +598,51 @@ public class I18nService {
                     Map.entry("login.button", "Log In"),
                     Map.entry("login.find", "Find Email / Password"),
 
-                    Map.entry("mypage.mySuccessedStudy", "Completed Topics")
+                    Map.entry("mypage.mySuccessedStudy", "Completed Topics"),
+
+                    // SignUpPage.jsx
+                    Map.entry("signup.signup" , "Sign Up"),
+                    Map.entry("signup.inputName" , "Please enter your name." ),
+                    Map.entry("signup.inputEmail" , "Please enter your email." ),
+                    Map.entry("signup.duplCheck" , "Check Duplicate"),
+                    Map.entry("signup.inputPassword" , "Please enter your password."),
+                    Map.entry("signup.inputNick" , "Please enter your nickname."),
+                    Map.entry("signup.inputPhone" , "Please enter your contact."),
+
+                    // Ranking.jsx
+                    Map.entry("ranking.accyracyKing" , "Accuracy King (By Correct Rate)"),
+                    Map.entry("ranking.challengeKing" , "Challenge King (By Problems Solved)"),
+                    Map.entry("ranking.persistenceKing" , "Persistence King (By Retry Count)"),
+                    Map.entry("ranking.ranking" , "Ranking"),
+
+                    // LoadingPage.jsx
+                    Map.entry("loading.sungrye" , "Sungnyemun"),
+                    Map.entry("loading.bookchon" , "Bukchon"),
+                    Map.entry("loading.guckjungback" , "National Museum of Korea"),
+                    Map.entry("loading.muryung" , "Tomb of King Muryeong"),
+                    Map.entry("loading.gwanghan" , "Gwanghallu Garden"),
+                    Map.entry("loading.hanra" , "Hallasan"),
+                    Map.entry("loading.sungryeInfo" , "Sungnyemun is one of the four main gates of Seoul (Hanyang), the capital of Joseon, and is commonly called Namdaemun (South Gate)."),
+                    Map.entry("loading.bookchonInfo" ,  "Bukchon is a hanok village located in the north of Seoul, and was called a yangban village due to the many luxury houses where royalty, yangban, and officials lived during the Joseon Dynasty."),
+                    Map.entry("loading.guckjungbackInfo" , "The National Museum of Korea is a moving space where history and culture come alive, and the past, present, and future coexist."),
+                    Map.entry("loading.muryungInfo" , "The Tomb of King Muryeong, located in Gongju, is the burial site of King Muryeong of Baekje and his queen. It is a brick tomb with a distinctive arched structure."),
+                    Map.entry("loading.gwanghanInfo" , "Gwanghallu Garden in Namwon, Jeollabuk-do, has Ojakgyo Bridge which holds the sad story of Gyeonu and Jingnyeo."),
+                    Map.entry("loading.hanraInfo", "At the summit of Hallasan, located in the center of Jeju Island and the highest peak in South Korea, is Baengnokdam, a volcanic lake. It was called one of the three sacred mountains along with Geumgangsan and Jirisan."),
+                    Map.entry("loading.grading", "Todoli is grading the exam..."),
+
+                    // Page404.jsx
+                    Map.entry("page404.toLogin" , "To Login"),
+
+                    // MyInfoUpdate.jsx
+                    Map.entry("myInfoUpdate.updateUserInfo" , "Update User Information"),
+                    Map.entry("myInfoUpdate.duplCheck" , "Check Duplicate"),
+                    Map.entry("myInfoUpdate.update" , "Update"),
+                    Map.entry("myInfoUpdate.updatePassword" , "Change Password"),
+                    Map.entry("myInfoUpdate.oldPassword" , "Current Password"),
+                    Map.entry("myInfoUpdate.newPassword" , "New Password"),
+                    Map.entry("myInfoUpdate.checkNewPassword" , "Confirm New Password"),
+                    Map.entry("myInfoUpdate.deleteUser" , "Delete Account"),
+                    Map.entry("myInfoUpdate.delete" , "Delete")
             ),
 
             // ===================== 스페인어 =====================
@@ -577,7 +756,51 @@ public class I18nService {
                     Map.entry("login.button", "Iniciar sesión"),
                     Map.entry("login.find", "Recuperar correo/contraseña"),
 
-                    Map.entry("mypage.mySuccessedStudy", "Temas completados")
+                    Map.entry("mypage.mySuccessedStudy", "Temas completados"),
+
+                    // SignUpPage.jsx
+                    Map.entry("signup.signup" , "Registrarse"),
+                    Map.entry("signup.inputName" , "Por favor ingrese su nombre." ),
+                    Map.entry("signup.inputEmail" , "Por favor ingrese su correo electrónico." ),
+                    Map.entry("signup.duplCheck" , "Verificar Duplicado"),
+                    Map.entry("signup.inputPassword" , "Por favor ingrese su contraseña."),
+                    Map.entry("signup.inputNick" , "Por favor ingrese su apodo."),
+                    Map.entry("signup.inputPhone" , "Por favor ingrese su contacto."),
+
+                    // Ranking.jsx
+                    Map.entry("ranking.accyracyKing" , "Rey de Precisión (Por tasa de aciertos)"),
+                    Map.entry("ranking.challengeKing" , "Rey de Desafíos (Por problemas resueltos)"),
+                    Map.entry("ranking.persistenceKing" , "Rey de Persistencia (Por reintentos)"),
+                    Map.entry("ranking.ranking" , "Clasificación"),
+
+                    // LoadingPage.jsx
+                    Map.entry("loading.sungrye" , "Sungnyemun"),
+                    Map.entry("loading.bookchon" , "Bukchon"),
+                    Map.entry("loading.guckjungback" , "Museo Nacional de Corea"),
+                    Map.entry("loading.muryung" , "Tumba del Rey Muryeong"),
+                    Map.entry("loading.gwanghan" , "Jardín Gwanghallu"),
+                    Map.entry("loading.hanra" , "Monte Halla"),
+                    Map.entry("loading.sungryeInfo" , "Sungnyemun es una de las cuatro puertas principales de Seúl (Hanyang), la capital de Joseon, y comúnmente se le llama Namdaemun (Puerta Sur)."),
+                    Map.entry("loading.bookchonInfo" ,  "Bukchon es un pueblo hanok ubicado al norte de Seúl, y fue llamado pueblo yangban debido a las numerosas casas de lujo donde vivían la realeza, yangban y funcionarios durante la dinastía Joseon."),
+                    Map.entry("loading.guckjungbackInfo" , "El Museo Nacional de Corea es un espacio conmovedor donde la historia y la cultura cobran vida, y el pasado, presente y futuro coexisten."),
+                    Map.entry("loading.muryungInfo" , "La Tumba del Rey Muryeong, ubicada en Gongju, es el lugar de entierro del Rey Muryeong de Baekje y su reina. Es una tumba de ladrillo con una estructura arqueada distintiva."),
+                    Map.entry("loading.gwanghanInfo" , "El Jardín Gwanghallu en Namwon, Jeollabuk-do, tiene el Puente Ojakgyo que guarda la triste historia de Gyeonu y Jingnyeo."),
+                    Map.entry("loading.hanraInfo", "En la cumbre del Monte Halla, ubicado en el centro de la isla de Jeju y el pico más alto de Corea del Sur, se encuentra Baengnokdam, un lago volcánico. Fue llamado una de las tres montañas sagradas junto con Geumgangsan y Jirisan."),
+                    Map.entry("loading.grading", "Todoli está calificando el examen..."),
+
+                    // Page404.jsx
+                    Map.entry("page404.toLogin" , "Ir a Inicio de Sesión"),
+
+                    // MyInfoUpdate.jsx
+                    Map.entry("myInfoUpdate.updateUserInfo" , "Actualizar Información de Usuario"),
+                    Map.entry("myInfoUpdate.duplCheck" , "Verificar Duplicado"),
+                    Map.entry("myInfoUpdate.update" , "Actualizar"),
+                    Map.entry("myInfoUpdate.updatePassword" , "Cambiar Contraseña"),
+                    Map.entry("myInfoUpdate.oldPassword" , "Contraseña Actual"),
+                    Map.entry("myInfoUpdate.newPassword" , "Nueva Contraseña"),
+                    Map.entry("myInfoUpdate.checkNewPassword" , "Confirmar Nueva Contraseña"),
+                    Map.entry("myInfoUpdate.deleteUser" , "Eliminar Cuenta"),
+                    Map.entry("myInfoUpdate.delete" , "Eliminar")
             )
     );
 

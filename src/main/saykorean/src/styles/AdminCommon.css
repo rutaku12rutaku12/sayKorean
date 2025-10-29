@@ -150,6 +150,7 @@ html {
 }
 
 .admin-textarea {
+  min-width: 1050px;
   min-height: 80px;
   resize: vertical;
 }
