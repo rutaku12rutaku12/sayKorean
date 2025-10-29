@@ -3,12 +3,13 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 axios.defaults.withCredentials = true;
 
 function asArray(payload) {
   if (typeof payload === "string") {
-    try { payload = JSON.parse(payload); } catch {}
+    try { payload = JSON.parse(payload); } catch { }
   }
   if (Array.isArray(payload)) return payload;
   if (payload && typeof payload === "object") {
@@ -40,6 +41,7 @@ function PickerSection({ title, items, activeId }) {
 }
 
 export default function Study() {
+
   const navigate = useNavigate();
   const { studyNo } = useParams();
 
@@ -50,6 +52,10 @@ export default function Study() {
   const [error, setError] = useState("");
   const [langNo, setLangNo] = useState(0);
   const audioRef = useRef(null);
+
+  // [*] UI 언어 변경
+  const { t } = useTranslation();
+
 
   const playAudio = (path) => {
     if (!path) return;
@@ -89,19 +95,19 @@ export default function Study() {
 
   async function getSubject(genreNo) {
     const res = await axios.get("/saykorean/study/getSubject", { params: { genreNo, langNo } });
-    console.log( res.data );
+    console.log(res.data);
     return asArray(res.data);
-    
+
   }
 
   async function getDailyStudy(studyNoValue) {
-    const res = await axios.get("/saykorean/study/getDailyStudy", { params: { studyNo: studyNoValue, langNo }});
-    console.log( res.data );
+    const res = await axios.get("/saykorean/study/getDailyStudy", { params: { studyNo: studyNoValue, langNo } });
+    console.log(res.data);
     return res.data;
   }
 
   async function getFirstExam(studyNoValue) {
-    const res = await axios.get("/saykorean/study/exam/first", { params: { studyNo: studyNoValue, langNo }});
+    const res = await axios.get("/saykorean/study/exam/first", { params: { studyNo: studyNoValue, langNo } });
     return res.data;
   }
 
@@ -164,10 +170,10 @@ export default function Study() {
     localStorage.setItem("studies", JSON.stringify(next));
 
     navigate("/successexamlist");
-    
+
   };
 
-  
+
 
   return (
     <div id="Study" className="homePage">
@@ -179,10 +185,10 @@ export default function Study() {
       {studyNo && subject && (
         <section className="panel detail">
           <div className="mainTheme">
-            <h3 className="mainTitle">{ subject.themeSelected || "제목 없음"}</h3>
+            <h3 className="mainTitle">{subject.themeSelected || "제목 없음"}</h3>
           </div>
 
-        
+
           {subject.commenSelected && (
             <p className="mainComment">{subject.commenSelected}</p>
           )}
@@ -201,24 +207,24 @@ export default function Study() {
 
               {exam.koAudioPath && (
                 <button className="audio-btn" onClick={() => playAudio(exam.koAudioPath)}>
-                  🔊 한국어 듣기
+                  🔊 {t("study.korAudio")}
                 </button>
               )}
               {exam.enAudioPath && (
                 <button className="audio-btn" onClick={() => playAudio(exam.enAudioPath)}>
-                  🔊 영어 듣기
+                  🔊 {t("study.engAudio")}
                 </button>
               )}
 
               <div className="exam-btns">
-                <button className="btn-prev" onClick={getPrevExam}>이전</button>
-                <button className="btn-next" onClick={getNextExam}>다음</button>
+                <button className="btn-prev" onClick={getPrevExam}> {t("study.prev")} </button>
+                <button className="btn-next" onClick={getNextExam}> {t("study.next")} </button>
               </div>
             </div>
           )}
 
           <button className="goExampleBtn" onClick={successBtn}>
-            교육 종료
+            {t("study.eduEnd")}
           </button>
         </section>
       )}

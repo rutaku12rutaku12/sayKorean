@@ -167,8 +167,22 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "새 비밀번호"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "새 비밀번호 확인"),
                     Map.entry("myInfoUpdate.deleteUser" , "회원탈퇴"),
-                    Map.entry("myInfoUpdate.delete" , "탈퇴")
+                    Map.entry("myInfoUpdate.delete" , "탈퇴"),
 
+                    // ================= Study.jsx =================
+                    Map.entry("study.korAudio" , "한국어 듣기"),
+                    Map.entry("study.engAudio" , "영어 듣기"),
+                    Map.entry("study.prev" , "이전"),
+                    Map.entry("study.next" , "다음"),
+                    Map.entry("study.eduEnd" , "교육 종료"),
+
+
+                    // ================= Footer.jsx =================
+                    Map.entry("footer.home" , "홈"),
+                    Map.entry("footer.myPage" , "내정보"),
+                    Map.entry("footer.study" , "학습"),
+                    Map.entry("footer.test" , "시험"),
+                    Map.entry("footer.ranking" , "순위")
             ),
 
             // ===================== 일본어 =====================
@@ -326,7 +340,21 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "新しいパスワード"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "新しいパスワード確認"),
                     Map.entry("myInfoUpdate.deleteUser" , "退会"),
-                    Map.entry("myInfoUpdate.delete" , "退会")
+                    Map.entry("myInfoUpdate.delete" , "退会"),
+
+                    // Study.jsx
+                    Map.entry("study.korAudio" , "韓国語音声"),
+                    Map.entry("study.engAudio" , "英語音声"),
+                    Map.entry("study.prev" , "前へ"),
+                    Map.entry("study.next" , "次へ"),
+                    Map.entry("study.eduEnd" , "学習終了"),
+
+                    // Footer.jsx
+                    Map.entry("footer.home" , "ホーム"),
+                    Map.entry("footer.myPage" , "マイページ"),
+                    Map.entry("footer.study" , "学習"),
+                    Map.entry("footer.test" , "試験"),
+                    Map.entry("footer.ranking" , "ランキング")
             ),
 
             // ===================== 중국어(간체) =====================
@@ -484,8 +512,23 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "新密码"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "确认新密码"),
                     Map.entry("myInfoUpdate.deleteUser" , "注销账户"),
-                    Map.entry("myInfoUpdate.delete" , "注销")
-            ),
+                    Map.entry("myInfoUpdate.delete" , "注销"),
+
+                    // Study.jsx
+                    Map.entry("study.korAudio" , "韩语听力"),
+                    Map.entry("study.engAudio" , "英语听力"),
+                    Map.entry("study.prev" , "上一个"),
+                    Map.entry("study.next" , "下一个"),
+                    Map.entry("study.eduEnd" , "结束学习"),
+
+                    // Footer.jsx
+                    Map.entry("footer.home" , "首页"),
+                    Map.entry("footer.myPage" , "我的信息"),
+                    Map.entry("footer.study" , "学习"),
+                    Map.entry("footer.test" , "考试"),
+                    Map.entry("footer.ranking" , "排名")
+
+                    ),
 
             // ===================== 영어 =====================
             "en", Map.ofEntries(
@@ -642,7 +685,21 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "New Password"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "Confirm New Password"),
                     Map.entry("myInfoUpdate.deleteUser" , "Delete Account"),
-                    Map.entry("myInfoUpdate.delete" , "Delete")
+                    Map.entry("myInfoUpdate.delete" , "Delete"),
+
+                    // Study.jsx
+                    Map.entry("study.korAudio" , "Korean Audio"),
+                    Map.entry("study.engAudio" , "English Audio"),
+                    Map.entry("study.prev" , "Previous"),
+                    Map.entry("study.next" , "Next"),
+                    Map.entry("study.eduEnd" , "End Study"),
+
+                    // Footer.jsx
+                    Map.entry("footer.home" , "Home"),
+                    Map.entry("footer.myPage" , "My Info"),
+                    Map.entry("footer.study" , "Study"),
+                    Map.entry("footer.test" , "Test"),
+                    Map.entry("footer.ranking" , "Ranking")
             ),
 
             // ===================== 스페인어 =====================
@@ -800,7 +857,21 @@ public class I18nService {
                     Map.entry("myInfoUpdate.newPassword" , "Nueva Contraseña"),
                     Map.entry("myInfoUpdate.checkNewPassword" , "Confirmar Nueva Contraseña"),
                     Map.entry("myInfoUpdate.deleteUser" , "Eliminar Cuenta"),
-                    Map.entry("myInfoUpdate.delete" , "Eliminar")
+                    Map.entry("myInfoUpdate.delete" , "Eliminar"),
+
+                    // Study.jsx
+                    Map.entry("study.korAudio" , "Audio en Coreano"),
+                    Map.entry("study.engAudio" , "Audio en Inglés"),
+                    Map.entry("study.prev" , "Anterior"),
+                    Map.entry("study.next" , "Siguiente"),
+                    Map.entry("study.eduEnd" , "Finalizar Estudio"),
+
+                    // Footer.jsx
+                    Map.entry("footer.home" , "Inicio"),
+                    Map.entry("footer.myPage" , "Mi Información"),
+                    Map.entry("footer.study" , "Estudio"),
+                    Map.entry("footer.test" , "Examen"),
+                    Map.entry("footer.ranking" , "Clasificación")
             )
     );
 
