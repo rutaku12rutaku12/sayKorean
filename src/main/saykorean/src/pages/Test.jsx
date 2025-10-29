@@ -19,6 +19,7 @@ export default function Test() {
   const [subjective, setSubjective] = useState("");
   const [feedback, setFeedback] = useState(null);
   const [langNo, setLangNo] = useState(null); // null로 초기화! 그래야 한국어 렌더링되는 사태 방지
+  const [testRound, setTestRound] = useState(null);
 
   // 로컬스토리지에서 언어 번호 가져오기
   function getLang() {
@@ -43,6 +44,16 @@ export default function Test() {
       try {
         setLoading(true);
         setMsg("");
+
+        // 🎯 testRound 계산: 기존 최대값 + 1
+        // 시험 시작 시 다음 회차 번호 조회
+        const roundRes = await axios.get("/saykorean/test/getnextround" , {
+          params : {testNo} 
+        });
+        const nextRound = roundRes.data || 1; 
+        setTestRound(nextRound);
+        console.log("이번 시험 회차:" , nextRound);
+
         const res = await axios.get("/saykorean/test/findtestitem", {
           params: { testNo, langNo },
         });
@@ -102,9 +113,10 @@ export default function Test() {
   // 답안 제출
   async function submitAnswer(selectedExamNo = null) {
     if (!cur) return;
+    if (testRound === null) return; // 🎯 testRound 체크
 
     const body = {
-      testRound: 1,
+      testRound: testRound, // testRound의 고정값 삭제
       selectedExamNo: selectedExamNo ?? 0,
       userAnswer: selectedExamNo ? "" : subjective,
       langNo

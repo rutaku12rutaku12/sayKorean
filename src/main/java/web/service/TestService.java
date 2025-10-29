@@ -119,9 +119,19 @@ public class TestService {
         return testMapper.upsertRanking(dto);
     }
 
-    // [5] 점수 집계
+    // [5-1] 점수 집계 (특정 회차 조회용)
     public RankingDto getScore(int userNo, int testNo, int testRound) {
         return testMapper.getScore(userNo, testNo, testRound);
+    }
+
+    // [5-2] 최신 회차 점수 집계 (testResult.jsx에서 가져올 로직)
+    public RankingDto getLatestScore(int userNo, int testNo) {
+        return testMapper.getLatestScore(userNo, testNo);
+    }
+
+    // [5-3] 추가: 다음 회차 번호 계산
+    public int getNextRound(int userNo, int testNo) {
+        return testMapper.getNextRound(userNo, testNo);
     }
 
     // [6] 제출 처리 (미디어 기반 타입 판별)

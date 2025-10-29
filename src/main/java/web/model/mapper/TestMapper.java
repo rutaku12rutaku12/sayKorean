@@ -2,6 +2,7 @@ package web.model.mapper;
 
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.security.core.parameters.P;
 import web.model.dto.*;
 
 import java.util.List;
@@ -118,6 +119,30 @@ public interface TestMapper { // mapper start
     @Insert("INSERT INTO ranking (testRound, selectedExamNo, userAnswer, isCorrect, testItemNo, userNo, resultDate) VALUES (#{testRound}, #{selectedExamNo}, #{userAnswer}, #{isCorrect}, #{testItemNo}, #{userNo}, NOW())")
     int upsertRanking(RankingDto dto);
 
+    // [*] 동진 추가 : 최신 testRound 자동 조회
+    // testRound를 파라미터로 받지 않고, 가장 최근 회차의 점수를 조회
+    @Select("""
+            SELECT 
+                SUM(CASE WHEN r.isCorrect = 1 THEN 1 ELSE 0 END) AS score,
+                COUNT(*) AS total,
+                r.testRound
+            FROM ranking r
+            JOIN testItem ti 
+                ON r.testItemNo = ti.testItemNo 
+                AND ti.testNo = #{testNo}
+            WHERE r.userNo = #{userNo}
+                AND r.testRound = (
+                    SELECT MAX(r2.testRound)
+                    FROM ranking r2
+                    JOIN testItem ti2 ON r2.testItemNo = ti2.testItemNo
+                    WHERE ti2.testNo = #{testNo}
+                        AND r2.userNo = #{userNo}
+                )
+            GROUP BY r.testRound
+            """)
+    RankingDto getLatestScore(@Param("userNo") int userNo,
+                              @Param("testNo") int testNo);
+
     // 5) 점수 집계 (해당 시험/회차)
     // - score = 정답 개수
     // - total = 전체 문항 수
@@ -132,7 +157,17 @@ public interface TestMapper { // mapper start
             "  AND r.testRound = #{testRound};")
     RankingDto getScore(int userNo, int testNo, int testRound);
 
-
+    // 6) 다음 회차 번호 계산 : TestResult.jsx용
+    @Select("""
+            select coalesce(max(r.testRound) , 0) + 1
+            from ranking r
+            join testItem ti on r.testItemNo = ti.testItemNo
+            where ti.testNo = #{testNo}
+                and r.userNo = #{userNo}
+            """)
+    int getNextRound(@Param("userNo") int userNo,
+                     @Param("testNo") int testNo);
+    
     // ===== 동진 추가: 언어별 오답 조회 =====
     @Select("""
                 SELECT 
