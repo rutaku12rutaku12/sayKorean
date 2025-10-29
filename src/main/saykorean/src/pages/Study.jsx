@@ -1,32 +1,38 @@
 import "../styles/Study.css";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 axios.defaults.withCredentials = true;
 
+// 배열 유틸
 function asArray(payload) {
-  if (typeof payload === "string") {
-    try { payload = JSON.parse(payload); } catch {}
-  }
+  if (!payload) return [];
   if (Array.isArray(payload)) return payload;
-  if (payload && typeof payload === "object") {
-    for (const k of ["data", "list", "items", "content", "result"]) {
-      if (Array.isArray(payload[k])) return payload[k];
+  if (typeof payload === "string") {
+    try {
+      const parsed = JSON.parse(payload);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {}
+  }
+  if (typeof payload === "object") {
+    for (const key of ["data", "list", "items", "content", "result"]) {
+      if (Array.isArray(payload[key])) return payload[key];
     }
   }
   return [];
 }
 
+// 주제 목록 UI
 function PickerSection({ title, items, activeId }) {
   return (
     <section className="panel">
       <h3 className="panelTitle">{title}</h3>
       <div className="list">
-        {(Array.isArray(items) ? items : []).map((it, idx) => (
+        {(items || []).map((it, idx) => (
           <Link
-            key={`${title}-${it?.id ?? "noid"}-${idx}`}
+            key={`${title}-${it.id}-${idx}`}
             to={`/study/${it.id}`}
             className={`pillBtn ${Number(activeId) === Number(it.id) ? "active" : ""}`}
           >
@@ -43,6 +49,7 @@ export default function Study() {
   const navigate = useNavigate();
   const { studyNo } = useParams();
 
+  // 상태
   const [subjects, setSubjects] = useState([]);
   const [subject, setSubject] = useState(null);
   const [exam, setExam] = useState(null);
@@ -51,35 +58,18 @@ export default function Study() {
   const [langNo, setLangNo] = useState(0);
   const audioRef = useRef(null);
 
+  // 오디오
   const playAudio = (path) => {
     if (!path) return;
-    try {
-      if (audioRef.current) {
-        if (audioRef.current.src.endsWith(path)) {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-        } else {
-          audioRef.current.pause();
-        }
-      }
-      const audio = new Audio(path);
-      audioRef.current = audio;
-      audio.play();
-    } catch (e) {
-      console.error(e);
-    }
+    if (audioRef.current) audioRef.current.pause();
+    const audio = new Audio(path);
+    audioRef.current = audio;
+    audio.play().catch(() => {});
   };
 
-  useEffect(() => {
-    return () => {
-      if (audioRef.current) audioRef.current.pause();
-    };
-  }, []);
-
   function getLang() {
-    const stored = localStorage.getItem("selectedLangNo");
-    const n = Number(stored);
-    setLangNo(Number.isFinite(n) && n > 0 ? n : 1);
+    const stored = Number(localStorage.getItem("selectedLangNo"));
+    setLangNo(Number.isFinite(stored) && stored > 0 ? stored : 1);
   }
 
   function getGenreNo() {
@@ -87,21 +77,25 @@ export default function Study() {
     return Number.isFinite(n) && n > 0 ? n : null;
   }
 
+  // API 호출
   async function getSubject(genreNo) {
-    const res = await axios.get("/saykorean/study/getSubject", { params: { genreNo, langNo } });
-    console.log( res.data );
+    const res = await axios.get("/saykorean/study/getSubject", {
+      params: { genreNo, langNo: langNo ?? 1 }
+    });
     return asArray(res.data);
-    
   }
 
-  async function getDailyStudy(studyNoValue) {
-    const res = await axios.get("/saykorean/study/getDailyStudy", { params: { studyNo: studyNoValue, langNo }});
-    console.log( res.data );
+  async function getDailyStudy(studyNo) {
+    const res = await axios.get("/saykorean/study/getDailyStudy", {
+      params: { studyNo, langNo: langNo ?? 1 }
+    });
     return res.data;
   }
 
-  async function getFirstExam(studyNoValue) {
-    const res = await axios.get("/saykorean/study/exam/first", { params: { studyNo: studyNoValue, langNo }});
+  async function getFirstExam(studyNo) {
+    const res = await axios.get("/saykorean/study/exam/first", {
+      params: { studyNo, langNo: langNo ?? 1 }
+    });
     return res.data;
   }
 
@@ -110,7 +104,7 @@ export default function Study() {
     const res = await axios.get("/saykorean/study/exam/next", {
       params: { studyNo, currentExamNo: exam.examNo, langNo }
     });
-    if (res.data) setExam(res.data);
+    res.data && setExam(res.data);
   }
 
   async function getPrevExam() {
@@ -118,71 +112,72 @@ export default function Study() {
     const res = await axios.get("/saykorean/study/exam/prev", {
       params: { studyNo, currentExamNo: exam.examNo, langNo }
     });
-    if (res.data) setExam(res.data);
+    res.data && setExam(res.data);
   }
 
+  // 제목 클릭 시 완료 처리
+  const successBtn = () => {
+    const id = Number(studyNo);
+    if (id > 0) {
+      const prev = JSON.parse(localStorage.getItem("studies") || "[]");
+      const save = Array.from(new Set([...prev, id]));
+      localStorage.setItem("studies", JSON.stringify(save));
+    }
+    navigate("/successexamlist");
+  };
+
+  // 언어 로드
   useEffect(() => {
     getLang();
   }, []);
 
+  // 언어 확정되면 주제 목록 로드
   useEffect(() => {
+    if (langNo === null) return;
+
     (async () => {
       const genreNo = getGenreNo();
-      if (!Number.isFinite(genreNo)) return;
-
+      if (!genreNo) return;
       const list = await getSubject(genreNo);
-      const normalized = (Array.isArray(list) ? list : []).map(s => ({
-        id: Number(s.studyNo),
-        label: s.themeSelected || s.themeEn,
-        subLabel: s.themeEn ? `(${s.themeEn})` : ""
-      }));
-      setSubjects(normalized); // langNo 바뀌면 새로 set됨
 
+      setSubjects(
+        list.map((s) => ({
+          id: Number(s.studyNo),
+          label: s.themeSelected ?? s.themeKo,
+          subLabel: s.themeEn ? `(${s.themeEn})` : ""
+        }))
+      );
     })();
   }, [langNo]);
 
+  // 상세 + 예문 로드
   useEffect(() => {
-    if (!studyNo) return;
+    if (!studyNo || langNo === null) return;
 
     (async () => {
       setLoading(true);
-      const s = await getDailyStudy(Number(studyNo));
-      setSubject(s);
-      const first = await getFirstExam(Number(studyNo));
-      setExam(first);
+      setSubject(await getDailyStudy(Number(studyNo)));
+      setExam(await getFirstExam(Number(studyNo)));
       setLoading(false);
     })();
   }, [studyNo, langNo]);
 
-  const successBtn = () => {
-    const id = Number(studyNo);
-    if (!Number.isFinite(id) || id <= 0) return;
-
-    const raw = localStorage.getItem("studies");
-    const base = raw ? JSON.parse(raw) : [];
-    const next = Array.from(new Set([...base, id]));
-    localStorage.setItem("studies", JSON.stringify(next));
-
-    navigate("/successexamlist");
-    
-  };
-
-  
-
   return (
     <div id="Study" className="homePage">
       {loading && <div className="toast loading">불러오는 중…</div>}
-      {error && <div className="toast error">{error}</div>}
 
-      {!studyNo && <PickerSection title="주제 선택" items={subjects} activeId={null} />}
+      {!studyNo && (
+        <PickerSection title="주제 선택" items={subjects} activeId={null} />
+      )}
 
       {studyNo && subject && (
         <section className="panel detail">
           <div className="mainTheme">
-            <h3 className="mainTitle">{ subject.themeSelected || "제목 없음"}</h3>
+            <h3 className="mainTitle">
+              {subject.themeSelected || subject.themeKo || "제목 없음"}
+            </h3>
           </div>
 
-        
           {subject.commenSelected && (
             <p className="mainComment">{subject.commenSelected}</p>
           )}
@@ -191,7 +186,7 @@ export default function Study() {
             <div className="exam-area">
               {exam.imagePath && (
                 <div className="exam-img-box">
-                  <img className="exam-img" src={exam.imagePath} />
+                  <img className="exam-img" src={exam.imagePath} alt="" />
                 </div>
               )}
 

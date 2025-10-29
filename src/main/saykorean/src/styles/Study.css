@@ -1,55 +1,44 @@
 /* =========================
-   Study.css (Fixed & Clean)
+   Study.css (Unified Style)
    ========================= */
 
-/* 색/그림자 공통 */
+/* 색 공통 */
 :root {
   --accent: #6B4E42;
-  --panel-bg: rgba(255, 249, 240, 0.3);
-  --border: #e5e7eb;
   --text: #1f2937;
-  --muted: #6b7280;
-  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
-  --footer-height: 73px; /* 푸터 높이 */
+  --border: #e5e7eb;
+  --panel-bg: rgba(255, 249, 240, 0.3);
+  --footer-height: 73px;
 }
 
-/* 전체 영역을 푸터까지 꽉 채움 */
+/* 페이지 전체 */
 #Study {
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Apple SD Gothic Neo, Arial, "Apple Color Emoji";
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
+  min-height: 100svh;
+  padding-top: 12px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
-  box-sizing: border-box;
-  padding-top: 12px;
 }
 
-/* 공통 패널: 푸터와 공간 없이 딱 붙게 */
+/* 패널 (푸터 밀림 대응) */
 #Study .panel {
-  background-color: var(--panel-bg);
+  background: var(--panel-bg);
   border-radius: 16px;
-  /* box-shadow: var(--shadow); */
-
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-
-  /* 패널이 아래로 붙도록 margin-bottom 제거 */
   margin: 18px 0 0;
-
-  /* 푸터에 가리지 않도록 내부에만 여유 */
   padding: 20px 16px calc(24px + var(--footer-height));
-
+  flex: 1;
   overflow: auto;
 }
 
-/* 제목 */
+/* 패널 제목 */
 #Study .panelTitle {
-  margin-top: 8px;
-  margin-bottom: 18px;
   text-align: center;
   font-size: 28px;
   font-weight: 700;
   color: var(--accent);
+  margin-top: 8px;
+  margin-bottom: 22px;
 }
 
 /* ===== 주제 목록 ===== */
@@ -58,11 +47,9 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 360px));
   gap: 16px;
   justify-content: center;
-  align-items: start;
-  flex: 1;
 }
 
-/* 목록 버튼 */
+/* 목록 버튼(공통 pill 스타일) */
 #Study .pillBtn {
   width: 360px;
   height: 60px;
@@ -70,123 +57,128 @@
   border: 1px solid var(--border);
   background: linear-gradient(180deg, #fff, #fafafa);
   color: var(--text);
-  font-weight: bold;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 6px;
   cursor: pointer;
   text-decoration: none;
-  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+  transition: 120ms ease;
 }
-#Study .pillBtn .label { font-size: 18px; }
 
 #Study .pillBtn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  box-shadow: 0 10px 22px rgba(107,78,66,.08);
   border-color: #d1d5db;
 }
-#Study .pillBtn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
-}
 #Study .pillBtn.active {
-  border-color: var(--accent);
   background: linear-gradient(180deg, #fff, #fff7f3);
-  box-shadow: 0 12px 26px rgba(107, 78, 66, 0.18);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 12px 26px rgba(107,78,66,.18);
 }
 
-/* 모바일 */
 @media (max-width: 430px) {
   #Study .list { grid-template-columns: 1fr; }
   #Study .pillBtn { width: 100%; }
 }
 
-/* ===== 상세 예문 ===== */
+/* ===== 상세 패널 ===== */
 #Study .panel.detail {
   padding: 22px 20px calc(26px + var(--footer-height));
 }
 
 #Study .mainTheme {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  justify-content: center;
   margin-bottom: 18px;
 }
 
-#Study .panel.detail h3 {
-  font-size: 35px;
+#Study .mainTitle {
+  font-size: 32px;
   font-weight: 800;
   color: var(--accent);
   text-align: center;
 }
 
-#Study .commenKo {
+/* 해설문 */
+.mainComment {
   background: #fff;
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
   border-radius: 12px;
+  border: 1px solid var(--border);
   padding: 16px 18px;
-  line-height: 1.6;
+  line-height: 1.55;
+  font-size: 16px;
   color: var(--text);
-  margin: 6px 0 18px;
+  margin-bottom: 20px;
 }
 
-#Study .goExampleBtn {
-  display: block;
-  margin: 0 auto;
-  min-width: 180px;
-  height: 46px;
-  padding: 0 20px;
-  border-radius: 9999px;
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* ===== 예문 UI ===== */
+/* 예문 영역 */
 .exam-area {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  margin-top: 20px;
 }
 
 .exam-img-box {
-  width: 400px;
-  height: 200px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  width: 360px;
+  height: 200px;
 }
-
 .exam-img {
-  max-width: 120%;
-  max-height: 120%;
+  width: 100%;
   object-fit: contain;
 }
 
 .exam-text-box {
-  width: min(720px, 92%);
+  width: min(680px, 92%);
   text-align: center;
 }
+.exam-ko {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
 
-.exam-ko { font-size: 30px; font-weight: bold; color: #6B4E42; }
-.exam-en { font-size: 25px; color: #6B4E42; }
-.exam-selected { font-size: 25px; color: #FF8C6B; font-weight: 600; }
+/* 오디오 버튼 */
+.audio-btn {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: none;
+  background-color: #A8E6CF;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  width: 125px;
+}
 
+/* 예문 순서 버튼 */
 .exam-btns {
   display: flex;
-  justify-content: center;
   gap: 10px;
 }
 .btn-prev, .btn-next {
-  padding: 8px 18px;
+  padding: 10px 18px;
   border-radius: 10px;
-  background-color: #2f7a69;
+  background-color: #eeeeee;
+  color: var(--accent);
+  border: none;
+}
+
+/* 완료 버튼 */
+.goExampleBtn {
+  margin: 22px auto 0;
+  display: block;
+  min-width: 180px;
+  height: 46px;
+  border-radius: 100px;
+  background: var(--accent);
   color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
 }

@@ -63,7 +63,7 @@ export default function LoadingPage(props) {
         <div
           style={{
             width: "410px",
-            height: "80vh",
+            height: "75vh",
             backgroundImage: `url(${randomSlide.img})`,
             backgroundSize: "cover",
             backgroundPosition: "center",

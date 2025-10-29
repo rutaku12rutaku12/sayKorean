@@ -64,12 +64,12 @@ export default function SuccessExamList( props ){
     return res.data;
   }
 
-  // ✅ 마운트 시 언어 동기화(옵션) — 이미 lazy init 했으므로 필수는 아님
+  // 마운트 시 언어 동기화(옵션) — 이미 lazy init 했으므로 필수는 아님
   useEffect(() => {
     getLang(); // 필요 없으면 지워도 OK
   }, []);
 
-  // ✅ 하이드레이트: 언어가 확정되면 로컬 ID들로 상세를 병렬 조회해 치환
+  // 하이드레이트: 언어가 확정되면 로컬 ID들로 상세를 병렬 조회해 치환
   useEffect(() => {
     (async () => {
       try {
