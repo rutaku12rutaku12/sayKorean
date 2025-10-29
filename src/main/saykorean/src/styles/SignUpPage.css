@@ -1,82 +1,175 @@
-#signUpWrapper {
-  width: 100%;
-  max-width: 380px;
-  margin: 0 auto;
-  padding: 16px;
+/* =========================
+   SignUpPage.css (Genre 스타일 기반)
+   ========================= */
+
+/* 로컬 변수 */
+.homePage {
+  --accent: #6B4E42;
+  --panel-bg: rgba(255, 249, 240, 0.3);
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+  --footer-height: 73px;
+}
+
+/* 페이지 래퍼 */
+.homePage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
   box-sizing: border-box;
-  color: rgb(107, 78, 66);
+  padding-top: 12px;
+  text-align: center;
+  align-items: center;
+}
+
+/* SignUp 패널 (Genre와 동일) */
+#signUpWrapper {
+  width: 410px;
+  background-color: var(--panel-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 20px 16px calc(24px + var(--footer-height));
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 제목 */
+#signUpWrapper h3 {
+  margin-top: 8px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* 정보 입력 영역 */
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+/* 인풋 + 버튼 한 줄 배치 */
+.info.row {
+  display: grid;
+  grid-template-columns: 1fr minmax(100px, 120px);
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 /* 인풋 공통 */
-.signUp-info {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.signUp-info input {
+.info input,
+.input {
   width: 100%;
   height: 48px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   padding: 12px 16px;
   font-size: 16px;
   box-sizing: border-box;
   outline: none;
   background: #fff;
-  transition: 0.2s;
+  color: var(--text);
+  transition: border-color 0.2s ease;
 }
+
+.info input:focus,
 .input:focus {
-  border-color: #d6ccc2;
-  box-shadow: 0 0 0 4px rgba(214, 204, 194, 0.25);
+  border-color: var(--accent);
+}
+
+.info input::placeholder,
+.input::placeholder {
+  color: #9ca3af;
 }
 
 /* 상태별 컬러 */
 .input.error {
-  border-color: #FFAAA5;
-  background: #fff5f5;
+  border-color: #FFAAA5 !important;
+  background: #fff5f5 !important;
 }
+
 .input.success {
-  border-color: #A8E6CF;
-  background: #f0fdf4;
+  border-color: #A8E6CF !important;
+  background: #f0fdf4 !important;
 }
 
-/* 버튼 */
-.pillBtn, .sideBtn {
-  height: 50px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  background: linear-gradient(180deg,#fff,#fafafa);
+/* 버튼 공통 (Genre 스타일) */
+.pillBtn,
+.sideBtn {
+  height: 52px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #fff, #fafafa);
+  color: var(--text);
+  font-size: 16px;
   font-weight: 700;
-  color: #6B4E42;
   cursor: pointer;
-  transition: 0.2s;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
-.pillBtn:hover, .sideBtn:hover {
+
+.pillBtn:hover,
+.sideBtn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(107,78,66,0.1);
-}
-.sideBtn.errorBtn { background: #FFAAA5; color: #fff; }
-.sideBtn.successBtn { background: #A8E6CF; color: #fff; }
-
-
-.signUp-info{
-  display: grid;
-  grid-template-columns: 1fr minmax(100px,120px);
-  gap: 8px;
-  margin-bottom: 10px;
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  border-color: #d1d5db;
 }
 
-
-/* 인풋 + 버튼 한 줄 */
-.signUp-info row {
-  display: grid;
-  grid-template-columns: 1fr minmax(100px,120px);
-  gap: 8px;
-  margin-bottom: 10px;
+.pillBtn:active,
+.sideBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
 }
 
-/* PhoneInput 커스텀 */
+/* 사이드 버튼 */
+.sideBtn {
+  height: 48px;
+  border-radius: 14px;
+  font-size: 15px;
+}
+
+/* 상태별 버튼 컬러 */
+.sideBtn.errorBtn {
+  background: #FFAAA5 !important;
+  color: #fff !important;
+  border-color: #FFAAA5 !important;
+}
+
+.sideBtn.errorBtn:hover {
+  background: #ff9490 !important;
+}
+
+.sideBtn.successBtn {
+  background: #A8E6CF !important;
+  color: #fff !important;
+  border-color: #A8E6CF !important;
+}
+
+.sideBtn.successBtn:hover {
+  background: #96ddc0 !important;
+}
+
+/* 메인 액션 버튼 */
+.homePage__actions {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.homePage__actions .pillBtn {
+  width: 100%;
+}
+
+/* =========================
+   PhoneInput 커스텀
+   ========================= */
+
+/* PhoneInput 전체 래퍼 */
 .react-tel-input {
   width: 100% !important;
   display: flex !important;
@@ -85,25 +178,24 @@
   overflow: visible !important;
   z-index: 10 !important;
 }
+
+/* 국가코드 드롭다운 영역 */
 .react-tel-input .flag-dropdown {
   height: 48px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border: 1px solid #e5e7eb !important;
-  border-right: none !important;
-  border-radius: 12px 0 0 12px !important;
+  border: 1px solid var(--border) !important;
+  border-right: 1px solid #e5e7eb !important;
+  border-radius: 14px !important;
   background: #fff !important;
   overflow: visible !important;
+  transition: border-color 0.2s ease !important;
+  margin-right: 0 !important;
 }
-.react-tel-input .form-control {
-  width: 100% !important;
-  height: 48px !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 0 12px 12px 0 !important;
-  padding-left: 50px !important;
-  font-size: 16px !important;
-  background: #fff !important;
+
+.react-tel-input .flag-dropdown:hover {
+  border-color: #d1d5db !important;
 }
 
 /* 드롭다운 리스트 */
@@ -111,20 +203,95 @@
   position: absolute !important;
   top: 100% !important;
   left: 0 !important;
-  width: 100% !important; /* wrapper에 맞춤 */
-  max-width: 380px !important;
+  margin-top: 4px !important;
+  width: 320px !important;
   max-height: 260px !important;
   overflow-y: auto !important;
   background: #fff !important;
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid var(--border) !important;
   border-radius: 12px !important;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
   z-index: 9999 !important;
 }
-/* ReCAPTCHA 가운데 정렬 */
-.signUp-info.recaptchaWrapper {
+
+/* 드롭다운 항목 호버 */
+.react-tel-input .country-list .country:hover {
+  background: rgba(107, 78, 66, 0.05) !important;
+}
+
+.react-tel-input .country-list .country.highlight {
+  background: rgba(107, 78, 66, 0.1) !important;
+}
+
+/* 전화번호 인풋 */
+.react-tel-input .form-control {
+  width: 100% !important;
+  height: 48px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+  padding-left: 56px !important;
+  padding-right: 16px !important;
+  font-size: 16px !important;
+  background: #fff !important;
+  color: var(--text) !important;
+  transition: border-color 0.2s ease !important;
+  margin-left: -1px !important;
+}
+
+.react-tel-input .form-control:focus {
+  border-color: var(--accent) !important;
+  outline: none !important;
+  z-index: 5 !important;
+}
+
+/* 검색 박스 스타일 */
+.react-tel-input .search-box {
+  width: calc(100% - 20px) !important;
+  margin: 8px 10px !important;
+  padding: 8px 12px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+}
+
+/* =========================
+   ReCAPTCHA 영역
+   ========================= */
+
+.info.recaptchaWrapper {
   display: flex;
-  justify-content: center; /* 가로 가운데 */
-  align-items: center;     /* 세로 가운데 */
-  margin-bottom: 20px;     /* 필요 시 여백 */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 8px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 430px) {
+  #signUpWrapper {
+    width: calc(100% - 24px);
+    max-width: 410px;
+  }
+
+  #signUpWrapper h3 {
+    font-size: 24px;
+  }
+
+  .pillBtn {
+    height: 48px;
+    font-size: 15px;
+  }
+
+  .sideBtn {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .react-tel-input .country-list {
+    width: 280px !important;
+  }
+
+  .info.row {
+    grid-template-columns: 1fr minmax(90px, 110px);
+  }
 }

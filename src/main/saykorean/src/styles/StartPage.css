@@ -1,19 +1,24 @@
-/* 전체 프레임: flex로 중앙 아래 배치 */
+/* =========================
+   StartPage.css (푸터 높이 반영)
+   ========================= */
+
+/* 전체 프레임: 푸터 없으므로 전체 화면 높이 사용 */
 #start-frame {
   position: relative;
   width: 100%;
   max-width: 410px;
-  height: 100svh;
+  min-height: 100vh;  /* 전체 화면 높이 (푸터 없음) */
+  height: 100vh;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;  /* 상단부터 배치 후 offset으로 이동 */
+  justify-content: center;
   align-items: center;
-  padding-top: 12%;             /* 화면 중앙보다 약간 아래 */
-  padding-bottom: 40px;
+  padding: 40px 16px 80px;  /* 하단 여백 더 추가 */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   color: #6B4E42;
+  box-sizing: border-box;
 }
 
 /* 배경: 항상 부모 전체 덮기 */
@@ -23,17 +28,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/img/repeatBg.png");
-  background-size: auto;          /* cover -> auto로 변경 */
-  background-repeat: repeat-x;    /* x축 반복 */
-  animation: moveBg  linear infinite; 
+  background-image: url("/img/다운로드 (1) 1.png");
+  background-size: auto;
+  background-repeat: repeat-x;
   z-index: -1;
   pointer-events: none;
 }
-@keyframes moveBg {
-  0% { background-position: 0 0; }
-  100% { background-position: -810px 0; }
-}
+
 
 /* 로고 */
 .logoImg {
@@ -47,7 +48,7 @@
   width: 100%;
   display: grid;
   justify-items: center;
-  gap: 16px; /* 버튼과 이미지 간격 */
+  gap: 16px;
 }
 
 /* 메인 이미지 애니메이션 */
@@ -69,7 +70,7 @@
   margin-top: 12px;
 }
 
-/* 버튼 스타일 */
+/* 버튼 스타일 (Genre 스타일 통일) */
 .startPage__actions button {
   color: #6B4E42;
   width: 160px;
@@ -87,7 +88,7 @@
   box-shadow: 0 10px 22px rgba(107, 78, 66, 0.08);
 }
 
-.startePage__actions button:active {
+.startPage__actions button:active {
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(107, 78, 66, 0.06);
 }
@@ -98,20 +99,25 @@
   50% { transform: rotate(4deg); }
 }
 
-
-
 /* 모바일 대응 */
 @media (max-width: 430px) {
+  #start-frame {
+    min-height: 100vh;
+    height: 100vh;  /* 모바일도 전체 화면 높이 */
+    padding: 32px 16px 60px;
+  }
+
   .logoImg {
     width: 240px;
     margin-top: 0;
   }
+
   .mainImg {
     width: 84%;
     max-width: 320px;
   }
+
   .startPage__actions button {
     width: min(180px, 44%);
   }
 }
-

@@ -1,121 +1,214 @@
-#findWrapper {
-  width: 100%;
-  max-width: 380px;
-  margin: 0 auto;
-  padding: 16px;
-  color: rgb(107, 78, 66);
+/* =========================
+   FindPage.css (Genre 스타일 기반)
+   ========================= */
+
+/* 로컬 변수 */
+.findPage {
+  --accent: #6B4E42;
+  --panel-bg: rgba(255, 249, 240, 0.3);
+  --border: #e5e7eb;
+  --text: #1f2937;
+  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+  --footer-height: 73px;
 }
 
+/* 페이지 래퍼 */
+.findPage {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  box-sizing: border-box;
+  padding-top: 12px;
+  text-align: center;
+  align-items: center;
+}
+
+/* FindPage 패널 (Genre와 동일) */
+#findWrapper {
+  width: 410px;
+  background-color: var(--panel-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 20px 16px calc(24px + var(--footer-height));
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 제목 */
+#findWrapper h3 {
+  margin-top: 8px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* 정보 입력 영역 */
 .info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 30px;
+  gap: 12px;
+  margin-bottom: 32px;
+  width: 100%;
 }
 
 /* 인풋 공통 */
 .input {
   width: 100%;
   height: 48px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   padding: 12px 16px;
   font-size: 16px;
   box-sizing: border-box;
   outline: none;
   background: #fff;
-  transition: 0.2s;
-}
-.input:focus {
-  border-color: #d6ccc2;
-  box-shadow: 0 0 0 4px rgba(214, 204, 194, 0.25);
+  color: var(--text);
+  transition: border-color 0.2s ease;
 }
 
-/* 버튼 */
+.input:focus {
+  border-color: var(--accent);
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+/* 버튼 (Genre 스타일) */
 .pillBtn {
   width: 100%;
-  height: 50px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  height: 52px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
   background: linear-gradient(180deg, #fff, #fafafa);
-  color: rgb(107, 78, 66);
+  color: var(--text);
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
 }
+
 .pillBtn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(107, 78, 66, 0.1);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
+  border-color: #d1d5db;
 }
 
-/* PhoneInput 커스텀 */
-.react-tel-input {
-  width: 100% !important;
-  position: relative !important;
-  overflow: visible !important;
+.pillBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
 }
 
-.react-tel-input .flag-dropdown {
-  border: 1px solid #e5e7eb !important;
-  border-right: none !important;
-  border-radius: 12px 0 0 12px !important;
-  background: #fff !important;
-}
-
-.react-tel-input .form-control {
-  width: 100% !important;
-  height: 48px !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 0 12px 12px 0 !important;
-  padding-left: 50px !important;
-  font-size: 16px !important;
-  background: #fff !important;
-}
+/* =========================
+   PhoneInput 커스텀
+   ========================= */
 
 /* PhoneInput 전체 래퍼 */
 .react-tel-input {
   width: 100% !important;
   display: flex !important;
   align-items: center !important;
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 10 !important;
 }
 
 /* 국가코드 드롭다운 영역 */
 .react-tel-input .flag-dropdown {
   height: 48px !important;
-
+  display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border: 1px solid #e5e7eb !important;
-  border-right: none !important;
-  border-radius: 12px 0 0 12px !important;
+  border: 1px solid var(--border) !important;
+  border-right: 1px solid #e5e7eb !important;
+  border-radius: 14px !important;
   background: #fff !important;
   overflow: visible !important;
+  transition: border-color 0.2s ease !important;
+  margin-right: 0 !important;
 }
-.react-tel-input {
-  overflow: visible !important; /* 이게 진짜 핵심 */
-  position: relative !important;
-  z-index: 10 !important;
+
+.react-tel-input .flag-dropdown:hover {
+  border-color: #d1d5db !important;
 }
 
 /* 드롭다운 리스트 */
 .react-tel-input .country-list {
   position: absolute !important;
-  top: 20% !important;
+  top: 100% !important;
   left: 0 !important;
-  width: 320px !important; /* 원하는 크기 지정 */
+  margin-top: 4px !important;
+  width: 320px !important;
   max-height: 260px !important;
   overflow-y: auto !important;
   background: #fff !important;
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid var(--border) !important;
   border-radius: 12px !important;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
   z-index: 9999 !important;
+}
+
+/* 드롭다운 항목 호버 */
+.react-tel-input .country-list .country:hover {
+  background: rgba(107, 78, 66, 0.05) !important;
+}
+
+.react-tel-input .country-list .country.highlight {
+  background: rgba(107, 78, 66, 0.1) !important;
 }
 
 /* 전화번호 인풋 */
 .react-tel-input .form-control {
   width: 100% !important;
   height: 48px !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 0 12px 12px 0 !
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+  padding-left: 56px !important;
+  padding-right: 16px !important;
+  font-size: 16px !important;
+  background: #fff !important;
+  color: var(--text) !important;
+  transition: border-color 0.2s ease !important;
+  margin-left: -1px !important;
+}
+
+.react-tel-input .form-control:focus {
+  border-color: var(--accent) !important;
+  outline: none !important;
+  z-index: 5 !important;
+}
+
+/* 검색 박스 스타일 */
+.react-tel-input .search-box {
+  width: calc(100% - 20px) !important;
+  margin: 8px 10px !important;
+  padding: 8px 12px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+}
+
+/* 모바일 대응 */
+@media (max-width: 430px) {
+  #findWrapper {
+    width: calc(100% - 24px);
+    max-width: 410px;
+  }
+
+  #findWrapper h3 {
+    font-size: 24px;
+  }
+
+  .pillBtn {
+    height: 48px;
+    font-size: 15px;
+  }
+
+  .react-tel-input .country-list {
+    width: 280px !important;
+  }
 }

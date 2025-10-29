@@ -23,7 +23,7 @@ public class UserDto {
     @Pattern(regexp = "^\\+?[1-9]\\d{7,14}$", message = "올바른 휴대폰 번호를 입력해주세요.")
     @NotBlank
     private String phone; // 연락처: 고유(옵션 필수X)
-    private int signupMethod; // 가입방식 코드 기본 1
+    private int signupMethod = 1; // 가입방식 코드 기본 1
     private int userState; // 사용자상태 코드 기본 1 , 탈퇴예정시 -1
     private String userDate; // 가입일시 기본 now()
     private String userUpdate; // 수정일시 자동 갱신

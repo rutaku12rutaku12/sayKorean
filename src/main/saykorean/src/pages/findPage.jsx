@@ -34,6 +34,9 @@ export default function FindPage() {
 
   // 이메일 찾기
   const findEmail = async () => {
+    if(!name&&phone){
+      return alert("값을 입력해주세요.")
+    }
     try {
       const option = { withCredentials: true, params: { name, phone } };
       const response = await axios.get("http://localhost:8080/saykorean/findemail", option);
@@ -47,6 +50,9 @@ export default function FindPage() {
 
   // 비밀번호 찾기
   const findPwrd = async () => {
+    if(!name2&&phone2&&email){
+      return alert("값을 입력해주세요.")
+    }
     try {
       const option = { withCredentials: true, params: { name: name2, phone: phone2, email } };
       const response = await axios.get("http://localhost:8080/saykorean/findpwrd", option);
@@ -59,7 +65,7 @@ export default function FindPage() {
   };
 
   return (
-    <div id="findWrapper" className="homePage">
+    <div id="findWrapper" className="findPage">
       <h3>{t("account.findEmailTitle")}</h3>
 
       <div className="info">
