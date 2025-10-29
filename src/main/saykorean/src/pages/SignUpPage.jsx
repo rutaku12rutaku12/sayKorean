@@ -139,6 +139,18 @@ export default function SignUpPage(props) {
 
 
     return (<> <div id="signUpWrapper" className="homePage">
+            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+              <div style={{paddingRight:20}} >
+                <a href="http://localhost:8080/oauth2/authorization/google">
+                  <img src="/img\loginLogo_img\web_light_sq_ctn@1x.png" />
+                </a>
+              </div>
+              <div>
+                <a href="http://localhost:8080/oauth2/authorization/kakao">
+                  <img src="/img\loginLogo_img\kakao_eng_login_medium_narrow.png" style={{ height: 40 }} />
+                </a>
+              </div>
+            </div>
         <h3>{t("signup.signup")}</h3>
 
         <div className="info">

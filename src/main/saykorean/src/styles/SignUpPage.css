@@ -23,14 +23,13 @@
   align-items: center;
 }
 
-/* SignUp 패널 (Genre와 동일) */
+/* SignUp 패널 */
 #signUpWrapper {
   width: 410px;
   background-color: var(--panel-bg);
   border-radius: 16px;
   box-shadow: var(--shadow);
   padding: 20px 16px calc(24px + var(--footer-height));
-  flex: 1;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -100,7 +99,7 @@
   background: #f0fdf4 !important;
 }
 
-/* 버튼 공통 (Genre 스타일) */
+/* 버튼 공통 */
 .pillBtn,
 .sideBtn {
   height: 52px;

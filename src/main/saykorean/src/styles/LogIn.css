@@ -112,7 +112,7 @@
 .login > div:last-child {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 5px;
   margin-top: 16px;
 }
 
@@ -128,7 +128,7 @@
 }
 
 .login > div:last-child img:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
   opacity: 0.9;
 }
 

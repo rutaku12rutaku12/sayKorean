@@ -41,15 +41,15 @@ export default function HomePage ( props ){
 
 
   return (
-    <div className="homePage">
-      <div className="homePage__bg" aria-hidden="true" />
+    <div className="homePage1">
+      <div className="homePage1__bg" aria-hidden="true" />
 
       <img className="logoImg" src="/img/logo.png" />
 
-      <div className="homePage__content">
+      <div className="homePage1__content">
         <img className="mainImg" src="/img/mainimage.svg" alt="메인" />
 
-        <div className="homePage__actions2">
+        <div className="homePage1__actions2">
           {isAuthenticated ? (
             <button onClick={onLogout}>{t("home.logout")}</button>
           ) : (

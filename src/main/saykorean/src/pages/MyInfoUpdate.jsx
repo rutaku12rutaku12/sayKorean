@@ -159,6 +159,7 @@ export default function MyInfoUpdatePage(props) {
 
     return (<>
         <div id="updateWrapper" className="homePage">
+            
             <h3> {t("myInfoUpdate.updateUserInfo")}</h3>
 
             <div className="info">

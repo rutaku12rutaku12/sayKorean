@@ -1,54 +1,123 @@
-#homePage{
+/* =========================
+   HomePage.css (푸터 높이 반영)
+   ========================= */
+
+/* 전체 프레임: 푸터 높이 80px 제외 */
+.homePage1 {
+  position: relative;
+  width: 100%;
+  max-width: 410px;
+  min-height: calc(100vh - 80px);  /* 푸터 높이만큼 제외 */
+  height: calc(100vh - 80px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px 80px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   color: #6B4E42;
-  box-shadow: 0 6px 5px rgba(0, 0, 0, 0.23);
-  overflow-y: scroll;
+  box-sizing: border-box;
 }
 
-.homePage__bg {
+/* 배경: 항상 부모 전체 덮기 */
+.homePage1__bg {
   position: absolute;
-  inset: 0;                            
-  background: url("/img/다운로드 (2) 1.png") no-repeat center;
-  background-size: 100% 100%;   
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/img/다운로드 (1) 1.png");
+  background-size: auto;
+  background-repeat: repeat-x;
   z-index: -1;
   pointer-events: none;
 }
 
-.homePage .logoImg{
-  margin-top: 55px;
+/* 로고 */
+.homePage1 .logoImg {
   width: 300px;
+  height: auto;
+  margin-bottom: 20px;
 }
 
-
-.homePage__content {
-  margin-top: 25px;
+/* 본문 래퍼 */
+.homePage1__content {
   width: 100%;
   display: grid;
   justify-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
+/* 메인 이미지 애니메이션 */
 .mainImg {
   width: 70%;
   max-width: 360px;
+  height: auto;
+  transform-origin: bottom center;
+  animation: wave 2.5s ease-in-out infinite;
   display: block;
 }
 
-.homePage__actions2 {
-  border-bottom: none ;
-}
-.homePage__actions2 button {
-  color : #6B4E42;
-  width: 160px;
-  height: 44px;
-  margin: 6px;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  
+/* 버튼 영역 */
+.homePage1__actions2 {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  border-bottom: none;
 }
 
-.homePage__actions2 button:active {
+/* 버튼 스타일 (StartPage와 통일) */
+.homePage1__actions2 button {
+  color: #6B4E42;
+  width: 160px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: linear-gradient(180deg, #fff, #fafafa);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.homePage1__actions2 button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(107, 78, 66, 0.08);
+}
+
+.homePage1__actions2 button:active {
   transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(107, 78, 66, 0.06);
+}
+
+/* 배경 및 이미지 애니메이션 */
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(4deg); }
+}
+
+/* 모바일 대응 */
+@media (max-width: 430px) {
+  .homePage1 {
+    min-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
+    padding: 32px 16px 60px;
+  }
+
+  .homePage1 .logoImg {
+    width: 240px;
+    margin-top: 0;
+  }
+
+  .mainImg {
+    width: 84%;
+    max-width: 320px;
+  }
+
+  .homePage1__actions2 button {
+    width: min(180px, 44%);
+  }
 }

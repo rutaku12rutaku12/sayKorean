@@ -130,24 +130,20 @@
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <br />
             <div className="LogInPage__actions">
               <button onClick={onLogin}>{t("login.button")}</button>
-              <br /><br />
               <button onClick={onFind}>{t("login.find")}</button>
-              <br /><br />
               <button onClick={() => navigate("/signup")}>{t("signup.button")}</button>
             </div>
-            <br />
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              <div style={{paddingRight:40}} >
+              <div style={{paddingRight:20}} >
                 <a href="http://localhost:8080/oauth2/authorization/google">
                   <img src="/img\loginLogo_img\web_light_sq_SI@1x.png" />
                 </a>
               </div>
               <div>
                 <a href="http://localhost:8080/oauth2/authorization/kakao">
-                  <img src="/img\loginLogo_img\kakao_login_medium_narrow.png" style={{ height: 40 }} />
+                  <img src="/img\loginLogo_img\kakao_eng_login_medium_narrow.png" style={{ height: 45 }} />
                 </a>
               </div>
             </div>
