@@ -47,7 +47,6 @@ public class I18nService {
                     Map.entry("account.emailPlaceholder", "이메일을 입력해주세요."),
                     Map.entry("common.confirm", "확인"),
 
-                    Map.entry("common.loading", "로딩 중..."),
 
                     // ================= Ranking =================
                     Map.entry("ranking.title", "한국어 학습 랭킹"),
