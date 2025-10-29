@@ -26,7 +26,7 @@ export default function TestResult() {
         // 🎯 userNo를 세션에서 가져오는 것이 이상적
         // 임시로 1 사용 (실제로는 세션 정보 필요)
         const res = await axios.get("/saykorean/test/getscore", {
-          params: { userNo: 1, testNo, testRound: 1 }
+          params: { userNo: 1, testNo } // testRound 파라미터 제거됨
         });
         
         console.log("📊 점수 데이터:", res.data);

@@ -33,7 +33,7 @@ export default function AdminStudyEdit(props) {
     const [examList, setExamList] = useState([]);
 
     // [*] 로딩 상태
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     // [*] 언어 코드 매핑 (Google TTS 형식)
     const languageCodeMap = {

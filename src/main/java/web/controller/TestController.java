@@ -34,14 +34,33 @@ public class TestController {
         return ResponseEntity.ok(testService.findTestItemWithOptions(testNo, langNo));
     }
 
-    // [3] 점수 조회
+    // [3-1] 최신 회차 점수 조회 (수정)
     @GetMapping("/getscore")
     public ResponseEntity<RankingDto> getScore(
             @RequestParam int userNo,
             @RequestParam int testNo,
-            @RequestParam int testRound
+            @RequestParam(required = false) Integer testRound   // null 값 먹이려고 Integer로 변경
     ) {
+        // 추가 : testRound가 없으면 최신 회차를 조회
+        if (testRound == null){
+            return ResponseEntity.ok(testService.getLatestScore(userNo, testNo));
+        }
+        // testRound가 있으면 특정 회차를 조회
         return ResponseEntity.ok(testService.getScore(userNo, testNo, testRound));
+    }
+
+    // [3-2] 다음 회차 번호 조회 (추가)
+    @GetMapping("/getnextround")
+    public ResponseEntity<Integer> getNextRound(
+            @RequestParam int testNo,
+            HttpSession session
+    ) {
+        Integer userNo = (Integer) session.getAttribute("userNo");
+        if (userNo == null){
+            userNo = 1; // 임시 (실제로는 로그인 필수)
+        }
+        int nextRound = testService.getNextRound(userNo, testNo);
+        return ResponseEntity.ok(nextRound);
     }
 
     // [4] 제출 API
