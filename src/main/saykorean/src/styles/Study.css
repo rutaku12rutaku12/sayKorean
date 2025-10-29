@@ -9,7 +9,7 @@
   --border: #e5e7eb;
   --text: #1f2937;
   --muted: #6b7280;
-  --shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
   --footer-height: 73px; /* 푸터 높이 */
 }
 
@@ -27,7 +27,7 @@
 #Study .panel {
   background-color: var(--panel-bg);
   border-radius: 16px;
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); */
 
   flex: 1;
   display: flex;

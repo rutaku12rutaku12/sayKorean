@@ -33,7 +33,7 @@
 
 /* 타이틀 */
 #TestList .panelTitle {
-  margin-top: 120px;
+  margin: 20px;
   font-size: 30px;
   font-weight: 700;
   color: var(--accent);

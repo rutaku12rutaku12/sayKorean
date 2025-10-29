@@ -1,0 +1,50 @@
+<svg width="410" height="310" viewBox="0 0 410 310" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- 여기서부터 토끼 -->
+  <g id="rabbit" transform="translate(90,110)">
+    <ellipse cx="40" cy="80" rx="36" ry="42" fill="#FFECE0"/>
+    <circle cx="30" cy="70" r="6" fill="#6B4E42"/>
+    <circle cx="50" cy="70" r="6" fill="#6B4E42"/>
+    <rect id="rabbit-arm" x="60" y="85" width="22" height="12" rx="6" fill="#FFECE0">
+      <animateTransform attributeName="transform" type="rotate"
+        values="0 60 91; -15 60 91; 0 60 91" dur="1.3s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- 금 비녀 -->
+    <path d="M32 40 L68 18" stroke="#D9A441" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="68" cy="18" r="6" fill="#EADAC7"/>
+  </g>
+
+
+  <!-- 여기서부터 호랑이 -->
+  <g id="tiger" transform="translate(210,118)">
+    <ellipse cx="40" cy="80" rx="40" ry="44" fill="#FFD8A8" />
+    <circle cx="28" cy="72" r="6" fill="#3A2A24"/>
+    <circle cx="50" cy="72" r="6" fill="#3A2A24"/>
+
+    <!-- 오방색 복주머니 -->
+    <path d="M20 95 C30 110 50 110 60 95 Z" fill="#E03A3E"/>
+    <rect x="33" y="82" width="14" height="14" fill="#0061A8"/>
+    <circle cx="40" cy="88" r="3" fill="#FEE24C"/>
+
+    <!-- 팔 흔들기 -->
+    <rect id="tiger-arm" x="65" y="90" width="24" height="14" rx="7" fill="#FFD8A8">
+      <animateTransform attributeName="transform" type="rotate"
+        values="0 65 97; 18 65 97; 0 65 97" dur="1.4s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+
+  <!-- 눈 깜빡임 랜덤 -->
+  <style>
+    #rabbit circle, #tiger circle {
+      animation: blink 4s infinite;
+      transform-origin: center;
+    }
+    @keyframes blink {
+      0%, 96%, 100% { transform: scaleY(1); }
+      97% { transform: scaleY(.1); }
+    }
+  </style>
+
+</svg>

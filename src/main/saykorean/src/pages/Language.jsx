@@ -2,16 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
-import { useTranslation } from "react-i18next"; // 추가
-import "../styles/Language.css"
+import { useTranslation } from "react-i18next";
+import "../styles/Language.css";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
-export default function Language(props) {
+export default function Language() {
 
   const navigate = useNavigate();
-  const { t } = useTranslation(); // 추가
+  const { t } = useTranslation();
 
   const [languages, setLanguages] = useState([]);
   const [selectedLangNo, setSelectedLangNo] = useState(() => {
@@ -21,7 +21,6 @@ export default function Language(props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Language.jsx - 언어 매핑 추가
   const LANG_DISPLAY = {
     1: "한국어",
     2: "日本語",
@@ -36,22 +35,12 @@ export default function Language(props) {
 
     localStorage.setItem("selectedLangNo", String(n));
 
-    const langMap = {
-      1: "ko",
-      2: "ja",
-      3: "zh-CN",
-      4: "en",
-      5: "es"
-    };
-
-    const savedLangNo = Number(localStorage.getItem("selectedLangNo"));
-    const lng = langMap[savedLangNo] || "ko";
-
+    const langMap = { 1: "ko", 2: "ja", 3: "zh-CN", 4: "en", 5: "es" };
+    const lng = langMap[n] || "ko";
     i18n.changeLanguage(lng);
     localStorage.setItem("lang", lng);
 
-    alert(t("언어가 변경되었습니다!")); // 하드코딩 제거
-    console.log("현재 언어:", i18n.language);
+    alert(t("언어가 변경되었습니다!"));
     navigate("/mypage");
   };
 
@@ -62,14 +51,8 @@ export default function Language(props) {
         setError("");
 
         const res = await axios.get("/saykorean/study/getlang");
-        const list = Array.isArray(res.data) ? res.data : [];
-        setLanguages(list);
-
-        if ((!selectedLangNo || selectedLangNo <= 0) && list.length === 1) {
-          pickLangNo(list[0].langNo);
-        }
+        setLanguages(Array.isArray(res.data) ? res.data : []);
       } catch (e) {
-        console.error(e);
         setError("언어 목록을 받지 못했어요.");
       } finally {
         setLoading(false);
@@ -79,26 +62,30 @@ export default function Language(props) {
 
   return (
     <div id="Language" className="homePage">
-      <div className="panel">
-        <h3 className="panelTitle">{t("language.title")}</h3>
-        {loading && <div className="toast loading">불러오는 중...</div>}
-        {error && <div className="toast error">{error}</div>}
-        <div className="list">
-          {languages.map((l) => {
-            const isActive = Number(selectedLangNo) === Number(l.langNo);
-            return (
+      <h3 className="pageTitle">{t("language.title")}</h3>
+
+      {loading && <div className="toast loading">{t("common.loading")}</div>}
+      {error && <div className="toast error">{error}</div>}
+
+      <ul className="languageListWrap">
+        {languages.map((l) => {
+          const isActive = Number(selectedLangNo) === Number(l.langNo);
+          return (
+            <li key={l.langNo} className="languageItem">
               <button
-                key={l.langNo}
                 className={`pillBtn ${isActive ? "active" : ""}`}
-                aria-pressed={isActive}
                 onClick={() => pickLangNo(l.langNo)}
               >
-                <span className="label">{l.langName}</span>
+                {LANG_DISPLAY[l.langNo] || l.langName}
               </button>
-            );
-          })}
-        </div>
-      </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      {!loading && !error && languages.length === 0 && (
+        <div className="empty">{t("language.empty")}</div>
+      )}
     </div>
   );
 }

@@ -1,124 +1,134 @@
+/* =========================
+   LoadingPage.css (Revised)
+   ========================= */
+
+/* 브랜드 로컬 토큰 */
+#loading-frame {
+  --accent: #6B4E42;
+  --panel-bg: #FFF9F0;
+  --border: #e5e7eb;
+  --shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
+}
 
 /* 전체 프레임 */
 #loading-frame {
-  position: relative;
-  width: 410px;
-  height: 97.87vh;
+  width: 100%;
+  max-width: 410px;
+  min-height: 100svh;
   margin: 0 auto;
-  overflow-y: scroll;
+  text-align: center;
+  position: relative;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background: var(--panel-bg);
+  padding-bottom: 8vh;
 }
 
-
-
-.homePage__actions{
+/* 이미지 컨테이너 */
+.image-container {
+  position: relative;
   display: flex;
   justify-content: center;
 }
 
-.homePage__actions button {
-  color : #6B4E42;
-  width: 160px;
-  height: 44px;
-  margin: 6px;
-  border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  font-weight: 700;
-  cursor: pointer;
+.image-container img {
+  width: 100%;
+  height: calc(100vh - 8vh - 40px);
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 0;
 }
 
-.homePage__actions button:active {
-  transform: translateY(0);
-}
-
-#loading-frame {
-  text-align: center;
-  position: relative;
-}
-
-.image-container {
-  position: relative; /* 이미지 위에 텍스트를 올리기 위한 기준 */
+/* 타이틀 (큰 텍스트) */
+.title {
+  font-size: 28px;
+  font-weight: 900;
+  padding: 8px 14px;
+  color: var(--accent);
+  background-color: #fff;
+  border-radius: 12px;
   display: inline-block;
+  margin-top: 10px;
 }
 
-.image-container img{
-  height: 80vh;
-    object-fit: cover;           /* 이미지 비율 유지하면서 꽉 채움 */
-  object-position: center top; /* 이미지의 '보이는 영역'을 위쪽 기준으로 조정 */
-  
-}
-
-/* 타이틀텍스트 ex) ❝숭례문❞ “숭례문” */
-.title{
-  color: #6B4E42;
-  background-color: white;
-  font-size: 30px;
-  font-family: sans-serif;
-  padding: 10px;
-  font-weight: 1000;
-}
-
-/* 말풍선 ex) 숭례문은 ~~ 남대문이라고 불립니다.*/
+/* 설명 말풍선 박스 */
 .text-on-image {
   position: absolute;
-  width: 250px;
-  top: 80px;      /* 이미지 위쪽에서 떨어진 거리 */
-  left: 50%;      /* 가운데 정렬 */
-  padding:10px 50px;
+  top: 90px;
+  left: 50%;
   transform: translateX(-50%);
-  color: #6B4E42;   /* 텍스트 색상 */
-  font-size: 22px;
-  font-weight: 900;
-  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7); /* 가독성 향상 */
-  background-color: #FFF9F0;
-  border-radius: 15px;
+  width: 260px;
+
+  background: var(--panel-bg);
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 12px 14px;
+
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* 하단 텍스트 */
+#loading-footer {
+  width: 100%;
+  height: 8vh;
+  background-color: var(--panel-bg);
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 20px;
   display: flex;
-  text-align: justify;
-  line-height:25px;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: var(--shadow);
 }
 
-/* 하단텍스트 ex) 토돌이 당근수집중 */
-#loading-footer { 
-    width: 410px;
-    background-color: #FFF9F0;
-    border: 1px solid #FFF9F0;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.23);
-    height: 8vh;
-     color: #6B4E42;
-    font-weight: 1000;
-    font-size: 25px;
-}
-
-/* 이미지 안 버튼 */
-.image-buttons {
-  position: absolute; /* 이미지 안에서 절대 위치 */
-  bottom: 100px;       /* 이미지 아래쪽에서 20px */
-  left: 50%;          /* 가로 중앙 */
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;          /* 버튼 사이 간격 */
-}
-
-.image-buttons button {
-  color: #6B4E42;
+/* 공통 버튼 */
+.image-buttons button,
+.homePage__actions button {
   width: 160px;
   height: 44px;
-  margin: 6px;
   border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #fff, #fafafa);
+  color: var(--accent);
   font-weight: 700;
   cursor: pointer;
-  z-index: 2; /* 이미지 위로 표시 */
+  transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-/* 버튼 이펙트 호버 */
-.image-buttons button:hover {
+/* 버튼 위치 */
+.image-buttons {
+  position: absolute;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+/* 버튼 이펙트 */
+.image-buttons button:hover,
+.homePage__actions button:hover {
   transform: translateY(-1px);
   box-shadow: 0 10px 22px rgba(107, 78, 66, .08);
 }
-/* 버튼 이펙트 클릭시 */
-.image-buttons button:active {
+.image-buttons button:active,
+.homePage__actions button:active {
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(107, 78, 66, .06);
+}
+
+/* 모바일 대응 */
+@media (max-width: 430px) {
+  #loading-frame {
+    width: 100%;
+    padding-bottom: 70px;
+  }
+  .text-on-image {
+    width: 80%;
+    font-size: 16px;
+  }
 }

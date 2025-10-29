@@ -242,31 +242,16 @@ export default function Test() {
           )}
 
           {/* 📝 주관식 예문 표시 (3번째 문항) */}
-          {isSubjective && cur.examSelected && (
-            <div className="q-example" style={{
-              padding: '20px',
-              margin: '20px 0',
-              backgroundColor: '#f8f9fa',
-              borderRadius: '8px',
-              borderLeft: '4px solid #007bff'
-            }}>
-              <p style={{
-                fontSize: '16px',
-                fontWeight: 'bold',
-                color: '#495057',
-                marginBottom: '10px'
-              }}>
-                {t("test.subjective.example") || "예문:"}
-              </p>
-              <p style={{
-                fontSize: '18px',
-                color: '#212529',
-                lineHeight: '1.6'
-              }}>
-                {cur.examSelected}
-              </p>
-            </div>
-          )}
+{isSubjective && cur.examSelected && (
+  <div className="q-example">
+    <p className="title">
+      {t("test.subjective.example") || "예문:"}
+    </p>
+    <p className="content">
+      {cur.examSelected}
+    </p>
+  </div>
+)}
 
           {/* 객관식 보기 (1, 2번째 문항) */}
           {isMultiple ? (
