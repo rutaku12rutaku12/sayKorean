@@ -25,7 +25,7 @@ export default function AdminTestEdit() {
     const [exams, setExams] = useState([]);
 
     // [*] 로딩
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     // [*] 화면 초기화 시 데이터 불러오기
     useEffect(() => {

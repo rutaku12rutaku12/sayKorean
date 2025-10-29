@@ -11,7 +11,7 @@ export default function AdminUserIndi() {
     const [userInfo, setUserInfo] = useState(null);
     const [attendList, setAttendList] = useState([]);
     const [rankings, setRangkings] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState("info"); // info, attend, test
 
     // [*] 제재 및 권한 변경 모달 상태
