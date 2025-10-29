@@ -3,3 +3,37 @@
     justify-content: center;
     width: 100%;
 }
+
+.mainImg {
+  width: 240px;
+  transform-origin: bottom center;
+  animation: wave 2.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(4deg); }
+}
+
+.homePage__bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("/img/background.png");
+  background-size: cover;
+  background-repeat: repeat-x;
+  animation: moveBg 30s linear infinite;
+}
+@keyframes moveBackground {
+  from { background-position: 0 0; }
+  to { background-position: -410px 0; }
+}
+
+.homePage__bg {
+  animation: moveBackground 3s linear infinite;
+}
+
+@keyframes moveBg {
+  0% { background-position: 0 0; }
+  100% { background-position: -1000px 0; }
+}
+
