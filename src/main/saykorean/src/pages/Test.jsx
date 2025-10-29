@@ -18,7 +18,7 @@ export default function Test() {
   const [submitting, setSubmitting] = useState(false);
   const [subjective, setSubjective] = useState("");
   const [feedback, setFeedback] = useState(null);
-  const [langNo, setLangNo] = useState(1);
+  const [langNo, setLangNo] = useState(null); // null로 초기화! 그래야 한국어 렌더링되는 사태 방지
 
   // 로컬스토리지에서 언어 번호 가져오기
   function getLang() {
@@ -35,9 +35,9 @@ export default function Test() {
     getLang();
   }, []);
 
-  // 시험 문항 로드
+  // 시험 문항 로드 (langNo가 설정된 후에만 실행)
   useEffect(() => {
-    if (!langNo) return;
+    if (langNo == null) return; // null일때는 로드 안되게 체크
 
     (async () => {
       try {
@@ -91,10 +91,11 @@ export default function Test() {
     questionType,   // 추가
     isImageQuestion,  // 추가
     isAudioQuestion,  // 추가
+    isSubjective,
     hasImage,
     hasAudio,
     // isMultiple,
-    isSubjective,
+    examSelected: cur?.examSelected,  // 추가 (예문 표시하는 로직 추가용)
     optionsCount: cur?.options?.length
   });
 
@@ -228,7 +229,34 @@ export default function Test() {
             </div>
           )}
 
-          {/* 객관식 보기 */}
+          {/* 📝 주관식 예문 표시 (3번째 문항) */}
+          {isSubjective && cur.examSelected && (
+            <div className="q-example" style={{
+              padding: '20px',
+              margin: '20px 0',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '8px',
+              borderLeft: '4px solid #007bff'
+            }}>
+              <p style={{
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#495057',
+                marginBottom: '10px'
+              }}>
+                {t("test.subjective.example") || "예문:"}
+              </p>
+              <p style={{
+                fontSize: '18px',
+                color: '#212529',
+                lineHeight: '1.6'
+              }}>
+                {cur.examSelected}
+              </p>
+            </div>
+          )}
+
+          {/* 객관식 보기 (1, 2번째 문항) */}
           {isMultiple ? (
             <div className="q-actions">
               {cur.options?.length > 0 ? (
@@ -255,7 +283,7 @@ export default function Test() {
               <textarea
                 value={subjective}
                 onChange={(e) => setSubjective(e.target.value)}
-                placeholder={t("test.subjective.placeholder")}
+                placeholder={t("test.subjective.placeholder") || "한국어로 답변을 작성하세요"}
                 disabled={!!feedback}
                 rows={4}
                 style={{ width: "100%", maxWidth: 480 }}

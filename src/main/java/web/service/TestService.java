@@ -59,44 +59,49 @@ public class TestService {
             // 3번째 문항(index 2) = 주관식
             // 이후 반복: 3n+1 = 그림, 3n+2 = 음성, 3n = 주관식
             int questionType = itemIndex % 3; // 0=그림, 1=음성, 2=주관식
-
-            if (questionType == 0 || questionType == 1) {
                 // ===== 🎯 핵심 수정: 언어별 예문 조회 =====
                 // 정답 예문을 언어에 맞게 조회
                 ExamDto correct = testMapper.findExamByNo(item.getExamNo(), langNo);
                 if (correct != null) {
-                    List<Map<String, Object>> options = new ArrayList<>();
+                    // 🎯 주관식을 위한 예문 정보 추가
+                    m.put("examSelected", correct.getExamSelected()); // 사용자 언어별 예문
+                    m.put("examKo", correct.getExamKo()); // 한국어 예문 (fallback)
 
-                    // 정답 옵션
-                    Map<String, Object> c = new HashMap<>();
-                    c.put("examNo", correct.getExamNo());
-                    c.put("examSelected", correct.getExamSelected()); // 언어별 예문
-                    c.put("examKo", correct.getExamKo()); // 한국어 원본 (fallback)
-                    c.put("isCorrect", true);
-                    options.add(c);
 
-                    // ===== 🎯 오답도 언어별로 조회 =====
-                    // 오답 2개를 언어에 맞게 조회
-                    List<ExamDto> wrongs = testMapper.findRandomExamsExcludingWithLang(
-                            item.getExamNo(),
-                            2,
-                            langNo  // 언어 번호 전달
-                    );
+                    if (questionType == 0 || questionType == 1) {
+                        // 객관식 문항은 List에서 끌어와 다른 예문을 문항으로 생성
+                        List<Map<String, Object>> options = new ArrayList<>();
 
-                    for (ExamDto w : wrongs) {
-                        Map<String, Object> wmap = new HashMap<>();
-                        wmap.put("examNo", w.getExamNo());
-                        wmap.put("examSelected", w.getExamSelected()); // 언어별 예문
-                        wmap.put("examKo", w.getExamKo()); // fallback
-                        wmap.put("isCorrect", false);
-                        options.add(wmap);
+                        // 정답 옵션
+                        Map<String, Object> c = new HashMap<>();
+                        c.put("examNo", correct.getExamNo());
+                        c.put("examSelected", correct.getExamSelected()); // 언어별 예문
+                        c.put("examKo", correct.getExamKo()); // 한국어 원본 (fallback)
+                        c.put("isCorrect", true);
+                        options.add(c);
+
+                        // ===== 🎯 오답도 언어별로 조회 =====
+                        // 오답 2개를 언어에 맞게 조회
+                        List<ExamDto> wrongs = testMapper.findRandomExamsExcludingWithLang(
+                                item.getExamNo(),
+                                2,
+                                langNo  // 언어 번호 전달
+                        );
+
+                        for (ExamDto w : wrongs) {
+                            Map<String, Object> wmap = new HashMap<>();
+                            wmap.put("examNo", w.getExamNo());
+                            wmap.put("examSelected", w.getExamSelected()); // 언어별 예문
+                            wmap.put("examKo", w.getExamKo()); // fallback
+                            wmap.put("isCorrect", false);
+                            options.add(wmap);
+                        }
+
+                        // 보기 섞기
+                        Collections.shuffle(options);
+                        m.put("options", options);
                     }
-
-                    // 보기 섞기
-                    Collections.shuffle(options);
-                    m.put("options", options);
                 }
-            }
             // questionType == 2인 경우 (주관식)는 options를 추가하지 않음
             out.add(m);
         }
@@ -135,7 +140,7 @@ public class TestService {
 //                .filter(t -> t.getTestItemNo() == testItemNo)
 //                .findFirst()
 //                .orElseThrow(() -> new IllegalArgumentException("잘못된 testItemNo 입니다."));
-
+        // 1) 문항 로드 (언어 반영)
         List<TestItemWithMediaDto> allItems = testMapper.findTestItemsWithMedia(testNo, langNo);
 
         // 해당 문항 찾기 및 순서 확인
