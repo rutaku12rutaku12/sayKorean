@@ -37,8 +37,10 @@ public class AttendController {
             attendDto.setUserNo(userNo);
 
             int result = attendService.attend(attendDto);
+            System.out.println("출석체크 성공시 1 반환 : "+result);
             return ResponseEntity.status(200).body(result);
         }catch (DuplicateKeyException e){
+            System.out.println("이미 오늘 출석이 완료되었습니다.");
             return ResponseEntity.status(222).body("이미 출석체크가 되었습니다.");
         }
     } // m end
