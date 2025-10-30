@@ -16,6 +16,7 @@
 
 /* 페이지 전체 */
 #Ranking {
+  font-family: ui-sans-serif, system-ui, "Noto Sans KR", sans-serif;
   min-height: calc(100svh - var(--footer-height));
   padding: 12px 0 0;
   display: flex;
@@ -31,7 +32,6 @@
   text-align: center;
   flex: 1;
   overflow: auto;
-  width: 410px;
 }
 
 /* 타이틀 */
@@ -46,7 +46,6 @@
 /* 탭 버튼 */
 #Ranking .tabGroup {
   display: flex;
-  /* justify-content: space-between; */
   justify-content: center;
   gap: 10px;
   margin-bottom: 18px;
@@ -105,19 +104,20 @@
 
 /* 테이블 래퍼 */
 #Ranking .tableWrap {
-  width: 90%;
-  max-width: 410px;
+  width: 100%;
+  max-width: 720px;
   margin: 0 auto;
   overflow-x: auto;
 }
 
 /* 테이블 */
 #Ranking table {
+  width: 100%;
   border-collapse: collapse;
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 #Ranking table thead {
@@ -126,7 +126,7 @@
 
 #Ranking th,
 #Ranking td {
-  padding: 7px;
+  padding: 14px;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -165,3 +165,4 @@
     gap: 6px;
   }
 }
+

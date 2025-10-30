@@ -76,7 +76,26 @@ VALUES
 '伝統文化は、忙しい現代社会の韓国人が親戚に会える良い口実になってくれます。',
 '传统文化为忙碌的现代韩国人提供了与亲人相聚的绝佳借口。',
 'Traditional culture provides a great excuse for busy modern Koreans to meet their relatives.',
-'La cultura tradicional proporciona una gran excusa para que los coreanos modernos y ocupados se reúnan con sus familiares.', 4);
+'La cultura tradicional proporciona una gran excusa para que los coreanos modernos y ocupados se reúnan con sus familiares.', 4),
+
+('친구와 대화할 때', '友達と話すとき', '和朋友聊天时', 'When talking with a friend', 'Cuando hablas con un amigo',
+'좋은 한국인 친구를 사귈 수 있다면, 한국 문화를 더 깊이 이해할 수 있습니다.', '良い韓国人の友達を作ることができれば、韓国文化をより深く理解することができます。', '如果你能结交到好的韩国朋友,你就能更深入地了解韩国文化。', 'If you can make good Korean friends, you can understand Korean culture more deeply.', 'Si logras hacer buenos amigos coreanos, podrás comprender la cultura coreana más profundamente.', 1),
+
+('데이트할 때 쓸 수 있는 말들', 'デート時に使える言葉', '约会时可以使用的短语', 'Phrases to use on a date', 'Frases para usar en una cita',
+'친구나 연인과의 데이트 중에 쓸 법한 말들입니다.', '友人や恋人とのデート中に書くような言葉です。', '这些是你在和朋友或恋人约会时可能会用到的短语。', 'These are phrases you might use on a date with a friend or lover.', 'Estas son frases que podrías usar en una cita con un amigo o tu pareja.', 1),
+
+('위치나 장소를 묻는 질문', '場所や場所を尋ねる質問', '询问有关地点或场所的问题', 'Questions asking about location or place', 'Preguntas sobre la ubicación o el lugar',
+'포교를 남발하는 사이비 종교인들 때문에, 길을 물을 때는 용건 먼저 이야기해야 합니다!', '布教を乱発するサイビー宗教人たちのため、道を尋ねるときは、用件先に話す必要があります！', '由于一些伪宗教人士过度热衷于传教,所以问路时一定要先说明你的目的！', 'Because of the pseudo-religious people who overuse their proselytization, you should always state your purpose first when asking for directions!', 'Debido a la presencia de personas pseudorreligiosas que abusan de su proselitismo, ¡siempre debes indicar primero tu propósito al pedir indicaciones!', 1),
+
+('시장에 갔을 때 할 수 있는 말들', '市場に行ったときにできること', '去市场时可以说的话', 'Things to say when you go to the market', 'Cosas que decir cuando vas al mercado',
+'전통시장부터 대형마트, 백화점까지. 한국의 시장에서는 고유한 문화를 엿볼 수 있습니다.', '伝統市場から大型マート、デパートまで。韓国の市場ではユニークな文化を垣間見ることができます。', '从传统市场到大型超市和百货商店,韩国的市场展现了其独特的文化。', 'From traditional markets to large supermarkets and department stores, Korea\'s markets offer a glimpse into its unique culture.', 'Desde los mercados tradicionales hasta los grandes supermercados y grandes almacenes, los mercados de Corea ofrecen una visión de su cultura única.', 1),
+
+('일정을 제안하는 말들', 'スケジュールを提案する言葉', '暗示日程安排的词语', 'Words suggesting schedules', 'Palabras que sugieren horarios',
+'한국어의 동사에 관해 알아봅시다.', '韓国語の動詞について学びましょう。', '我们来学习韩语动词吧。', 'Let\'s learn about Korean verbs.', 'Aprendamos sobre los verbos coreanos.', 1),
+
+('내 상태를 표현하는 문장들', '私の状態を表現する文章', '表达我病情的句子', 'Sentences that express my condition', 'Frases que expresan mi condición',
+'한국어로 자기 자신에 관한 표현을 명확히 할 수 있다면, 한국어 실력이 뛰어나다고 할 수 있습니다.', '韓国語で自分自身に関する表現を明確にできれば、韓国語の実力に優れていると言えます。', '如果你能用韩语清晰地表达自己,就可以说你的韩语水平非常优秀。', 'If you can clearly express yourself in Korean, you can say that your Korean language skills are excellent.', 'Si puedes expresarte con claridad en coreano, puedes decir que tus habilidades en el idioma coreano son excelentes.', 1);
+
 
 
 
@@ -97,7 +116,38 @@ VALUES
 ('우리 좌석은 어디에 있을까?', 'Uri Jwaseogeun Eodie Isseulkka?', '私たちの座席はどこにありますか？', '我们的座位在哪里？', 'Where will our seats be?', '¿Donde estarán nuestros asientos?', '6_img.png', '/upload/image/oct_25/9_img.png', 3),
 ('새해 복 많이 받으세요', 'Saehae Bok Mani Badeuseyo', '明けましておめでとうございます', '新年快乐', 'Happy New Year', 'Feliz año nuevo', '48_img.png', '/upload/image/oct_25/10_img.png', 4),
 ('절 올리겠습니다.', 'Jeol Olligetseumnida.', 'お願いします。', '我会跪拜。', 'I will bow down.', 'Me inclinaré.', '49_img.png', '/upload/image/oct_25/11_img.png', 4),
-('떡국 맛있겠다.', 'Tteokguk Masitgetda.', 'お餅おいしい。', '年糕汤看起来很美味。', 'Tteokguk looks delicious.', 'El tteokguk se ve delicioso.', '46_img.png', '/upload/image/oct_25/12_img.png', 4);
+('떡국 맛있겠다.', 'Tteokguk Masitgetda.', 'お餅おいしい。', '年糕汤看起来很美味。', 'Tteokguk looks delicious.', 'El tteokguk se ve delicioso.', '46_img.png', '/upload/image/oct_25/12_img.png', 4),
+-- studyNo 5: 친구와 대화할 때
+('같이 놀자', 'Gachi Nolja', '一緒に遊ぼう', '我们一起玩吧', 'Let\'s play together', 'Juguemos juntos', 'play.webp', '/upload/image/oct_25/13_img.webp', 5),
+('하하! 진짜 재미있다!', 'Haha! Jinjja Jaemiitda!', 'ハハ！本当に楽しいです！', '哈哈！这真的太搞笑了！', 'Haha! This is really funny!', '¡Jaja! ¡Esto es muy gracioso!', 'smile.png', '/upload/image/oct_25/14_img.png', 5),
+('안녕! 만나서 반가워!', 'Annyeong! Mannaseo Ban-gawo!', 'こんにちは！お会いできて嬉しいです！', '你好很高兴见到你！', 'Hello! Nice to meet you!', '¡Hola! ¡Un placer conocerte!', 'sayHello.png', '/upload/image/oct_25/15_img.png', 5),
+
+-- studyNo 6: 데이트할 때 쓸 수 있는 말들
+('사진 찍어줄 게 포즈 취해봐', 'Sajin Jjigeojul Ge Pojeu Chwihaebwa', '写真を撮るのがポーズを取る', '摆个姿势，我给你拍张照片。', 'Strike a pose, I\'ll take a picture for you.', '¡Posad, os saco una foto!', 'photo.webp', '/upload/image/oct_25/16_img.webp', 6),
+('이 영화 재밌겠지?', 'I Yeonghwa Jaemitgetji?', 'この映画は楽しいですか？', '这部电影应该会很有趣，对吧？', 'This movie will be fun, right?', 'Esta película será divertida, ¿verdad?', 'movie-removebg-preview.png', '/upload/image/oct_25/17_img.png', 6),
+('뭐가 맛있을까? 메뉴 골라줘.', 'Mwoga Masisseulkka? Menyu Gollajwo.', '何がおいしいですか？メニューを選んでください。', '什么好吃？请选择菜单。', 'What would be delicious? Choose a menu.', '¿Qué te apetecería delicioso? Elige un menú.', 'menu-removebg-preview.png', '/upload/image/oct_25/18_img.png', 6),
+
+-- studyNo 7: 위치나 장소를 물어볼 때 쓰는 말들
+('여기로 가면 되나요?', 'Yeogiro Gamyeon Doenayo?', 'ここに行けばいいですか？', '我可以去这里吗？', 'Can I go here?', '¿Puedo ir aquí?', 'thisWay.webp', '/upload/image/oct_25/19_img.webp', 7),
+('지하철 역이 어디에요?', 'Jihacheol Yeogi Eodieyo?', '地下鉄駅はどこですか？', '地铁站在哪里？', 'Where is the subway station?', '¿Dónde está la estación de metro?', 'subway.webp', '/upload/image/oct_25/20_img.webp', 7),
+('화장실 어디에요?', 'Hwajangsil Eodieyo?', 'トイレはどこですか？', '厕所在哪里？', 'Where is the bathroom?', '¿Dónde está el baño?', 'toilet.png', '/upload/image/oct_25/21_img.png', 7),
+
+-- studyNo 8: 시장에 갔을 때 쓸 만한 문장들
+('사과 맛있겠네요. 한 소쿠리 주세요.', 'Sagwa Masitgenneyo. Han Sokuri Juseyo.', 'りんごおいしいですね。一粒をください。', '苹果看起来真好吃。我可以要一篮吗？', 'Apples look delicious. Can I have a basket?', 'Las manzanas tienen una pinta deliciosa. ¿Me das una cesta?', 'market.png', '/upload/image/oct_25/22_img.png', 8),
+('진짜 많이 샀다.', 'Jinjja Mani Satda.', '本当にたくさん買った。', '我真的买了很多东西。', 'I really bought a lot.', 'Compré muchísimas cosas.', 'shoping.png', '/upload/image/oct_25/23_img.png', 8),
+('시장에서 눈탱이 맞았어.', 'Sijang-eseo Nuntaeng-i Majasseo.', '市場で目玉が当たった。', '我在集市上被雪球砸中了。', 'I got hit by a snowball at the market.', 'Me golpeó una bola de nieve en el mercado.', 'crying.png', '/upload/image/oct_25/24_img.png', 8),
+
+-- studyNo 9: 일정을 제안할 때 쓰는 문장들
+('같이 달릴까?', 'Gachi Dallilkka?', '一緒に走るか？', '我们一起跑好吗？', 'Shall we run together?', '¿Corremos juntos?', 'run.png', '/upload/image/oct_25/25_img.png', 9),
+('코인노래방 가서 노래 부르자.', 'Koinnoraebang Gaseo Norae Bureuja.', 'コインカラオケに行って歌いましょう。', '咱们去投币式卡拉OK唱歌吧。', 'Let\'s go to a coin karaoke and sing.', 'Vayamos a un karaoke de monedas y cantemos.', 'singing.png', '/upload/image/oct_25/26_img.png', 9),
+('공부하러 도서관 가자.', 'Gongbuhareo Doseogwan Gaja.', '勉強に図書館に行きましょう。', '我们去图书馆学习吧。', 'Let\'s go to the library to study.', 'Vamos a la biblioteca a estudiar.', 'study.png', '/upload/image/oct_25/27_img.png', 9),
+
+-- studyNo 10: 나의 상태나 상황을 표현하는 문장들
+('졸립다. 한숨 자고 싶어.', 'Jollipda. Hansum Jago Sipeo.', '眠いです。ため息眠りたい。', '我困了，想睡个午觉。', 'I\'m sleepy. I want to take a nap.', 'Tengo sueño. Quiero echarme una siesta.', 'sleep.png', '/upload/image/oct_25/28_img.png', 10),
+('기분이 이상한데?', 'Gibuni Isanghande?', '気分が変なのに？', '我感觉很奇怪？', 'I feel strange?', '¿Me siento extraño?', 'strange.png', '/upload/image/oct_25/29_img.png', 10),
+('배고파. 맛있는 밥 먹고 싶다.', 'Baegopa. Masinneun Bap Meokgo Sipda.', '空腹。おいしいご飯食べたいです。', '我饿了，想吃点好吃的。', 'I\'m hungry. I want to eat something delicious.', 'Tengo hambre. Quiero comer algo delicioso.', 'eat.png', '/upload/image/oct_25/30_img.png', 10);
+
+
 
 
 
@@ -127,7 +177,43 @@ VALUES
 ('11_kor_voice.mp3', '/upload/audio/oct_25/11_kor_voice.mp3', 1, 11),
 ('11_eng_voice.mp3', '/upload/audio/oct_25/11_eng_voice.mp3', 2, 11),
 ('12_kor_voice.mp3', '/upload/audio/oct_25/12_kor_voice.mp3', 1, 12),
-('12_eng_voice.mp3', '/upload/audio/oct_25/12_eng_voice.mp3', 2, 12);
+('12_eng_voice.mp3', '/upload/audio/oct_25/12_eng_voice.mp3', 2, 12),
+('13_kor_voice.mp3', '/upload/audio/oct_25/13_kor_voice.mp3', 1, 13),
+('13_eng_voice.mp3', '/upload/audio/oct_25/13_eng_voice.mp3', 2, 13),
+('14_kor_voice.mp3', '/upload/audio/oct_25/14_kor_voice.mp3', 1, 14),
+('14_eng_voice.mp3', '/upload/audio/oct_25/14_eng_voice.mp3', 2, 14),
+('15_kor_voice.mp3', '/upload/audio/oct_25/15_kor_voice.mp3', 1, 15),
+('15_eng_voice.mp3', '/upload/audio/oct_25/15_eng_voice.mp3', 2, 15),
+('16_kor_voice.mp3', '/upload/audio/oct_25/16_kor_voice.mp3', 1, 16),
+('16_eng_voice.mp3', '/upload/audio/oct_25/16_eng_voice.mp3', 2, 16),
+('17_kor_voice.mp3', '/upload/audio/oct_25/17_kor_voice.mp3', 1, 17),
+('17_eng_voice.mp3', '/upload/audio/oct_25/17_eng_voice.mp3', 2, 17),
+('18_kor_voice.mp3', '/upload/audio/oct_25/18_kor_voice.mp3', 1, 18),
+('18_eng_voice.mp3', '/upload/audio/oct_25/18_eng_voice.mp3', 2, 18),
+('19_kor_voice.mp3', '/upload/audio/oct_25/19_kor_voice.mp3', 1, 19),
+('19_eng_voice.mp3', '/upload/audio/oct_25/19_eng_voice.mp3', 2, 19),
+('20_kor_voice.mp3', '/upload/audio/oct_25/20_kor_voice.mp3', 1, 20),
+('20_eng_voice.mp3', '/upload/audio/oct_25/20_eng_voice.mp3', 2, 20),
+('21_kor_voice.mp3', '/upload/audio/oct_25/21_kor_voice.mp3', 1, 21),
+('21_eng_voice.mp3', '/upload/audio/oct_25/21_eng_voice.mp3', 2, 21),
+('22_kor_voice.mp3', '/upload/audio/oct_25/22_kor_voice.mp3', 1, 22),
+('22_eng_voice.mp3', '/upload/audio/oct_25/22_eng_voice.mp3', 2, 22),
+('23_kor_voice.mp3', '/upload/audio/oct_25/23_kor_voice.mp3', 1, 23),
+('23_eng_voice.mp3', '/upload/audio/oct_25/23_eng_voice.mp3', 2, 23),
+('24_kor_voice.mp3', '/upload/audio/oct_25/24_kor_voice.mp3', 1, 24),
+('24_eng_voice.mp3', '/upload/audio/oct_25/24_eng_voice.mp3', 2, 24),
+('25_kor_voice.mp3', '/upload/audio/oct_25/25_kor_voice.mp3', 1, 25),
+('25_eng_voice.mp3', '/upload/audio/oct_25/25_eng_voice.mp3', 2, 25),
+('26_kor_voice.mp3', '/upload/audio/oct_25/26_kor_voice.mp3', 1, 26),
+('26_eng_voice.mp3', '/upload/audio/oct_25/26_eng_voice.mp3', 2, 26),
+('27_kor_voice.mp3', '/upload/audio/oct_25/27_kor_voice.mp3', 1, 27),
+('27_eng_voice.mp3', '/upload/audio/oct_25/27_eng_voice.mp3', 2, 27),
+('28_kor_voice.mp3', '/upload/audio/oct_25/28_kor_voice.mp3', 1, 28),
+('28_eng_voice.mp3', '/upload/audio/oct_25/28_eng_voice.mp3', 2, 28),
+('29_kor_voice.mp3', '/upload/audio/oct_25/29_kor_voice.mp3', 1, 29),
+('29_eng_voice.mp3', '/upload/audio/oct_25/29_eng_voice.mp3', 2, 29),
+('30_kor_voice.mp3', '/upload/audio/oct_25/30_kor_voice.mp3', 1, 30),
+('30_eng_voice.mp3', '/upload/audio/oct_25/30_eng_voice.mp3', 2, 30);
 
 
 
@@ -156,7 +242,14 @@ VALUES
 ('안부를 묻는 문장들', 'Anbureul Munneun Munjangdeul', 'よろしくお願いする文章', '问候语', 'Sentences asking for greetings', 'Frases pidiendo saludos', 1),
 ('회사에서 살아남기 위한 문장들', 'Hoesa-eseo Saranamgi Wihan Munjangdeul', '会社で生き残るための文章', '职场生存箴言', 'Phrases to survive in the workplace', 'Frases para sobrevivir en el ámbito laboral', 2),
 ('콘서트장에서 할 수 있는 말', 'Konseoteujang-eseo Hal Su Inneun Mal', 'コンサート会場でできること', '音乐会上要说的话', 'Things to say at a concert', 'Cosas que decir en un concierto', 3),
-('새해 명절에 가족들과 나누는 말들', 'Saehae Myeongjeore Gajokdeulgwa Nanuneun Maldeul', '新年の祝日に家族と分かち合う言葉', '新年假期对家人说的话', 'Things to say to your family during the New Year holidays', 'Cosas que decirle a tu familia durante las vacaciones de Año Nuevo', 4);
+('새해 명절에 가족들과 나누는 말들', 'Saehae Myeongjeore Gajokdeulgwa Nanuneun Maldeul', '新年の祝日に家族と分かち合う言葉', '新年假期对家人说的话', 'Things to say to your family during the New Year holidays', 'Cosas que decirle a tu familia durante las vacaciones de Año Nuevo', 4),
+('친구와 대화할 때', 'Chin-guwa Daehwahal Ttae', '友達と話すとき', '和朋友聊天时', 'When talking with a friend', 'Cuando hablas con un amigo', 5),
+('데이트할 때 쓸 수 있는 문장들', 'Deiteuhal Ttae Sseul Su Inneun Munjangdeul', 'デート時に使える文章', '约会时可以使用的短语', 'Phrases you can use on a date', 'Frases que puedes usar en una cita', 6),
+('위치나 장소를 물어볼 때 쓰는 말들', 'Wichina Jangsoreul Mureobol Ttae Sseuneun Maldeul', '場所や場所を尋ねるときに書く言葉', '询问地点或位置时使用的词语', 'Words used when asking about location or place', 'Palabras que se usan al preguntar por la ubicación o el lugar', 7),
+('시장에 갔을 때 쓸 만한 문장들', 'Sijang-e Gasseul Ttae Sseul Manhan Munjangdeul', '市場に行ったときに使える文章', '去市场时可以使用的短语', 'Phrases to use when going to the market', 'Frases para usar al ir al mercado', 8),
+('일정을 제안할 때 쓰는 문장들', 'Iljeong-eul Je-anhal Ttae Sseuneun Munjangdeul', 'スケジュールを提案するときに書く文', '建议日程安排时可以使用的句子', 'Sentences to use when suggesting a schedule', 'Frases para usar al sugerir un horario', 9),
+('나의 상태나 상황을 표현하는 문장들', 'Naui Sangtaena Sanghwang-eul Pyohyeonhaneun Munjangdeul', '私の状態や状況を表現する文章', '表达我的状况或处境的句子', 'Sentences expressing my condition or situation', 'Frases que expresen mi condición o situación', 10);
+
 
 -- =====================
 -- 6. TESTITEM 데이터
@@ -174,7 +267,36 @@ VALUES
 ('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观：写出符合以下情况的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 9, 3),
 ('그림: 올바른 표현을 고르세요.', 'Geurim: Olbareun Pyohyeoneul Goreuseyo.', '図：正しい表現を選んでください。', '图片：选择正确的表情。', 'Picture: Choose the correct expression.', 'Imagen: Elige la expresión correcta.', 10, 4),
 ('음성: 올바른 표현을 고르세요.', 'Eumseong: Olbareun Pyohyeoneul Goreuseyo.', '音声：正しい表現を選んでください。', '语音：选择正确的表达方式。', 'Voice: Choose the correct expression.', 'Voz: Elige la expresión correcta.', 11, 4),
-('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观：写出符合以下情况的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 12, 4);
+('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观：写出符合以下情况的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 12, 4),
+-- testNo 5: 친구와 대화할 때
+('그림: 올바른 표현을 고르세요.', 'Geurim: Olbareun Pyohyeoneul Goreuseyo.', '図：正しい表現を選んでください。', '图片：选择正确的表达方式。', 'Picture: Choose the correct expression.', 'Imagen: Elige la expresión correcta.', 13, 5),
+('음성: 올바른 표현을 고르세요.', 'Eumseong: Olbareun Pyohyeoneul Goreuseyo.', '音声：正しい表現を選んでください。', '语音：选择正确的表达方式。', 'Voice: Choose the correct expression.', 'Voz: Elija la expresión correcta.', 15, 5),
+('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观题：写出一个符合下列情境的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 14, 5),
+
+-- testNo 6: 데이트할 때 쓸 수 있는 문장들
+('그림: 올바른 표현을 고르세요.', 'Geurim: Olbareun Pyohyeoneul Goreuseyo.', '図：正しい表現を選んでください。', '图片：选择正确的表达方式。', 'Picture: Choose the correct expression.', 'Imagen: Elige la expresión correcta.', 16, 6),
+('음성: 올바른 표현을 고르세요.', 'Eumseong: Olbareun Pyohyeoneul Goreuseyo.', '音声：正しい表現を選んでください。', '语音：选择正确的表达方式。', 'Voice: Choose the correct expression.', 'Voz: Elija la expresión correcta.', 17, 6),
+('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观题：写出一个符合下列情境的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 18, 6),
+
+-- testNo 7: 위치나 장소를 물어볼 때 쓰는 말들
+('그림: 올바른 표현을 고르세요.', 'Geurim: Olbareun Pyohyeoneul Goreuseyo.', '図：正しい表現を選んでください。', '图片：选择正确的表达方式。', 'Picture: Choose the correct expression.', 'Imagen: Elige la expresión correcta.', 19, 7),
+('음성: 올바른 표현을 고르세요.', 'Eumseong: Olbareun Pyohyeoneul Goreuseyo.', '音声：正しい表現を選んでください。', '语音：选择正确的表达方式。', 'Voice: Choose the correct expression.', 'Voz: Elija la expresión correcta.', 20, 7),
+('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观题：写出一个符合下列情境的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 21, 7),
+
+-- testNo 8: 시장에 갔을 때 쓸 만한 문장들
+('그림: 올바른 표현을 고르세요.', 'Geurim: Olbareun Pyohyeoneul Goreuseyo.', '図：正しい表現を選んでください。', '图片：选择正确的表达方式。', 'Picture: Choose the correct expression.', 'Imagen: Elige la expresión correcta.', 23, 8),
+('음성: 올바른 표현을 고르세요.', 'Eumseong: Olbareun Pyohyeoneul Goreuseyo.', '音声：正しい表現を選んでください。', '语音：选择正确的表达方式。', 'Voice: Choose the correct expression.', 'Voz: Elija la expresión correcta.', 22, 8),
+('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观题：写出一个符合下列情境的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 24, 8),
+
+-- testNo 9: 일정을 제안할 때 쓰는 문장들
+('그림: 올바른 표현을 고르세요.', 'Geurim: Olbareun Pyohyeoneul Goreuseyo.', '図：正しい表現を選んでください。', '图片：选择正确的表达方式。', 'Picture: Choose the correct expression.', 'Imagen: Elige la expresión correcta.', 25, 9),
+('음성: 올바른 표현을 고르세요.', 'Eumseong: Olbareun Pyohyeoneul Goreuseyo.', '音声：正しい表現を選んでください。', '语音：选择正确的表达方式。', 'Voice: Choose the correct expression.', 'Voz: Elija la expresión correcta.', 27, 9),
+('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观题：写出一个符合下列情境的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 26, 9),
+
+-- testNo 10: 나의 상태나 상황을 표현하는 문장들
+('그림: 올바른 표현을 고르세요.', 'Geurim: Olbareun Pyohyeoneul Goreuseyo.', '図：正しい表現を選んでください。', '图片：选择正确的表达方式。', 'Picture: Choose the correct expression.', 'Imagen: Elige la expresión correcta.', 28, 10),
+('음성: 올바른 표현을 고르세요.', 'Eumseong: Olbareun Pyohyeoneul Goreuseyo.', '音声：正しい表現を選んでください。', '语音：选择正确的表达方式。', 'Voice: Choose the correct expression.', 'Voz: Elija la expresión correcta.', 29, 10),
+('주관식: 다음 상황에 맞는 한국어 표현을 작성하세요.', 'Jugwansik: Da-eum Sanghwang-e Manneun Han-gugeo Pyohyeoneul Jakseonghaseyo.', '主観式：以下の状況に合った韓国語表現を作成してください。', '主观题：写出一个符合下列情境的韩语表达。', 'Subjective: Write a Korean expression that fits the following situation.', 'Subjetivo: Escribe una expresión coreana que se ajuste a la siguiente situación.', 30, 10);
 
 
 INSERT IGNORE INTO ranking

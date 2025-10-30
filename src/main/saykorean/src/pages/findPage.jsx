@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import "../styles/FindPage.css"; 
+import "../styles/FindPage.css";
 
 export default function FindPage() {
   console.log("FindPage.jsx open");
@@ -34,33 +34,33 @@ export default function FindPage() {
 
   // 이메일 찾기
   const findEmail = async () => {
-    if(!name&&phone){
-      return alert("값을 입력해주세요.")
+    if (!name && phone) {
+      return alert(t("findpage.inputValue"));
     }
     try {
       const option = { withCredentials: true, params: { name, phone } };
       const response = await axios.get("http://localhost:8080/saykorean/findemail", option);
       const data = response.data;
-      alert(`이메일: ${data}`);
+      alert(`${t("findpage.checkEmail")} : ${data}`);
     } catch (e) {
       console.log("이메일 찾기 실패", e);
-      alert("서버와 연결이 끊어졌습니다.");
+      alert(t("findpage.dismissed"));
     }
   };
 
   // 비밀번호 찾기
   const findPwrd = async () => {
-    if(!name2&&phone2&&email){
-      return alert("값을 입력해주세요.")
+    if (!name2 && phone2 && email) {
+      return alert(t("findpage.inputValue"))
     }
     try {
       const option = { withCredentials: true, params: { name: name2, phone: phone2, email } };
       const response = await axios.get("http://localhost:8080/saykorean/findpwrd", option);
       const data = response.data;
-      alert(`비밀번호: ${data}`);
+      alert(`${t("findpage.password")} : ${data}`);
     } catch (e) {
       console.log("비밀번호 찾기 실패", e);
-      alert("서버와 연결이 끊어졌습니다.");
+      alert(t("findpage.dismissed"));
     }
   };
 

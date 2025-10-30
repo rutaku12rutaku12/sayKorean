@@ -45,18 +45,18 @@ export default function SignUpPage(props) {
             console.log("중복이면 1 , 사용가능 0 반환:", data)
             if (data == 0) {
                 setEmailCheck(false);
-                { alert("사용 가능한 이메일입니다.") }
+                { alert(t("signuppage.ableEmail")) }
             }
             else if (data == 1) {
                 setEmailCheck(true);
-                alert("이미 등록된 이메일입니다.")
+                alert(t("signuppage.usedEmail"))
             }
             else if (data == -1) {
                 setEmailCheck(true);
             }
-            else { alert("이메일 형식에 맞게 입력해 주세요.") }
+            else { alert(t("signuppage.formEmail")) }
         } catch (e) {
-            alert("이메일 형식이 올바르지 않습니다.")
+            alert(t("signuppage.formEmailError"))
             console.log("예외 : ", e)
         }
     }
@@ -74,18 +74,18 @@ export default function SignUpPage(props) {
             console.log("중복이면 1 , 사용가능 0 반환:", data)
             if (data == 0) {
                 setPhoneCheck(false);
-                { alert("사용 가능한 연락처입니다.") }
+                { alert(t("signuppage.ablePhone")) }
             }
             else if (data == 1) {
                 setPhoneCheck(true);
-                alert("이미 등록된 연락처입니다.")
+                alert(t("signuppage.usedPhone"))
             }
             else if (data == -1) {
                 setPhoneCheck(true);
             }
-            else { alert("전화번호 형식에 맞게 입력해 주세요.") }
+            else { alert(t("signuppage.formPhone")) }
         } catch (e) {
-            alert("연락처 형식이 올바르지 않습니다.")
+            alert(t("signuppage.formPhoneError"))
             console.log("예외 : ", e)
         }
     }
@@ -96,18 +96,18 @@ export default function SignUpPage(props) {
         try {
             const obj = { name: name, email: email, password: password, nickName: nickName, phone: phone, recaptcha: captchaValue }
             console.log(obj);
-            if (emailCheck || phoneCheck) return alert("중복확인을 해주세요.")
+            if (emailCheck || phoneCheck) return alert(t("signuppage.dupCheck"))
             // CORS 옵션 허용
             const option = { withCredentials: true }
             const response = await axios.post("http://localhost:8080/saykorean/signup", obj, option)
             console.log("보내는값확인", obj);
             const data = response.data;
             console.log("userNo", data, "으로 가입");
-            alert("Welcome! 회원이 되신 것을 환영합니다. ")
+            alert(t("signuppage.welcome"))
             navigate("/login");
             console.log("회원가입 성공");
         } catch (e) {
-            alert("회원가입이 실패 했습니다.");
+            alert(t("signuppage.fail"));
             console.log("회원가입 실패", e)
         }
     }
@@ -139,28 +139,28 @@ export default function SignUpPage(props) {
 
 
     return (<> <div id="signUpWrapper" className="homePage">
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-              <div style={{paddingRight:20}} >
+        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <div style={{ paddingRight: 20 }} >
                 <a href="http://localhost:8080/oauth2/authorization/google">
-                  <img src="/img\loginLogo_img\web_light_sq_ctn@1x.png" />
+                    <img src="/img\loginLogo_img\web_light_sq_ctn@1x.png" />
                 </a>
-              </div>
-              <div>
-                <a href="http://localhost:8080/oauth2/authorization/kakao">
-                  <img src="/img\loginLogo_img\kakao_eng_login_medium_narrow.png" style={{ height: 40 }} />
-                </a>
-              </div>
             </div>
+            <div>
+                <a href="http://localhost:8080/oauth2/authorization/kakao">
+                    <img src="/img\loginLogo_img\kakao_eng_login_medium_narrow.png" style={{ height: 40 }} />
+                </a>
+            </div>
+        </div>
         <h3>{t("signup.signup")}</h3>
 
         <div className="info">
-            <input type="text" placeholder= {t("signup.inputName")} value={name} onChange={e => setName(e.target.value)} />
+            <input type="text" placeholder={t("signup.inputName")} value={name} onChange={e => setName(e.target.value)} />
         </div>
 
         <div className="info row">
             <input
                 type="email"
-                placeholder= {t("signup.inputEmail")}
+                placeholder={t("signup.inputEmail")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className={emailCheck ? "input error" : "input success"}

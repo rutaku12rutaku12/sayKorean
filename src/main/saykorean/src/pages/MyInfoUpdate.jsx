@@ -66,16 +66,16 @@ export default function MyInfoUpdatePage(props) {
             const data = response.data;
             setUserInfo(data);
             dispath(logIn(data));
-            alert("회원정보가 정상적으로 수정되었습니다.");
+            alert(t("myinfoupdate.updateUser"));
         } catch (e) {
             console.log(e);
-            alert("오류가 발생하였습니다.")
+            alert(t("myinfoupdate.error"))
         }
     }
     // 비밀번호 수정 함수
     const onUpdatePwrd = async (currentPassword, newPassword, checkPassword) => {
         console.log("onUpdatePwrd")
-        if (newPassword != checkPassword) { return alert("변경할 비밀번호가 다릅니다.") }
+        if (newPassword != checkPassword) { return alert(t("myinfoupdate.checkNewPassword")) }
         try {
             console.log("currentPassword:", currentPassword, "newPassword:", newPassword, "checkPassword:", checkPassword);
             const obj = { userNo: userInfo.userNo, currentPassword, newPassword };
@@ -84,11 +84,11 @@ export default function MyInfoUpdatePage(props) {
             const data = response.data;
             console.log(data);
             setUserInfo(data);
-            alert("비밀번호가 정상적으로 수정되었습니다.");
+            alert(t("myinfoupdate.updatePassword"));
             navigate("/mypage")
         } catch (e) {
             console.log(e);
-            alert("오류가 발생하였습니다.")
+            alert(t("myinfoupdate.error"))
         }
     }
 
@@ -109,15 +109,15 @@ export default function MyInfoUpdatePage(props) {
             }
             else if (data == 0) {
                 setPhoneCheck(false);
-                { alert("사용 가능한 연락처입니다.") }
+                { alert(t("signuppage.ablePhone")) }
             }
             else if (data == 1) {
                 setPhoneCheck(true);
-                alert("이미 등록된 연락처입니다.")
+                alert(t("signuppage.usedPhone"))
             }
-            else { alert("전화번호 형식에 맞게 입력해 주세요.") }
+            else { alert(t("signuppage.formPhone")) }
         } catch (e) {
-            alert("연락처 형식이 올바르지 않습니다.")
+            alert(t("signuppage.formPhoneError"))
             console.log("예외 : ", e)
         }
     }
@@ -127,7 +127,7 @@ export default function MyInfoUpdatePage(props) {
         console.log("onDelete.exe")
         const promptPassword = prompt("정말 탈퇴하시겠습니까? 비밀번호를 입력해주세요.");
         if (!promptPassword)
-            return alert("비밀번호를 다시 입력해주세요.");
+            return alert(t("myinfoupdate.inputPassword"));
         // CORS 허용
         try {
             const option = { withCredentials: true }
@@ -135,7 +135,7 @@ export default function MyInfoUpdatePage(props) {
             console.log(response.data);
             const data = response.data
             if (data == 1) {
-                alert("회원탈퇴가 완료되었습니다.")
+                alert(t("myinfoupdate.removeSignup"))
                 dispath(logOut());
                 navigate("/login");
             }

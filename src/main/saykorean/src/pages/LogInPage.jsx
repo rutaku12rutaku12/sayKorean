@@ -56,12 +56,12 @@
               const response = await axios.post("http://localhost:8080/saykorean/attend",obj,option)
               console.log(response);
               if(response.status==200){
-              alert("출석체크가 되었습니다.")}
+              alert(t("loginpage.checkAttend"))}
               else if(response.status==222)
                   {alert(response.data)}
               else{console.log("오류 발생")} }
           catch(e)            
-              {alert("출석체크 오류가 발생했습니다.");
+              {alert(t("loginpage.attendError"));
                   console.log(e);
               }
       }
@@ -76,7 +76,7 @@
               const response = await axios.post("http://localhost:8080/saykorean/login",obj,option)
               const data = response.data;
               if (data.userState == -2) {
-                alert("제재된 계정입니다.")
+                alert(t("loginpage.outlawUser"))
                 return;
               }
               console.log("현재 로그인한 userNo:",data);
@@ -86,7 +86,7 @@
               await onAttend();
           }catch(e){console.log("로그인 실패 : ", e)
               console.log("입력 이메일:", email, "입력 비번:", password);
-              alert("로그인 정보가 잘못되거나 없는 계정입니다.")
+              alert(t("loginpage.notLogined"))
           }
       }
 

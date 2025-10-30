@@ -41,7 +41,7 @@ export default function Language() {
     i18n.changeLanguage(lng);
     localStorage.setItem("lang", lng);
 
-    alert(t("언어가 변경되었습니다!"));
+    alert(t("language.changeLang"));
     navigate("/mypage");
   };
 
