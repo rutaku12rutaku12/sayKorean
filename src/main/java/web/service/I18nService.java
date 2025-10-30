@@ -367,7 +367,7 @@ public class I18nService {
                     Map.entry("account.findPasswordTitle", "找回密码"),
                     Map.entry("account.name", "姓名"),
                     Map.entry("account.phone", "电话"),
-                    Map.entry("account.email", "邮箱"),
+                    Map.entry(  "account.email", "邮箱"),
                     Map.entry("account.namePlaceholder", "请输入姓名。"),
                     Map.entry("account.phonePlaceholder", "请输入电话。"),
                     Map.entry("account.emailPlaceholder", "请输入邮箱。"),
