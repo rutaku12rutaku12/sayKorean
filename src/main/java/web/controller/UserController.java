@@ -43,7 +43,9 @@ public class UserController {
 
             int result = userService.signUp(userDto);
             if (result >= 1) { // userNo 반환
+                System.out.println("userNo 반환 : " + result);
                 return ResponseEntity.status(200).body(userDto.getUserNo());
+
             } else {
                 return ResponseEntity.status(400).body(0);
             }
@@ -61,6 +63,7 @@ public class UserController {
         LoginDto result = userService.logIn(loginDto);
         if( result!=null){
             session.setAttribute("userNo",result.getUserNo());
+            System.out.println("로그인 성공, 로그인한 회원 정보 : "+result);
             return ResponseEntity.status(200).body(result);
         }else {return ResponseEntity.status(400).body(result);}
     } // func end
@@ -76,6 +79,7 @@ public class UserController {
         }
         // 세션이 제거되면 로그아웃 성공
         session.removeAttribute("userNo");
+        System.out.println("로그아웃 성공");
         return ResponseEntity.status(200).body(1);
     }
 
@@ -93,7 +97,8 @@ public class UserController {
         int userNo = (int)obj;
         // 서비스에게 전달하고 응답 받기
         UserDto result = userService.info(userNo);
-        return ResponseEntity.status(200).body(result);
+            System.out.println("로그인 한 사용자의 정보조회 : "+result);
+            return ResponseEntity.status(200).body(result);
     } // func end
 
     // [US-05] 이메일 중복검사 checkEmail()
@@ -106,6 +111,7 @@ public class UserController {
             return ResponseEntity.status(400).body(-1);
         }
         int result = userService.checkEmail(email);
+            System.out.println("이메일 중복검사 (0중복,1중복아님) : "+result);
             return ResponseEntity.status(200).body(result);
     } // func end
 
@@ -117,6 +123,7 @@ public class UserController {
             return ResponseEntity.status(400).body(-1);
         }
         int result = userService.checkPhone(phone);
+            System.out.println("연락처 중복검사 (0중복,1중복아님) : "+result);
             return ResponseEntity.status(200).body(result);
     } // func end
 
@@ -126,6 +133,7 @@ public class UserController {
     @NotBlank @RequestParam String phone){
         String result = userService.findEmail(name,phone);
         if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
+        System.out.println("찾는 이메일 : "+result);
         return ResponseEntity.status(200).body(result);
     } // func end
 
@@ -135,6 +143,7 @@ public class UserController {
     @NotBlank @RequestParam String phone, @NotBlank @RequestParam String email){
         String result = userService.findPwrd(name, phone, email);
         if( result == null){return ResponseEntity.status(400).body("올바른 값을 입력해주세요.");}
+        System.out.println("임시비밀번호 발급 : "+result);
         return ResponseEntity.status(200).body(result);
     } // func end
 
@@ -156,6 +165,7 @@ public class UserController {
         // dto 담아주기
         updateUserInfoDto.setUserNo(userNo);
         int result = userService.updateUserInfo(updateUserInfoDto);
+        System.out.println("회원정보 수정 성공 시 1이 출력 : "+result);
         return ResponseEntity.status(200).body(result);
     } // func end
 
@@ -177,6 +187,7 @@ public class UserController {
         if( result == null){
             return ResponseEntity.status(400).body("기존 비밀번호 불일치");
         }
+        System.out.println("비밀번호 수정 성공한 회원 UpdatePwrdDto 반환 : "+result);
         return ResponseEntity.status(200).body(result+"비밀번호 변경 성공");
     } // func end
 

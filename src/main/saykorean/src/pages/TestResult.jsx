@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { info } from "../store/infoSlice";
+import { info } from "../store/infoSlice.jsx";
 import { useSelector, useDispatch } from "react-redux";
 
 axios.defaults.baseURL = "http://localhost:8080";

@@ -386,40 +386,6 @@ INSERT IGNORE INTO ranking
 (6, 1, '감사합니다', 1, '2025-10-16 14:15:00', 6, 29),
 (6, 2, '객관식 문항이거나 공란으로 제출했습니다.', -1, '2025-10-16 14:20:00', 7, 30);
 
-
--- --INSERT INTO loading (loadTitle, loadInfo, loadFileName) VALUES
--- --('숭례문', '남대문이라고도 불립니다', '1_load_img'),
--- --('북촌한옥마을', '외국인들이 더 많은 곳입니다', '2_load_img'),
--- --('국립중앙박물관', '요즘 핫합니다', '3_load_img'),
--- --('경복궁', '조선의 대표 궁궐입니다', '4_load_img'),
--- --('창덕궁', '비원으로 유명합니다', '5_load_img'),
--- --('덕수궁', '도심 속 궁궐로 인기 있습니다', '6_load_img'),
--- --('남산타워', '야경이 아름답습니다', '7_load_img'),
--- --('광화문', '서울의 중심입니다', '8_load_img'),
--- --('한강공원', '서울 시민들의 쉼터입니다', '9_load_img'),
--- --('롯데월드', '아이들에게 인기 많은 테마파크입니다', '10_load_img'),
--- --('코엑스', '국제 박람회가 자주 열립니다', '11_load_img'),
--- --('63빌딩', '한강 전망이 멋진 곳입니다', '12_load_img'),
--- --('홍대거리', '젊음의 거리로 유명합니다', '13_load_img'),
--- --('명동', '쇼핑의 메카입니다', '14_load_img'),
--- --('이태원', '다문화 거리로 유명합니다', '15_load_img'),
--- --('잠실야구장', '야구 팬들의 성지입니다', '16_load_img'),
--- --('서울숲', '산책하기 좋은 공원입니다', '17_load_img'),
--- --('청계천', '도심 속 힐링 장소입니다', '18_load_img'),
--- --('남이섬', '자연이 아름다운 여행지입니다', '19_load_img'),
--- --('가로수길', '감성 카페가 많은 거리입니다', '20_load_img'),
--- --('DDP', '현대적 건축미가 돋보이는 공간입니다', '21_load_img'),
--- --('국립과학관', '아이들과 함께하기 좋습니다', '22_load_img'),
--- --('올림픽공원', '자전거 타기 좋은 장소입니다', '23_load_img'),
--- --('서울대공원', '동물원과 식물원이 있습니다', '24_load_img'),
--- --('북한산', '등산 명소로 유명합니다', '25_load_img'),
--- --('남산공원', '케이블카 타고 올라갈 수 있습니다', '26_load_img'),
--- --('경희궁', '조선시대 다섯 궁 중 하나입니다', '27_load_img'),
--- --('롯데타워', '서울의 랜드마크입니다', '28_load_img'),
--- --('광장시장', '빈대떡으로 유명한 전통시장입니다', '29_load_img'),
--- --('서울시청', '시민들의 행정 중심지입니다', '30_load_img');
-
-
 INSERT IGNORE INTO languages (langName) VALUES
 ('한국어'),
 ('日本語'),
@@ -427,4 +393,13 @@ INSERT IGNORE INTO languages (langName) VALUES
 ('English'),
 ('español');
 
+select * from genre;
+select * from study;
+select * from exam;
+select * from audio;
 select * from users;
+select * from attendance;
+select * from test;
+select * from testItem;
+select * from ranking;
+select * from languages;

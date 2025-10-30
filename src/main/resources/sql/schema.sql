@@ -41,83 +41,32 @@ CREATE TABLE IF NOT EXISTS genre (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
--- =====================================================================
--- 2) 사용자 테이블 (부모 - FK 없음)
--- =====================================================================
-CREATE TABLE IF NOT EXISTS users (
-  userNo       INT          NOT NULL AUTO_INCREMENT,
-  name         VARCHAR(200) NOT NULL,
-  email        VARCHAR(50)  NOT NULL UNIQUE,
-  password     VARCHAR(100)  NOT NULL,
-  nickName     VARCHAR(50)  NOT NULL DEFAULT '토돌이',
-  phone        VARCHAR(15)  UNIQUE,
-  signupMethod INT          NOT NULL DEFAULT 1,
-  userState    INT          NOT NULL DEFAULT 1,
-  userDate     DATETIME     NOT NULL DEFAULT NOW(),
-  userUpdate   DATETIME     NOT NULL DEFAULT NOW() ON UPDATE NOW(),
-  uid          VARCHAR(100) UNIQUE,
-  urole        VARCHAR(20)  NOT NULL DEFAULT 'USER',
-  PRIMARY KEY (userNo)
-) ENGINE=InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  -- =====================================================================
+  -- 2) 교육 주제 테이블 (1단계 - FK: genreNo)
+  -- =====================================================================
+  CREATE TABLE IF NOT EXISTS study (
+    studyNo   INT          NOT NULL AUTO_INCREMENT,
+    themeKo   VARCHAR(255) NOT NULL UNIQUE,
+    themeJp   VARCHAR(255) NOT NULL UNIQUE,
+    themeCn   VARCHAR(255) NOT NULL UNIQUE,
+    themeEn   VARCHAR(255) NOT NULL UNIQUE,
+    themeEs   VARCHAR(255) NOT NULL UNIQUE,
+    commenKo  TEXT         NOT NULL,
+    commenJp  TEXT         NOT NULL,
+    commenCn  TEXT         NOT NULL,
+    commenEn  TEXT         NOT NULL,
+    commenEs  TEXT         NOT NULL,
+    genreNo   INT          NOT NULL,
+    PRIMARY KEY (studyNo),
+    CONSTRAINT fk_study_genre
+      FOREIGN KEY (genreNo) REFERENCES genre(genreNo)
+      ON UPDATE CASCADE ON DELETE RESTRICT
+  ) ENGINE=InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 -- =====================================================================
--- 3) 로딩 테이블 (독립 - FK 없음)
--- =====================================================================
--- CREATE TABLE IF NOT EXISTS loading (
---  loadNo       INT  NOT NULL AUTO_INCREMENT,
---  loadTitle    TEXT NOT NULL,
---  loadInfo     TEXT NOT NULL,
---  loadFileName TEXT NOT NULL,
---  PRIMARY KEY (loadNo)
--- ) ENGINE=InnoDB
---  DEFAULT CHARSET = utf8mb4
---  COLLATE = utf8mb4_0900_ai_ci;
-
--- =====================================================================
--- 4) 교육 주제 테이블 (1단계 - FK: genreNo)
--- =====================================================================
-CREATE TABLE IF NOT EXISTS study (
-  studyNo   INT          NOT NULL AUTO_INCREMENT,
-  themeKo   VARCHAR(255) NOT NULL UNIQUE,
-  themeJp   VARCHAR(255) NOT NULL UNIQUE,
-  themeCn   VARCHAR(255) NOT NULL UNIQUE,
-  themeEn   VARCHAR(255) NOT NULL UNIQUE,
-  themeEs   VARCHAR(255) NOT NULL UNIQUE,
-  commenKo  TEXT         NOT NULL,
-  commenJp  TEXT         NOT NULL,
-  commenCn  TEXT         NOT NULL,
-  commenEn  TEXT         NOT NULL,
-  commenEs  TEXT         NOT NULL,
-  genreNo   INT          NOT NULL,
-  PRIMARY KEY (studyNo),
-  CONSTRAINT fk_study_genre
-    FOREIGN KEY (genreNo) REFERENCES genre(genreNo)
-    ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
--- =====================================================================
--- 5) 출석 테이블 (1단계 - FK: userNo)
--- =====================================================================
-CREATE TABLE IF NOT EXISTS attendance (
-  attenNo   INT      NOT NULL AUTO_INCREMENT,
-  attenDate DATETIME NOT NULL default now(),
-  attendDay date not null default (CURRENT_DATE),
-  userNo    INT      NOT NULL,
-  PRIMARY KEY (attenNo),
-  UNIQUE KEY uq_attendance_user_datetime (userNo, attendDay),
-  CONSTRAINT fk_attendance_user
-    FOREIGN KEY (userNo) REFERENCES users(userNo)
-    ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
--- =====================================================================
--- 6) 예문 테이블 (2단계 - FK: studyNo)
+-- 3) 예문 테이블 (2단계 - FK: studyNo)
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS exam (
   examNo     INT          NOT NULL AUTO_INCREMENT,
@@ -142,6 +91,66 @@ CREATE TABLE IF NOT EXISTS exam (
   MODIFY COLUMN imageName VARCHAR(255) NULL DEFAULT 'no_image',
   MODIFY COLUMN imagePath VARCHAR(255) NULL DEFAULT '/images/default';
 
+  -- =====================================================================
+  -- 4) 음성 파일 테이블 (3단계 - FK: examNo)
+  -- =====================================================================
+  CREATE TABLE IF NOT EXISTS audio (
+    audioNo   INT          NOT NULL AUTO_INCREMENT,
+    audioName VARCHAR(255) NOT NULL,
+    audioPath VARCHAR(255) NOT NULL,
+    lang      INT          NOT NULL,
+    examNo    INT          NOT NULL,
+    PRIMARY KEY (audioNo),
+    CONSTRAINT fk_audio_exam
+      FOREIGN KEY (examNo) REFERENCES exam(examNo)
+      ON UPDATE CASCADE ON DELETE CASCADE
+  ) ENGINE=InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
+    ALTER TABLE audio MODIFY audioName VARCHAR(255) NULL;
+    ALTER TABLE audio MODIFY audioPath VARCHAR(255) NULL;
+
+
+-- =====================================================================
+-- 5) 사용자 테이블 (부모 - FK 없음)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS users (
+  userNo       INT          NOT NULL AUTO_INCREMENT,
+  name         VARCHAR(200) NOT NULL,
+  email        VARCHAR(50)  NOT NULL UNIQUE,
+  password     VARCHAR(100)  NOT NULL,
+  nickName     VARCHAR(50)  NOT NULL DEFAULT '토돌이',
+  phone        VARCHAR(15)  UNIQUE,
+  signupMethod INT          NOT NULL DEFAULT 1,
+  userState    INT          NOT NULL DEFAULT 1,
+  userDate     DATETIME     NOT NULL DEFAULT NOW(),
+  userUpdate   DATETIME     NOT NULL DEFAULT NOW() ON UPDATE NOW(),
+  uid          VARCHAR(100) UNIQUE,
+  urole        VARCHAR(20)  NOT NULL DEFAULT 'USER',
+  PRIMARY KEY (userNo)
+) ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+-- =====================================================================
+-- 6) 출석 테이블 (1단계 - FK: userNo)
+-- =====================================================================
+CREATE TABLE IF NOT EXISTS attendance (
+  attenNo   INT      NOT NULL AUTO_INCREMENT,
+  attenDate DATETIME NOT NULL default now(),
+  attendDay date not null default (CURRENT_DATE),
+  userNo    INT      NOT NULL,
+  PRIMARY KEY (attenNo),
+  UNIQUE KEY uq_attendance_user_datetime (userNo, attendDay),
+  CONSTRAINT fk_attendance_user
+    FOREIGN KEY (userNo) REFERENCES users(userNo)
+    ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+
+
 -- =====================================================================
 -- 7) 시험 테이블 (2단계 - FK: studyNo)
 -- =====================================================================
@@ -162,27 +171,9 @@ CREATE TABLE IF NOT EXISTS test (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
--- =====================================================================
--- 8) 음성 파일 테이블 (3단계 - FK: examNo)
--- =====================================================================
-CREATE TABLE IF NOT EXISTS audio (
-  audioNo   INT          NOT NULL AUTO_INCREMENT,
-  audioName VARCHAR(255) NOT NULL,
-  audioPath VARCHAR(255) NOT NULL,
-  lang      INT          NOT NULL,
-  examNo    INT          NOT NULL,
-  PRIMARY KEY (audioNo),
-  CONSTRAINT fk_audio_exam
-    FOREIGN KEY (examNo) REFERENCES exam(examNo)
-    ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-  ALTER TABLE audio MODIFY audioName VARCHAR(255) NULL;
-  ALTER TABLE audio MODIFY audioPath VARCHAR(255) NULL;
 
 -- =====================================================================
--- 9) 시험문항 테이블 (3단계 - FK: examNo, testNo)
+-- 8) 시험문항 테이블 (3단계 - FK: examNo, testNo)
 -- =====================================================================
 -- question 외국어로 번역 해야됨
 CREATE TABLE IF NOT EXISTS testItem (
@@ -207,7 +198,7 @@ CREATE TABLE IF NOT EXISTS testItem (
   COLLATE = utf8mb4_0900_ai_ci;
 
 -- =====================================================================
--- 10) 랭킹 테이블 (4단계 - FK: testItemNo, userNo) // 확인 필요
+-- 9) 랭킹 테이블 (4단계 - FK: testItemNo, userNo) // 확인 필요
 -- =====================================================================
 CREATE TABLE IF NOT EXISTS ranking (
   rankNo         INT          NOT NULL AUTO_INCREMENT,                -- PK
@@ -215,7 +206,7 @@ CREATE TABLE IF NOT EXISTS ranking (
   selectedExamNo INT          DEFAULT NULL,                           -- 객관식일 경우 선택된 보기 (examNo)
   userAnswer     VARCHAR(500) NOT NULL DEFAULT '객관식 문항이거나 공란으로 제출했습니다.',
   isCorrect      TINYINT      NOT NULL DEFAULT 0,                     -- 정답 여부
-  resultDate     DATETIME     NOT NULL DEFAULT NOW(),                 -- 제출 시각
+  resultDate     DATETIME     NOT NULL DEFAULT NOW(),                 -- 제출 일시
   testItemNo     INT          NOT NULL,                               -- FK: 문항
   userNo         INT          NOT NULL,                               -- FK: 사용자
   PRIMARY KEY (rankNo),
@@ -232,7 +223,7 @@ CREATE TABLE IF NOT EXISTS ranking (
   COLLATE = utf8mb4_0900_ai_ci;
 
   -- =====================================================================
-  -- 11) 언어 테이블
+  -- 10) 언어 테이블
   -- =====================================================================
   CREATE TABLE IF NOT EXISTS languages (
     langNo   INT NOT NULL AUTO_INCREMENT,
@@ -241,3 +232,14 @@ CREATE TABLE IF NOT EXISTS ranking (
   ) ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
+
+    select * from genre;
+    select * from study;
+    select * from exam;
+    select * from audio;
+    select * from users;
+    select * from attendance;
+    select * from test;
+    select * from testItem;
+    select * from ranking;
+    select * from languages;
