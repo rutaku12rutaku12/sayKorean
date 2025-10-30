@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { info } from "../store/infoSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
@@ -11,13 +13,25 @@ export default function TestResult() {
   const navigate = useNavigate();
   const { testNo } = useParams();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   
   // 초기값을 null 대신 객체로 설정
   const [score, setScore] = useState({ score: 0, total: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const {isAuthenticated, userInfo } = useSelector((state)=>state.user);
+  const userNo = userInfo?.userNo ?? 1
+
   useEffect(() => {
+    // 로그인한 사용자 정보 불러오기 (선택사항)
+    if (!userInfo) dispatch(info());
+  }, [dispatch, userInfo]);
+
+
+
+  useEffect(() => {
+    // info();
     (async () => {
       try {
         setLoading(true);
@@ -26,7 +40,7 @@ export default function TestResult() {
         // 🎯 userNo를 세션에서 가져오는 것이 이상적
         // 임시로 1 사용 (실제로는 세션 정보 필요)
         const res = await axios.get("/saykorean/test/getscore", {
-          params: { userNo: 1, testNo } // testRound 파라미터 제거됨
+          params: { userNo, testNo } // testRound 파라미터 제거됨
         });
         
         console.log("📊 점수 데이터:", res.data);
@@ -44,7 +58,7 @@ export default function TestResult() {
         setLoading(false);
       }
     })();
-  }, [testNo, t]);
+  }, [testNo, t, userNo]);
 
   const returnTest = () => {
     navigate("/testlist");
