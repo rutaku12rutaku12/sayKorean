@@ -157,23 +157,22 @@ export default function Study() {
 
   // 언어 확정되면 주제 목록 로드
   useEffect(() => {
-    // 1️⃣ 가드 조건: langNo가 null이면 실행하지 않음
+    // 가드 조건: langNo가 null이면 실행하지 않음
     if (langNo === null) return;
 
-    // 2️⃣ 즉시 실행 비동기 함수 (IIFE 패턴)
+    // 즉시 실행 비동기 함수 (IIFE 패턴)
     (async () => {
-      // 3️⃣ localStorage에서 장르 번호 가져오기
+      // localStorage에서 장르 번호 가져오기
       const genreNo = getGenreNo();
       if (!genreNo) return;// 장르가 없으면 중단
-      // 4️⃣ 백엔드 API 호출 (장르와 언어에 맞는 주제 목록 조회)
+      // 백엔드 API 호출 (장르와 언어에 맞는 주제 목록 조회)
       const list = await getSubject(genreNo);
 
-      // 5️⃣ 받아온 데이터를 UI용 형태로 변환
+      // 받아온 데이터를 UI용 형태로 변환
       setSubjects(
         list.map((s) => ({
           id: Number(s.studyNo),                      // 주제 번호
-          label: s.themeSelected ?? s.themeKo,        // 선택된 언어의 주제명 (없으면 한국어)
-          subLabel: s.themeEn ? `(${s.themeEn})` : "" // 영어 부제목 (있으면 괄호 안에)
+          label: s.themeSelected ?? s.themeKo         // 선택된 언어의 주제명 (없으면 한국어)
         }))
       );
     })();
