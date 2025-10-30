@@ -96,7 +96,8 @@ public class TranslationService {
     public TranslatedDataDto translateAll(TranslationRequestDto requestDto) throws IOException {
         log.info("🌐 자동번역 시작 - themeKo: {}, commenKo: {}, examKo: {}",
                 requestDto.getThemeKo(),
-                requestDto.getCommenKo() != null ? requestDto.getCommenKo().substring(0, Math.min(20, requestDto.getCommenKo().length())) : "null",
+                requestDto.getCommenKo() != null ? requestDto.getCommenKo()
+                        .substring(0, Math.min(20, requestDto.getCommenKo().length())) : "null",
                 requestDto.getExamKo());
         // 1-1. 주제/해설/예문 한국어 텍스트 입력 시 응답할 객체를 생성
         TranslatedDataDto response = new TranslatedDataDto();
@@ -128,7 +129,7 @@ public class TranslationService {
         // 1-5. 리턴
         return response;
 
-        // 로마자 변환은 없음 ㅜㅜ 파이썬에서 찾아서 하기
+        // 로마자(발음기호) 변환은 없으므로 파이썬에서 찾아서 하기
     }
 
     // [*] 시험 제목/문항 자동 번역
