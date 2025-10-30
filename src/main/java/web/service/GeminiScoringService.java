@@ -38,12 +38,15 @@ public class GeminiScoringService {
     public record ScoreResult(int score, String rawText) {}
 
     // 채점 메서드: 문제, 기준정답, 사용자의 답, 언어 힌트를 받아 모델을 호출 후 점수만 뽑아 반환
-    public ScoreResult score(String question, String groundTruth, String userAnswer, String langHint) throws Exception {
+    public ScoreResult score(String question, String groundTruth,
+                             String userAnswer, String langHint) throws Exception {
 
         // [1] 환경 변수 로드: 지정한 JSON에서 키를 읽어 System.properties 등에 세팅
-        EnvLoader.loadJsonEnv("src/main/resources/env.app.json"); // 시스템 속성에서 키 조회
+        // 시스템 속성에서 키 조회
+        EnvLoader.loadJsonEnv("src/main/resources/env.app.json");
 
-        String apiKey = System.getProperty("GOOGLE_API_KEY"); // 비어 있으면 재시도 (현재는 같은 키를 다시 조회)
+        String apiKey = System.getProperty("GOOGLE_API_KEY");
+        // 비어 있으면 재시도 (현재는 같은 키를 다시 조회)
         if (apiKey == null || apiKey.isBlank()) {
             apiKey = System.getProperty("GOOGLE_API_KEY");
         }

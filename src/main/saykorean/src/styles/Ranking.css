@@ -52,7 +52,7 @@
 }
 
 #Ranking .tabBtn {
-  padding: 10px 18px;
+  padding: 10px 13px;
   border-radius: 50px;
   border: 1px solid var(--border);
   background: var(--btn-bg, linear-gradient(180deg, #fff, #fafafa));

@@ -26,7 +26,7 @@
   background: var(--panel-bg);
   border-radius: 16px;
   margin: 18px 0 0;
-  padding: 20px 16px calc(24px + var(--footer-height));
+  /* padding: 20px 16px calc(24px + var(--footer-height)); */
   flex: 1;
   overflow: auto;
 }

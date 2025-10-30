@@ -27,7 +27,7 @@
 
 /* 제목 */
 .homePage > h3 {
-  margin-top: 8px;
+  margin-top: 15px;
   margin-bottom: 22px;
   font-size: 28px;
   font-weight: 700;
@@ -89,11 +89,12 @@
   border: 1px solid var(--border);
   background: linear-gradient(180deg, #fff, #fafafa); /* pill 느낌 */
   color: #6b4e42;
+  font-size: 15px;
   font-weight: 600;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 12px;
 
   transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;

@@ -15,13 +15,13 @@ export default function SuccessExamList( props ){
   const [error, setError] = useState("");
   const { t } = useTranslation();
 
-  // ✅ 언어를 '처음 렌더 전에' 바로 결정 (즉시 렌더 위해 lazy init)
+  // 언어를 '처음 렌더 전에' 바로 결정 (즉시 렌더 위해 lazy init)
   const [langNo, setLangNo] = useState(() => {
     const stored = Number(localStorage.getItem("selectedLangNo"));
     return Number.isFinite(stored) && stored > 0 ? stored : 1; // ko=1
   });
 
-  // ✅ 로컬에서 ID를 즉시 읽어 '바로' 그릴 수 있도록 초기값 구성
+  // 로컬에서 ID를 즉시 읽어 '바로' 그릴 수 있도록 초기값 구성
   //    -> placeholder로 먼저 그렸다가, 아래 useEffect에서 상세를 하이드레이트
   const [studies, setStudies] = useState(() => {
     try {
@@ -106,13 +106,10 @@ export default function SuccessExamList( props ){
         <ul className="successExamListWrap">
           {(Array.isArray(studies) ? studies : []).map((s) => (
             <li key={s.studyNo} className="successExamList">
-              <div className="study">
                 {/* 즉시 렌더: themeSelected 없으면 fallback으로 '주제 #번호' */}
+                <button className="study" onClick={() => navigate(`/study/${s.studyNo}`)}>
                 {s.themeSelected ?? s.themeKo ?? t("successList.fallbackTitle", { num: s.studyNo })}
-                <button onClick={() => navigate(`/study/${s.studyNo}`)}>
-                  {t("successList.go")}
                 </button>
-              </div>
             </li>
           ))}
         </ul>

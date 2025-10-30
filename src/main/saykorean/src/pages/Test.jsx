@@ -243,15 +243,15 @@ export default function Test() {
           )}
 
           {/* 📝 주관식 예문 표시 (3번째 문항) */}
-{isSubjective && cur.examSelected && (
-  <div className="q-example">
-    {/* <p className="title">
+          {isSubjective && cur.examSelected && (
+            <div className="q-example">
+              {/* <p className="title">
     </p> */}
-    <p className="content">
-      {cur.examSelected}
-    </p>
-  </div>
-)}
+              <p className="content">
+                {cur.examSelected}
+              </p>
+            </div>
+          )}
 
           {/* 객관식 보기 (1, 2번째 문항) */}
           {isMultiple ? (

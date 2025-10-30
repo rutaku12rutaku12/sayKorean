@@ -53,17 +53,17 @@ public class TestService {
 //
 //            if (isMultiple) {
 
-            // ===== 🎯 핵심 수정: 문항 순서로 타입 판단 =====
+            // =====  핵심 수정: 문항 순서로 타입 판단 =====
             // 1번째 문항(index 0) = 그림 + 객관식
             // 2번째 문항(index 1) = 음성 + 객관식
             // 3번째 문항(index 2) = 주관식
             // 이후 반복: 3n+1 = 그림, 3n+2 = 음성, 3n = 주관식
             int questionType = itemIndex % 3; // 0=그림, 1=음성, 2=주관식
-                // ===== 🎯 핵심 수정: 언어별 예문 조회 =====
+                // =====  핵심 수정: 언어별 예문 조회 =====
                 // 정답 예문을 언어에 맞게 조회
                 ExamDto correct = testMapper.findExamByNo(item.getExamNo(), langNo);
                 if (correct != null) {
-                    // 🎯 주관식을 위한 예문 정보 추가
+                    // 주관식을 위한 예문 정보 추가
                     m.put("examSelected", correct.getExamSelected()); // 사용자 언어별 예문
                     m.put("examKo", correct.getExamKo()); // 한국어 예문 (fallback)
 
@@ -80,7 +80,7 @@ public class TestService {
                         c.put("isCorrect", true);
                         options.add(c);
 
-                        // ===== 🎯 오답도 언어별로 조회 =====
+                        // ===== 오답도 언어별로 조회 =====
                         // 오답 2개를 언어에 맞게 조회
                         List<ExamDto> wrongs = testMapper.findRandomExamsExcludingWithLang(
                                 item.getExamNo(),

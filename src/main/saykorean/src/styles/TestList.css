@@ -80,6 +80,8 @@
   border: 1px solid var(--border);
   color: var(--text-medium);
   font-weight: 700;
+  justify-content: center;
+  font-size: 15px;
 
   cursor: pointer;
   transition: transform .12s ease, box-shadow .12s ease;

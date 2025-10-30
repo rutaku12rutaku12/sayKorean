@@ -24,6 +24,18 @@ export default function MyPage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+  // [추가] 장르 번호 → i18n 키 매핑
+  const GENRE_KEY = {
+    1: "genre.name.daily",
+    2: "genre.name.society",
+    3: "genre.name.media",
+    4: "genre.name.kpop",
+    5: "genre.name.tradition",
+    6: "genre.name.digital",
+    7: "genre.name.dialect",
+  };
+
   // 수정페이지로 이동 함수 MyInfoUpdate.jsx
   const onUpdate = async () => {
     navigate("/update");
@@ -71,31 +83,36 @@ export default function MyPage(props) {
     navigate("/rank")
   }
 
-  const successExamListBtn = async() => {
+  const successExamListBtn = async () => {
     navigate("/successexamlist")
   }
 
   const getGenre = async () => {
     try {
-      const genreNo = Number(localStorage.getItem("selectedGenreNo"));
-      if (!genreNo) return;
-
-      // 장르 목록 조회 API (controller: saykorean/study/getGenre)
-      const res = await axios.get("http://localhost:8080/saykorean/study/getGenre");
-      const list = res.data;
-
-      // genreNo 일치하는 항목 찾기
-      const selected = list.find((g) => g.genreNo == genreNo);
-      if (selected) {
-        setGenreName(selected.genreName);
-      } else {
-        setGenreName("미설정");
+      const genreNo = Number(localStorage.getItem("selectedGenreNo") || 0);
+      if (!genreNo) {
+        setGenreName(t("genre.name.unset", { defaultValue: "미설정" }));
+        return;
       }
+
+      // 1) 서버 목록 가져오기(선택된 번호의 원본 이름도 폴백용으로 사용)
+      const res = await axios.get("http://localhost:8080/saykorean/study/getGenre");
+      const list = res.data ?? [];
+      const selected = list.find((g) => g.genreNo === genreNo);
+
+      // 2) 번호 -> i18n 키 매핑
+      const key = GENRE_KEY[genreNo] ?? null;
+
+      // 3) 번역값 우선
+      const fallback = selected?.genreName ?? "미설정";
+      const localized = key ? t(key, { defaultValue: fallback }) : fallback;
+
+      setGenreName(localized);
     } catch (e) {
       console.error("장르 조회 오류:", e);
+      setGenreName(t("genre.name.unset", { defaultValue: "미설정" }));
     }
-
-  }
+  };
 
   const getLang = async () => {
     try {
