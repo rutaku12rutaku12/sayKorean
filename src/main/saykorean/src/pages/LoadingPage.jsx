@@ -50,7 +50,7 @@ export default function LoadingPage(props) {
         });
       } catch (e) {
         console.error(e);
-        alert("채점 중 오류가 발생했습니다.");
+        alert(t("loadingpage.gradeError"));
         navigate(state.backTo || "/home", { replace: true });
       }
     })();
