@@ -189,6 +189,12 @@ public class UserService {
     // <수정> 랭킹 삭제 서비스 추가했습니다
     public int deleteUserStatus(DeleteUserStatusDto deleteUserStatusDto){
 
+        String DB에저장된비번 = userMapper.findPass(deleteUserStatusDto.getUserNo());
+        System.out.println("DB에 저장된 비밀번호 해시: " + DB에저장된비번);
+        // DB에 저장된 기존 비밀번호를 솔트를 통해 일치하는지 검증
+        if (!bcrypt.matches(deleteUserStatusDto.getPassword(), DB에저장된비번)) {
+            return 0; // 기존 비밀번호 불일치
+        }
         int userNo = deleteUserStatusDto.getUserNo();
         try {
             // 1) 랭킹 데이터 삭제

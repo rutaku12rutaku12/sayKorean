@@ -56,7 +56,7 @@ public interface UserMapper {
     public String findPass(int userNo);
 
     // [US-11] 회원상태 탈퇴(유저상태만 -1로 수정) deleteUserStatus()
-    @Update("update users set userState = -1 where userNo=#{userNo} and password=#{password}")
+    @Update("update users set userState = -1 where userNo=#{userNo}")
     public int deleteUserStatus(DeleteUserStatusDto deleteUserStatusDto);
 
     // [US-12] 회원탈퇴 복구
