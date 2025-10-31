@@ -208,9 +208,11 @@ public class UserController {
         if( result > 0){
         // 회원상태 수정(삭제) 후 세션 제거 : 로그아웃 상태로
         session.removeAttribute("userNo");
+            System.out.println(result);
         return ResponseEntity.status(200).body(result);
         }
-        else return ResponseEntity.status(400).body(0);
+        else System.out.println(result);
+        return ResponseEntity.status(400).body(0);
     }
 
 //    // getGenreNo
