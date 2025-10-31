@@ -160,7 +160,7 @@ export default function AdminStudyCreate(props) {
         })
     };
 
-    // [3-4] 예문 자동 번역 핸들러
+    // [3-4] 예문 자동 번역 핸들러 : 번역 중에 로딩 표시하는 MUI 아이콘 넣기
     const handleTranslateExam = async (index) => {
         const exam = examList[index];
         if (!exam.examKo.trim()) {
