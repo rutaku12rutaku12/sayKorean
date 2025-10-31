@@ -22,6 +22,7 @@ public interface RankingMapper {
     // 매개변수 int
     // 반환 int
     // * 사용자가 탈퇴했을 경우에 사용하는 로직
+    // 사용자 탈퇴해도 update로 데이터를 보관하는데, 랭킹은 삭제가 됨. 차라리 유저스테이트를 확인해서, 상태가 -1이면 데이터를 보내지 않는 것으로 하기
     @Delete("delete from ranking where userNo = #{userNo}")
     int deleteRankByUser(int userNo);
 
