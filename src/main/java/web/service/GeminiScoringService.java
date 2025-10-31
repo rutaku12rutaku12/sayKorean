@@ -112,7 +112,7 @@ public class GeminiScoringService {
     }
 
 
-    // 모델 응답 텍스트에서 1~3자리 정수 하나를 찾아 0~100 범위로 보정해 반환
+    // 모델 응답 텍스트에서 1~3자리 정수 하나를 찾아 0~100 범위로 보정해 반환 //
     private static int parseScore(String raw) {
         Matcher m = INT_PATTERN.matcher(raw == null ? "" : raw); // null 방어 + 정규식 매칭 준비
         if (m.find()) {
