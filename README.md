@@ -31,9 +31,9 @@
 - Spring Security
 - MyBatis
 - MySQL
-- WebSocket
 - Lombok
 - Bcrypt
+- Validation
 
 ### Frontend
 - React
