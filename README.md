@@ -1,4 +1,4 @@
-# <img src="https://github.com/rutaku12rutaku12/sayKorean/blob/master/src/main/saykorean/public/img/todoli.png" width="100" height="100"/> 재밌는한국어 
+# <img src="https://github.com/rutaku12rutaku12/sayKorean/blob/master/src/main/saykorean/public/img/todori.png" width="100" height="100"/> 재밌는한국어 
 
 ## 💻 프로젝트 소개
 - **프로젝트 완성일**: 2025.11.27
